@@ -24,20 +24,20 @@
 #include <EVENT/LCParameters.h>
 
 // for general definition
-#include <values.h>
+// #include <values.h>
 #include <string>
 #include <iostream>
 #include <TFile.h> 
 #include <TTree.h>
 #include <TVector3.h>
 #include <TRandom.h>
-#include <sstream>              
+//#include <sstream>              
 #include <cmath>
 #include <vector>
 #include <TMath.h>
-#include "TLorentzVector.h"
-#include <stdexcept>
-#include <Rtypes.h>
+#include <TLorentzVector.h>
+//#include <stdexcept>
+//#include <Rtypes.h>
 
 class hig2inv  : public marlin::Processor {
 	public:
@@ -66,6 +66,7 @@ class hig2inv  : public marlin::Processor {
 		int nMC, nReco, NCandiP, NCandiM;
 		TFile *m_file;
 		TTree *m_tree;
+		int m_n_gamma;
 		int m_n_charged, m_n_electronp, m_n_electronm, m_n_chargedp, m_n_chargedm;
 		unsigned int m_event;
 		float m_p_neutral[4], m_p_photon[4], m_p_charged[4], m_p_electronp[4], m_p_electronm[4], m_p_dielectron[4];
@@ -129,6 +130,8 @@ class hig2inv  : public marlin::Processor {
 
 };
 
+hig2inv a_hig2inv_instance;
+
 hig2inv::hig2inv()
      : Processor("hig2inv") {
 
@@ -144,7 +147,7 @@ hig2inv::hig2inv()
 			TreeName ,
 			TreeName);
 
-	LeptonID=13;
+	LeptonID=11; // 11 for electron, 13 for muon
 		registerProcessorParameter( "LeptonIDTag" ,
 			"Lepton ID that will be used in this analysis." ,
 			LeptonID ,
@@ -197,6 +200,13 @@ void hig2inv::processEvent( LCEvent * evt ) {
 			saveHiggsMass( m_p_neutral, m_p_charged, m_p_dielectron );
 			saveMCInfo( nMC, col_MC );
 
+			// apply cuts
+			// if((m_n_electronp+m_n_electronm)<2||(m_n_electronp+m_n_electronm)<3) continue;
+			// if(m_n_charged>3) continue;
+			// if(sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1])<10||sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1])>70) continue;
+			// if(fabs(m_p_dielectron[3])>60) continue;
+			// if(m_m_visble<70||m_m_visble>100) continue;
+
 			m_tree->Fill();
 
 			//m_n_event++;
@@ -239,6 +249,7 @@ void hig2inv::book_tree() {
 	m_tree->Branch("Pt_Photon", &m_pt_photon, "m_pt_photon/F");
 	m_tree->Branch("N_Charged",  &m_n_charged,  "m_n_charged/I");
 	m_tree->Branch("P_allCharged",  m_p_charged,  "m_p_charged[4]/F");
+	m_tree->Branch("N_Gamma",  &m_n_gamma,  "m_n_gamma/I");
 	m_tree->Branch("N_ElectronPlus",  &m_n_electronp,  "m_n_electronp/I");
 	m_tree->Branch("N_ElectronMinus",  &m_n_electronm,  "m_n_electronm/I");
 	m_tree->Branch("N_ChargedPlus",  &m_n_chargedp,  "m_n_chargedp/I");
@@ -284,6 +295,7 @@ void hig2inv::variable_init() {
 	m_n_electronm = 0;
 	m_n_chargedp = 0;
 	m_n_chargedm = 0;
+	m_n_gamma = 0;
 	m_n_Zneutrino = 0;
 	m_n_neutrino = 0;
 	m_event_type = -1;
@@ -327,6 +339,7 @@ void hig2inv::savePhoton( int nReco, LCCollection* col_Reco ) {
 
 		ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(col_Reco->getElementAt(i));
 		if(a_Reco->getType()!=22) continue;
+		m_n_gamma++;
 		//if(fabs(a_Reco->getMomentum()[2]/a_Reco->getEnergy())>0.995) continue; // acceptance of the detector
 		if(a_Reco->getEnergy()>photone) {
 
@@ -375,9 +388,9 @@ void hig2inv::selectElectron( float RecoE, int RecoPID, TLorentzVector curr, Rec
 
 	if( RecoE > 10 && RecoE < 100 ) {  //0.4*sqrt(s) 
 
-		if(abs(RecoPID) == LeptonID ) { //Put by hand... guess enough
+		if(abs(RecoPID) == LeptonID ) {
 
-			if(RecoPID == LeptonID ) { //Got swapped...gosh!
+			if(RecoPID == LeptonID ) { 
 
 				FourMom_ElectronM.push_back(curr);
 
