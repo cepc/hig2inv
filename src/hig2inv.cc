@@ -164,7 +164,6 @@ hig2inv::hig2inv()
 void hig2inv::init() {
 
 	book_tree();
-	variable_init();
 
 }
 
@@ -174,6 +173,7 @@ void hig2inv::processEvent( LCEvent * evt ) {
 
 		try{
 
+			variable_init();
 			col_MC = evt->getCollection( "MCParticle" );
 			col_Reco = evt->getCollection( "ArborPFOs" );
 
@@ -185,16 +185,11 @@ void hig2inv::processEvent( LCEvent * evt ) {
                         saveNeutral( nReco, col_Reco );
 			savePhoton( nReco, col_Reco );
 			selectCharged( nReco, col_Reco );
-
-			m_n_electronp = FourMom_ElectronP.size();
-			m_n_electronm = FourMom_ElectronM.size();
-			m_n_chargedp = FourMom_ChargedP.size();
-			m_n_chargedm = FourMom_ChargedM.size();
-
 			saveEventType( m_n_electronp, m_n_electronm, m_n_chargedp, m_n_chargedm );
 
 			NCandiP = CandiP.size();
 			NCandiM = CandiM.size();
+			// std::cout<<"*****Check: NCandiP:"<<NCandiP<<" NCandiM:"<<NCandiM<<std::endl;
 
 			saveEvent( NCandiP, NCandiM, CandiP, CandiM, m_pt_photon );
 			saveHiggsMass( m_p_neutral, m_p_charged, m_p_dielectron );
@@ -299,7 +294,12 @@ void hig2inv::variable_init() {
 	m_n_Zneutrino = 0;
 	m_n_neutrino = 0;
 	m_event_type = -1;
+	m_energy_neutrino = 0.;
 	MinZThrDis = 1.0E10;
+	m_n_electronp = 0;
+	m_n_electronm = 0;
+	m_n_chargedp = 0;
+	m_n_chargedm = 0;
 
 	TLorentzVector beamp(0,0,125.0,125.0);
 	TLorentzVector beamm(0,0,-125.0,125.0);
@@ -313,7 +313,22 @@ void hig2inv::variable_init() {
 
 	}
 
+	for(int i=0; i<4; i++) {
+
+		m_p_neutral[i] = 0;
+		m_pz_Zdaughters[i] = 0;
+		m_p_charged[i] = 0;
+
+	}
+
 	DIndex = 0;
+
+	FourMom_ElectronM.clear();
+	FourMom_ElectronP.clear();
+	FourMom_ChargedP.clear();
+	FourMom_ChargedM.clear();
+	CandiP.clear();
+	CandiM.clear();
 
 }
 
@@ -335,12 +350,14 @@ void hig2inv::saveNeutral( int nReco, LCCollection* col_Reco ) {
 void hig2inv::savePhoton( int nReco, LCCollection* col_Reco ) {
 
 	float photone=-1.;
+	int N_Gam=0;
 	for(int i = 0; i < nReco; i++) {
 
 		ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(col_Reco->getElementAt(i));
+		if(a_Reco->getCharge()!=0) continue;
 		if(a_Reco->getType()!=22) continue;
-		m_n_gamma++;
-		//if(fabs(a_Reco->getMomentum()[2]/a_Reco->getEnergy())>0.995) continue; // acceptance of the detector
+		if(fabs(a_Reco->getMomentum()[2]/a_Reco->getEnergy())>0.995) continue; // acceptance of the detector
+		N_Gam++;
 		if(a_Reco->getEnergy()>photone) {
 
 			photone = a_Reco->getEnergy();
@@ -352,11 +369,13 @@ void hig2inv::savePhoton( int nReco, LCCollection* col_Reco ) {
 
 		}
 	}
+	m_n_gamma = N_Gam;
 
 }
 
 void hig2inv::selectCharged( int nReco, LCCollection* col_Reco ) {
 
+	int N_Charged = 0;
 	for(int i = 0; i < nReco; i++) {
 
 		ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(col_Reco->getElementAt(i));
@@ -366,11 +385,8 @@ void hig2inv::selectCharged( int nReco, LCCollection* col_Reco ) {
 		RecoP[0] = a_Reco->getMomentum()[0];
 		RecoP[1] = a_Reco->getMomentum()[1];
 		RecoP[2] = a_Reco->getMomentum()[2];
-
 		TLorentzVector curr(RecoP[0], RecoP[1], RecoP[2], RecoE);
-
-		if(RecoE<2.0) continue;
-		m_n_charged++;
+		N_Charged++;
 
 		for(int j = 0; j < 4; j++) {
 
@@ -381,6 +397,12 @@ void hig2inv::selectCharged( int nReco, LCCollection* col_Reco ) {
 		selectElectron( RecoE, RecoPID, curr, a_Reco );
 
 	}
+
+	m_n_charged = N_Charged;
+	m_n_electronp = FourMom_ElectronP.size();
+	m_n_electronm = FourMom_ElectronM.size();
+	m_n_chargedp = FourMom_ChargedP.size();
+	m_n_chargedm = FourMom_ChargedM.size();
 
 }
 
@@ -421,7 +443,7 @@ void hig2inv::selectElectron( float RecoE, int RecoPID, TLorentzVector curr, Rec
 }
 
 void hig2inv::saveEventType( int m_n_electronp, int m_n_electronm, int m_n_chargedp, int m_n_chargedm ) {
-
+	
 	if( m_n_electronp && m_n_electronm ) {
 
 		m_event_type = 0;
@@ -606,6 +628,7 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, int tmpPID, float M
 			MCParticle *b_MC = a1_MC->getDaughters()[i];
 			m_PID_HiggsDaughter = b_MC->getPDG();
 			m_PID_Higgsdaughter[DIndex] = m_PID_HiggsDaughter;
+			std::cout<<"*****check: PID Higgs Daughter:"<<m_PID_HiggsDaughter<<std::endl;
 
 			if(m_PID_HiggsDaughter < 6 || m_PID_HiggsDaughter == 13 || m_PID_HiggsDaughter == 11 || m_PID_HiggsDaughter == 15 ) {
 
