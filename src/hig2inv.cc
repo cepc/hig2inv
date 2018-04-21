@@ -300,6 +300,7 @@ void hig2inv::variable_init() {
 	m_n_electronm = 0;
 	m_n_chargedp = 0;
 	m_n_chargedm = 0;
+	DIndex = 0;
 
 	TLorentzVector beamp(0,0,125.0,125.0);
 	TLorentzVector beamm(0,0,-125.0,125.0);
@@ -321,7 +322,6 @@ void hig2inv::variable_init() {
 
 	}
 
-	DIndex = 0;
 
 	FourMom_ElectronM.clear();
 	FourMom_ElectronP.clear();
@@ -628,7 +628,7 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, int tmpPID, float M
 			MCParticle *b_MC = a1_MC->getDaughters()[i];
 			m_PID_HiggsDaughter = b_MC->getPDG();
 			m_PID_Higgsdaughter[DIndex] = m_PID_HiggsDaughter;
-			std::cout<<"*****check: PID Higgs Daughter:"<<m_PID_HiggsDaughter<<std::endl;
+			// std::cout<<"*****check: PID Higgs Daughter:"<<m_PID_HiggsDaughter<<std::endl;
 
 			if(m_PID_HiggsDaughter < 6 || m_PID_HiggsDaughter == 13 || m_PID_HiggsDaughter == 11 || m_PID_HiggsDaughter == 15 ) {
 
@@ -658,6 +658,7 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, int tmpPID, float M
 				m_p_Higgsdaughter1[0] = b_MC->getMomentum()[0];
 				m_p_Higgsdaughter1[1] = b_MC->getMomentum()[1];
 				m_p_Higgsdaughter1[2] = b_MC->getMomentum()[2];
+				DIndex = 1;
 
 			}
 
