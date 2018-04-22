@@ -39,6 +39,7 @@ case $option in
 		mkdir presel
 	fi
 	python scripts/sel_events.py rawdata/signal.root presel/signal.root
+	python scripts/sel_events.py rawdata/signal.root presel/bkg.root
 	;;
    
 esac
