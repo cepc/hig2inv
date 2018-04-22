@@ -22,7 +22,7 @@ ProcessorType hig2inv
 
     LeptonIDTag 13
 
-    TreeOutputFile   result/signal.root
+    TreeOutputFile   rawdata/signal.root
 .end -------------------------------------------------
 					
 

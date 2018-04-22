@@ -78,16 +78,18 @@ class hig2inv  : public marlin::Processor {
 		float RecoP[3];
 		int m_event_type;
 		float m_m_visble;
-		float m_m_recoil[11];
-		float spreadfactor[11];
+		float m_energy_visble;
+		// float m_m_recoil[11];
+		float m_m_recoil;
+		// float spreadfactor[11];
 		float scale1, scale2;
-		float currVisMass, currRecoilMass;
+		float currVisMass, currRecoilMass, currVisEnergy;
 		float MinZThrDis;
 		float m_phi_dielectron_1;
 		float phi_p_tmp, phi_m_tmp;
 		float m_cos_miss;
 		float m_angle_dielectron;
-		float m_pt_Z;
+		float m_pt_dielectron;
 		float m_delta_pt;
 		float m_cos_Z;
 		float m_phi_dielectron_2;
@@ -97,15 +99,15 @@ class hig2inv  : public marlin::Processor {
 		int DIndex;
                 float MCEn;
 		int m_PID_Zdaughter;
-		float m_pz_Zdaughters[4], m_pz_Zdaughterp[4], m_pz_Zdaughterm[4];
+		float m_p_Zdaughters[4], m_p_Zdaughterp[4], m_p_Zdaughterm[4];
 		int m_n_Higgsdaughter, m_PID_HiggsDaughter, m_PID_Higgsdaughter[2], m_n_Zneutrino;
 		float m_p_Higgsdaughters[4], m_p_Higgsdaughter1[4],m_p_Higgsdaughter2[4];
 		int m_n_neutrino;
 		float m_energy_neutrino;
 		float m_m_Z;
-		//int m_n_event;
 
-		TLorentzVector P_P, P_M, P_T[11];
+		// TLorentzVector P_P, P_M, P_T[11];
+		TLorentzVector P_P, P_M, P_T;
 		TLorentzVector miss;
 		std::vector<TLorentzVector> FourMom_ElectronP;
 		std::vector<TLorentzVector> FourMom_ElectronM;
@@ -189,22 +191,12 @@ void hig2inv::processEvent( LCEvent * evt ) {
 
 			NCandiP = CandiP.size();
 			NCandiM = CandiM.size();
-			// std::cout<<"*****Check: NCandiP:"<<NCandiP<<" NCandiM:"<<NCandiM<<std::endl;
 
 			saveEvent( NCandiP, NCandiM, CandiP, CandiM, m_pt_photon );
 			saveHiggsMass( m_p_neutral, m_p_charged, m_p_dielectron );
 			saveMCInfo( nMC, col_MC );
 
-			// apply cuts
-			// if((m_n_electronp+m_n_electronm)<2||(m_n_electronp+m_n_electronm)<3) continue;
-			// if(m_n_charged>3) continue;
-			// if(sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1])<10||sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1])>70) continue;
-			// if(fabs(m_p_dielectron[3])>60) continue;
-			// if(m_m_visble<70||m_m_visble>100) continue;
-
 			m_tree->Fill();
-
-			//m_n_event++;
 
 		}
 
@@ -239,47 +231,48 @@ void hig2inv::book_tree() {
 
 	m_tree = new TTree(TreeName.c_str(),TreeName.c_str());
 	m_tree->Branch("event",&m_event,"event/I");
-	m_tree->Branch("P_allNeutral", m_p_neutral, "m_p_neutral[4]/F");
-	m_tree->Branch("P_Photon", m_p_photon, "m_p_photon[4]/F");
-	m_tree->Branch("Pt_Photon", &m_pt_photon, "m_pt_photon/F");
-	m_tree->Branch("N_Charged",  &m_n_charged,  "m_n_charged/I");
-	m_tree->Branch("P_allCharged",  m_p_charged,  "m_p_charged[4]/F");
-	m_tree->Branch("N_Gamma",  &m_n_gamma,  "m_n_gamma/I");
-	m_tree->Branch("N_ElectronPlus",  &m_n_electronp,  "m_n_electronp/I");
-	m_tree->Branch("N_ElectronMinus",  &m_n_electronm,  "m_n_electronm/I");
-	m_tree->Branch("N_ChargedPlus",  &m_n_chargedp,  "m_n_chargedp/I");
-	m_tree->Branch("N_ChargedMinus",  &m_n_chargedm,  "m_n_chargedm/I");
-	m_tree->Branch("Event_Type",  &m_event_type,  "m_event_type/I");
-	m_tree->Branch("Mass_Visble",  &m_m_visble,  "m_m_visble/F");
-	m_tree->Branch("Mass_Recoil",  m_m_recoil,  "m_m_recoil[11]/F");
-	m_tree->Branch("P_ElectronP",  m_p_electronp,  "m_p_electron[4]/F");
-	m_tree->Branch("P_ElectronM",  m_p_electronm,  "m_p_electron[4]/F");
-	m_tree->Branch("P_DiElectron",  m_p_dielectron,  "m_p_dielectron[4]/F");
-	m_tree->Branch("Phi_DiElectron_1",  &m_phi_dielectron_1,  "m_phi_dielectron_1/F");
-	m_tree->Branch("Phi_DiElectron_2",  &m_phi_dielectron_2,  "m_phi_dielectron_2/F");
-	m_tree->Branch("Cos_Miss",  &m_cos_miss,  "m_cos_miss/F");
-	m_tree->Branch("Angle_DiElectron",  &m_angle_dielectron,  "m_angle_dielectron/F");
-	m_tree->Branch("Pt_Z",  &m_pt_Z,  "m_pt_Z/F");
-	m_tree->Branch("Delta_Pt",  &m_delta_pt,  "m_delta_pt/F");
-	m_tree->Branch("Cos_Z",  &m_cos_Z,  "m_cos_Z/F");
-	m_tree->Branch("P_allRecoil",  m_p_recoil,  "m_p_recoil[4]/F");
-	m_tree->Branch("P_Higgs",  m_p_Higgs,  "m_p_Higgs[4]/F");
-	m_tree->Branch("Mass_Higgs",  &m_m_Higgs,  "m_m_Higgs/F");
-	m_tree->Branch("PID_ZDaughter",  &m_PID_Zdaughter,  "m_PID_Zdaughter/I");
-	m_tree->Branch("Pz_ZDaughters",  m_pz_Zdaughters,  "m_pz_Zdaughters[4]/F");
-	m_tree->Branch("Pz_ZDaughterp",  m_pz_Zdaughterp,  "m_pz_Zdaughterp[4]/F");
-	m_tree->Branch("Pz_ZDaughterm",  m_pz_Zdaughterm,  "m_pz_Zdaughterm[4]/F");
-	m_tree->Branch("N_HiggsDaughter",  &m_n_Higgsdaughter,  "m_n_Higgsdaughter/I");
-	m_tree->Branch("P_HiggsDaughters",  m_p_Higgsdaughters,  "m_p_Higgsdaughters[4]/F");
-	m_tree->Branch("PID_HiggsDaughter",  &m_PID_HiggsDaughter,  "m_PID_HiggsDaughter/I");
-	m_tree->Branch("PID_Higgsdaughter",  m_PID_Higgsdaughter,  "m_PID_Higgsdaughter[2]/I");
-	m_tree->Branch("P_HiggsDaughter1",  m_p_Higgsdaughter1,  "m_p_Higgsdaughter1[4]/F");
-	m_tree->Branch("P_HiggsDaughter2",  m_p_Higgsdaughter2,  "m_p_Higgsdaughter2[4]/F");
-	m_tree->Branch("N_ZNeutrino",  &m_n_Zneutrino,  "m_n_Zneutrino/I");
-	m_tree->Branch("N_Neutrino",  &m_n_neutrino,  "m_n_neutrino/I");
-	m_tree->Branch("Energy_Neutrino",  &m_energy_neutrino,  "m_energy_neutrino/F");
-	m_tree->Branch("Mass_Z",  &m_m_Z,  "m_m_Z/F");
-	//m_tree->Branch("N_Event",  &m_n_event,  "m_n_event/I");
+	m_tree->Branch("m_event_type",  &m_event_type,  "m_event_type/I");
+	m_tree->Branch("m_p_neutral", m_p_neutral, "m_p_neutral[4]/F");
+	m_tree->Branch("m_p_photon", m_p_photon, "m_p_photon[4]/F");
+	m_tree->Branch("m_p_electronp",  m_p_electronp,  "m_p_electron[4]/F");
+	m_tree->Branch("m_p_electronm",  m_p_electronm,  "m_p_electron[4]/F");
+	m_tree->Branch("m_p_dielectron",  m_p_dielectron,  "m_p_dielectron[4]/F");
+	m_tree->Branch("m_p_charged",  m_p_charged,  "m_p_charged[4]/F");
+	m_tree->Branch("m_p_recoil",  m_p_recoil,  "m_p_recoil[4]/F");
+	m_tree->Branch("m_p_Higgs",  m_p_Higgs,  "m_p_Higgs[4]/F");
+	m_tree->Branch("m_p_Higgsdaughters",  m_p_Higgsdaughters,  "m_p_Higgsdaughters[4]/F");
+	m_tree->Branch("m_p_Higgsdaughter1",  m_p_Higgsdaughter1,  "m_p_Higgsdaughter1[4]/F");
+	m_tree->Branch("m_p_Higgsdaughter2",  m_p_Higgsdaughter2,  "m_p_Higgsdaughter2[4]/F");
+	m_tree->Branch("m_pt_photon", &m_pt_photon, "m_pt_photon/F");
+	m_tree->Branch("m_pt_dielectron",  &m_pt_dielectron,  "m_pt_dielectron/F");
+	m_tree->Branch("m_p_Zdaughters",  m_p_Zdaughters,  "m_p_Zdaughters[4]/F");
+	m_tree->Branch("m_p_Zdaughterp",  m_p_Zdaughterp,  "m_p_Zdaughterp[4]/F");
+	m_tree->Branch("m_p_Zdaughterm",  m_p_Zdaughterm,  "m_p_Zdaughterm[4]/F");
+	m_tree->Branch("m_n_charged",  &m_n_charged,  "m_n_charged/I");
+	m_tree->Branch("m_n_gamma",  &m_n_gamma,  "m_n_gamma/I");
+	m_tree->Branch("m_n_electronp",  &m_n_electronp,  "m_n_electronp/I");
+	m_tree->Branch("m_n_electronm",  &m_n_electronm,  "m_n_electronm/I");
+	m_tree->Branch("m_n_chargedp",  &m_n_chargedp,  "m_n_chargedp/I");
+	m_tree->Branch("m_n_chargedm",  &m_n_chargedm,  "m_n_chargedm/I");
+	m_tree->Branch("m_n_Higgsdaughter",  &m_n_Higgsdaughter,  "m_n_Higgsdaughter/I");
+	m_tree->Branch("m_n_Zneutrino",  &m_n_Zneutrino,  "m_n_Zneutrino/I");
+	m_tree->Branch("m_n_neutrino",  &m_n_neutrino,  "m_n_neutrino/I");
+	m_tree->Branch("m_m_visble",  &m_m_visble,  "m_m_visble/F");
+	// m_tree->Branch("m_m_recoil",  m_m_recoil,  "m_m_recoil[11]/F");
+	m_tree->Branch("m_m_recoil",  &m_m_recoil,  "m_m_recoil/F");
+	m_tree->Branch("m_m_Higgs",  &m_m_Higgs,  "m_m_Higgs/F");
+	m_tree->Branch("m_m_Z",  &m_m_Z,  "m_m_Z/F");
+	m_tree->Branch("m_phi_dielectron_1",  &m_phi_dielectron_1,  "m_phi_dielectron_1/F");
+	m_tree->Branch("m_phi_dielectron_2",  &m_phi_dielectron_2,  "m_phi_dielectron_2/F");
+	m_tree->Branch("m_cos_miss",  &m_cos_miss,  "m_cos_miss/F");
+	m_tree->Branch("m_cos_Z",  &m_cos_Z,  "m_cos_Z/F");
+	m_tree->Branch("m_angle_dielectron",  &m_angle_dielectron,  "m_angle_dielectron/F");
+	m_tree->Branch("m_delta_pt",  &m_delta_pt,  "m_delta_pt/F");
+	m_tree->Branch("m_PID_Zdaughter",  &m_PID_Zdaughter,  "m_PID_Zdaughter/I");
+	m_tree->Branch("m_PID_HiggsDaughter",  &m_PID_HiggsDaughter,  "m_PID_HiggsDaughter/I");
+	m_tree->Branch("m_PID_Higgsdaughter",  m_PID_Higgsdaughter,  "m_PID_Higgsdaughter[2]/I");
+	m_tree->Branch("m_energy_neutrino",  &m_energy_neutrino,  "m_energy_neutrino/F");
+	m_tree->Branch("m_energy_visble",  &m_energy_visble,  "m_energy_visble/F");
 
 }
 
@@ -304,20 +297,24 @@ void hig2inv::variable_init() {
 
 	TLorentzVector beamp(0,0,125.0,125.0);
 	TLorentzVector beamm(0,0,-125.0,125.0);
-	float spreadfactor[11]={0.0,0.0004,0.0008,0.0012,0.0016,0.0020,0.0024,0.0028,0.0032,0.0036,0.0040};
+	// float spreadfactor[11]={0.0,0.0004,0.0008,0.0012,0.0016,0.0020,0.0024,0.0028,0.0032,0.0036,0.0040};
 
-	for(int i=0; i<11; i++) {
+	// for(int i=0; i<11; i++) {
 
-		scale1 = (gRandom->Gaus(1, spreadfactor[i]));
-		scale2 = (gRandom->Gaus(1, spreadfactor[i]));
-		P_T[i]=scale1*beamp+scale2*beamm;
+	// 	scale1 = (gRandom->Gaus(1, spreadfactor[i]));
+	// 	scale2 = (gRandom->Gaus(1, spreadfactor[i]));
+	// 	P_T[i]=scale1*beamp+scale2*beamm;
 
-	}
+	// }
+
+	scale1 = (gRandom->Gaus(1, 0.0024));
+	scale2 = (gRandom->Gaus(1, 0.0024));
+	P_T=scale1*beamp+scale2*beamm;
 
 	for(int i=0; i<4; i++) {
 
 		m_p_neutral[i] = 0;
-		m_pz_Zdaughters[i] = 0;
+		m_p_Zdaughters[i] = 0;
 		m_p_charged[i] = 0;
 
 	}
@@ -502,18 +499,23 @@ void hig2inv::saveEvent( int NCandiP, int NCandiM, std::vector<TLorentzVector> C
 void hig2inv::saveRecInfo( TLorentzVector P_P, TLorentzVector P_M, float m_pt_photon ) {
 
 	currVisMass = (P_P + P_M).M();
+	currVisEnergy = P_P[3] + P_M[3];
 	if(fabs(currVisMass - 91.2) < MinZThrDis) {
 
 		MinZThrDis = fabs(currVisMass - 91.2);
 		m_m_visble = currVisMass;
+		m_energy_visble = currVisEnergy;
 
 		// save recil mass
-		for(int i=0; i<11; i++) {
+		// for(int i=0; i<11; i++) {
 
-			currRecoilMass = (P_T[i] - P_P - P_M).M();
-			m_m_recoil[i] = currRecoilMass;
+		// 	currRecoilMass = (P_T[i] - P_P - P_M).M();
+		// 	m_m_recoil[i] = currRecoilMass;
 
-		}
+		// }
+
+		currRecoilMass = (P_T - P_P - P_M).M();
+		m_m_recoil = currRecoilMass;
 
 		// save electron information
 		for(int i=0; i<4; i++) {
@@ -530,8 +532,8 @@ void hig2inv::saveRecInfo( TLorentzVector P_P, TLorentzVector P_M, float m_pt_ph
 		miss = ecms - m_p_dielectron;
 		m_cos_miss = miss.CosTheta();
 		m_angle_dielectron = P_P.Angle(P_M.Vect())*180./3.1415926;
-		m_pt_Z = sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1]);
-		m_delta_pt = m_pt_Z - m_pt_photon;
+		m_pt_dielectron = sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1]);
+		m_delta_pt = m_pt_dielectron - m_pt_photon;
 		m_cos_Z = m_p_dielectron[2]/sqrt(m_p_dielectron[0]*m_p_dielectron[0]+m_p_dielectron[1]*m_p_dielectron[1]+m_p_dielectron[2]*m_p_dielectron[2]);
 		phi_p_tmp = atan2(m_p_electronp[1],m_p_electronp[0])*180./3.14159265;
 		phi_m_tmp = atan2(m_p_electronm[1],m_p_electronm[0])*180./3.14159265;
@@ -573,7 +575,7 @@ void hig2inv::saveMCInfo( int nMC, LCCollection* col_MC ) {
 
 	}
 
-	m_m_Z = sqrt(m_pz_Zdaughters[3]*m_pz_Zdaughters[3] - m_pz_Zdaughters[0]*m_pz_Zdaughters[0]- m_pz_Zdaughters[1]*m_pz_Zdaughters[1]- m_pz_Zdaughters[2]*m_pz_Zdaughters[2]);
+	m_m_Z = sqrt(m_p_Zdaughters[3]*m_p_Zdaughters[3] - m_p_Zdaughters[0]*m_p_Zdaughters[0]- m_p_Zdaughters[1]*m_p_Zdaughters[1]- m_p_Zdaughters[2]*m_p_Zdaughters[2]);
 
 }
 
@@ -582,28 +584,28 @@ void hig2inv::saveZdaughter( int NParent, int NDaughter, int tmpPID, float MCEn,
 	if(NParent == 0 && NDaughter == 1 && abs(tmpPID) < 20 ) { //Including all Z decay
 
 		m_PID_Zdaughter = abs(tmpPID);
-		m_pz_Zdaughters[3] += MCEn;
-		m_pz_Zdaughters[0] += a1_MC->getMomentum()[0];
-		m_pz_Zdaughters[1] += a1_MC->getMomentum()[1];
-		m_pz_Zdaughters[2] += a1_MC->getMomentum()[2];
+		m_p_Zdaughters[3] += MCEn;
+		m_p_Zdaughters[0] += a1_MC->getMomentum()[0];
+		m_p_Zdaughters[1] += a1_MC->getMomentum()[1];
+		m_p_Zdaughters[2] += a1_MC->getMomentum()[2];
 
 		if( m_PID_Zdaughter < 6 || m_PID_Zdaughter == 13 || m_PID_Zdaughter == 11 || m_PID_Zdaughter == 15) {
 
 			if(tmpPID > 0) {
 
-				m_pz_Zdaughterp[0] = a1_MC->getMomentum()[0];
-				m_pz_Zdaughterp[1] = a1_MC->getMomentum()[1];
-				m_pz_Zdaughterp[2] = a1_MC->getMomentum()[2];
-				m_pz_Zdaughterp[3] = MCEn;
+				m_p_Zdaughterp[0] = a1_MC->getMomentum()[0];
+				m_p_Zdaughterp[1] = a1_MC->getMomentum()[1];
+				m_p_Zdaughterp[2] = a1_MC->getMomentum()[2];
+				m_p_Zdaughterp[3] = MCEn;
 
 			}
 
 			else if(tmpPID < 0) {
 
-				m_pz_Zdaughterm[0] = a1_MC->getMomentum()[0];
-				m_pz_Zdaughterm[1] = a1_MC->getMomentum()[1];
-				m_pz_Zdaughterm[2] = a1_MC->getMomentum()[2];
-				m_pz_Zdaughterm[3] = MCEn;
+				m_p_Zdaughterm[0] = a1_MC->getMomentum()[0];
+				m_p_Zdaughterm[1] = a1_MC->getMomentum()[1];
+				m_p_Zdaughterm[2] = a1_MC->getMomentum()[2];
+				m_p_Zdaughterm[3] = MCEn;
 
 			}
 
@@ -628,7 +630,6 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, int tmpPID, float M
 			MCParticle *b_MC = a1_MC->getDaughters()[i];
 			m_PID_HiggsDaughter = b_MC->getPDG();
 			m_PID_Higgsdaughter[DIndex] = m_PID_HiggsDaughter;
-			// std::cout<<"*****check: PID Higgs Daughter:"<<m_PID_HiggsDaughter<<std::endl;
 
 			if(m_PID_HiggsDaughter < 6 || m_PID_HiggsDaughter == 13 || m_PID_HiggsDaughter == 11 || m_PID_HiggsDaughter == 15 ) {
 
