@@ -33,15 +33,17 @@ t_out.Branch('Mass_Recoil',Mass_Recoil,'Mass_Recoil/D')
 
 for ientry in xrange(t.GetEntries()):
 	t.GetEntry(ientry)
-	if ((t.m_n_electronp+t.m_n_electronm)<2|(t.m_n_electronp+t.m_n_electronm))>3:
+	if ((t.m_n_leptonp+t.m_n_leptonm)<2|(t.m_n_leptonp+t.m_n_leptonm))>3:
 		continue
 	if (t.m_n_charged>3):
 		continue
 	if (t.m_n_gamma>1):
 		continue
-	if (t.m_pt_dielectron<=10 or t.m_pt_dielectron>=70):
+	if (t.m_pt_dilepton<=10 or t.m_pt_dilepton>=70):
 		continue
-	if (abs(t.m_p_dielectron[2])>=60):
+	if (abs(t.m_p_dilepton[2])>=60):
+		continue
+	if (abs(math.cos(t.m_angle_dilepton))>=0.8):
 		continue
 	if (t.m_m_visble<=70 or t.m_m_visble>=100):
 		continue

@@ -1,7 +1,7 @@
 
 .begin Global  ---------------------------------------
 
-LCIOInputFiles /afs/ihep.ac.cn/users/m/moxin/cefs/tmp_storage/moxin/rec_samples/e1e1h_invi/rec/e1e1h_invi00001.slcio
+LCIOInputFiles /cefs/tmp_storage/moxin/rec_samples/e1e1h_invi/rec/e1e1h_invi00010.slcio
 
 ActiveProcessors myhig2inv
 MaxRecordNumber -1
@@ -20,7 +20,7 @@ ProcessorType hig2inv
 
     TreeName   MCPart
 
-    LeptonIDTag 13
+    LeptonIDTag 11
 
     TreeOutputFile   rawdata/signal.root
 .end -------------------------------------------------
