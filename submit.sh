@@ -34,13 +34,21 @@ case $option in
 		# Marlin steer/bkg.steer 
 	;;
 
-0.1.2) echo "Selecting events from signal and background samples..."
-	if [ ! -d "presel" ]; then
-		mkdir presel
-	fi
-	python scripts/sel_events.py rawdata/signal.root presel/signal.root
-	python scripts/sel_events.py rawdata/signal.root presel/bkg.root
+	0.1.2) echo "Selecting events from signal and background samples..."
+		if [ ! -d "presel" ]; then
+			mkdir presel
+		fi
+		python scripts/sel_events.py rawdata/signal.root presel/signal.root
+		python scripts/sel_events.py rawdata/signal.root presel/bkg.root
 	;;
-   
+
+	0.1.3) echo "Drawing plots of signal and background..."
+		if [ ! -d "figs" ]; then
+			mkdir figs
+		fi
+		cd scripts
+		python plot_recoil_mass.py
+	;;
+
 esac
 
