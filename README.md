@@ -3,15 +3,15 @@ Higgs Invisible Analysis
 
 ## Note
 
-> Please extract ROOT files by command line or by submitting jobs to backstage in bash mode (by excuting "bash" in your command line if your default mode is tcshell).
+- Please extract ROOT files by command line or by submitting jobs to backstage in bash mode (by excuting "bash" in your command line if your default mode is tcshell).
 
-> Set environment: source setup.sh(In bash mode)
+- Set environment: source setup.sh(In bash mode)
 
-> Build program: ./build.sh
+- Build program: ./build.sh
 
-> Run program: ./submit.sh X.X.X(find in submit.sh)
+- Run program: ./submit.sh X.X.X(find in submit.sh)
 
-> Directories created by submit.sh: data/figs/presel/rawdata/steer.
+- Directories created by submit.sh: data/figs/presel/rawdata/steer.
 
 ## For developers
 
