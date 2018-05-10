@@ -62,7 +62,7 @@ def sel(infile,outfile):
 	fout.Close()
 
 if __name__ == '__main__':
-	sel('../rawdata/signal_e1e1h_1.root','../presel/signal_e1e1h_1.root')
+	sel('../data/signal_e1e1h.root','../presel/signal_e1e1h.root')
 	sel('../data/bhabha.root','../presel/bhabha.root')
 	sel('../data/e3e3.root','../presel/e3e3.root')
 	sel('../data/sze_l0mu.root','../presel/sze_l0mu.root')
