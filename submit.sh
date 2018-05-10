@@ -27,6 +27,9 @@ option=$1
 
 case $option in 
 	0.1.1) echo "Running on signal and background samples..."
+		if [ ! -d "steer" ]; then
+			mkdir steer
+		fi
 		if [ ! -d "rawdata" ]; then
 			mkdir rawdata
 		fi
