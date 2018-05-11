@@ -68,7 +68,14 @@ case $option in
 			mkdir presel
 		fi
 		cd scripts
-		python sel_events.py
+		python sel_events.py ../data/signal_e1e1h.root ../presel/signal_e1e1h.root
+		python sel_events.py ../data/bhabha.root ../presel/bhabha.root
+		python sel_events.py ../data/e3e3.root ../presel/e3e3.root
+		python sel_events.py ../data/sze_l0mu.root ../presel/sze_l0mu.root
+		python sel_events.py ../data/sze_l0nunu.root ../presel/sze_l0nunu.root
+		python sel_events.py ../data/sze_l0tau.root ../presel/sze_l0tau.root
+		python sel_events.py ../data/szeorsw_l0l.root ../presel/szeorsw_l0l.root
+		python sel_events.py ../data/zz_l0taumu.root ../presel/zz_l0taumu.root
 	;;
 
 	0.1.4) echo "Drawing plots of signal and background..."
