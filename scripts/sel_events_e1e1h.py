@@ -90,7 +90,11 @@ def sel(t_in,t_out,entries,Mass_Recoil):
 		N[4]+=1
 		h_evtflw.Fill(4)                                   
 
-		if not (abs(t_in.m_cos_Z)<0.8):
+		TotalP=math.sqrt(t_in.m_p_charged[3]*t_in.m_p_charged[3]-t_in.m_p_charged[0]*t_in.m_p_charged[0]-t_in.m_p_charged[1]*t_in.m_p_charged[1]-t_in.m_p_charged[2]*t_in.m_p_charged[2])
+		TotalPz=t_in.m_p_charged[2]
+		if TotalP!=0:
+			costheta=TotalPz/TotalP
+		if not (abs(costheta)<0.8):
 			continue
 		N[5]+=1
 		h_evtflw.Fill(5)

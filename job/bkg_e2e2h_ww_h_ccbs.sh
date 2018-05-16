@@ -4,13 +4,13 @@ i=0
 j=0
 k=0
 flag=0
-n=`ls /cefs/data/RecData/CEPC250/CEPC_v1/4fermions/E250.Psze_l.e0.p0.whizard195/mu/*slcio -l | grep "^-" | wc -l`
+n=`ls /cefs/dirac/user/b/byzhang/RecData/ww_h/ccbs/*slcio -l | grep "^-" | wc -l`
 let "n = $n - 1"
-for SLCIO in `ls /cefs/data/RecData/CEPC250/CEPC_v1/4fermions/E250.Psze_l.e0.p0.whizard195/mu/*slcio -l | awk '{print $9}'`
+for SLCIO in `ls /cefs/dirac/user/b/byzhang/RecData/ww_h/ccbs/*slcio -l | awk '{print $9}'`
 do
 	if [ $flag == 0 ]; then
-		STEER_FILE="../steer/sze_l0mu_"$j".steer"
-		JOB_FILE="sze_l0mu_"$j
+		STEER_FILE="../steer/bkg_e2e2h_ww_h_ccbs_"$j".steer"
+		JOB_FILE="bkg_e2e2h_ww_h_ccbs_"$j
 		echo "" > $STEER_FILE
 		echo ".begin Global  ---------------------------------------" >> $STEER_FILE
 		flag=1
@@ -38,9 +38,9 @@ do
 		echo "" >> $STEER_FILE
 		echo "    TreeName   MCPart" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    LeptonIDTag 11" >> $STEER_FILE
+		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../rawdata/sze_l0mu_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../rawdata/bkg_e2e2h_ww_h_ccbs_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
@@ -71,9 +71,9 @@ do
 		echo "" >> $STEER_FILE
 		echo "    TreeName   MCPart" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    LeptonIDTag 11" >> $STEER_FILE
+		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../rawdata/sze_l0mu_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../rawdata/bkg_e2e2h_ww_h_ccbs_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
