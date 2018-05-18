@@ -41,11 +41,17 @@ def main():
 	time_start = time()
 
 	Mass_Recoil=array('d',[0])
+	Mass_Visble=array('d',[0])
+	Energy_Visble=array('d',[0])
+	P_Dilepton=array('d',4*[-99])
 	fout=ROOT.TFile(outfile,"RECREATE")
 	t_out=ROOT.TTree('MCPart','MCPart')
 	t_out.Branch('Mass_Recoil',Mass_Recoil,'Mass_Recoil/D')
+	t_out.Branch('Mass_Visble',Mass_Visble,'Mass_Visble/D')
+	t_out.Branch('Energy_Visble',Energy_Visble,'Energy_Visble/D')
+	t_out.Branch('P_Dilepton',P_Dilepton,'P_Dilepton[4]/D')
 
-	sel(t_in,t_out,entries,Mass_Recoil)
+	sel(t_in,t_out,entries,Mass_Recoil,Mass_Visble,Energy_Visble,P_Dilepton)
 
 	print '\n######Cut flow######\n'
 	print 'InputFile: %s'%(infile)
@@ -63,7 +69,7 @@ def main():
 	dur = time()-time_start
 	sys.stdout.write(' \nDone in %s. \n' % dur)
 
-def sel(t_in,t_out,entries,Mass_Recoil):
+def sel(t_in,t_out,entries,Mass_Recoil,Mass_Visble,Energy_Visble,P_Dilepton):
 	for i in xrange(entries):
 		t_in.GetEntry(i)
 
@@ -90,7 +96,11 @@ def sel(t_in,t_out,entries,Mass_Recoil):
 		N[4]+=1
 		h_evtflw.Fill(4)                                   
 
-		if not (abs(t_in.m_cos_Z)<0.8):
+		TotalP=math.sqrt(t_in.m_p_charged[3]*t_in.m_p_charged[3]-t_in.m_p_charged[0]*t_in.m_p_charged[0]-t_in.m_p_charged[1]*t_in.m_p_charged[1]-t_in.m_p_charged[2]*t_in.m_p_charged[2])
+		TotalPz=t_in.m_p_charged[2]
+		if TotalP!=0:
+			costheta=TotalPz/TotalP
+		if not (abs(costheta)<0.8):
 			continue
 		N[5]+=1
 		h_evtflw.Fill(5)
@@ -106,6 +116,10 @@ def sel(t_in,t_out,entries,Mass_Recoil):
 		h_evtflw.Fill(7)
 
 		Mass_Recoil[0]=t_in.m_m_recoil
+		Mass_Visble[0]=t_in.m_m_visble
+		Energy_Visble[0]=t_in.m_energy_visble
+		for i in xrange(4):
+			P_Dilepton[i]=t_in.m_p_dilepton[i]
 		t_out.Fill()
 
 if __name__ == '__main__':
