@@ -99,39 +99,37 @@ case $option in
 		if [ ! -d "presel" ]; then
 			mkdir presel
 		fi
-		cd scripts
-		python sel_events_e1e1h.py ../data/signal_e1e1h.root ../presel/signal_e1e1h.root
-		python sel_events_e2e2h.py ../data/signal_e2e2h.root ../presel/signal_e2e2h.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_bhabha.root ../presel/bkg_e2e2h_bhabha.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_e2e2.root ../presel/bkg_e2e2h_e2e2.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_e3e3.root ../presel/bkg_e2e2h_e3e3.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_sze_l0mu.root ../presel/bkg_e2e2h_sze_l0mu.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_sze_l0nunu.root ../presel/bkg_e2e2h_sze_l0nunu.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_sze_l0tau.root ../presel/bkg_e2e2h_sze_l0tau.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_szeorsw_l0l.root ../presel/bkg_e2e2h_szeorsw_l0l.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_sze_sl0_dd.root ../presel/bkg_e2e2h_sze_sl0_dd.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_sze_sl0_uu.root ../presel/bkg_e2e2h_sze_sl0_uu.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_h_ccbs.root ../presel/bkg_e2e2h_ww_h_ccbs.root 
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_h_ccds.root ../presel/bkg_e2e2h_ww_h_ccds.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_h_cuxx.root ../presel/bkg_e2e2h_ww_h_cuxx.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_h_uubd.root ../presel/bkg_e2e2h_ww_h_uubd.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_h_uusd.root ../presel/bkg_e2e2h_ww_h_uusd.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_sl0muq.root ../presel/bkg_e2e2h_ww_sl0muq.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_ww_sl0tauq.root ../presel/bkg_e2e2h_ww_sl0tauq.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_zz_h.root ../presel/bkg_e2e2h_zz_h.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_zz_l0mumu.root ../presel/bkg_e2e2h_zz_l0mumu.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_zz_l0mu.root ../presel/bkg_e2e2h_zz_l0mu.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_zz_l0taumu.root ../presel/bkg_e2e2h_zz_l0taumu.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_zz_l0tau.root ../presel/bkg_e2e2h_zz_l0tau.root
-		python sel_events_e2e2h.py ../data/bkg_e2e2h_zz_l0tautau.root ../presel/bkg_e2e2h_zz_l0tautau.root
+		./python/sel_events_e1e1h.py ./data/signal_e1e1h.root ./presel/signal_e1e1h.root
+		./python/sel_events_e2e2h.py ./data/signal_e2e2h.root ./presel/signal_e2e2h.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_bhabha.root ./presel/bkg_e2e2h_bhabha.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_e2e2.root ./presel/bkg_e2e2h_e2e2.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_e3e3.root ./presel/bkg_e2e2h_e3e3.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_sze_l0mu.root ./presel/bkg_e2e2h_sze_l0mu.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_sze_l0nunu.root ./presel/bkg_e2e2h_sze_l0nunu.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_sze_l0tau.root ./presel/bkg_e2e2h_sze_l0tau.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_szeorsw_l0l.root ./presel/bkg_e2e2h_szeorsw_l0l.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_sze_sl0_dd.root ./presel/bkg_e2e2h_sze_sl0_dd.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_sze_sl0_uu.root ./presel/bkg_e2e2h_sze_sl0_uu.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_h_ccbs.root ./presel/bkg_e2e2h_ww_h_ccbs.root 
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_h_ccds.root ./presel/bkg_e2e2h_ww_h_ccds.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_h_cuxx.root ./presel/bkg_e2e2h_ww_h_cuxx.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_h_uubd.root ./presel/bkg_e2e2h_ww_h_uubd.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_h_uusd.root ./presel/bkg_e2e2h_ww_h_uusd.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_sl0muq.root ./presel/bkg_e2e2h_ww_sl0muq.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_ww_sl0tauq.root ./presel/bkg_e2e2h_ww_sl0tauq.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_zz_h.root ./presel/bkg_e2e2h_zz_h.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_zz_l0mumu.root ./presel/bkg_e2e2h_zz_l0mumu.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_zz_l0mu.root ./presel/bkg_e2e2h_zz_l0mu.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_zz_l0taumu.root ./presel/bkg_e2e2h_zz_l0taumu.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_zz_l0tau.root ./presel/bkg_e2e2h_zz_l0tau.root
+		./python/sel_events_e2e2h.py ./data/bkg_e2e2h_zz_l0tautau.root ./presel/bkg_e2e2h_zz_l0tautau.root
 	;;
 
 	0.1.4) echo "Drawing plots of signal and background..."
 		if [ ! -d "figs" ]; then
 			mkdir figs
 		fi
-		cd scripts
-		python plot_recoil_mass.py
+		./python/plot_recoil_mass.py
 	;;
 
 esac
