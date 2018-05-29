@@ -128,51 +128,51 @@ def sel(t_in,t_out,t_link,entries,Mass_Recoil,Mass_Visble,Energy_Visble,P_Dilept
 
 	A=0
 	if(N[7]!=0):
-		if(infile=='../data/signal_e2e2h.root'):
+		if(infile=='../presel/signal_e2e2h.root'):
 			A=7.1*5000*N[7]/100000*0.03*0.0106
-		if(infile=='../data/bkg_e2e2h_bhabha.root'):
+		if(infile=='../presel/bkg_e2e2h_bhabha.root'):
 			A=24992.21*5000*N[7]/100000
-		if(infile=='../data/bkg_e2e2h_e2e2.root'):
+		if(infile=='../presel/bkg_e2e2h_e2e2.root'):
 			A=4991.91*5000*N[7]/430200
-		if(infile=='../data/bkg_e2e2h_e3e3.root'):
+		if(infile=='../presel/bkg_e2e2h_e3e3.root'):
 			A=4432.18*5000*N[7]/1493200
-		if(infile=='../data/bkg_e2e2h_sze_l0mu.root'):
+		if(infile=='../presel/bkg_e2e2h_sze_l0mu.root'):
 			A=0.0*5000*N[7]/1304600
-		if(infile=='../data/bkg_e2e2h_sze_l0nunu.root'):
+		if(infile=='../presel/bkg_e2e2h_sze_l0nunu.root'):
 			A=29.57*5000*N[7]/131400
-		if(infile=='../data/bkg_e2e2h_sze_l0tau.root'):
+		if(infile=='../presel/bkg_e2e2h_sze_l0tau.root'):
 			A=150.32*5000*N[7]/1821400
-		if(infile=='../data/bkg_e2e2h_szeorsw_l0l.root'):
+		if(infile=='../presel/bkg_e2e2h_szeorsw_l0l.root'):
 			A=249.84*5000*N[7]/541600
-		if(infile=='../data/bkg_e2e2h_sze_sl0_dd.root'):
+		if(infile=='../presel/bkg_e2e2h_sze_sl0_dd.root'):
 			A=128.73*5000*N[7]/571000
-		if(infile=='../data/bkg_e2e2h_sze_sl0_uu.root'):
+		if(infile=='../presel/bkg_e2e2h_sze_sl0_uu.root'):
 			A=195.91*5000*N[7]/850600
-		if(infile=='../data/bkg_e2e2h_ww_h_ccbs.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_h_ccbs.root'):
 			A=5.73*5000*N[7]/100000
-		if(infile=='../data/bkg_e2e2h_ww_h_ccds.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_h_ccds.root'):
 			A=165.78*5000*N[7]/60600
-		if(infile=='../data/bkg_e2e2h_ww_h_cuxx.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_h_cuxx.root'):
 			A=3395.55*5000*N[7]/343200
-		if(infile=='../data/bkg_e2e2h_ww_h_uubd.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_h_uubd.root'):
 			A=0.05*5000*N[7]/100000
-		if(infile=='../data/bkg_e2e2h_ww_h_uusd.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_h_uusd.root'):
 			A=166.55*5000*N[7]/205800
-		if(infile=='../data/bkg_e2e2h_ww_sl0muq.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_sl0muq.root'):
 			A=2366.41*5000*N[7]/11911394
-		if(infile=='../data/bkg_e2e2h_ww_sl0tauq.root'):
+		if(infile=='../presel/bkg_e2e2h_ww_sl0tauq.root'):
 			A=2362.27*5000*N[7]/11911394
-		if(infile=='../data/bkg_e2e2h_zz_h.root'):
+		if(infile=='../presel/bkg_e2e2h_zz_h.root'):
 			A=499.39*5000*N[7]/2518600
-		if(infile=='../data/bkg_e2e2h_zz_l0mumu.root'):
+		if(infile=='../presel/bkg_e2e2h_zz_l0mumu.root'):
 			A=18.17*5000*N[7]/100000
-		if(infile=='../data/bkg_e2e2h_zz_l0mu.root'):
+		if(infile=='../presel/bkg_e2e2h_zz_l0mu.root'):
 			A=14.50*5000*N[7]/100000
-		if(infile=='../data/bkg_e2e2h_zz_l0taumu.root'):
+		if(infile=='../presel/bkg_e2e2h_zz_l0taumu.root'):
 			A=17.55*5000*N[7]/100000
-		if(infile=='../data/bkg_e2e2h_zz_l0tau.root'):
+		if(infile=='../presel/bkg_e2e2h_zz_l0tau.root'):
 			A=4.38*5000*N[7]/99800
-		if(infile=='../data/bkg_e2e2h_zz_l0tautau.root'):
+		if(infile=='../presel/bkg_e2e2h_zz_l0tautau.root'):
 			A=9.19*5000*N[7]/100000
 	else:
 		A=0

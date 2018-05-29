@@ -12,7 +12,9 @@ Higgs Invisible Analysis
 
 - Run program: ./submit.sh X.X.X(find in submit.sh)
 
-- Directories created by submit.sh: data/figs/presel/rawdata/steer.
+- Directories created by submit.sh: presel/figs/sel/splitted/steer.
+
+- e1 represents electron, e2 represents muon and e3 represents tau.
 
 ## For developers
 

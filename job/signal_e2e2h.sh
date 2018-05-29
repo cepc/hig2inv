@@ -40,7 +40,7 @@ do
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../rawdata/signal_e2e2h_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/signal_e2e2h_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
@@ -73,7 +73,7 @@ do
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../rawdata/e2e2h_signal_e2e2h_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/e2e2h_signal_e2e2h_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
