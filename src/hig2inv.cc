@@ -62,7 +62,7 @@ class hig2inv  : public marlin::Processor {
 		TTree *m_tree;
 
 		int LeptonID, RecoPID, tmpPID, PhotonPID, ElectronPID, MuonPID, NeutrinoEPID, NeutrinoMuonPID, TauPID, NeutrinoTauPID, ZPID, HiggsPID;
-		int nMC, nReco, NCandiP, NCandiM, NParent, NDaughter, DIndex;
+		int nMC, nReco, NCandiP, NCandiM, NParent, NDaughter, nDaughter, DIndex;
 		int OverWrite;
 		float RecoEMax, RecoEMin, ZMass;
 		int m_n_gamma, m_n_charged, m_n_leptonp, m_n_leptonm, m_n_chargedp, m_n_chargedm, m_n_Higgsdaughter, m_n_neutrino;
@@ -89,13 +89,13 @@ class hig2inv  : public marlin::Processor {
 		// TLorentzVector P_P, P_M, P_T[11];
 
 		TLorentzVector P_P, P_M, P_T, miss;
-		std::vector<TLorentzVector> FourMom_ElectronP, FourMom_ElectronM, FourMom_ChargedP, FourMom_ChargedM, CandiP, CandiM;
+		std::vector<TLorentzVector> FourMom_LeptonP, FourMom_LeptonM, FourMom_ChargedP, FourMom_ChargedM, CandiP, CandiM;
 
 		void book_tree();
 		void saveNeutral( int nReco, LCCollection* colReco );
 		void savePhoton( int nReco, LCCollection* colReco );
 		void selectCharged( int nReco, LCCollection* colReco );
-		void selectElectron( float RecoE, int RecoPID, TLorentzVector curr, ReconstructedParticle *a_Reco );
+		void selectLepton( float RecoE, int RecoPID, TLorentzVector curr, ReconstructedParticle *a_Reco );
 		void saveEventType( int m_n_leptonp, int m_n_leptonm, int m_n_chargedp, int m_n_chargedm );
 		void saveEvent( int NCandiP, int NCandiM, std::vector<TLorentzVector> CandiP, std::vector<TLorentzVector> CandiM, float m_pt_photon );
 		void saveRecInfo( TLorentzVector P_P, TLorentzVector P_M, float m_pt_photon );
@@ -333,8 +333,8 @@ void hig2inv::variable_init() {
 	m_energy_neutrino = 0.;
 	MinZThrDis = 1.0E10;
 	DIndex = 0;
-	TLorentzVector beamp(0,0,125.0,125.0);
-	TLorentzVector beamm(0,0,-125.0,125.0);
+	TLorentzVector beamp(0,0,120.0,120.0);
+	TLorentzVector beamm(0,0,-120.0,120.0);
 	// float spreadfactor[11]={0.0,0.0004,0.0008,0.0012,0.0016,0.0020,0.0024,0.0028,0.0032,0.0036,0.0040};
 	// for(int i=0; i<11; i++) {
 	// 	scale1 = (gRandom->Gaus(1, spreadfactor[i]));
@@ -346,11 +346,16 @@ void hig2inv::variable_init() {
 	P_T=scale1*beamp+scale2*beamm;
 	for(int i=0; i<4; i++) {
 		m_p_neutral[i] = 0;
-		m_p_Zdaughters[i] = 0;
 		m_p_charged[i] = 0;
-	}
-	FourMom_ElectronM.clear();
-	FourMom_ElectronP.clear();
+		m_p_leptonp[i] = 0;
+		m_p_leptonm[i] = 0;
+		m_p_dilepton[i] = 0;
+		m_p_Zdaughters[i] = 0;
+		m_p_Zdaughterp[i] = 0;
+		m_p_Zdaughterm[i] =0;
+	}                   
+	FourMom_LeptonM.clear();
+	FourMom_LeptonP.clear();
 	FourMom_ChargedP.clear();
 	FourMom_ChargedM.clear();
 	CandiP.clear();
@@ -410,25 +415,25 @@ void hig2inv::selectCharged( int nReco, LCCollection* col_Reco ) {
 		for(int j = 0; j < 4; j++) {
 			m_p_charged[j] += curr[j];
 		}
-		selectElectron( RecoE, RecoPID, curr, a_Reco );
+		selectLepton( RecoE, RecoPID, curr, a_Reco );
 	}
 	m_n_charged = N_Charged;
-	m_n_leptonp = FourMom_ElectronP.size();
-	m_n_leptonm = FourMom_ElectronM.size();
+	m_n_leptonp = FourMom_LeptonP.size();
+	m_n_leptonm = FourMom_LeptonM.size();
 	m_n_chargedp = FourMom_ChargedP.size();
 	m_n_chargedm = FourMom_ChargedM.size();
 
 }
 
-void hig2inv::selectElectron( float RecoE, int RecoPID, TLorentzVector curr, ReconstructedParticle *a_Reco ) {
+void hig2inv::selectLepton( float RecoE, int RecoPID, TLorentzVector curr, ReconstructedParticle *a_Reco ) {
 
 	if( RecoE > RecoEMin && RecoE < RecoEMax ) {  //0.4*sqrt(s) 
 		if(abs(RecoPID) == LeptonID ) {
 			if(RecoPID == LeptonID ) { 
-				FourMom_ElectronM.push_back(curr);
+				FourMom_LeptonM.push_back(curr);
 			}
 			else {
-				FourMom_ElectronP.push_back(curr);
+				FourMom_LeptonP.push_back(curr);
 			}
 		}
 		else if( a_Reco->getCharge() > 0.5 ) {
@@ -445,18 +450,18 @@ void hig2inv::saveEventType( int m_n_leptonp, int m_n_leptonm, int m_n_chargedp,
 
 	if( m_n_leptonp && m_n_leptonm ) {
 		m_event_type = 0;
-		CandiP = FourMom_ElectronP;
-		CandiM = FourMom_ElectronM;
+		CandiP = FourMom_LeptonP;
+		CandiM = FourMom_LeptonM;
 	}
 	else if( m_n_leptonp == 0 && m_n_chargedp && m_n_leptonm ) {
 		m_event_type = 1;
 		CandiP = FourMom_ChargedP;
-		CandiM = FourMom_ElectronM;
+		CandiM = FourMom_LeptonM;
 	}
 	else if( m_n_leptonm == 0 && m_n_chargedm && m_n_leptonp ) {
 		m_event_type = 2;
 		CandiM = FourMom_ChargedM;
-		CandiP = FourMom_ElectronP;
+		CandiP = FourMom_LeptonP;
 	}
 	else if( m_n_leptonm == 0 && m_n_chargedm && m_n_chargedp && m_n_leptonp == 0 ) {
 		m_event_type = 3;
@@ -468,7 +473,7 @@ void hig2inv::saveEventType( int m_n_leptonp, int m_n_leptonm, int m_n_chargedp,
 
 void hig2inv::saveEvent( int NCandiP, int NCandiM, std::vector<TLorentzVector> CandiP, std::vector<TLorentzVector> CandiM, float m_pt_photon ) {
 
-	if( NCandiP > 0 && NCandiM > 0 ) {
+	if( NCandiP > 0 && NCandiM > 0 && m_event_type == 0 ) {
 		for(int i = 0; i < NCandiP; i++) {
 			P_P = CandiP[i];
 			for(int j = 0; j < NCandiM; j++) {
@@ -496,28 +501,26 @@ void hig2inv::saveRecInfo( TLorentzVector P_P, TLorentzVector P_M, float m_pt_ph
 		currRecoilMass = (P_T - P_P - P_M).M();
 		m_m_recoil = currRecoilMass;
 		// save lepton information
-		if (m_event_type == 0) {
-			for(int i=0; i<4; i++) {
-				m_p_leptonp[i] = P_P[i];
-				m_p_leptonm[i] = P_M[i];
-				m_p_dilepton[i] = m_p_leptonp[i] + m_p_leptonm[i];
-			}
-			// save other information
-			TLorentzVector ecms(0,0,0,250);
-			m_phi_dilepton_1 = fabs(P_P.Phi()-P_M.Phi());
-			miss = ecms - m_p_dilepton;
-			m_cos_miss = miss.CosTheta();
-			m_angle_dilepton = P_P.Angle(P_M.Vect())*180./3.1415926;
-			m_pt_dilepton = sqrt(m_p_dilepton[0]*m_p_dilepton[0]+m_p_dilepton[1]*m_p_dilepton[1]);
-			m_delta_pt = m_pt_dilepton - m_pt_photon;
-			m_cos_Z = m_p_dilepton[2]/sqrt(m_p_dilepton[0]*m_p_dilepton[0]+m_p_dilepton[1]*m_p_dilepton[1]+m_p_dilepton[2]*m_p_dilepton[2]);
-			phi_p_tmp = atan2(m_p_leptonp[1],m_p_leptonp[0])*180./3.14159265;
-			phi_m_tmp = atan2(m_p_leptonm[1],m_p_leptonm[0])*180./3.14159265;
-			if(m_p_leptonp[1] < 0) phi_p_tmp = phi_p_tmp + 360.;
-			if(m_p_leptonm[1] < 0) phi_m_tmp = phi_m_tmp + 360.;
-			m_phi_dilepton_2 = fabs(phi_p_tmp - phi_m_tmp);
-			if (m_phi_dilepton_2 > 180) m_phi_dilepton_2 = 360. - m_phi_dilepton_2;
+		for(int i=0; i<4; i++) {
+			m_p_leptonp[i] = P_P[i];
+			m_p_leptonm[i] = P_M[i];
+			m_p_dilepton[i] = m_p_leptonp[i] + m_p_leptonm[i];
 		}
+		// save other information
+		TLorentzVector ecms(0,0,0,240);
+		m_phi_dilepton_1 = fabs(P_P.Phi()-P_M.Phi());
+		miss = ecms - m_p_dilepton;
+		m_cos_miss = miss.CosTheta();
+		m_angle_dilepton = P_P.Angle(P_M.Vect())*180./3.1415926;
+		m_pt_dilepton = sqrt(m_p_dilepton[0]*m_p_dilepton[0]+m_p_dilepton[1]*m_p_dilepton[1]);
+		m_delta_pt = m_pt_dilepton - m_pt_photon;
+		m_cos_Z = m_p_dilepton[2]/sqrt(m_p_dilepton[0]*m_p_dilepton[0]+m_p_dilepton[1]*m_p_dilepton[1]+m_p_dilepton[2]*m_p_dilepton[2]);
+		phi_p_tmp = atan2(m_p_leptonp[1],m_p_leptonp[0])*180./3.14159265;
+		phi_m_tmp = atan2(m_p_leptonm[1],m_p_leptonm[0])*180./3.14159265;
+		if(m_p_leptonp[1] < 0) phi_p_tmp = phi_p_tmp + 360.;
+		if(m_p_leptonm[1] < 0) phi_m_tmp = phi_m_tmp + 360.;
+		m_phi_dilepton_2 = fabs(phi_p_tmp - phi_m_tmp);
+		if (m_phi_dilepton_2 > 180) m_phi_dilepton_2 = 360. - m_phi_dilepton_2;
 	}
 
 }
@@ -550,7 +553,8 @@ void hig2inv::saveMCInfo( int nMC, LCCollection* col_MC ) {
 
 void hig2inv::saveZdaughter( int NParent, int NDaughter, int tmpPID, float MCEn, MCParticle *a1_MC ) {
 
-	if(NParent == 0 && NDaughter == 1 && abs(tmpPID) < 20 ) { //Including all Z decay
+	if(NParent == 1 && NDaughter == 2 && abs(tmpPID) < 23 ) { //Including all Z decay
+	// if(NParent == 0 && NDaughter == 1 && abs(tmpPID) < 20 ) { //Including all Z decay
 		m_PID_Zdaughter = abs(tmpPID);
 		m_p_Zdaughters[3] += MCEn;
 		m_p_Zdaughters[0] += a1_MC->getMomentum()[0];
@@ -614,8 +618,8 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, int tmpPID, float M
 				m_p_Higgsdaughter2[2] = b_MC->getMomentum()[2];
 			}
 			if(m_PID_HiggsDaughter==ZPID) {
-				NDaughter = b_MC->getDaughters().size();
-				for(int j=0; j<NDaughter; j++) {
+				nDaughter = b_MC->getDaughters().size();
+				for(int j=0; j<nDaughter; j++) {
 					MCParticle *c_MC = b_MC->getDaughters()[j];
 					if( abs(c_MC->getPDG())== NeutrinoEPID || abs(c_MC->getPDG())== NeutrinoMuonPID || abs(c_MC->getPDG())== NeutrinoTauPID ) {
 						m_n_Zneutrino++;
