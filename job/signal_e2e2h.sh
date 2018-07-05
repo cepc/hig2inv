@@ -48,7 +48,7 @@ do
 		echo "export MARLIN_DLL=../lib/libhig2inv.so" >> $JOB_FILE
 		echo "Marlin "$STEER_FILE >> $JOB_FILE
 		chmod u+x $JOB_FILE
-		# hep_sub -g physics $JOB_FILE -o ./job.out -e ./job.err
+		hep_sub -g physics $JOB_FILE -o ./job.out -e ./job.err
 		i=0
 		flag=0
 		let "j = $j + 1"
@@ -81,7 +81,7 @@ do
 		echo "export MARLIN_DLL=../lib/libhig2inv.so" >> $JOB_FILE
 		echo "Marlin "$STEER_FILE >> $JOB_FILE
 		chmod u+x $JOB_FILE
-		# hep_sub -g physics $JOB_FILE -o ./job.out -e ./job.err
+		hep_sub -g physics $JOB_FILE -o ./job.out -e ./job.err
 	else
 		let "k = $j * $FILENUM + $i"
 	fi
