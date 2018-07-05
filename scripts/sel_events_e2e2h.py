@@ -129,7 +129,7 @@ def sel(t_in,t_out,t_link,entries,Mass_Recoil,Mass_Visble,Energy_Visble,P_Dilept
 	A=0
 	if(N[7]!=0):
 		if(infile=='../presel/signal_e2e2h.root'):
-			A=7.1*5000*N[7]/100000*0.03*0.0106
+			A=7.1*5000*N[7]/100000*0.0106
 		if(infile=='../presel/bkg_e2e2h_bhabha.root'):
 			A=24992.21*5000*N[7]/100000
 		if(infile=='../presel/bkg_e2e2h_e2e2.root'):

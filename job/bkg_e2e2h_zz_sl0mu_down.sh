@@ -4,13 +4,13 @@ i=0
 j=0
 k=0
 flag=0
-n=`ls /cefs/data/RecData/CEPC250/CEPC_v1/4fermions/E250.Psze_l.e0.p0.whizard195/nu/*slcio -l | grep "^-" | wc -l`
+n=`ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_sl.e0.p0.whizard195/zz_sl0mu_down/*slcio -l | grep "^-" | wc -l`
 let "n = $n - 1"
-for SLCIO in `ls /cefs/data/RecData/CEPC250/CEPC_v1/4fermions/E250.Psze_l.e0.p0.whizard195/nu/*slcio -l | awk '{print $9}'`
+for SLCIO in `ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_sl.e0.p0.whizard195/zz_sl0mu_down/*slcio -l | awk '{print $9}'`
 do
 	if [ $flag == 0 ]; then
-		STEER_FILE="../steer/bkg_e2e2h_sze_l0nunu_"$j".steer"
-		JOB_FILE="bkg_e2e2h_sze_l0nunu_"$j
+		STEER_FILE="../steer/bkg_e2e2h_zz_sl0mu_down_"$j".steer"
+		JOB_FILE="bkg_e2e2h_zz_sl0mu_down_"$j
 		echo "" > $STEER_FILE
 		echo ".begin Global  ---------------------------------------" >> $STEER_FILE
 		flag=1
@@ -34,13 +34,13 @@ do
 		echo "#        default: MCParticle" >> $STEER_FILE
 		echo "        MCObjects   MCParticle" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    OverwriteFile   0" >> $STEER_FILE
+		echo "    OverwriteFile   1" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    TreeName   MCPart" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_sze_l0nunu_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_zz_sl0mu_down_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
@@ -67,13 +67,13 @@ do
 		echo "#        default: MCParticle" >> $STEER_FILE
 		echo "        MCObjects   MCParticle" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    OverwriteFile   0" >> $STEER_FILE
+		echo "    OverwriteFile   1" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    TreeName   MCPart" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_sze_l0nunu_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_zz_sl0mu_down_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE

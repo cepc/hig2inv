@@ -18,44 +18,69 @@ ROOT.gStyle.SetOptStat(0)
 # ROOT.gStyle.SetStatW(0.08)
 # ROOT.gStyle.SetStatH(0.12)
 
-fsig=ROOT.TFile('../presel/signal.root')
-tsig=fsig.Get('MCPart')
+def set_style(hist,size):
+	color=38
+	for i in xrange(size):
+		if i==0:
+			hist[i].GetXaxis().SetTitle('M_{Recoil}(GeV/#it{c}^{2})')
+			hist[i].GetXaxis().CenterTitle()
+			hist[i].GetXaxis().SetRangeUser(120,150)
+			hist[i].GetYaxis().SetTitle('Events')
+			hist[i].GetYaxis().CenterTitle()
+			hist[i].SetLineWidth(1)
+			hist[i].SetLineColor(46)
+		else:
+			hist[i].SetLineColor(color)
+			color=color+1
 
-fbkg=ROOT.TFile('../presel/bkg.root')
-tbkg=fbkg.Get('MCPart')
+def fill_events(fname,hist,size):
+	for i in xrange(size):
+		f=ROOT.TFile(fname[i])
+		t=f.Get('MCPart')
+		for j in xrange(t.GetEntries()):
+			t.GetEntry(j)
+			hist[i].Fill(t.Mass_Recoil)
 
-myc=ROOT.TCanvas('myc','myc',200,10,500,300)
-myc.Divide(1,1)
-myc.cd(1)
+def plot():
+	fname=['../sel/signal.root','../sel/bhabha.root','../sel/e3e3.root','../sel/sw_l0tau.root']
+	XS=[7.6,39.5,39.9,429.84,82.45,0.00,29.57,150.32,249.84,1066.36,17.55,205.41]
+	eff=[0.28732,0.13215,0.0662,0.044]
+	myc=ROOT.TCanvas('myc','myc',200,10,500,300)
+	myc.Divide(1,1)
+	myc.cd(1)
+	
+	hist=[]
+	size=len(fname)
+	for i in xrange(size):
+		hist.append(ROOT.TH1D('','',80,80,160))
+	
+	fill_events(fname,hist,size)
+	set_style(hist,size)
 
-hsig=ROOT.TH1D('','',80,80,160)
-hbkg=ROOT.TH1D('','',80,80,160)
+	for i in xrange(size):
+		if i==0:
+			hist[i].Scale(XS[i]*5000*eff[i]*0.00106)
+			hist[i].Draw('E1')
+		else:
+			hist[i].Scale(XS[i]*5000*eff[i])
+			hist[i].Draw('same')
 
-for i in xrange(tsig.GetEntries()):
-	tsig.GetEntry(i)
-	hsig.Fill(tsig.Mass_Recoil)
+	symbol=['Higgs->Invisible,Z->e^{+}e^{-}','e^{+}e^{-}->e^{+}e^{-}','e^{+}e^{-}->#tau^{+}#tau^{-}','sw_l0tau','sze_l0e','sze_l0mu','sze_l0nunu','sze_l0tau','szeorsw_l0l','zzbosons','zz_l0taumu','zzorww_l0tautau']
+	legend=ROOT.TLegend(0.65,.75,0.86,0.86)
+	for i in xrange(size):
+		if i==0:
+			legend.AddEntry(hist[i],symbol[i])
+		else:
+			legend.AddEntry(hist[i],symbol[i])
+	legend.SetLineColor(1)
+	legend.SetFillColor(0)
+	legend.SetLineWidth(1)
+	legend.SetBorderSize(1)
+	legend.Draw('same')
 
-for i in xrange(tbkg.GetEntries()):
-	tbkg.GetEntry(i)
-	hbkg.Fill(tbkg.Mass_Recoil)
+	if not os.path.exists('../figs/'):
+		os.makedirs('../figs/')
+	myc.SaveAs('../figs/Mass_Recoil.pdf')
 
-hsig.GetXaxis().SetTitle('M_{Recoil}(GeV/#it{c}^{2})')
-hsig.GetXaxis().CenterTitle()
-hsig.GetXaxis().SetRangeUser(120,150)
-hsig.GetYaxis().SetTitle('Events')
-hsig.GetYaxis().CenterTitle()
-hsig.SetLineWidth(1)
-hsig.SetLineColor(46)
-hbkg.SetLineColor(38)
-hsig.Draw('E1')
-hbkg.Draw('same')
-
-legend=ROOT.TLegend(0.65,.75,0.86,0.86)
-legend.AddEntry(hsig,'Signal Sample')
-legend.AddEntry(hbkg,'Background Sample')
-legend.SetLineColor(1)
-legend.SetLineWidth(1)
-legend.SetBorderSize(1)
-legend.Draw('same')
-
-myc.SaveAs('../figs/Mass_Recoil.pdf')
+if __name__=='__main__':
+	plot()
