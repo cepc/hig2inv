@@ -1,0 +1,2 @@
+#!/bin/bash
+bash cut_flow > ../logfiles/log_cut_flow.txt
