@@ -1,16 +1,16 @@
 #!/bin/bash
-FILENUM=30
+FILENUM=300
 i=0
 j=0
 k=0
 flag=0
-n=`ls /cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/*slcio -l | grep "^-" | wc -l`
+n=`ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_l.e0.p0.whizard195/*slcio -l | grep "^-" | wc -l`
 let "n = $n - 1"
-for SLCIO in `ls /cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/*slcio -l | awk '{print $9}'`
+for SLCIO in `ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_l.e0.p0.whizard195/*slcio -l | awk '{print $9}'`
 do
 	if [ $flag == 0 ]; then
-		STEER_FILE="../steer/signal_e2e2h_"$j".steer"
-		JOB_FILE="signal_e2e2h_"$j
+		STEER_FILE="../steer/bkg_e2e2h_zzorww_l_"$j".steer"
+		JOB_FILE="bkg_e2e2h_zzorww_l_"$j
 		echo "" > $STEER_FILE
 		echo ".begin Global  ---------------------------------------" >> $STEER_FILE
 		flag=1
@@ -40,7 +40,7 @@ do
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../splitted/signal_e2e2h_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_zzorww_l_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
@@ -73,7 +73,7 @@ do
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../splitted/signal_e2e2h_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_zzorww_l_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
