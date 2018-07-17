@@ -68,7 +68,7 @@ class hig2inv  : public marlin::Processor {
 		int m_n_gamma, m_n_charged, m_n_leptonp, m_n_leptonm, m_n_chargedp, m_n_chargedm, m_n_Higgsdaughter, m_n_neutrino;
 		unsigned int m_event;
 		float m_p_neutral[4], m_p_photon[4], m_p_charged[4], m_p_leptonp[4], m_p_leptonm[4], m_p_dilepton[4], m_p_Zdaughters[4], m_p_Zdaughterp[4], m_p_Zdaughterm[4], m_p_Higgsdaughters[4], m_p_Higgsdaughter1[4],m_p_Higgsdaughter2[4];
-		float m_m_visible, m_m_recoil, m_m_Z;
+		float m_m_visible, m_m_recoil;
 		float m_pt_photon, m_pt_dilepton;
 		float RecoE;
 		float RecoP[3];
@@ -296,7 +296,6 @@ void hig2inv::book_tree() {
 	m_tree->Branch("m_m_visible",  &m_m_visible,  "m_m_visible/F");
 	// m_tree->Branch("m_m_recoil",  m_m_recoil,  "m_m_recoil[11]/F");
 	m_tree->Branch("m_m_recoil",  &m_m_recoil,  "m_m_recoil/F");
-	m_tree->Branch("m_m_Z",  &m_m_Z,  "m_m_Z/F");
 
 	m_tree->Branch("m_phi_dilepton_1",  &m_phi_dilepton_1,  "m_phi_dilepton_1/F");
 	m_tree->Branch("m_phi_dilepton_2",  &m_phi_dilepton_2,  "m_phi_dilepton_2/F");
@@ -323,12 +322,25 @@ void hig2inv::variable_init() {
 	m_n_chargedm = 0;
 	m_n_gamma = 0;
 	m_n_neutrino = 0;
+	m_n_Higgsdaughter = 0;
 	m_event_type = -1;
 	m_energy_neutrino = 0.;
-	m_m_visible = 0.;
+	// m_m_visible = 0.;
 	m_energy_visible = 0.;
-	MinZThrDis = 1.0E10;
+	m_phi_dilepton_1 = 0;
+	m_phi_dilepton_2 = 0;
+	m_cos_miss = 0;
+	m_cos_Z =0;
+	m_angle_dilepton = 0;
+	m_delta_pt = 0;
+	m_PID_HiggsDaughter = 0;
+	m_PID_Zdaughter = 0;
+	m_PID_Higgsdaughter[0] = 0;
+	m_PID_Higgsdaughter[1] = 0;
+	MinZThrDis = 10;
 	DIndex = 0;
+	m_pt_photon = 0;
+	m_pt_dilepton = 0;
 	TLorentzVector beamp(0,0,120.0,120.0);
 	TLorentzVector beamm(0,0,-120.0,120.0);
 	scale1 = (gRandom->Gaus(1, 0.0024));
@@ -336,6 +348,7 @@ void hig2inv::variable_init() {
 	P_T=scale1*beamp+scale2*beamm;
 	for(int i=0; i<4; i++) {
 		m_p_neutral[i] = 0;
+		m_p_photon[i] = 0;
 		m_p_charged[i] = 0;
 		m_p_leptonp[i] = 0;
 		m_p_leptonm[i] = 0;
@@ -344,6 +357,8 @@ void hig2inv::variable_init() {
 		m_p_Zdaughterp[i] = 0;
 		m_p_Zdaughterm[i] =0;
 		m_p_Higgsdaughters[i] = 0;
+		m_p_Higgsdaughter1[i] = 0;
+		m_p_Higgsdaughter2[i] = 0;
 	}                   
 	FourMom_LeptonM.clear();
 	FourMom_LeptonP.clear();
@@ -361,10 +376,10 @@ void hig2inv::saveNeutral( int nReco, LCCollection* col_Reco ) {
 	for(int i = 0; i < nReco; i++) {
 		ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(col_Reco->getElementAt(i));
 		if(a_Reco->getCharge()!=0) continue;
-		m_p_neutral[3] += a_Reco->getEnergy();
-		m_p_neutral[0] += a_Reco->getMomentum()[0];
-		m_p_neutral[1] += a_Reco->getMomentum()[1];
-		m_p_neutral[2] += a_Reco->getMomentum()[2];
+		m_p_neutral[3] = a_Reco->getEnergy();
+		m_p_neutral[0] = a_Reco->getMomentum()[0];
+		m_p_neutral[1] = a_Reco->getMomentum()[1];
+		m_p_neutral[2] = a_Reco->getMomentum()[2];
 	}
 
 }
@@ -398,16 +413,20 @@ void hig2inv::selectCharged( int nReco, LCCollection* col_Reco ) {
 		if(a_Reco->getCharge()==0) continue;
 		RecoPID = a_Reco->getType();
 		RecoE = a_Reco->getEnergy();
-		RecoP[0] = a_Reco->getMomentum()[0];
-		RecoP[1] = a_Reco->getMomentum()[1];
-		RecoP[2] = a_Reco->getMomentum()[2];
-		TLorentzVector curr(RecoP[0], RecoP[1], RecoP[2], RecoE);
-		// if ( RecoE > RecoEMin && RecoE < RecoEMax && ( abs(RecoPID) == ElectronPID || abs(RecoPID) == MuonPID || abs(RecoPID) == TauPID ) ) FourMom_Charged.push_back(curr);
-		if ( RecoE > RecoEMin && RecoE < RecoEMax && abs(RecoPID) == MuonPID ) FourMom_Charged.push_back(curr);
-		for(int j = 0; j < 4; j++) {
-			m_p_charged[j] += curr[j];
+		// if ( RecoE > RecoEMin && RecoE < RecoEMax && ( abs(RecoPID) == ElectronPID || abs(RecoPID) == MuonPID || abs(RecoPID) == TauPID ) ) { 
+		if ( RecoE > RecoEMin && RecoE < RecoEMax && abs(RecoPID) == MuonPID ) {
+		// if ( RecoE > RecoEMin && RecoE < RecoEMax ) {
+			RecoP[0] = a_Reco->getMomentum()[0];
+			RecoP[1] = a_Reco->getMomentum()[1];
+			RecoP[2] = a_Reco->getMomentum()[2];
+			TLorentzVector curr(RecoP[0], RecoP[1], RecoP[2], RecoE);
+			FourMom_Charged.push_back(curr);
+			for(int j = 0; j < 4; j++) {
+				// m_p_charged[j] += curr[j];
+				m_p_charged[j] = curr[j];
+			}
+			selectLepton( RecoE, RecoPID, curr, a_Reco );
 		}
-		selectLepton( RecoE, RecoPID, curr, a_Reco );
 	}
 	m_n_charged = FourMom_Charged.size();
 	m_n_leptonp = FourMom_LeptonP.size();
@@ -465,7 +484,7 @@ void hig2inv::saveEventType( int m_n_leptonp, int m_n_leptonm, int m_n_chargedp,
 
 void hig2inv::saveEvent( int NCandiP, int NCandiM, std::vector<TLorentzVector> CandiP, std::vector<TLorentzVector> CandiM, float m_pt_photon ) {
 
-	if( NCandiP > 0 && NCandiM > 0 && m_event_type == 0 ) {
+	if( NCandiP > 0 && NCandiM > 0 ) {
 		for(int i = 0; i < NCandiP; i++) {
 			P_P = CandiP[i];
 			for(int j = 0; j < NCandiM; j++) {
@@ -530,7 +549,6 @@ void hig2inv::saveMCInfo( int nMC, LCCollection* col_MC ) {
 		}
 		if( 0 ) printDecayChain( i , a1_MC );
 	}
-	m_m_Z = sqrt(m_p_Zdaughters[3]*m_p_Zdaughters[3] - m_p_Zdaughters[0]*m_p_Zdaughters[0]- m_p_Zdaughters[1]*m_p_Zdaughters[1]- m_p_Zdaughters[2]*m_p_Zdaughters[2]);
 
 }
 
@@ -538,10 +556,10 @@ void hig2inv::saveZdaughter( int NParent, int NDaughter, int tmpPID, float MCEn,
 
 	if(NParent == 0 && abs(tmpPID) == LeptonID ) { //Including all Z decay
 		m_PID_Zdaughter = abs(tmpPID);
-		m_p_Zdaughters[3] += MCEn;
-		m_p_Zdaughters[0] += a1_MC->getMomentum()[0];
-		m_p_Zdaughters[1] += a1_MC->getMomentum()[1];
-		m_p_Zdaughters[2] += a1_MC->getMomentum()[2];
+		m_p_Zdaughters[3] = MCEn;
+		m_p_Zdaughters[0] = a1_MC->getMomentum()[0];
+		m_p_Zdaughters[1] = a1_MC->getMomentum()[1];
+		m_p_Zdaughters[2] = a1_MC->getMomentum()[2];
 		if(tmpPID > 0) {
 			m_p_Zdaughterp[0] = a1_MC->getMomentum()[0];
 			m_p_Zdaughterp[1] = a1_MC->getMomentum()[1];
@@ -562,10 +580,10 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, MCParticle *itr, in
 
 	if(abs(tmpPID) == ZPID && NParent == 1 && itr->getPDG() == HiggsPID ) { //Higgs
 		m_n_Higgsdaughter = NDaughter;
-		m_p_Higgsdaughters[3] += MCEn;
-		m_p_Higgsdaughters[0] += a1_MC->getMomentum()[0];
-		m_p_Higgsdaughters[1] += a1_MC->getMomentum()[1];
-		m_p_Higgsdaughters[2] += a1_MC->getMomentum()[2];
+		m_p_Higgsdaughters[3] = MCEn;
+		m_p_Higgsdaughters[0] = a1_MC->getMomentum()[0];
+		m_p_Higgsdaughters[1] = a1_MC->getMomentum()[1];
+		m_p_Higgsdaughters[2] = a1_MC->getMomentum()[2];
 		for(int i = 0; i < NDaughter; i++) { //NDaughter
 			MCParticle *b_MC = a1_MC->getDaughters()[i];
 			m_PID_HiggsDaughter = b_MC->getPDG();
@@ -608,7 +626,7 @@ void hig2inv::saveNeutrino( int NParent, int NDaughter, MCParticle *itr, int tmp
 	if(NParent ==1 && NDaughter == 0) {
 		if( itr->getPDG() == MuonPID && ( abs(tmpPID) == NeutrinoEPID || abs(tmpPID) == NeutrinoMuonPID || abs(tmpPID) == NeutrinoTauPID ) ) {
 			m_n_neutrino++;
-			m_energy_neutrino += MCEn;
+			m_energy_neutrino = MCEn;
 		}
 	}
 
