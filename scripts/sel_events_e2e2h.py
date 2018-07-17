@@ -73,9 +73,6 @@ def main():
 	m_cos_Z=array('f',[0])
 	m_angle_dilepton=array('f',[0])
 	m_delta_pt=array('f',[0])
-	# m_PID_Zdaughter=array('i',[0])
-	# m_PID_HiggsDaughter=array('i',[0])
-	# m_PID_Higgsdaughter=array('i',[0])
 	m_energy_neutrino=array('f',[0])
 	m_energy_visible=array('f',[0])
 
@@ -114,13 +111,9 @@ def main():
 	t_out.Branch('m_cos_Z',m_cos_Z,'m_cos_Z/F')
 	t_out.Branch('m_angle_dilepton',m_angle_dilepton,'m_angle_dilepton/F')
 	t_out.Branch('m_delta_pt',m_delta_pt,'m_delta_pt/F')
-	# t_out.Branch('m_PID_Zdaughter',m_PID_Zdaughter,'m_PID_Zdaughter/I')
-	# t_out.Branch('m_PID_HiggsDaughter',m_PID_HiggsDaughter,'m_PID_HiggsDaughter/I')
-	# t_out.Branch('m_PID_Higgsdaughter',m_PID_Higgsdaughter,'m_PID_Higgsdaughter/I')
 	t_out.Branch('m_energy_neutrino',m_energy_neutrino,'m_energy_neutrino/F')
 	t_out.Branch('m_energy_visible',m_energy_visible,'m_energy_visible/F')
 
-	# sel(t_in,t_out,entries,m_event,m_event_type,m_p_neutral,m_p_photon,m_p_leptonp,m_p_leptonm,m_p_dilepton,m_p_charged,m_p_Higgsdaughters,m_p_Higgsdaughter1,m_p_Higgsdaughter2,m_p_Zdaughters,m_p_Zdaughterp,m_p_Zdaughterm,m_pt_photon,m_pt_dilepton,m_n_charged,m_n_gamma,m_n_leptonp,m_n_leptonm,m_n_chargedp,m_n_chargedm,m_n_Higgsdaughter,m_n_neutrino,m_m_visible,m_m_recoil,m_phi_dilepton_1,m_phi_dilepton_2,m_cos_miss,m_cos_Z,m_angle_dilepton,m_delta_pt,m_PID_Zdaughter,m_PID_HiggsDaughter,m_PID_Higgsdaughter,m_energy_neutrino,m_energy_visible,infile)
 	sel(t_in,t_out,entries,m_event,m_event_type,m_p_neutral,m_p_photon,m_p_leptonp,m_p_leptonm,m_p_dilepton,m_p_charged,m_p_Higgsdaughters,m_p_Higgsdaughter1,m_p_Higgsdaughter2,m_p_Zdaughters,m_p_Zdaughterp,m_p_Zdaughterm,m_pt_photon,m_pt_dilepton,m_n_charged,m_n_gamma,m_n_leptonp,m_n_leptonm,m_n_chargedp,m_n_chargedm,m_n_Higgsdaughter,m_n_neutrino,m_m_visible,m_m_recoil,m_phi_dilepton_1,m_phi_dilepton_2,m_cos_miss,m_cos_Z,m_angle_dilepton,m_delta_pt,m_energy_neutrino,m_energy_visible,infile)
 
 	print '\n######Cut flow######\n'
@@ -139,7 +132,6 @@ def main():
 	dur = time()-time_start
 	sys.stdout.write(' \nDone in %s. \n' % dur)
 
-# def sel(t_in,t_out,entries,m_event,m_event_type,m_p_neutral,m_p_photon,m_p_leptonp,m_p_leptonm,m_p_dilepton,m_p_charged,m_p_Higgsdaughters,m_p_Higgsdaughter1,m_p_Higgsdaughter2,m_p_Zdaughters,m_p_Zdaughterp,m_p_Zdaughterm,m_pt_photon,m_pt_dilepton,m_n_charged,m_n_gamma,m_n_leptonp,m_n_leptonm,m_n_chargedp,m_n_chargedm,m_n_Higgsdaughter,m_n_neutrino,m_m_visible,m_m_recoil,m_phi_dilepton_1,m_phi_dilepton_2,m_cos_miss,m_cos_Z,m_angle_dilepton,m_delta_pt,m_PID_Zdaughter,m_PID_HiggsDaughter,m_PID_Higgsdaughter,m_energy_neutrino,m_energy_visible,infile):
 def sel(t_in,t_out,entries,m_event,m_event_type,m_p_neutral,m_p_photon,m_p_leptonp,m_p_leptonm,m_p_dilepton,m_p_charged,m_p_Higgsdaughters,m_p_Higgsdaughter1,m_p_Higgsdaughter2,m_p_Zdaughters,m_p_Zdaughterp,m_p_Zdaughterm,m_pt_photon,m_pt_dilepton,m_n_charged,m_n_gamma,m_n_leptonp,m_n_leptonm,m_n_chargedp,m_n_chargedm,m_n_Higgsdaughter,m_n_neutrino,m_m_visible,m_m_recoil,m_phi_dilepton_1,m_phi_dilepton_2,m_cos_miss,m_cos_Z,m_angle_dilepton,m_delta_pt,m_energy_neutrino,m_energy_visible,infile):
 	for i in xrange(entries):
 		t_in.GetEntry(i)
@@ -211,9 +203,6 @@ def sel(t_in,t_out,entries,m_event,m_event_type,m_p_neutral,m_p_photon,m_p_lepto
 		m_cos_Z[0]=t_in.m_cos_Z
 		m_angle_dilepton[0]=t_in.m_angle_dilepton
 		m_delta_pt[0]=t_in.m_delta_pt
-		# m_PID_Zdaughter[0]=t_in.m_PID_Zdaughter
-		# m_PID_HiggsDaughter[0]=t_in.m_PID_HiggsDaughter
-		# m_PID_Higgsdaughter[0]=t_in.m_PID_Higgsdaughter
 		m_energy_neutrino[0]=t_in.m_energy_neutrino
 		m_energy_visible[0]=t_in.m_energy_visible
 
