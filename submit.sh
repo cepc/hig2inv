@@ -31,8 +31,8 @@ case $option in
 		if [ ! -d "steer" ]; then
 			mkdir steer
 		fi
-		if [ ! -d "splitted" ]; then
-			mkdir splitted
+		if [ ! -d "rawdata" ]; then
+			mkdir rawdata
 		fi
 		rm job/job.out -rf
 		mkdir  job/job.out
@@ -43,8 +43,8 @@ case $option in
 	;;
 
 	0.1.2) echo "Synthetizing seperated ROOT files..."
-		if [ ! -d "presel" ]; then
-			mkdir presel
+		if [ ! -d "data" ]; then
+			mkdir data
 		fi
 		cd job
 		./hadd.sh
@@ -62,8 +62,8 @@ case $option in
 	;;
 
 	0.1.4) echo "Calculating cut flows of siganl and background samples..."
-		if [ ! -d "sel" ]; then
-			mkdir sel
+		if [ ! -d "presel" ]; then
+			mkdir presel
 		fi
 		if [ ! -d "logfiles" ]; then
 			mkdir logfiles
