@@ -39,7 +39,7 @@ case $option in
 		rm job/job.err -rf
 		mkdir job/job.err
 		cd job
-		hep_sub -g physics run_sample_job -e job.err/ -o job.out/
+		bash run_sample
 	;;
 
 	0.1.2) echo "Synthetizing seperated ROOT files..."
