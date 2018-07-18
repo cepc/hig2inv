@@ -76,7 +76,6 @@ case $option in
 		if [ ! -d "figs" ]; then
 			mkdir figs
 		fi
-		cd scripts
 		# python plot_recoil_mass.py
 	;;
 

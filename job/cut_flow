@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ../scripts
+cd ../python
 python sel_events_e2e2h.py ../presel/signal_e2e2h.root ../sel/signal_e2e2h.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_qq.root ../sel/bkg_e2e2h_qq.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_sw_l.root ../sel/bkg_e2e2h_sw_l.root
