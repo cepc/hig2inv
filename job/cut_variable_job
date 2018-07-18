@@ -1,0 +1,2 @@
+#!/bin/bash
+bash cut_variable > ../logfiles/log_cut_SOB.txt

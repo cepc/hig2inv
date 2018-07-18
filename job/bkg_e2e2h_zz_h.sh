@@ -1,12 +1,12 @@
 #!/bin/bash
-FILENUM=108
+FILENUM=30
 i=0
 j=0
 k=0
 flag=0
-n=`ls /cefs/dirac/user/b/byzhang/Rec/zz_h/*slcio -l | grep "^-" | wc -l`
+n=`ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_h.e0.p0.whizard195/*slcio -l | grep "^-" | wc -l`
 let "n = $n - 1"
-for SLCIO in `ls /cefs/dirac/user/b/byzhang/Rec/zz_h/*slcio -l | awk '{print $9}'`
+for SLCIO in `ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_h.e0.p0.whizard195/*slcio -l | awk '{print $9}'`
 do
 	if [ $flag == 0 ]; then
 		STEER_FILE="../steer/bkg_e2e2h_zz_h_"$j".steer"
@@ -34,13 +34,13 @@ do
 		echo "#        default: MCParticle" >> $STEER_FILE
 		echo "        MCObjects   MCParticle" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    OverwriteFile   0" >> $STEER_FILE
+		echo "    OverwriteFile   1" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    TreeName   MCPart" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../rawdata/bkg_e2e2h_zz_h_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_zz_h_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
@@ -67,13 +67,13 @@ do
 		echo "#        default: MCParticle" >> $STEER_FILE
 		echo "        MCObjects   MCParticle" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    OverwriteFile   0" >> $STEER_FILE
+		echo "    OverwriteFile   1" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    TreeName   MCPart" >> $STEER_FILE
 		echo "" >> $STEER_FILE
 		echo "    LeptonIDTag 13" >> $STEER_FILE
 		echo "" >> $STEER_FILE
-		echo "    TreeOutputFile   ../rawdata/bkg_e2e2h_zz_h_"$j".root" >> $STEER_FILE
+		echo "    TreeOutputFile   ../splitted/bkg_e2e2h_zz_h_"$j".root" >> $STEER_FILE
 		echo ".end -------------------------------------------------" >> $STEER_FILE
 		echo "#!/bin/bash" > $JOB_FILE
 		echo "source ../setup.sh" >> $JOB_FILE
