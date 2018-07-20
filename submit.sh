@@ -13,7 +13,8 @@ usage() {
 	printf "\n\t%-5s  %-40s\n"  "0.1.2"    "Synthetize seperated ROOT files" 
 	printf "\n\t%-5s  %-40s\n"  "0.1.3"    "Draw distributions of cut variables and calculate ratios of bachground over signal" 
 	printf "\n\t%-5s  %-40s\n"  "0.1.4"    "Calculate cut flows of siganl and background samples" 
-	printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Get BDT cut"
+	printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Apply BDT cut"
+	printf "\n\t%-5s  %-40s\n"  "0.1.6"    "Synthetize signal and background ROOT files"
 	printf "\nDATE\n"
 	printf "\n\t%-5s\n" "AUGUST 2016"     
 }
@@ -72,7 +73,7 @@ case $option in
 		hep_sub -g physics cut_flow_job -e job.err -o job.out
 	;;
 
-	0.1.5) echo "Getting BDT cut..."
+	0.1.5) echo "Applying BDT cut..."
 		if [ ! -d "BDT/output" ]; then
 			mkdir BDT/output
 		fi
@@ -84,6 +85,15 @@ case $option in
 			echo "BDT cut is about to be applied!"
 			root HinvApplication.C
 		fi
+	;;
+
+	0.1.6) echo "Synthetizing signal and background ROOT files..."
+		cd python
+		rm ../BDT/output/Hinv_sig_e2e2h_selected_BDT.root -rf
+		python chs_events.py ../BDT/output/Hinv_sig_e2e2h_BDT.root ../BDT/output/Hinv_sig_e2e2h_selected_BDT.root
+		cd ../BDT/output
+		rm ../../sel/sig_bkg_e2e2h.root -rf
+		hadd ../../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_BDT.root Hinv_sig_e2e2h_selected_BDT.root
 	;;
 
 esac

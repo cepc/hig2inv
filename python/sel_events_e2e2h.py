@@ -18,12 +18,12 @@ h_evtflw = ROOT.TH1F('hevtflw','eventflow',10,0,10)
 h_evtflw.GetXaxis().SetBinLabel(1,'raw')
 h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu}<3&&N_{charged}<3')
 h_evtflw.GetXaxis().SetBinLabel(3,'N_{#gamma}<=1')
-h_evtflw.GetXaxis().SetBinLabel(4,'30GeV<P_{t}^{#mu^{+}#mu^{-}}<60GeV')
-h_evtflw.GetXaxis().SetBinLabel(5,'|P_{z}^{#mu^{+}#mu^{-}}|<55GeV')
+h_evtflw.GetXaxis().SetBinLabel(4,'30GeV/c<P_{t}^{#mu^{+}#mu^{-}}<60GeV/c')
+h_evtflw.GetXaxis().SetBinLabel(5,'|P_{z}^{#mu^{+}#mu^{-}}|<55GeV/c')
 h_evtflw.GetXaxis().SetBinLabel(6,'|cos#theta_{#mu^{+}#mu^{-}}|<0.6')
-h_evtflw.GetXaxis().SetBinLabel(7,'90GeV<|Visible Energy|<107GeV')
-h_evtflw.GetXaxis().SetBinLabel(8,'83GeV<|M_{#mu^{+}#mu^{-}}|<97GeV')
-h_evtflw.GetXaxis().SetBinLabel(9,'120GeV<|M_{Recoil}|<150GeV')
+h_evtflw.GetXaxis().SetBinLabel(7,'90GeV<Visible Energy<107GeV')
+h_evtflw.GetXaxis().SetBinLabel(8,'83GeV/c^{2}<M_{#mu^{+}#mu^{-}}<97GeV/c^{2}')
+h_evtflw.GetXaxis().SetBinLabel(9,'120GeV/c^{2}<M_{Recoil}<150GeV/c^{2}')
 N=[0.,0.,0.,0.,0.,0.,0.,0.,0.]
 
 def main():
