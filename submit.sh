@@ -13,7 +13,8 @@ usage() {
 	printf "\n\t%-5s  %-40s\n"  "0.1.2"    "Synthetize seperated ROOT files" 
 	printf "\n\t%-5s  %-40s\n"  "0.1.3"    "Draw distributions of cut variables and calculate ratios of bachground over signal" 
 	printf "\n\t%-5s  %-40s\n"  "0.1.4"    "Calculate cut flows of siganl and background samples" 
-	printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Draw plots of signal and background" 
+	printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Apply BDT cut"
+	printf "\n\t%-5s  %-40s\n"  "0.1.6"    "Synthetize signal and background ROOT files"
 	printf "\nDATE\n"
 	printf "\n\t%-5s\n" "AUGUST 2016"     
 }
@@ -58,7 +59,7 @@ case $option in
 			mkdir logfiles
 		fi
 		cd job
-		hep_sub -g physics cut_variable_job -e job.err/ -o job.out/
+		hep_sub -g physics cut_variable_job -e job.err -o job.out
 	;;
 
 	0.1.4) echo "Calculating cut flows of siganl and background samples..."
@@ -69,14 +70,30 @@ case $option in
 			mkdir logfiles
 		fi
 		cd job
-		hep_sub -g physics cut_flow_job -e job.err/ -o job.out/
+		hep_sub -g physics cut_flow_job -e job.err -o job.out
 	;;
 
-	0.1.5) echo "Drawing plots of signal and background..."
-		if [ ! -d "figs" ]; then
-			mkdir figs
+	0.1.5) echo "Applying BDT cut..."
+		if [ ! -d "BDT_output" ]; then
+			mkdir BDT_output
 		fi
-		# python plot_recoil_mass.py
+		cd BDT
+		if [ ! -f "../BDT_output/bkg_e2e2h.root" ]; then
+			echo "Samples are about to be trained, after that please check the distribution to get BDT cut and run ./submit 0.1.5 again to apply that!"
+			root Hinv.C
+		else
+			echo "BDT cut is about to be applied!"
+			root HinvApplication.C
+		fi
+	;;
+
+	0.1.6) echo "Synthetizing signal and background ROOT files..."
+		cd python
+		rm ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root -rf
+		python chs_events.py ../BDT_output/Hinv_sig_e2e2h_BDT.root ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root
+		cd ../BDT_output
+		rm ../sel/sig_bkg_e2e2h.root -rf
+		hadd ../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_BDT.root Hinv_sig_e2e2h_selected_BDT.root
 	;;
 
 esac
