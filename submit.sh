@@ -15,6 +15,8 @@ usage() {
 	printf "\n\t%-5s  %-40s\n"  "0.1.4"    "Calculate cut flows of siganl and background samples" 
 	printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Apply BDT cut"
 	printf "\n\t%-5s  %-40s\n"  "0.1.6"    "Synthetize signal and background ROOT files"
+	printf "\n\t%-5s  %-40s\n"  "0.1.7"    "Fit higggs mass spectra(recoilling mass of Z boson)"
+	printf "\n\t%-5s  %-40s\n"  "0.1.8"    "Calculate upper limmits of branch ratio"
 	printf "\nDATE\n"
 	printf "\n\t%-5s\n" "AUGUST 2016"     
 }
@@ -94,6 +96,17 @@ case $option in
 		cd ../BDT_output
 		rm ../sel/sig_bkg_e2e2h.root -rf
 		hadd ../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_BDT.root Hinv_sig_e2e2h_selected_BDT.root
+	;;
+
+	0.1.7) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
+		cd src
+		root fithiggs.cxx
+	;;
+
+
+	0.1.8) echo "Calculating upper limmit of branch ratio..."
+		cd python
+		python cal_upperlimit.py
 	;;
 
 esac
