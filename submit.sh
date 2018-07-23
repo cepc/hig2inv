@@ -74,11 +74,11 @@ case $option in
 	;;
 
 	0.1.5) echo "Applying BDT cut..."
-		if [ ! -d "BDT/output" ]; then
-			mkdir BDT/output
+		if [ ! -d "BDT_output" ]; then
+			mkdir BDT_output
 		fi
 		cd BDT
-		if [ ! -f "BDT/output/bkg_e2e2h.root" ]; then
+		if [ ! -f "../BDT_output/bkg_e2e2h.root" ]; then
 			echo "Samples are about to be trained, after that please check the distribution to get BDT cut and run ./submit 0.1.5 again to apply that!"
 			root Hinv.C
 		else
@@ -89,11 +89,11 @@ case $option in
 
 	0.1.6) echo "Synthetizing signal and background ROOT files..."
 		cd python
-		rm ../BDT/output/Hinv_sig_e2e2h_selected_BDT.root -rf
-		python chs_events.py ../BDT/output/Hinv_sig_e2e2h_BDT.root ../BDT/output/Hinv_sig_e2e2h_selected_BDT.root
-		cd ../BDT/output
-		rm ../../sel/sig_bkg_e2e2h.root -rf
-		hadd ../../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_BDT.root Hinv_sig_e2e2h_selected_BDT.root
+		rm ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root -rf
+		python chs_events.py ../BDT_output/Hinv_sig_e2e2h_BDT.root ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root
+		cd ../BDT_output
+		rm ../sel/sig_bkg_e2e2h.root -rf
+		hadd ../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_BDT.root Hinv_sig_e2e2h_selected_BDT.root
 	;;
 
 esac

@@ -57,7 +57,7 @@ void Hinv( TString myMethodList = "" )
 	for (Int_t i=0;i<1;i++) {
 
 		//Create a ROOT output file where TMVA will store ntuples, histograms, etc.
-		TString outfileName( "output/"+bkgname[i]+".root" );
+		TString outfileName( "../BDT_output/"+bkgname[i]+".root" );
 		TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
 		
 		TMVA::Factory *factory = new TMVA::Factory( bkgname[i], outputFile,"!V:!Silent:Color:AnalysisType=Classification" );

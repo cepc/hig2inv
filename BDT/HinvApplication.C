@@ -145,7 +145,7 @@ void HinvApplication( TString myMethodList = "" )
 	TreeB_bbaa->SetBranchAddress("m_energy_neutrino",&d_m_energy_neutrino);
 	TreeB_bbaa->SetBranchAddress("m_energy_visible",&d_m_energy_visible);
 	
-	TFile f_S("output/Hinv_sig_e2e2h_BDT.root","recreate");
+	TFile f_S("../BDT_output/Hinv_sig_e2e2h_BDT.root","recreate");
 	
 	TTree TreeS_bbaa_output("MCPart","MCPart");
 
@@ -199,7 +199,7 @@ void HinvApplication( TString myMethodList = "" )
 	f_S.Close();
 
 	
-	TFile f_B("output/Hinv_bkg_e2e2h_BDT.root","recreate");
+	TFile f_B("../BDT_output/Hinv_bkg_e2e2h_BDT.root","recreate");
 	TTree TreeB_bbaa_output("MCPart","MCPart");
 
 	TreeB_bbaa_output.Branch("m_p_neutral",d_m_p_neutral,"m_p_neutral[4]/F");
