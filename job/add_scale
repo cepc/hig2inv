@@ -1,0 +1,17 @@
+#!/bin/bash
+cd ../python
+python chs_events.py ../presel/bkg_e2e2h_e2e2.root ../presel/bkg_e2e2h_e2e2_weighted.root bkg_e2e2
+rm ../presel/bkg_e2e2h_e2e2.root 
+mv ../presel/bkg_e2e2h_e2e2_weighted.root ../presel/bkg_e2e2h_e2e2.root
+python chs_events.py ../presel/bkg_e2e2h_e3e3.root ../presel/bkg_e2e2h_e3e3_weighted.root bkg_e3e3
+rm ../presel/bkg_e2e2h_e3e3.root 
+mv ../presel/bkg_e2e2h_e3e3_weighted.root ../presel/bkg_e2e2h_e3e3.root
+python chs_events.py ../presel/bkg_e2e2h_bb.root ../presel/bkg_e2e2h_bb_weighted.root bkg_bb
+rm ../presel/bkg_e2e2h_bb.root 
+mv ../presel/bkg_e2e2h_bb_weighted.root ../presel/bkg_e2e2h_bb.root
+python chs_events.py ../presel/bkg_e2e2h_cc.root ../presel/bkg_e2e2h_cc_weighted.root bkg_cc
+rm ../presel/bkg_e2e2h_cc.root 
+mv ../presel/bkg_e2e2h_cc_weighted.root ../presel/bkg_e2e2h_cc.root
+python chs_events.py ../presel/bkg_e2e2h_dd.root ../presel/bkg_e2e2h_dd_weighted.root bkg_dd
+rm ../presel/bkg_e2e2h_dd.root
+mv ../presel/bkg_e2e2h_dd_weighted.root ../presel/bkg_e2e2h_dd.root

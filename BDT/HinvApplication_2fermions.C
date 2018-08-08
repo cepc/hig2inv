@@ -18,7 +18,7 @@
 
 using namespace TMVA;
 
-void HinvApplication( TString myMethodList = "" )
+void HinvApplication_2fermions( TString myMethodList = "" )
 {
 #ifdef __CINT__
 	gROOT->ProcessLine( ".O0" ); // turn off optimization in CINT
@@ -61,7 +61,7 @@ void HinvApplication( TString myMethodList = "" )
 	
 	// --------------------------------------------------------------------------------------------------
 	
-	Float_t cut_BDT=-0.85;
+	Float_t cut_BDT=0.6;
 
 	TMVA::Reader *reader = new TMVA::Reader( "!Color:!Silent" );
 	
@@ -87,12 +87,12 @@ void HinvApplication( TString myMethodList = "" )
 	//reader->AddVariable("m_energy_visible",&f_m_energy_visible);
 	                                                 
 	// --- Book the MVA methods
-	reader->BookMVA("BDTG","weights/bkg_e2e2h_BDTG.weights.xml");
+	reader->BookMVA("BDTG","weights/bkg_e2e2h_2fermions_BDTG.weights.xml");
 
 	TFile *f_sig =TFile::Open("../sel/signal_e2e2h.root");
 	TTree* TreeS_bbaa = f_sig->Get("MCPart");
 
-	TFile *f_bkg= TFile::Open("../sel/bkg_e2e2h.root");
+	TFile *f_bkg= TFile::Open("../sel/bkg_e2e2h_2fermions.root");
 	TTree* TreeB_bbaa = f_bkg->Get("MCPart");
 
 	Float_t	d_m_event,d_m_event_type,d_m_p_neutral[4],d_m_p_photon[4],d_m_p_leptonp[4],d_m_p_leptonm[4],d_m_p_dilepton[4],d_m_p_charged[4],d_m_p_Higgsdaughters[4];
@@ -172,7 +172,7 @@ void HinvApplication( TString myMethodList = "" )
 	TreeB_bbaa->SetBranchAddress("m_energy_leptonm",&d_m_energy_leptonm);
 	TreeB_bbaa->SetBranchAddress("m_energy_leptonp",&d_m_energy_leptonp);
 	
-	TFile f_S("../BDT_output/Hinv_sig_e2e2h_BDT.root","recreate");
+	TFile f_S("../BDT_output/Hinv_sig_e2e2h_2fermions_BDT.root","recreate");
 	
 	TTree TreeS_bbaa_output("MCPart","MCPart");
 
@@ -239,7 +239,7 @@ void HinvApplication( TString myMethodList = "" )
 	TreeS_bbaa_output.Write();
 	//f_S.Close();
 	
-	TFile f_B("../BDT_output/Hinv_bkg_e2e2h_BDT.root","recreate");
+	TFile f_B("../BDT_output/Hinv_bkg_e2e2h_2fermions_BDT.root","recreate");
 	TTree TreeB_bbaa_output("MCPart","MCPart");
 
 	TreeB_bbaa_output.Branch("m_p_neutral",d_m_p_neutral,"m_p_neutral[4]/F");

@@ -1,6 +1,7 @@
 #!/bin/bash
 cd ../python
 python sel_events_e2e2h.py ../presel/signal_e2e2h.root ../sel/signal_e2e2h.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h.root ../sel/bkg_e2e2h.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_qq.root ../sel/bkg_e2e2h_qq.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_sw_l.root ../sel/bkg_e2e2h_sw_l.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_sw_sl.root ../sel/bkg_e2e2h_sw_sl.root
@@ -20,4 +21,14 @@ python sel_events_e2e2h.py ../presel/bkg_e2e2h_zz_sl0mu_down.root ../sel/bkg_e2e
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_zz_sl0mu_up.root ../sel/bkg_e2e2h_zz_sl0mu_up.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_zz_sl0nu_down.root ../sel/bkg_e2e2h_zz_sl0nu_down.root
 python sel_events_e2e2h.py ../presel/bkg_e2e2h_zz_sl0nu_up.root ../sel/bkg_e2e2h_zz_sl0nu_up.root
-python sel_events_e2e2h.py ../presel/bkg_e2e2h.root ../sel/bkg_e2e2h.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_zz_sl0tau_down.root ../sel/bkg_e2e2h_zz_sl0tau_down.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_zz_sl0tau_up.root ../sel/bkg_e2e2h_zz_sl0tau_up.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_bhabha.root ../sel/bkg_e2e2h_bhabha.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_e2e2.root ../sel/bkg_e2e2h_e2e2.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_e3e3.root ../sel/bkg_e2e2h_e3e3.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_n2n2.root ../sel/bkg_e2e2h_n2n2.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_bb.root ../sel/bkg_e2e2h_bb.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_cc.root ../sel/bkg_e2e2h_cc.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_dd.root ../sel/bkg_e2e2h_dd.root
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_2fermions.root ../sel/bkg_e2e2h_2fermions.root 
+python sel_events_e2e2h.py ../presel/bkg_e2e2h_4fermions.root ../sel/bkg_e2e2h_4fermions.root

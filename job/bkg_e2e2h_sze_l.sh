@@ -1,5 +1,5 @@
 #!/bin/bash
-FILENUM=30
+FILENUM=101
 i=0
 j=0
 k=0

@@ -4,9 +4,9 @@ i=0
 j=0
 k=0
 flag=0
-n=`ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_sl.e0.p0.whizard195/zz_sl0mu_down/*slcio -l | grep "^-" | wc -l`
+n=`ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_sl.e0.p0.whizard195/zz_sl0mu_down*slcio -l | grep "^-" | wc -l`
 let "n = $n - 1"
-for SLCIO in `ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_sl.e0.p0.whizard195/zz_sl0mu_down/*slcio -l | awk '{print $9}'`
+for SLCIO in `ls /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_sl.e0.p0.whizard195/zz_sl0mu_down*slcio -l | awk '{print $9}'`
 do
 	if [ $flag == 0 ]; then
 		STEER_FILE="../steer/bkg_e2e2h_zz_sl0mu_down_"$j".steer"

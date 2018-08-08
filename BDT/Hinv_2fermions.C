@@ -14,7 +14,7 @@
 #include "TMVA/Tools.h"
 #endif
 
-void Hinv( TString myMethodList = "" )
+void Hinv_2fermions( TString myMethodList = "" )
 {
 	// This loads the library
 	TMVA::Tools::Instance();
@@ -52,16 +52,16 @@ void Hinv( TString myMethodList = "" )
 	}
 
 	//TString signame="signal_e2e2h";
-	//TString bkgname[1]="bkg_e2e2h";
+	//TString bkgname[1]="bkg_e2e2h_2fermions";
 
 	//Create a ROOT output file where TMVA will store ntuples, histograms, etc.
 	//TString outfileName( "../BDT_output/"+bkgname[0]+".root" );
 	//TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
-	TString outfileName( "../BDT_output/bkg_e2e2h.root" );
+	TString outfileName( "../BDT_output/bkg_e2e2h_2fermions.root" );
 	TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
 	
 	//TMVA::Factory *factory = new TMVA::Factory( bkgname[0], outputFile,"!V:!Silent:Color:AnalysisType=Classification" );
-	TMVA::Factory *factory = new TMVA::Factory( "bkg_e2e2h", outputFile,"!V:!Silent:Color:AnalysisType=Classification" );
+	TMVA::Factory *factory = new TMVA::Factory( "bkg_e2e2h_2fermions", outputFile,"!V:!Silent:Color:AnalysisType=Classification" );
 	//factory->AddVariable( "m_pt_photon", "m_pt_photon", "", 'F' );
 	factory->AddVariable( "m_pt_dilepton", "m_pt_dilepton", "", 'F' );
 	factory->AddVariable( "m_pt_leptonm", "m_pt_dileptonm", "", 'F' );
@@ -86,7 +86,7 @@ void Hinv( TString myMethodList = "" )
 	//TFile *inputS = TFile::Open(sigfile);
 	//TFile *inputB = TFile::Open(bkgfile);
 	TFile *inputS = TFile::Open("../sel/signal_e2e2h.root");
-	TFile *inputB = TFile::Open("../sel/bkg_e2e2h.root");
+	TFile *inputB = TFile::Open("../sel/bkg_e2e2h_2fermions.root");
 	
 	//Register the training and test trees
 	TTree *signal = (TTree*)inputS->Get("MCPart");

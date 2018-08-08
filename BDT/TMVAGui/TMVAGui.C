@@ -46,7 +46,7 @@ void ActionButton( TControlBar* cbar,
 }
 
 // main GUI
-void TMVAGui( const char* fName = "../output/bkg_e2e2h.root" ) 
+void TMVAGui( const char* fName = "../../BDT_output/bkg_e2e2h.root" ) 
 {   
    // Use this script in order to run the various individual macros
    // that plot the output of TMVA (e.g. running TMVAClassification.C),

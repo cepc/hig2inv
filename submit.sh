@@ -82,27 +82,30 @@ case $option in
 		cd BDT
 		if [ ! -f "../BDT_output/bkg_e2e2h.root" ]; then
 			echo "Samples are about to be trained, after that please check the distribution to get BDT cut and run ./submit 0.1.5 again to apply that!"
-			root Hinv.C
+			root -l Hinv.C
+			root -l Hinv_2fermions.C
+			root -l Hinv_4fermions.C
 		else
 			echo "BDT cut is about to be applied!"
-			root HinvApplication.C
+			root -l -q HinvApplication.C
+			root -l -q HinvApplication_2fermions.C
+			root -l -q HinvApplication_4fermions.C
 		fi
 	;;
 
 	0.1.6) echo "Synthetizing signal and background ROOT files..."
 		cd python
 		rm ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root -rf
-		python chs_events.py ../BDT_output/Hinv_sig_e2e2h_BDT.root ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root
+		python chs_events.py ../BDT_output/Hinv_sig_e2e2h_2fermions_BDT.root ../BDT_output/Hinv_sig_e2e2h_selected_BDT.root signal_e2e2h
 		cd ../BDT_output
 		rm ../sel/sig_bkg_e2e2h.root -rf
-		hadd ../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_BDT.root Hinv_sig_e2e2h_selected_BDT.root
+		hadd ../sel/sig_bkg_e2e2h.root Hinv_bkg_e2e2h_2fermions_BDT.root Hinv_bkg_e2e2h_4fermions_BDT.root Hinv_sig_e2e2h_selected_BDT.root
 	;;
 
 	0.1.7) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
 		cd src
 		root fithiggs.cxx
 	;;
-
 
 	0.1.8) echo "Calculating upper limmit of branch ratio..."
 		cd python
