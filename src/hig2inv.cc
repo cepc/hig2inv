@@ -342,8 +342,8 @@ void hig2inv::variable_init() {
 	DIndex = 0;
 	m_pt_photon = 0;
 	m_pt_dilepton = 0;
-	TLorentzVector beamp(0,0,125.0,125.0);
-	TLorentzVector beamm(0,0,-125.0,125.0);
+	TLorentzVector beamp(0,0,120.0,120.0);
+	TLorentzVector beamm(0,0,-120.0,120.0);
 	scale1 = (gRandom->Gaus(1, 0.0024));
 	scale2 = (gRandom->Gaus(1, 0.0024));
 	P_T=scale1*beamp+scale2*beamm;
@@ -515,7 +515,7 @@ void hig2inv::saveRecInfo( TLorentzVector P_P, TLorentzVector P_M, float m_pt_ph
 			m_p_dilepton[i] = m_p_leptonp[i] + m_p_leptonm[i];
 		}
 		// save other information
-		TLorentzVector ecms(0,0,0,250);
+		TLorentzVector ecms(0,0,0,240);
 		m_phi_dilepton_1 = fabs(P_P.Phi()-P_M.Phi());
 		miss = ecms - m_p_dilepton;
 		m_cos_miss = miss.CosTheta();
