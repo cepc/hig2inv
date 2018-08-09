@@ -326,6 +326,7 @@ void hig2inv::variable_init() {
 	m_event_type = -1;
 	m_energy_neutrino = 0.;
 	// m_m_visible = 0.;
+	m_m_recoil=-999.;
 	m_energy_visible = 0.;
 	m_phi_dilepton_1 = 0;
 	m_phi_dilepton_2 = 0;
@@ -484,7 +485,7 @@ void hig2inv::saveEventType( int m_n_leptonp, int m_n_leptonm, int m_n_chargedp,
 
 void hig2inv::saveEvent( int NCandiP, int NCandiM, std::vector<TLorentzVector> CandiP, std::vector<TLorentzVector> CandiM, float m_pt_photon ) {
 
-	if( NCandiP > 0 && NCandiM > 0 ) {
+	if( NCandiP > 0 && NCandiM > 0 && m_event_type == 0 ) {
 		for(int i = 0; i < NCandiP; i++) {
 			P_P = CandiP[i];
 			for(int j = 0; j < NCandiM; j++) {
@@ -500,7 +501,7 @@ void hig2inv::saveRecInfo( TLorentzVector P_P, TLorentzVector P_M, float m_pt_ph
 
 	currVisMass = (P_P + P_M).M();
 	currVisEnergy = P_P[3] + P_M[3];
-	if(fabs(currVisMass - ZMass) < MinZThrDis) {
+	if((m_event_type == 0) && (fabs(currVisMass - ZMass) < MinZThrDis)) {
 		MinZThrDis = fabs(currVisMass - ZMass);
 		m_m_visible = currVisMass;
 		m_energy_visible = currVisEnergy;

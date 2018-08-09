@@ -10,7 +10,8 @@
 ./bkg_e2e2h_ww_h.sh
 ./bkg_e2e2h_sze_l.sh
 ./bkg_e2e2h_ww_l.sh
-./bkg_e2e2h_ww_sl.sh
+./bkg_e2e2h_ww_sl0muq.sh
+./bkg_e2e2h_ww_sl0tauq.sh
 ./bkg_e2e2h_zz_h.sh
 ./bkg_e2e2h_zz_l.sh
 ./bkg_e2e2h_zzorww_h.sh
@@ -19,3 +20,12 @@
 ./bkg_e2e2h_zz_sl0mu_up.sh
 ./bkg_e2e2h_zz_sl0nu_down.sh
 ./bkg_e2e2h_zz_sl0nu_up.sh
+./bkg_e2e2h_zz_sl0tau_down.sh
+./bkg_e2e2h_zz_sl0tau_up.sh
+./bkg_e2e2h_bhabha.sh
+./bkg_e2e2h_e2e2.sh
+./bkg_e2e2h_e3e3.sh
+./bkg_e2e2h_n2n2.sh
+./bkg_e2e2h_bb.sh
+./bkg_e2e2h_cc.sh
+./bkg_e2e2h_dd.sh

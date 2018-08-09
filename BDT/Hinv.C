@@ -51,76 +51,84 @@ void Hinv( TString myMethodList = "" )
 		}
 	}
 
-	TString signame="signal_e2e2h";
-	TString bkgname[1]="bkg_e2e2h";
+	//TString signame="signal_e2e2h";
+	//TString bkgname[1]="bkg_e2e2h";
 
-	for (Int_t i=0;i<1;i++) {
+	//Create a ROOT output file where TMVA will store ntuples, histograms, etc.
+	//TString outfileName( "../BDT_output/"+bkgname[0]+".root" );
+	//TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
+	TString outfileName( "../BDT_output/bkg_e2e2h.root" );
+	TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
+	
+	//TMVA::Factory *factory = new TMVA::Factory( bkgname[0], outputFile,"!V:!Silent:Color:AnalysisType=Classification" );
+	TMVA::Factory *factory = new TMVA::Factory( "bkg_e2e2h", outputFile,"!V:!Silent:Color:AnalysisType=Classification" );
+	//factory->AddVariable( "m_pt_photon", "m_pt_photon", "", 'F' );
+	factory->AddVariable( "m_pt_dilepton", "m_pt_dilepton", "", 'F' );
+	factory->AddVariable( "m_pt_leptonm", "m_pt_dileptonm", "", 'F' );
+	factory->AddVariable( "m_pt_leptonp", "m_pt_dileptonp", "", 'F' );
+	//factory->AddVariable( "m_pz_dilepton", "m_pz_dilepton", "", 'F' );
+	//factory->AddVariable( "m_pz_leptonm", "m_pz_leptonm", "", 'F' );
+	factory->AddVariable( "m_pz_leptonp", "m_pz_leptonp", "", 'F' );
+	//factory->AddVariable( "m_m_visible", "m_m_visible", "", 'F' );
+	factory->AddVariable( "m_m_recoil", "m_m_recoil", "", 'F' );
+	//factory->AddVariable( "m_phi_dilepton_1", "m_phi_dilepton_1", "", 'F' );
+	//factory->AddVariable( "m_phi_dilepton_2", "m_phi_dilepton_2", "", 'F' );
+	//factory->AddVariable( "m_cos_miss", "m_cos_miss", "", 'F' );
+	//factory->AddVariable( "m_cos_Z", "m_cos_Z", "", 'F' );
+	factory->AddVariable( "m_cos_theta_dilepton", "m_cos_theta_dilepton", "", 'F' );
+	//factory->AddVariable( "m_angle_dilepton", "m_angle_dilepton", "", 'F' );
+	//factory->AddVariable( "m_delta_pt", "m_delta_pt", "", 'F' );
+	//factory->AddVariable( "m_energy_neutrino", "m_energy_neutrino", "", 'F' );
+	//factory->AddVariable( "m_energy_visible", "m_energy_visible", "", 'F' );
 
-		//Create a ROOT output file where TMVA will store ntuples, histograms, etc.
-		TString outfileName( "../BDT_output/"+bkgname[i]+".root" );
-		TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
-		
-		TMVA::Factory *factory = new TMVA::Factory( bkgname[i], outputFile,"!V:!Silent:Color:AnalysisType=Classification" );
-		factory->AddVariable( "m_pt_photon", "m_pt_photon", "", 'F' );
-		factory->AddVariable( "m_pt_dilepton", "m_pt_dilepton", "", 'F' );
-		factory->AddVariable( "m_m_visible", "m_m_visible", "", 'F' );
-		factory->AddVariable( "m_m_recoil", "m_m_recoil", "", 'F' );
-		factory->AddVariable( "m_phi_dilepton_1", "m_phi_dilepton_1", "", 'F' );
-		factory->AddVariable( "m_phi_dilepton_2", "m_phi_dilepton_2", "", 'F' );
-		factory->AddVariable( "m_cos_miss", "m_cos_miss", "", 'F' );
-		factory->AddVariable( "m_cos_Z", "m_cos_Z", "", 'F' );
-		factory->AddVariable( "m_angle_dilepton", "m_angle_dilepton", "", 'F' );
-		factory->AddVariable( "m_delta_pt", "m_delta_pt", "", 'F' );
-		factory->AddVariable( "m_energy_neutrino", "m_energy_neutrino", "", 'F' );
-		factory->AddVariable( "m_energy_visible", "m_energy_visible", "", 'F' );
+	//TString sigfile="../sel/"+signame+".root";
+	//TString bkgfile="../sel/"+bkgname[0]+".root";
+	//TFile *inputS = TFile::Open(sigfile);
+	//TFile *inputB = TFile::Open(bkgfile);
+	TFile *inputS = TFile::Open("../sel/signal_e2e2h.root");
+	TFile *inputB = TFile::Open("../sel/bkg_e2e2h.root");
+	
+	//Register the training and test trees
+	TTree *signal = (TTree*)inputS->Get("MCPart");
+	TTree *background = (TTree*)inputB->Get("MCPart"); 
+	
+	// global event weights per tree (see below for setting event-wise weights)
+	Double_t signaltestWeight     = 1.0;
+	Double_t backgroundtestWeight = 1.0;
+	Double_t signaltrainWeight     = 1.0;
+	Double_t backgroundtrainWeight = 1.0;
+	
+	factory->AddSignalTree( signal, signaltrainWeight );
+	factory->AddBackgroundTree( background, backgroundtrainWeight );
+	
+	// Apply additional cuts on the signal and background samples (can be different)
+	//TCut mycuts = "m_n_gamma<=1"; 
+	//TCut mycutb = "m_n_gamma<=1"; 
+	
+	// Tell the factory how to use the training and testing events
+	//factory->PrepareTrainingAndTestTree( mycuts, mycutb, "" );
+	
+	//-----Book MVA methods
+	
+	// Boosted Decision Trees with adaptive boosting
+	if (Use["BDTG"]) factory->BookMethod( TMVA::Types::kBDT, "BDTG","!H:!V:NTrees=800:BoostType=Grad:Shrinkage=0.30:UseBaggedGrad:GradBaggingFraction=0.6:SeparationType=GiniIndex:nCuts=20:PruneMethod=CostComplexity:PruneStrength=50:NNodesMax=3" );
+	
+	//Train MVAs using the set of training events
+	factory->TrainAllMethods();
+	
+	//Evaluate all MVAs using the set of test events
+	factory->TestAllMethods();
+	
+	//Evaluate and compare performance of all configured MVAs
+	factory->EvaluateAllMethods();
+	
+	//Save the output
+	outputFile->Close();
+	
+	std::cout << "==> Wrote root file: " << outputFile->GetName() << std::endl;
+	std::cout << "==> TMVAClassification is done!" << std::endl;
 
-		TString sigfile="../sel/"+signame+".root";
-		TString bkgfile="../sel/"+bkgname[i]+".root";
-		TFile *inputS = TFile::Open(sigfile);
-		TFile *inputB = TFile::Open(bkgfile);
-		
-		//Register the training and test trees
-		TTree *signal = (TTree*)inputS->Get("MCPart");
-		TTree *background = (TTree*)inputB->Get("MCPart"); 
-		
-		// global event weights per tree (see below for setting event-wise weights)
-		Double_t signaltestWeight     = 1.0;
-		Double_t backgroundtestWeight = 1.0;
-		Double_t signaltrainWeight     = 1.0;
-		Double_t backgroundtrainWeight = 1.0;
-		
-		factory->AddSignalTree( signal, signaltrainWeight );
-		factory->AddBackgroundTree( background, backgroundtestWeight );
-		
-		// Apply additional cuts on the signal and background samples (can be different)
-		TCut mycuts = "m_n_gamma<=1"; 
-		TCut mycutb = "m_n_gamma<=1"; 
-		
-		// Tell the factory how to use the training and testing events
-		factory->PrepareTrainingAndTestTree( mycuts, mycutb, "" );
-		
-		//-----Book MVA methods
-		
-		// Boosted Decision Trees with adaptive boosting
-		if (Use["BDTG"]) factory->BookMethod( TMVA::Types::kBDT, "BDTG","!H:!V:NTrees=800:BoostType=Grad:Shrinkage=0.30:UseBaggedGrad:GradBaggingFraction=0.6:SeparationType=GiniIndex:nCuts=20:PruneMethod=CostComplexity:PruneStrength=50:NNodesMax=3" );
-		
-		//Train MVAs using the set of training events
-		factory->TrainAllMethods();
-		
-		//Evaluate all MVAs using the set of test events
-		factory->TestAllMethods();
-		
-		//Evaluate and compare performance of all configured MVAs
-		factory->EvaluateAllMethods();
-		
-		//Save the output
-		outputFile->Close();
-		
-		std::cout << "==> Wrote root file: " << outputFile->GetName() << std::endl;
-		std::cout << "==> TMVAClassification is done!" << std::endl;
-		
-		delete factory;
-		
-		if (!gROOT->IsBatch()) TMVAGui( outfileName );
-	}
+	delete factory;
+	
+	if (!gROOT->IsBatch()) TMVAGui( outfileName );
 }

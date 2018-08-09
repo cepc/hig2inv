@@ -20,4 +20,18 @@ hadd bkg_e2e2h_zz_sl0mu_down.root ../splitted/bkg_e2e2h_zz_sl0mu_down*
 hadd bkg_e2e2h_zz_sl0mu_up.root ../splitted/bkg_e2e2h_zz_sl0mu_up*
 hadd bkg_e2e2h_zz_sl0nu_down.root ../splitted/bkg_e2e2h_zz_sl0nu_down*
 hadd bkg_e2e2h_zz_sl0nu_up.root ../splitted/bkg_e2e2h_zz_sl0nu_up*
+hadd bkg_e2e2h_zz_sl0tau_down.root ../splitted/bkg_e2e2h_zz_sl0tau_down*
+hadd bkg_e2e2h_zz_sl0tau_up.root ../splitted/bkg_e2e2h_zz_sl0tau_up*
+hadd bkg_e2e2h_bhabha.root ../splitted/bkg_e2e2h_bhabha*
+hadd bkg_e2e2h_e2e2.root ../splitted/bkg_e2e2h_e2e2*
+hadd bkg_e2e2h_e3e3.root ../splitted/bkg_e2e2h_e3e3*
+hadd bkg_e2e2h_n2n2.root ../splitted/bkg_e2e2h_n2n2*
+hadd bkg_e2e2h_bb.root ../splitted/bkg_e2e2h_bb*
+hadd bkg_e2e2h_cc.root ../splitted/bkg_e2e2h_cc*
+hadd bkg_e2e2h_dd.root ../splitted/bkg_e2e2h_dd*
+cd ../job
+bash add_scale
+cd ../presel
 hadd bkg_e2e2h.root bkg_e2e2h_*root
+hadd bkg_e2e2h_2fermions.root bkg_e2e2h_qq.root bkg_e2e2h_bhabha.root bkg_e2e2h_e2e2.root bkg_e2e2h_e3e3.root bkg_e2e2h_n2n2.root bkg_e2e2h_bb.root bkg_e2e2h_cc.root bkg_e2e2h_dd.root
+hadd bkg_e2e2h_4fermions.root bkg_e2e2h_sw*root bkg_e2e2h_sze*root bkg_e2e2h_sznu*root bkg_e2e2h_ww*root bkg_e2e2h_zz*root 
