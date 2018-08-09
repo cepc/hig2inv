@@ -234,6 +234,7 @@ void HinvApplication( TString myMethodList = "" )
 		// --- Return the MVA outputs
 		if (Use["BDTG"]) d_BDTG = reader->EvaluateMVA( "BDTG") ;
 		if (d_BDTG>cut_BDT) TreeS_bbaa_output.Fill();
+		//TreeS_bbaa_output.Fill();
 	}
 	std::cout << "--- End of signal event loop: "<< std::endl;
 	TreeS_bbaa_output.Write();
@@ -300,6 +301,7 @@ void HinvApplication( TString myMethodList = "" )
 		// --- Return the MVA outputs
 		if (Use["BDTG"]) d_BDTG = reader->EvaluateMVA( "BDTG") ;
 		if (d_BDTG>cut_BDT) TreeB_bbaa_output.Fill();
+		//TreeB_bbaa_output.Fill();
 	}
 	std::cout << "--- End of background event loop: "<< std::endl;
 	TreeB_bbaa_output.Write();
