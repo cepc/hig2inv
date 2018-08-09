@@ -83,13 +83,9 @@ case $option in
 		if [ ! -f "../BDT_output/bkg_e2e2h.root" ]; then
 			echo "Samples are about to be trained, after that please check the distribution to get BDT cut and run ./submit 0.1.5 again to apply that!"
 			root -l Hinv.C
-			root -l Hinv_2fermions.C
-			root -l Hinv_4fermions.C
 		else
 			echo "BDT cut is about to be applied!"
 			root -l -q HinvApplication.C
-			root -l -q HinvApplication_2fermions.C
-			root -l -q HinvApplication_4fermions.C
 		fi
 	;;
 
