@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
-#include <string>
+#include <string> 
 #include "TChain.h"
 #include "TFile.h"
 #include "TTree.h"
@@ -85,12 +85,12 @@ void Hinv( TString myMethodList = "" )
 	//TString bkgfile="../sel/"+bkgname[0]+".root";
 	//TFile *inputS = TFile::Open(sigfile);
 	//TFile *inputB = TFile::Open(bkgfile);
-	TFile *inputS = TFile::Open("../sel/signal_e2e2h.root");
-	TFile *inputB = TFile::Open("../sel/bkg_e2e2h.root");
+	TFile *inputS = TFile::Open("../run/e2E2h_invi/hist/ana_File_merged_1.root");
+	TFile *inputB = TFile::Open("../run/bg/hist/all_bkg_merge_scale.root");
 	
 	//Register the training and test trees
-	TTree *signal = (TTree*)inputS->Get("MCPart");
-	TTree *background = (TTree*)inputB->Get("MCPart"); 
+	TTree *signal = (TTree*)inputS->Get("tree");
+	TTree *background = (TTree*)inputB->Get("tree"); 
 	
 	// global event weights per tree (see below for setting event-wise weights)
 	Double_t signaltestWeight     = 1.0;
