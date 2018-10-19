@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!-- ?xml-stylesheet type="text/xsl" href="http://ilcsoft.desy.de/marlin/marlin.xsl"? -->
+<!-- ?xml-stylesheet type="text/xsl" href="marlin.xsl"? -->
+
+<!--##########################################
+    #                                        #
+    #     Example steering file for marlin   #
+    #                                        #
+    ##########################################-->
+
+
+<marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
+ <execute>        
+   <processor name="Myhig2inv"/>  
+ </execute>
+
+ <global>
+  <parameter name="LCIOInputFiles">
+$slcio_in_list  
+  </parameter>
+  <!-- limit the number of processed records (run+evt): -->  
+  <parameter name="MaxRecordNumber"> $max_event_num </parameter>
+  <parameter name="SkipNEvents" value="0" />  
+  <parameter name="SupressCheck" value="false" />  
+  <parameter name="GearXMLFile"> 
+$gear_xml
+  </parameter>  
+  <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> DEBUG  </parameter> 
+ </global>
+
+
+
+<processor name="Myhig2inv" type="hig2inv">
+
+  <parameter name="OverwriteFile" type="int"> 1 </parameter>
+  <parameter name="Ecms" type="double"> $ecms </parameter>
+  <parameter name="EcmsOption" type="int"> 1 </parameter>
+  <parameter name="TreeName" type="string"> tree </parameter>
+  <parameter name="LeptonEMax" type="double"> 100.0 </parameter>
+  <parameter name="LeptonEMin" type="double"> 10.0 </parameter>
+  <parameter name="LeptonPtMin" type="double"> 0.0 </parameter>
+  <parameter name="TreeOutputFile" type="string"> 
+$output_rootfile 
+  </parameter>
+
+</processor>
+
+</marlin>
