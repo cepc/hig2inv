@@ -89,11 +89,11 @@ void HinvApplication( TString myMethodList = "" )
 	// --- Book the MVA methods
 	reader->BookMVA("BDTG","weights/bkg_e2e2h_BDTG.weights.xml");
 
-	TFile *f_sig =TFile::Open("../sel/signal_e2e2h.root");
-	TTree* TreeS_bbaa = f_sig->Get("MCPart");
+	TFile *f_sig =TFile::Open("../run/e2E2h_invi/hist/ana_File_merged_1.root");
+	TTree* TreeS_bbaa = f_sig->Get("tree");
 
-	TFile *f_bkg= TFile::Open("../sel/bkg_e2e2h.root");
-	TTree* TreeB_bbaa = f_bkg->Get("MCPart");
+	TFile *f_bkg= TFile::Open("../run/bg/hist/all_bkg_merge_scale.root");
+	TTree* TreeB_bbaa = f_bkg->Get("tree");
 
 	Float_t	d_m_event,d_m_event_type,d_m_p_neutral[4],d_m_p_photon[4],d_m_p_leptonp[4],d_m_p_leptonm[4],d_m_p_dilepton[4],d_m_p_charged[4],d_m_p_Higgsdaughters[4];
 	Float_t d_m_p_Higgsdaughter1[4],d_m_p_Higgsdaughter2[4],d_m_p_Zdaughters[4],d_m_p_Zdaughterp[4],d_m_p_Zdaughterm[4],d_m_m_visible;
@@ -174,7 +174,7 @@ void HinvApplication( TString myMethodList = "" )
 	
 	TFile f_S("../BDT_output/Hinv_sig_e2e2h_BDT.root","recreate");
 	
-	TTree TreeS_bbaa_output("MCPart","MCPart");
+	TTree TreeS_bbaa_output("tree","tree");
 
 	TreeS_bbaa_output.Branch("m_p_neutral",d_m_p_neutral,"m_p_neutral[4]/F");
 	TreeS_bbaa_output.Branch("m_p_photon",d_m_p_photon,"m_p_photon[4]/F");
@@ -241,7 +241,7 @@ void HinvApplication( TString myMethodList = "" )
 	//f_S.Close();
 	
 	TFile f_B("../BDT_output/Hinv_bkg_e2e2h_BDT.root","recreate");
-	TTree TreeB_bbaa_output("MCPart","MCPart");
+	TTree TreeB_bbaa_output("tree","tree");
 
 	TreeB_bbaa_output.Branch("m_p_neutral",d_m_p_neutral,"m_p_neutral[4]/F");
 	TreeB_bbaa_output.Branch("m_p_photon",d_m_p_photon,"m_p_photon[4]/F");
