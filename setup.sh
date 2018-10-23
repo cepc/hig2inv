@@ -1,11 +1,21 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 
+# Unset MARLIN_DLL
+unset MARLIN_DLL
+
+# Set Variables for MARLIN Execution
 shopt -s expand_aliases
-source /besfs/groups/higgs/Software/v01-17-05_slc6/init_ilcsoft.sh
+#source /besfs/groups/higgs/Software/v01-17-05_slc6/init_ilcsoft.sh
+source $PWD/init_ilcsoft.sh
+
+
+# Add MARLIN Library Path 
+export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
+export MARLIN_DLL=$PWD/lib/libhig2inv.so:$MARLIN_DLL
+
+# For Condor Job Submit
 export PATH=/afs/ihep.ac.cn/soft/common/sysgroup/hep_job/bin:$PATH
 
-# Setup PyROOT 
-export PATH=/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/Python/2.7.3/x86_64-slc6-gcc46-opt/bin:$PATH
-export PYTHONPATH=/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/Python/2.7.3/x86_64-slc6-gcc46-opt/lib
-. /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/bin/thisroot.sh 
-export LD_LIBRARY_PATH=/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/contrib/gcc/4.6.3/x86_64-slc6/lib64:$PYTHONPATH:$LD_LIBRARY_PATH
+
+# PyROOT 
+export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
