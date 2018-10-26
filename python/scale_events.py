@@ -18,7 +18,7 @@ outfile=args[1]
 processname=args[2]
 
 if processname=="all_bkg":
-	weight=2				
+	weight=3				
 
 elif processname=="e2e2":
 	weight=7
