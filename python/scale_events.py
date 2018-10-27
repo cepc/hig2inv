@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 """
 Choose Events
 """
@@ -18,7 +18,7 @@ outfile=args[1]
 processname=args[2]
 
 if processname=="all_bkg":
-	weight=3
+	weight=3				
 
 elif processname=="e2e2":
 	weight=7
@@ -57,8 +57,7 @@ elif processname=="zzorww_l":
 	weight=0.9901
 
 else:
-	print "Sample name misses, please check that!"
-	sys.exit()
+	weight=1
 
 m_event=array('i',[0])
 m_event_type=array('i',[0])
