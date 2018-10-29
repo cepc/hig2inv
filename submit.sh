@@ -1,4 +1,4 @@
-#!/usr/bin/env bash       
+#!/usr/bin/env bash        
 
 # Main driver to submit jobs 
 # Author SHI Xin <shixin@ihep.ac.cn> 
@@ -294,7 +294,7 @@ case $option in
     
     0.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
            echo " ---- "
-           echo "Please enter the number of jobs for each backgrond (default: 1000)" 
+           echo "Please enter the number of jobs for each backgrond (default: 1000)"  
 
             njob=1000    
             cd ./run/bg/condor
@@ -376,7 +376,7 @@ case $option in
 
         ;;
     0.3.11) echo "Plot signal and background cut distribution"
-            mkdir -p /cefs/higgs/tanyuhang/hig2inv/run/total
+            mkdir -p ./run/total
             rm ./run/total/bkg_add_sig.root -rf
             rm ./run/bg/hist/all_bkg_merge.root -rf
             rm ./run/bg/plot/all_bkg_merge.root -rf
