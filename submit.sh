@@ -381,7 +381,7 @@ case $option in
             rm ./run/bg/hist/all_bkg_merge.root -rf
             rm ./run/bg/plot/all_bkg_merge.root -rf
             #merge all backgrounds;merge backgrounds and signal
-            ./python/hadd.sh
+            ./job/merge.sh
 
         ;;
     0.3.12) echo "Plot before cut and after cut distribution"
