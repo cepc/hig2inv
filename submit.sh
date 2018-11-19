@@ -41,13 +41,15 @@ usage() {
     printf "\n\t%-5s  %-40s\n"  "0.3.8"    "Generate Condor job scripts for event selection..."
     printf "\n\t%-5s  %-40s\n"  "0.3.9"    "Submit Condor jobs for pre-selection on background sample..." 
     printf "\n\t%-5s  %-40s\n"  "0.3.10"   "Merge event root files..." 
-    printf "\n\t%-5s  %-40s\n"  "0.3.11"   "Plot signal and background cut distribution"
-    printf "\n\t%-5s  %-40s\n"  "0.3.12"   "Plot before cut and after cut distribution" 
-    printf "\n\t%-5s  %-40s\n"  "0.3.13"   "Expand the background two times" 
-    printf "\n\t%-5s  %-40s\n"  "0.3.14"   "Applying BDT cut..."
-    printf "\n\t%-5s  %-40s\n"  "0.3.15"   "Synthetizing signal and background ROOT files..."
-	printf "\n\t%-5s  %-40s\n"  "0.3.16"   "Fitting higgs mass spectra(recoilling mass of Z boson)..."
-    printf "\n\t%-5s  %-40s\n"  "0.3.17"   "Calculating upper limmit of branch ratio..."
+	printf "\n\t%-5s  %-40s\n"  "0.3.11"   "Scale event..."
+    printf "\n\t%-5s  %-40s\n"  "0.3.12"   "Plot signal and background cut distribution"
+    printf "\n\t%-5s  %-40s\n"  "0.3.13"   "Plot before cut and after cut distribution" 
+    printf "\n\t%-5s  %-40s\n"  "0.3.14"   "Expand the background two times" 
+    printf "\n\t%-5s  %-40s\n"  "0.3.15"   "Applying BDT cut..."
+    printf "\n\t%-5s  %-40s\n"  "0.3.16"   "Synthetizing signal and background ROOT files..."
+    printf "\n\t%-5s  %-40s\n"  "0.3.17"   "Fitting higgs mass spectra(recoilling mass of Z boson)..."
+    printf "\n\t%-5s  %-40s\n"  "0.3.18"   "Calculating upper limmit of branch ratio..."
+
 
     printf "\nDATE\n"
     printf "\n\t%-5s\n" "AUGUST 2016"     
@@ -310,13 +312,7 @@ case $option in
     0.3.7) echo "Select events on background (with a small sample)..."
             
             mkdir -p   ./run/bg/events/ana/
-            cd ./run/bg/ana
-            for dir in *
-            do
-                mkdir -p ../events/ana/$dir
-            done
-            cd ../../../
-            #Maybe can't work 
+
             ./python/sel_events.py  run/bg/steers/e2e2/test/ana_bg_test_1.root  ./run/bg/steers/e2e2/test/ana_bg_test_1_event.root
 
            ;;
@@ -329,12 +325,15 @@ case $option in
 
             for dir in *
             do
-                mkdir -p   ../scale/$dir
+                mkdir -p   ../scale/ana/$dir
+                mkdir -p ../events/ana/$dir
                 cd $dir
                 rm -rf log/events
                 rm -rf script/eventsel
+                rm -rf script/scalesel
                 mkdir -p log/events
                 mkdir -p script/eventsel
+                mkdir -p script/scalesel
                 cd ../
             done
        
@@ -357,25 +356,35 @@ case $option in
             done
 
         ;;
-
     0.3.10) echo  "Merge event root files..."
             mkdir -p ./run/bg/hist
             mkdir -p ./run/bg/plot
-            cd ./run/bg/scale
+            cd ./run/bg/scale/ana
             for dir in *
             do
             mkdir -p ../hist/$dir
             mkdir -p ../plot/$dir
-               cd ../../../
-                #Merge data after scale 
-               ./python/mrg_rootfiles.py  ./run/bg/scale/$dir  ./run/bg/hist/$dir
+               cd ../../../../
                #Merge data before scale
                ./python/mrg_rootfiles.py  ./run/bg/events/ana/$dir ./run/bg/plot/$dir
-               cd ./run/bg/scale	       
+               cd ./run/bg/scale/ana	       
            done
+		  ;; 
 
+    0.3.11) echo "Scale event..."
+            cd ./run/bg/condor
+            for dir in *
+            do
+ #               if [$dir != test]; then                 
+                cd $dir
+                echo `pwd`
+                ./condor_scale_eventsel.sh 
+                cd ../
+#                fi
+            done
         ;;
-    0.3.11) echo "Plot signal and background cut distribution"
+
+    0.3.12) echo "Plot signal and background cut distribution"
             mkdir -p ./run/total
             rm ./run/total/bkg_add_sig.root -rf
             rm ./run/bg/hist/all_bkg_merge.root -rf
@@ -384,7 +393,7 @@ case $option in
             ./job/merge.sh
 
         ;;
-    0.3.12) echo "Plot before cut and after cut distribution"
+    0.3.13) echo "Plot before cut and after cut distribution"
             mkdir -p fig/after
             mkdir -p fig/before           
             ./python/plt_before_summary.py bkg+sig background signal
@@ -392,13 +401,13 @@ case $option in
   
        ;;
 
-    0.3.13) echo "Expand the background three times" 
+    0.3.14) echo "Expand the background three times" 
 
            ./python/scale_events.py ./run/bg/hist/all_bkg_merge.root ./run/bg/hist/all_bkg_merge_scale.root all_bkg
 
        ;;
 
-    0.3.14) echo "Applying BDT cut..."
+    0.3.15) echo "Applying BDT cut..."
             if [ ! -d "BDT_output" ]; then
                 mkdir BDT_output
             fi
@@ -412,27 +421,26 @@ case $option in
             fi
     ;;
 
-    0.3.15) echo "Synthetizing signal and background ROOT files..."
+    0.3.16) echo "Synthetizing signal and background ROOT files..."
     
             rm ./BDT_output/Hinv_bkg_e2e2h_selected_BDT.root -rf
             # Expand background 62 times,make background and signal have the same scale.
-            python ./python/scale_bkg_events.py ./BDT_output/Hinv_bkg_e2e2h_BDT.root ./BDT_output/Hinv_bkg_e2e2h_selected_BDT.root all_bkg
+            python ./python/scale_bkg_events.py ./BDT_output/Hinv_sig_e2e2h_BDT.root ./BDT_output/Hinv_sig_e2e2h_selected_BDT.root all_bkg
 
             rm  ./run/total/bkg_add_sig_BDT.root
 
-            hadd ./run/total/bkg_add_sig_BDT.root ./BDT_output/Hinv_bkg_e2e2h_selected_BDT.root ./BDT_output/Hinv_sig_e2e2h_BDT.root
+            hadd ./run/total/bkg_add_sig_BDT.root ./BDT_output/Hinv_sig_e2e2h_selected_BDT.root ./BDT_output/Hinv_bkg_e2e2h_BDT.root
     
     ;;
 
-    0.3.16) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
+    0.3.17) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
 
             root ./src/fitBDT.cxx
     ;;
 
-    0.3.17) echo "Calculating upper limit of branch ratio..."
+    0.3.18) echo "Calculating upper limit of branch ratio..."
             
             python ./python/cal_upperlimit_BDT.py
-    ;;
 
 esac    
 
