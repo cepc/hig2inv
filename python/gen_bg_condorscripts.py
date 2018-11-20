@@ -192,7 +192,6 @@ def main():
                     #src_tmp = src.split('ana')[0]
 
                     root_in = cwd + '/' + src + '/' + dname + '/' + f
-                    root_out_scale = cwd + '/' + 'run/bg/scale' + '/' + dname + '/' + file_tmp + '_scale.root'
                     root_out = cwd + '/' + rootout_dir + '/' + file_tmp + '_event.root'
                     
 
@@ -204,9 +203,6 @@ def main():
                     fout_script.write('source setup.sh                  \n')
                     fout_script.write('                                 \n')
                     fout_script.write('./python/sel_events.py  %s %s \n' % ( root_in, root_out ) )
-                    fout_script.write('                                 \n')
-                    fout_script.write('./python/scale_events.py %s %s %s \n' %(root_out,root_out_scale,dname))                     
-                    fout_script.write('                                 \n') 
                     fout_script.close()
                     sys.stdout.write('Creating condor submit script %s \n'  % outname)
 
@@ -242,10 +238,64 @@ def main():
             fout.write('                                                                                  \n') 
             fout.close()
             sys.stdout.write('Creating condor submit script %s \n'  % condor_submit_shell)
-            
             os.chmod(condor_submit_shell, 0744)
             
-            print nfile
+            print nfile 
+
+
+            #Generate scale script
+            outname = './' + dst + '/' + dname + '/script/scalesel/condor_sub_' + dname + \
+                '_scalesel-1'  + '.sh'
+
+            file_tmp = f.split('.root')[0]
+            #src_tmp = src.split('ana')[0]
+
+            root_scale_in = cwd + '/' + 'run/bg/plot/'+dname+'/ana_File_merged_1.root'
+            root_scale_out = cwd + '/' + 'run/bg/hist/'+dname+'/ana_File_merged_1.root'
+        
+            fout_script = open(outname,'w')
+            fout_script.write('#!/bin/bash                      \n') 
+            fout_script.write('                                 \n') 
+            fout_script.write('cd %s                            \n' % cwd) 
+            fout_script.write('                                 \n') 
+            fout_script.write('source setup.sh                  \n')
+            fout_script.write('                                 \n')
+            fout_script.write('./python/scale_events.py  %s %s %s \n' % ( root_scale_in, root_scale_out,dname ) )                     
+            fout_script.write('                                 \n') 
+            fout_script.close()
+            sys.stdout.write('Creating condor submit script %s \n'  % outname)
+
+            os.chmod(outname, 0744)
+
+            condor_scale_shell = './' + dst + '/' + dname + '/condor_scale_eventsel.sh'
+            script_name= dst + '/' + dname + '/script/scalesel/condor_sub_' + dname + '_scalesel-1.sh'
+
+            fout = open(condor_scale_shell,'w')
+            fout.write('#!/bin/bash                                                                       \n') 
+            fout.write('                                                                                  \n') 
+            fout.write('Work_Dir=%s                                                                       \n' % cwd) 
+            fout.write('                                                                                  \n') 
+            fout.write('Log_Dir=${Work_Dir}/%s                                                            \n' % outlog_dir)
+            fout.write('                                                                                  \n') 
+            fout.write('month=$(date +\'%m\')                                                             \n') 
+            fout.write('day=$(date +\'%d\')                                                               \n') 
+            fout.write('hour=$(date +\'%H\')                                                              \n') 
+            fout.write('minute=$(date +\'%M\')                                                            \n') 
+            fout.write('second=$(date +\'%S\')                                                            \n') 
+            fout.write('Time_Stamp=$month$day$hour$minute$second                                          \n')   
+            fout.write('                                                                                  \n')         
+            fout.write('mkdir ${Log_Dir}/${Time_Stamp}                                                    \n') 
+            fout.write('                                                                                  \n') 
+            fout.write('  Log_File=${Log_Dir}/${Time_Stamp}/log_1.txt                                \n') 
+            fout.write('  eLog_File=${Log_Dir}/${Time_Stamp}/err_1.txt                               \n') 
+            fout.write('                                                                                  \n') 
+            fout.write('  script_name=%s                                                                  \n' % script_name) 
+            fout.write('  hep_sub -g physics -o ${Log_File} -e ${eLog_File}  ${Work_Dir}/${script_name}   \n') 
+            fout.write('                                                                                  \n') 
+            fout.close()
+            sys.stdout.write('Creating condor submit script %s \n'  % condor_scale_shell)
+            
+            os.chmod(condor_scale_shell, 0744)
 
 
 if __name__ == '__main__':
