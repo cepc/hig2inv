@@ -11,6 +11,7 @@ import sys
 import os
 import copy
 import ROOT
+import random
 from array import array
 #cut flow histrogram
 h_evtflw = ROOT.TH1F('hevtflw1','eventflow',10,0,10)      
@@ -88,7 +89,7 @@ def get_weight(event,processname):
     event_gen=event[0]            
     IntLum=5000
     if processname=="e2E2h_invi":
-        ffH_cross=6.77
+        ffH_cross=203.66
         br_Hinv=0.5
         weight=IntLum*ffH_cross*br_Hinv/event_gen
     elif processname=="e1e1":
@@ -194,6 +195,8 @@ def root_information(infile,outfile,weight,event):
     for i in range(0,9):
         for j in range (0,int(event[i]*weight)):
             h_evtflw.Fill(i)
+	print int(event[0]*weight)
+	print weight
     h =[0]*19
     f = ROOT.TFile(infile)
     h[1] = f.Get('before_cut_number_mounp')
@@ -314,23 +317,25 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch('m_n_neutrino',m_n_neutrino,'m_n_neutrino/I')
     for i in xrange(entries):
         if (weight<1):
-            rnd=ROOT.gRandom.Uniform()
-        if (rnd<weight):
-            t_in.GetEntry(i)
-            t_out.Fill()
-    else :
-        rnd1=ROOT.gRandom.Uniform()
-        valuem=int(weight)
-        dweight=abs(valuem-weight)
-        if (rnd1<dweight):
-            for j in xrange(int(weight)+1):
+            rnd=random.random()
+            if (rnd<weight):
                 t_in.GetEntry(i)
                 t_out.Fill()
-        else:
-            for j in xrange(int(weight)):
-                t_in.GetEntry(i)
-                t_out.Fill()
-    for i in xrange(1,18):
+        else :
+			rnd1=random.random()
+			print rnd1
+			valuem=int(weight)
+			dweight=abs(valuem-weight)
+			print dweight
+			if (rnd1<dweight):
+				for j in xrange(int(weight)+1):
+					t_in.GetEntry(i)
+					t_out.Fill()
+			else:
+				for j in xrange(int(weight)):
+					t_in.GetEntry(i)
+					t_out.Fill()
+    for i in xrange(1,19):
         h[i].Write()
     h_evtflw.Write()
     t_out.Write()
