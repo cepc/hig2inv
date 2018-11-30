@@ -3,7 +3,7 @@
 # Main driver to submit jobs 
 # Author SHI Xin <shixin@ihep.ac.cn> 
 # Created [2016-08-16 Tue 08:29] 
-
+ 
 usage() {
     printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
     printf "\nSYNOPSIS\n"
@@ -223,7 +223,7 @@ case $option in
            
             mkdir -p   ./run/e2E2h_invi/hist
 
-            ./python/mrg_rootfiles.py  ./run/e2E2h_invi/events/ana  ./run/e2E2h_invi/hist 
+            ./python/mrg_rootfiles.py  ./run/e2E2h_invi/events/ana  ./run/e2E2h_invi/hist/e2E2h_invi 
 
         ;;
     #background information 
@@ -258,10 +258,9 @@ case $option in
 #	   ./build.sh
             cd ./run/bg/steers/
 
-            array=("e3e3" "qq" "ww_l0ll" "zz_h" "zz_sl" "zz_l" "ww_h" "ww_sl" "zzorww_l" "sze_l" "sze_sl" "sznu_l" "sznu_sl" "sw_l" "sw_sl" "szeorsw_l" "e1e1" "e2e2" "n2n2" "zzorww_h" "ZH") 
-
-            for dir in "${array[@]}"            
+            for dir in *            
             do
+                mkdir -p ../ana/$dir
                 cd ${dir}/test
                 Marlin sample-1.xml
                 cd ../../
@@ -362,8 +361,8 @@ case $option in
             cd ./run/bg/scale/ana
             for dir in *
             do
-            mkdir -p ../hist/$dir
-            mkdir -p ../plot/$dir
+            mkdir -p ../../hist/$dir
+            mkdir -p ../../plot/$dir
                cd ../../../../
                #Merge data before scale
                ./python/mrg_rootfiles.py  ./run/bg/events/ana/$dir ./run/bg/plot/$dir
@@ -385,20 +384,21 @@ case $option in
             done
     ;; 
     0.3.12) echo "Plot signal and background cut distribution"
-            mkdir -p ./run/total
+            mkdir -p ./run/total/hist
+            mkdir -p ./run/total/plot
             rm ./run/total/bkg_add_sig.root -rf
             rm ./run/bg/hist/all_bkg_merge.root -rf
             rm ./run/bg/plot/all_bkg_merge.root -rf
             #merge all backgrounds;merge backgrounds and signal
-            ./python/scale_events.py ./run/e2E2h_invi/hist/ana_File_merged_1.root ./run/e2E2h_invi/hist/ana_File_merged_scale_1.root e2E2h_invi
+            ./python/scale_events.py ./run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_1.root ./run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root e2E2h_invi table/bg_sample_list.txt
             ./job/merge.sh
        ;;
 
-    0.3.13) echo "Plot before cut and after cut distribution"
+    0.3.13) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/after
             mkdir -p fig/before           
-            ./python/plt_before_summary.py bkg+sig background signal
-            ./python/plt_after_summary.py bkg+sig background signal
+            ./python/plt_before_summary.py  signal ZZ WW single_z single_w zzorww zorw 2f
+            ./python/plt_after_summary.py sig+bkg signal ZZ WW single_z single_w zzorww zorw  2f
 
             ;;
     0.3.14) echo "Applying BDT cut..."
@@ -424,7 +424,7 @@ case $option in
             rm  ./run/total/bkg_add_sig_BDT.root
 
             hadd ./run/total/bkg_add_sig_BDT.root ./BDT_output/Hinv_sig_e2e2h_selected_BDT.root ./BDT_output/Hinv_bkg_e2e2h_BDT.root
-    
+     
     ;;
 
     0.3.16) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
@@ -444,10 +444,22 @@ case $option in
             for dir in *
             do 
                 cd ../../../../
-                python python/gen_bin.py run/bg/plot/$dir
+                python python/gen_bin.py run/bg/plot/$dir table/bg_sample_list.txt                
                 cd ./run/bg/events/ana
             done 
-            cd ../../../../   
+            cd ../../../../
+            python python/gen_bin.py run/e2E2h_invi/hist/e2E2h_invi table/bg_sample_list.txt
+               
             python python/get_bin.py table/out_list.txt
+        ;;
+    0.3.19) echo "Get Shorthand channel detail information"
+           cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/signal.root
+           rm table/out_list_b.txt
+           rm table/tfbin_b.txt
+           python  python/gen_binb.py  run/total/hist
+           python  python/get_binb.py table/out_list_b.txt 
+
+
+ 
 esac    
 
