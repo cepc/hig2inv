@@ -252,7 +252,7 @@ def main():
 
             root_scale_in = cwd + '/' + 'run/bg/plot/'+dname+'/ana_File_merged_1.root'
             root_scale_out = cwd + '/' + 'run/bg/hist/'+dname+'/ana_File_merged_1.root'
-        
+            table_list ='table/bg_sample_list.txt'
             fout_script = open(outname,'w')
             fout_script.write('#!/bin/bash                      \n') 
             fout_script.write('                                 \n') 
@@ -260,7 +260,7 @@ def main():
             fout_script.write('                                 \n') 
             fout_script.write('source setup.sh                  \n')
             fout_script.write('                                 \n')
-            fout_script.write('./python/scale_events.py  %s %s %s \n' % ( root_scale_in, root_scale_out,dname ) )                     
+            fout_script.write('./python/scale_events.py  %s %s %s %s\n' % ( root_scale_in, root_scale_out,dname,table_list ) )                     
             fout_script.write('                                 \n') 
             fout_script.close()
             sys.stdout.write('Creating condor submit script %s \n'  % outname)
@@ -290,7 +290,7 @@ def main():
             fout.write('  eLog_File=${Log_Dir}/${Time_Stamp}/err_1.txt                               \n') 
             fout.write('                                                                                  \n') 
             fout.write('  script_name=%s                                                                  \n' % script_name) 
-            fout.write('  hep_sub -g physics -o ${Log_File} -e ${eLog_File}  ${Work_Dir}/${script_name}   \n') 
+            fout.write('  ./${script_name}   \n') 
             fout.write('                                                                                  \n') 
             fout.close()
             sys.stdout.write('Creating condor submit script %s \n'  % condor_scale_shell)
