@@ -1,8 +1,18 @@
 #!/usr/bin/env python 
 #get all channels are ground to 2f, single_w signle_z ww zorw zzorww ZZ
-import sys,os,copy,re
+
+__author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
+__copyright__ = "Copyright (c) Tanyuhang"
+__created__ = "[2018-09-18 ]"
+
+
+import sys
+import os
+import copy
+import re
 import ROOT
 from array import array 
+
 
 def main():
     args = sys.argv[1:]
