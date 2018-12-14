@@ -1,9 +1,21 @@
 #!/bin/bash
-cd ./run/bg/hist
-hadd all_bkg_merge.root  e1e1/ana_File_merged_1.root e2e2/ana_File_merged_1.root e3e3/ana_File_merged_1.root n2n2/ana_File_merged_1.root qq/ana_File_merged_1.root sw_l/ana_File_merged_1.root sw_sl/ana_File_merged_1.root sze_l/ana_File_merged_1.root szeorsw_l/ana_File_merged_1.root sze_sl/ana_File_merged_1.root sznu_l/ana_File_merged_1.root  sznu_sl/ana_File_merged_1.root ww_sl/ana_File_merged_1.root  ww_h/ana_File_merged_1.root ww_l0ll/ana_File_merged_1.root   zzorww_h/ana_File_merged_1.root zzorww_l/ana_File_merged_1.root zz_sl/ana_File_merged_1.root zz_h/ana_File_merged_1.root zz_l/ana_File_merged_1.root
-hadd 2f_bkg_merge.root   e1e1/ana_File_merged_1.root e2e2/ana_File_merged_1.root e3e3/ana_File_merged_1.root n2n2/ana_File_merged_1.root qq/ana_File_merged_1.root
-hadd 4f_bkg_merge.root   sw_l/ana_File_merged_1.root sw_sl/ana_File_merged_1.root sze_l/ana_File_merged_1.root szeorsw_l/ana_File_merged_1.root sze_sl/ana_File_merged_1.root sznu_l/ana_File_merged_1.root  sznu_sl/ana_File_merged_1.root ww_sl/ana_File_merged_1.root  ww_h/ana_File_merged_1.root ww_l0ll/ana_File_merged_1.root   zzorww_h/ana_File_merged_1.root zzorww_l/ana_File_merged_1.root zz_sl/ana_File_merged_1.root zz_h/ana_File_merged_1.root zz_l/ana_File_merged_1.root
+cd ./run/bg/hist 
+hadd ../../total/hist/2f.root e1e1/* e2e2/* e3e3/* qq/* 
+hadd ../../total/hist/ZZ.root  zz_*/* 
+hadd ../../total/hist/WW.root  ww*/*
+hadd ../../total/hist/single_z.root sz*/*
+hadd ../../total/hist/single_w.root sw*/*
+hadd ../../total/hist/zzorww.root zzorww*/*
+hadd ../../total/hist/zorw.root szeorsw*/*
+hadd ../../total/hist/total_bkg.root ../../total/hist/*
 cd ../plot
-hadd all_bkg_merge.root  e1e1/ana_File_merged_1.root e2e2/ana_File_merged_1.root e3e3/ana_File_merged_1.root n2n2/ana_File_merged_1.root qq/ana_File_merged_1.root sw_l/ana_File_merged_1.root sw_sl/ana_File_merged_1.root sze_l/ana_File_merged_1.root szeorsw_l/ana_File_merged_1.root sze_sl/ana_File_merged_1.root sznu_l/ana_File_merged_1.root  sznu_sl/ana_File_merged_1.root ww_sl/ana_File_merged_1.root  ww_h/ana_File_merged_1.root ww_l0ll/ana_File_merged_1.root   zzorww_h/ana_File_merged_1.root zzorww_l/ana_File_merged_1.root zz_sl/ana_File_merged_1.root zz_h/ana_File_merged_1.root zz_l/ana_File_merged_1.root
-cd ../../total
-hadd bkg_add_sig.root ../bg/plot/all_bkg_merge.root ../e2E2h_invi/hist/ana_File_merged_1.root
+hadd ../../total/plot/2f.root e1e1/* e2e2/* e3e3/* qq/* 
+hadd ../../total/plot/ZZ.root  zz_*/* 
+hadd ../../total/plot/WW.root  ww*/*
+hadd ../../total/plot/single_z.root sz*/*
+hadd ../../total/plot/single_w.root sw*/*
+hadd ../../total/plot/zzorww.root zzorww*/*
+hadd ../../total/plot/zorw.root szeorsw*/*
+hadd ../../total/plot/total_bkg.root ../../total/plot/*
+cd ../../total 
+hadd bkg_add_sig.root ./hist/total_bkg.root ../e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root 
