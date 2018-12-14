@@ -19,7 +19,7 @@ processname=args[2]
 IntLum=5000
 if processname=="all_bkg":
 
-    weight=62
+    weight=0.1
 
 else:
     print "Sample name misses, please check that!"

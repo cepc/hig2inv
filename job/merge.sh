@@ -1,7 +1,12 @@
 #!/bin/bash
 cd ./run/bg/hist 
+<<<<<<< HEAD
 hadd ../../total/hist/2f.root e1e1/* e2e2/* e3e3/* qq/* 
 hadd ../../total/hist/ZZ.root  zz_*/* 
+=======
+hadd ../../total/hist/2f.root e1e1/* e2e2/* e3e3/* qq/*
+hadd ../../total/hist/ZZ.root  zz*/* 
+>>>>>>> cepc/master
 hadd ../../total/hist/WW.root  ww*/*
 hadd ../../total/hist/single_z.root sz*/*
 hadd ../../total/hist/single_w.root sw*/*
@@ -9,8 +14,13 @@ hadd ../../total/hist/zzorww.root zzorww*/*
 hadd ../../total/hist/zorw.root szeorsw*/*
 hadd ../../total/hist/total_bkg.root ../../total/hist/*
 cd ../plot
+<<<<<<< HEAD
 hadd ../../total/plot/2f.root e1e1/* e2e2/* e3e3/* qq/* 
 hadd ../../total/plot/ZZ.root  zz_*/* 
+=======
+hadd ../../total/plot/2f.root e1e1/* e2e2/* e3e3/* qq/*
+hadd ../../total/plot/ZZ.root  zz*/* 
+>>>>>>> cepc/master
 hadd ../../total/plot/WW.root  ww*/*
 hadd ../../total/plot/single_z.root sz*/*
 hadd ../../total/plot/single_w.root sw*/*

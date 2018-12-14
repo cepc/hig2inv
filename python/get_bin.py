@@ -145,7 +145,11 @@ def detail_inf(k,g,nm):
                 fout_script.write('%s'%nm[j])
                 if j < i+5:
                     fout_script.write('&')	
+<<<<<<< HEAD
         fout_script.write('\\\  \n')
+=======
+        fout_script.write('\\\ \hline \n')
+>>>>>>> cepc/master
 
         fout_script.write('event generate&')
         for j in xrange(i,i+6):
@@ -153,7 +157,11 @@ def detail_inf(k,g,nm):
                 fout_script.write('%s'%g[j])
                 if j <i+5:
                     fout_script.write('&')	
+<<<<<<< HEAD
         fout_script.write('\\\  \n')
+=======
+        fout_script.write('\\\ \hline \n')
+>>>>>>> cepc/master
 
         fout_script.write('after cuts&')
         for j in xrange(i,i+6):
@@ -161,7 +169,11 @@ def detail_inf(k,g,nm):
                 fout_script.write('%s'%k[j])
                 if j < i+5:
                     fout_script.write('&')
+<<<<<<< HEAD
         fout_script.write('\\\ \hline  \n')	
+=======
+        fout_script.write('\\\ \hline \hline \n')	
+>>>>>>> cepc/master
     fout_script.write('\\\ \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
