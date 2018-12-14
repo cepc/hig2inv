@@ -30,9 +30,14 @@ def main():
     draw_after_cut_vis(sample, c, fs)
     draw_after_cut_Mmumu(sample, c, fs)
     draw_after_cut_Mrecoil(sample, c, fs)
+    draw_after_cut_ep(sample, c, fs)
 
 
+<<<<<<< HEAD
+=======
 
+
+>>>>>>> cepc/master
 
 def get_files_from_sample(sample):
     fs = []
@@ -40,6 +45,33 @@ def get_files_from_sample(sample):
         fs.append(ROOT.TFile('run/total/bkg_add_sig.root'))
         
     if 'signal' in sample:
+<<<<<<< HEAD
+        fs.append(ROOT.TFile('run/total/hist/ffH_inv.root'))
+
+    if 'ZZ' in sample:
+        fs.append(ROOT.TFile('run/total/hist/ZZ.root'))
+
+    if 'WW' in sample:
+        fs.append(ROOT.TFile('run/total/hist/WW.root'))
+
+    if 'single_z' in sample:
+        fs.append(ROOT.TFile('run/total/hist/single_z.root'))
+
+    if 'single_w' in sample:
+        fs.append(ROOT.TFile('run/total/hist/single_w.root'))
+
+    if 'zzorww' in sample:
+        fs.append(ROOT.TFile('run/total/hist/zzorww.root'))	
+
+    if 'zorw' in sample:
+        fs.append(ROOT.TFile('run/total/hist/zorw.root'))
+        
+    if '2f' in sample:
+        fs.append(ROOT.TFile('run/total/hist/2f.root'))
+
+
+
+=======
         fs.append(ROOT.TFile('run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root'))
 
     if 'ZZ' in sample:
@@ -65,6 +97,7 @@ def get_files_from_sample(sample):
 
 
 
+>>>>>>> cepc/master
 
     return fs
 
@@ -88,6 +121,45 @@ def get_common_objects_to_draw(fs, hname, leg):
         elif fs.index(f) == 1:
 #            h.Scale(0.03)
             h.SetLineColor(2)
+<<<<<<< HEAD
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 2:
+            h.SetLineColor(22)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 3:
+            h.SetLineColor(5)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 4:
+            h.SetLineColor(6)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 5:
+            h.SetLineColor(7)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+ 
+        elif fs.index(f) == 6:
+            h.SetLineColor(42)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 7:
+            h.SetLineColor(9)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 8:
+            h.SetLineColor(3)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+=======
             h.SetLineWidth(2)
             h.SetMarkerStyle(1)
 
@@ -125,6 +197,7 @@ def get_common_objects_to_draw(fs, hname, leg):
             h.SetLineColor(3)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
+>>>>>>> cepc/master
         else:
             print "Sample name misses, please check that!"
             sys.exit() 		
@@ -139,11 +212,19 @@ def leg_add_entry_hist(leg, f, h):
     sample = f.GetName()
     sample = sample.split('/')[-1]
     sample = sample.split('.root')[0]
+<<<<<<< HEAD
+
+#    if sample in ['bkg_add_sig']:
+#        leg.AddEntry(h, "bkg_add_sig")
+
+    if sample in ['ffH_inv']:
+=======
 
 #    if sample in ['bkg_add_sig']:
 #        leg.AddEntry(h, "bkg_add_sig")
 
     if sample in ['ana_File_merged_scale_1']:
+>>>>>>> cepc/master
         leg.AddEntry(h, "signal")
 
     elif sample in ['ZZ']:
@@ -186,8 +267,14 @@ def draw_after_cut_n_moun(sample, c, fs):
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
+<<<<<<< HEAD
+            h.GetYaxis().CenterTitle() 
+            h.SetMarkerStyle(1)
+            h.SetMaximum(1000);
+=======
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -212,7 +299,11 @@ def draw_after_cut_n_photon(sample, c, fs):
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
+<<<<<<< HEAD
+            h.SetMaximum(15000);
+=======
             h.SetMaximum(5000);
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -237,7 +328,11 @@ def  draw_after_cut_Pt(sample, c, fs):
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
+<<<<<<< HEAD
+            h.SetMaximum(600)
+=======
             h.SetMaximum(200)
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -262,7 +357,11 @@ def draw_after_cut_Pz(sample, c, fs):
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
+<<<<<<< HEAD
+            h.SetMaximum(150)
+=======
             h.SetMaximum(80)
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -281,14 +380,22 @@ def draw_after_cut_theta(sample, c, fs):
 
     for h in hs:
         if hs.index(h) == 1:
+<<<<<<< HEAD
+            h.SetXTitle('|#phi_{#mu^{+}#mu^{-}}|')
+=======
             h.SetXTitle('|cos#theta_{#mu^{+}#mu^{-}}|')
+>>>>>>> cepc/master
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.SetMarkerStyle(1)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
+<<<<<<< HEAD
+            h.SetMaximum(150);
+=======
             h.SetMaximum(210);
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -300,7 +407,11 @@ def draw_after_cut_theta(sample, c, fs):
 
 def draw_after_cut_vis(sample, c, fs):
     hname = 'after_cut_vis'
+<<<<<<< HEAD
+    figfile = 'fig/after/hig2inv_after_cut_vis.pdf'
+=======
     figfile = 'fig/after/higinv_after_cut_vis.pdf'
+>>>>>>> cepc/master
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
@@ -314,7 +425,11 @@ def draw_after_cut_vis(sample, c, fs):
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
+<<<<<<< HEAD
+            h.SetMaximum(5000);
+=======
             h.SetMaximum(700);
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -339,7 +454,11 @@ def draw_after_cut_Mmumu(sample, c, fs):
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
+<<<<<<< HEAD
+            h.SetMaximum(2500);
+=======
             h.SetMaximum(600);
+>>>>>>> cepc/master
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -379,7 +498,39 @@ def  draw_after_cut_Mrecoil(sample, c, fs):
     leg.Draw()
     c.SaveAs(figfile)
 
+def  draw_after_cut_ep(sample, c, fs):
+    hname = 'after_cut_ep'
+    figfile = 'fig/after/hig2inv_after_cut_ep.pdf'
+    check_outfile_path(figfile)
 
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
+    for h in hs:
+        if hs.index(h) == 1:
+
+            h.SetXTitle('E/P')
+            h.SetYTitle('Events/(1Gev/C^{2})')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            #            h.GetYaxis().SetRange(0,400)
+            # Plot title?
+            h.SetMarkerStyle(1)
+            #            h.SetMinimum(0.1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 0:
+            #            h.GetYaxis().SetLimits(0,1000)
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> cepc/master
 if __name__ == '__main__':
     main()

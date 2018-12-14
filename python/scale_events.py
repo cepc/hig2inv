@@ -14,6 +14,18 @@ import ROOT
 import random
 from array import array
 #cut flow histrogram
+<<<<<<< HEAD
+h_evtflw = ROOT.TH1F('hevtflw','eventflow',10,0,10)
+h_evtflw.GetXaxis().SetBinLabel(1,'raw')
+h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu^{+}}>=1&&N_{#mu^{-}}>=1')
+h_evtflw.GetXaxis().SetBinLabel(3,'120GeV/c^{2}<M_{Recoil}<150GeV/c^{2}')
+h_evtflw.GetXaxis().SetBinLabel(4,'85GeV/c^{2}<M_{#mu^{+}#mu^{-}}<97GeV/c^{2}')
+h_evtflw.GetXaxis().SetBinLabel(5,'12GeV/c<P_{t}^{#mu^{+}#mu^{-}}')
+h_evtflw.GetXaxis().SetBinLabel(6,'#phi_{#mu^{+}#mu^{-}}<175')
+h_evtflw.GetXaxis().SetBinLabel(7,'P_{z}<50GeV')
+h_evtflw.GetXaxis().SetBinLabel(8,'102GeV<Visible Energy<107GeV ')
+h_evtflw.GetXaxis().SetBinLabel(9,'The ratio of Energy and P<2.4 ')
+=======
 h_evtflw = ROOT.TH1F('hevtflw1','eventflow',10,0,10)      
 h_evtflw.GetXaxis().SetBinLabel(1,'raw')      
 h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu^{+}}>=1&&N_{#mu^{-}}>=1&&N_{charged}<=3')
@@ -24,6 +36,7 @@ h_evtflw.GetXaxis().SetBinLabel(6,'#theta_{#mu^{+}#mu^{-}}<145')
 h_evtflw.GetXaxis().SetBinLabel(7,'100GeV<Visible Energy<110GeV')
 h_evtflw.GetXaxis().SetBinLabel(8,'86GeV/c^{2}<M_{#mu^{+}#mu^{-}}<97GeV/c^{2}')
 h_evtflw.GetXaxis().SetBinLabel(9,'120GeV/c^{2}<M_{Recoil}<140GeV/c^{2}')
+>>>>>>> cepc/master
 
 #root information
 m_event=array('i',[0])
@@ -72,6 +85,19 @@ m_energy_visible=array('f',[0])
 m_p_visible3=array('f',[0])
 m_vis_rec_m=array('f',[0])
 m_vis_rec_e=array('f',[0])
+<<<<<<< HEAD
+m_e_other=array('f',[0])
+m_m_visible=array('f',[0])
+m_e_dimu=array('f',[0])
+m_e_recoil=array('f',[0])
+m_mine_lepton=array('f',[0])
+m_maxe_lepton=array('f',[0])
+
+m_minp_lepton=array('f',4*[-99])
+m_maxp_lepton=array('f',4*[-99])
+
+=======
+>>>>>>> cepc/master
 def main():
     args=sys.argv[1:]
     infile=args[0]
@@ -116,7 +142,11 @@ def root_information(infile,outfile,weight,event):
     for i in range(0,9):
         for j in xrange (0,int(event[i]*weight)):
             h_evtflw.Fill(i)
+<<<<<<< HEAD
+    h =[0]*21
+=======
     h =[0]*19
+>>>>>>> cepc/master
     f = ROOT.TFile(infile)
     h[1] = f.Get('before_cut_number_mounp')
     h[2] = f.Get('before_cut_number_mounm')
@@ -137,7 +167,9 @@ def root_information(infile,outfile,weight,event):
     h[16] = f.Get('after_cut_vis')
     h[17] = f.Get('after_cut_Mmumu')
     h[18] = f.Get('after_cut_Mrecoil')
-    for i in range(1,19):
+    h[19] = f.Get('before_cut_ep')
+    h[20] = f.Get('after_cut_ep')
+    for i in range(1,21):
         h[i].Scale(weight)
 
     fin=ROOT.TFile(infile)
@@ -188,6 +220,20 @@ def root_information(infile,outfile,weight,event):
     t_in.SetBranchAddress('m_energy_visible',m_energy_visible)
     t_in.SetBranchAddress('m_vis_rec_m',m_vis_rec_m)
     t_in.SetBranchAddress('m_vis_rec_e',m_vis_rec_e)   
+<<<<<<< HEAD
+
+    t_in.SetBranchAddress('m_e_other',m_e_other)
+    t_in.SetBranchAddress('m_m_visible',m_m_visible)
+    t_in.SetBranchAddress('m_e_dimu',m_e_dimu)
+    t_in.SetBranchAddress('m_e_recoil',m_e_recoil)
+    t_in.SetBranchAddress('m_mine_lepton',m_mine_lepton)
+    t_in.SetBranchAddress('m_maxe_lepton',m_maxe_lepton)
+    t_in.SetBranchAddress('m_minp_lepton',m_minp_lepton)
+    t_in.SetBranchAddress('m_maxp_lepton',m_maxp_lepton)
+
+
+=======
+>>>>>>> cepc/master
     fout=ROOT.TFile(outfile,"RECREATE")
     t_out=ROOT.TTree('tree','tree')
    
@@ -236,6 +282,19 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch('m_energy_visible',m_energy_visible,'m_energy_visible/F')
     t_out.Branch('m_vis_rec_m',m_vis_rec_m,'m_vis_rec_m/F')
     t_out.Branch('m_vis_rec_e',m_vis_rec_e,'m_vis_rec_e/F')
+<<<<<<< HEAD
+
+
+    t_out.Branch('m_e_other',m_e_other,'m_e_other/F')
+    t_out.Branch('m_m_visible',m_m_visible,'m_m_visible/F')
+    t_out.Branch('m_e_dimu',m_e_dimu,'m_e_dimu/F')
+    t_out.Branch('m_e_recoil',m_e_recoil,'m_e_recoil/F')
+    t_out.Branch('m_mine_lepton',m_mine_lepton,'m_mine_lepton/F')
+    t_out.Branch('m_maxe_lepton',m_maxe_lepton,'m_maxe_lepton/F')
+    t_out.Branch('m_minp_lepton',m_minp_lepton,'m_minp_lepton[4]/F')
+    t_out.Branch('m_maxp_lepton',m_maxp_lepton,'m_maxp_lepton[4]/F')
+=======
+>>>>>>> cepc/master
     for i in xrange(entries):
         if (weight<1):
             rnd=random.random()
@@ -244,10 +303,17 @@ def root_information(infile,outfile,weight,event):
                 t_out.Fill()
         else :
             rnd1=random.random()
+<<<<<<< HEAD
+
+            valuem=int(weight)
+            dweight=abs(valuem-weight)
+
+=======
             print rnd1
             valuem=int(weight)
             dweight=abs(valuem-weight)
             print dweight
+>>>>>>> cepc/master
             if (rnd1<dweight):
                 for j in xrange(int(weight)+1):
                     t_in.GetEntry(i)
@@ -256,7 +322,11 @@ def root_information(infile,outfile,weight,event):
                 for j in xrange(int(weight)):
                     t_in.GetEntry(i)
                     t_out.Fill()
+<<<<<<< HEAD
+    for i in xrange(1,21):
+=======
     for i in xrange(1,19):
+>>>>>>> cepc/master
         h[i].Write()
     h_evtflw.Write()
     t_out.Write()

@@ -81,6 +81,16 @@ def fourf_bkg(src,nm1,nm2,event,scale):
     fout_script.write(' \hline \n')
     fout_script.write(' & The number of %s\_%s & Effectiveness \\\ \hline \n'  % (nm1,nm2))
     fout_script.write('Total generate & %d & %.3f \%% \\\ \n' %(event[0],(event[0]/event[0])*100))
+<<<<<<< HEAD
+    fout_script.write('$N_{\mu^{+}}\geq1$$N_{\mu^{-}}\geq1$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
+    fout_script.write('$120GeV<M_{Recoil}<150GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
+    fout_script.write('$85GeV<M_{\mu^{+}\mu^{-}}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
+    fout_script.write('$12GeV<P_{t}^{\mu^{+}\mu^{-}}$& %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+    fout_script.write('$\Delta\phi<175$\degree & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
+    fout_script.write('$|P_{t}^{\mu^{+}\mu^{-}}|<50GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+    fout_script.write('$102GeV<Visible Energy<107GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+    fout_script.write('$\frac{E}{P}<2.4$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+=======
     fout_script.write('$N_{\mu^+}=1,N_{\mu^-}=1,N_{charged}<3$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
     fout_script.write('$N_{\gamma}=0$ & %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
     fout_script.write('$25GeV<P_{t}^{\mu^+\mu^-}<70GeV$ & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
@@ -89,6 +99,7 @@ def fourf_bkg(src,nm1,nm2,event,scale):
     fout_script.write('$100GeV<E_{visible}<110GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
     fout_script.write('$86GeV<M_{\mu^+\mu^-}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
     fout_script.write('$120GeV<M_{recoil}<140GeV$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+>>>>>>> cepc/master
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
@@ -120,6 +131,16 @@ def twof_bkg(src,event,scale):
     fout_script.write(' \hline \n')
     fout_script.write(' & The number of %s & Effectiveness \\\ \hline \n' % src)
     fout_script.write('Total generate & %d & %.3f \%% \\\ \n' %(event[0],(event[0]/event[0])*100))
+<<<<<<< HEAD
+    fout_script.write('$N_{\mu^{+}}\geq1,N_{\mu^{-}}\geq1$& %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
+    fout_script.write('$120GeV<M_{Recoil}<150GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
+    fout_script.write('$85GeV<M_{\mu^{+}\mu^{-}}<97GeV$  & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
+    fout_script.write('$12GeV<P_{t}^{\mu^{+}\mu^{-}}$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+    fout_script.write('$\Delta\phi<175$\degree & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
+    fout_script.write('$|P_{t}^{\mu^{+}\mu^{-}}|<50GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+    fout_script.write('$102GeV<Visible Energy<107GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+    fout_script.write('$\\frac{E}{P}<2.4$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+=======
     fout_script.write('$N_{\mu^+}=1,N_{\mu^-}=1,N_{charged}<3$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
     fout_script.write('$N_{\gamma}=0$ %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
     fout_script.write('$25GeV<P_{t}^{\mu^+\mu^-}<70GeV$ & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
@@ -128,6 +149,7 @@ def twof_bkg(src,event,scale):
     fout_script.write('$100GeV<E_{visible}<110GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
     fout_script.write('$86GeV<M_{\mu^+\mu^-}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
     fout_script.write('$120GeV<M_{recoil}<140GeV$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+>>>>>>> cepc/master
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')

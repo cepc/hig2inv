@@ -4,7 +4,11 @@
 # Author SHI Xin <shixin@ihep.ac.cn> 
 # Created [2016-08-16 Tue 08:29] 
  
+<<<<<<< HEAD
+usage() { 
+=======
 usage() {
+>>>>>>> cepc/master
     printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
@@ -194,8 +198,7 @@ case $option in
 
         ;;
 
-    0.2.6) echo "Select events on signal (with a small sample)..."
-                
+    0.2.6) echo "Select events on signal (with a small sample)..."  
 #            mkdir -p   ./run/e2E2h_invi/events/ana
             mkdir -p   ./run/e2E2h_invi/events/ana/
             ./python/sel_events.py  ./run/e2E2h_invi/ana/ana_File-2.root  ana_File-2_test.root 
@@ -270,8 +273,11 @@ case $option in
 
     0.3.5) echo "Generate Condor job scripts..."
 
-            mkdir -p   ./run/bg/condor
-            cd ./run/bg/ana/
+             mkdir -p   ./run/bg/condor
+            cd ./run/bg/
+                rm -rf log/marlin
+                mkdir -p log/marlin			
+			cd ./ana/
             for dir in *
             do
                 mkdir -p ../condor/$dir
@@ -281,16 +287,15 @@ case $option in
             for dir in *
             do
                 cd $dir
-                rm -rf log/marlin
                 rm -rf script/marlin
-                mkdir -p log/marlin
                 mkdir -p script/marlin
                 cd ../
             done
 
             cd ../../../
-            ./python/gen_bg_condorscripts.py  1  ./run/bg/steers ./run/bg/condor  
+            ./python/gen_bg_condorscripts.py  1  ./run/bg/steers ./run/bg/condor 
 
+        
         ;;
     
     0.3.6) echo "Submit Condor jobs for pre-selection on background sample..."
@@ -309,7 +314,7 @@ case $option in
            ;;
             
     0.3.7) echo "Select events on background (with a small sample)..."
-            
+#            python python/check.py ./run/bg/log/marlin   0        
             mkdir -p   ./run/bg/events/ana/
 
             ./python/sel_events.py  run/bg/steers/e2e2/test/ana_bg_test_1.root  ./run/bg/steers/e2e2/test/ana_bg_test_1_event.root
@@ -318,26 +323,27 @@ case $option in
 
     0.3.8) echo "Generate Condor job scripts for event selection..."
    
-            mkdir -p   ./run/bg/events/ana
+             mkdir -p   ./run/bg/events/ana
         
-            cd ./run/bg/condor
+            cd ./run/bg
+            rm -rf log/events
+			mkdir -p log/events			
+			cd ./condor
 
             for dir in *
             do
                 mkdir -p   ../scale/ana/$dir
                 mkdir -p ../events/ana/$dir
                 cd $dir
-                rm -rf log/events
                 rm -rf script/eventsel
                 rm -rf script/scalesel
-                mkdir -p log/events
                 mkdir -p script/eventsel
                 mkdir -p script/scalesel
                 cd ../
             done
        
             cd ../../../
-            ./python/gen_bg_condorscripts.py  2  ./run/bg/ana ./run/bg/condor  
+            ./python/gen_bg_condorscripts.py  2  ./run/bg/ana ./run/bg/condor   
 
         ;;
 
@@ -356,6 +362,7 @@ case $option in
 
         ;;
     0.3.10) echo  "Merge event root files..."
+#            python python/check.py ./run/bg/log/events 1
             mkdir -p ./run/bg/hist
             mkdir -p ./run/bg/plot
             cd ./run/bg/scale/ana
@@ -376,7 +383,6 @@ case $option in
             do
  #               if [$dir != test]; then                 
                 cd ../../..
-                echo `pwd`
 
                 ./run/bg/condor/$dir/condor_scale_eventsel.sh 
                 cd run/bg/condor
@@ -389,9 +395,14 @@ case $option in
             rm ./run/total/bkg_add_sig.root -rf
             rm ./run/bg/hist/all_bkg_merge.root -rf
             rm ./run/bg/plot/all_bkg_merge.root -rf
+<<<<<<< HEAD
+            #merge all backgrounds;merge backgrounds and signal 
+=======
             #merge all backgrounds;merge backgrounds and signal
+>>>>>>> cepc/master
             ./python/scale_events.py ./run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_1.root ./run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root e2E2h_invi table/bg_sample_list.txt
             ./job/merge.sh
+            cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
        ;;
 
     0.3.13) echo "Plot before cut and after cut distribution" 
@@ -429,7 +440,7 @@ case $option in
 
     0.3.16) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
 
-            root ./src/fitbeforeBDT.cxx
+            root ./src/fitsigbkg.cxx
     ;;
 
     0.3.17) echo "Calculating upper limit of branch ratio..."
@@ -453,12 +464,30 @@ case $option in
             python python/get_bin.py table/out_list.txt
         ;;
     0.3.19) echo "Get Shorthand channel detail information"
+<<<<<<< HEAD
+#           cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
+           rm table/out_list_b.txt
+           rm table/tfbin_b.txt
+           python  python/gen_binb.py  run/total/hist
+#           python  python/get_binb.py table/out_list_b.txt 
+    ;;
+    0.3.20) echo " Optimize the cut conditions"
+            rm preliminary/*
+            cd ./run/total/hist
+            for dir in *
+            do 
+                cd ../../../
+                ./python/sel_eventsm.py run/total/hist/$dir preliminary/$dir
+                cd ./run/total/hist
+            done
+=======
            cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/signal.root
            rm table/out_list_b.txt
            rm table/tfbin_b.txt
            python  python/gen_binb.py  run/total/hist
            python  python/get_binb.py table/out_list_b.txt 
 
+>>>>>>> cepc/master
 
  
 esac    

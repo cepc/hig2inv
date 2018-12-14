@@ -81,8 +81,8 @@ def main():
         for dname in files_dir:
             output_dir = dst + '/' + dname + '/script/marlin'
             #os.makedirs( output_dir )
-
-            outlog_dir = dst + '/' + dname + '/log/marlin'
+            outlogname = dst.split('/condor')[0]
+            outlog_dir = outlogname + '/log/marlin/'+dname
             #os.makedirs( outlog_dir )
 
             src_each = os.path.join(src, dname)
@@ -130,7 +130,7 @@ def main():
             fout.write('second=$(date +\'%S\')                                                            \n') 
             fout.write('Time_Stamp=$month$day$hour$minute$second                                          \n')   
             fout.write('                                                                                  \n')         
-            fout.write('mkdir ${Log_Dir}/${Time_Stamp}                                                    \n') 
+            fout.write('mkdir -p ${Log_Dir}/${Time_Stamp}                                                    \n') 
             fout.write('                                                                                  \n') 
             fout.write('all_files=%s                                                                      \n' % nfile)
             fout.write('if [[ "$1" -le $all_files ]]; then                                                \n')  
@@ -166,8 +166,8 @@ def main():
         for dname in files_dir:
             output_dir = dst + '/' + dname + '/script/eventsel'
             #os.makedirs( output_dir )
-
-            outlog_dir = dst + '/' + dname + '/log/events'
+            outlogname = dst.split('/condor')[0]
+            outlog_dir = outlogname + '/log/events'+'/'+dname
             #os.makedirs( outlog_dir )
 
             src_tmp = src.split('ana')[0]
@@ -225,7 +225,7 @@ def main():
             fout.write('second=$(date +\'%S\')                                                            \n') 
             fout.write('Time_Stamp=$month$day$hour$minute$second                                          \n')   
             fout.write('                                                                                  \n')         
-            fout.write('mkdir ${Log_Dir}/${Time_Stamp}                                                    \n') 
+            fout.write('mkdir -p ${Log_Dir}/${Time_Stamp}                                          \n') 
             fout.write('                                                                                  \n') 
             fout.write('for num in {1..%s}                                                                \n' % nfile) 
             fout.write('do                                                                                \n') 
@@ -233,7 +233,7 @@ def main():
             fout.write('  eLog_File=${Log_Dir}/${Time_Stamp}/err_${num}.txt                               \n') 
             fout.write('                                                                                  \n') 
             fout.write('  script_name=%s                                                                  \n' % script_name) 
-            fout.write('  hep_sub -g physics -o ${Log_File} -e ${eLog_File}  ${Work_Dir}/${script_name}   \n') 
+            fout.write(' hep_sub -g physics -o ${Log_File} -e ${eLog_File}  ${Work_Dir}/${script_name}   \n') 
             fout.write('done                                                                              \n') 
             fout.write('                                                                                  \n') 
             fout.close()
@@ -269,7 +269,7 @@ def main():
 
             condor_scale_shell = './' + dst + '/' + dname + '/condor_scale_eventsel.sh'
             script_name= dst + '/' + dname + '/script/scalesel/condor_sub_' + dname + '_scalesel-1.sh'
-
+            outlog_dir = outlogname + '/log/scalevent/'+dname
             fout = open(condor_scale_shell,'w')
             fout.write('#!/bin/bash                                                                       \n') 
             fout.write('                                                                                  \n') 
@@ -284,10 +284,10 @@ def main():
             fout.write('second=$(date +\'%S\')                                                            \n') 
             fout.write('Time_Stamp=$month$day$hour$minute$second                                          \n')   
             fout.write('                                                                                  \n')         
-            fout.write('mkdir ${Log_Dir}/${Time_Stamp}                                                    \n') 
+            fout.write('mkdir -p ${Log_Dir}/                                                  \n') 
             fout.write('                                                                                  \n') 
-            fout.write('  Log_File=${Log_Dir}/${Time_Stamp}/log_1.txt                                \n') 
-            fout.write('  eLog_File=${Log_Dir}/${Time_Stamp}/err_1.txt                               \n') 
+            fout.write('  Log_File=${Log_Dir}/                                \n') 
+            fout.write('  eLog_File=${Log_Dir}/                               \n') 
             fout.write('                                                                                  \n') 
             fout.write('  script_name=%s                                                                  \n' % script_name) 
             fout.write('  ./${script_name}   \n') 

@@ -5,8 +5,8 @@ from string import Template
 def main(): 
     args = sys.argv[1]
     table = open(args , 'r' )
-    event = [0]*9
-    events = [0]*9
+    event = [0]*10
+    events = [0]*10
     n=0
     m=0
     k=[]
@@ -145,7 +145,11 @@ def detail_inf(k,g,nm):
                 fout_script.write('%s'%nm[j])
                 if j < i+5:
                     fout_script.write('&')	
+<<<<<<< HEAD
+        fout_script.write('\\\  \n')
+=======
         fout_script.write('\\\ \hline \n')
+>>>>>>> cepc/master
 
         fout_script.write('event generate&')
         for j in xrange(i,i+6):
@@ -153,7 +157,11 @@ def detail_inf(k,g,nm):
                 fout_script.write('%s'%g[j])
                 if j <i+5:
                     fout_script.write('&')	
+<<<<<<< HEAD
+        fout_script.write('\\\  \n')
+=======
         fout_script.write('\\\ \hline \n')
+>>>>>>> cepc/master
 
         fout_script.write('after cuts&')
         for j in xrange(i,i+6):
@@ -161,7 +169,11 @@ def detail_inf(k,g,nm):
                 fout_script.write('%s'%k[j])
                 if j < i+5:
                     fout_script.write('&')
+<<<<<<< HEAD
+        fout_script.write('\\\ \hline  \n')	
+=======
         fout_script.write('\\\ \hline \hline \n')	
+>>>>>>> cepc/master
     fout_script.write('\\\ \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
