@@ -4,11 +4,7 @@
 # Author SHI Xin <shixin@ihep.ac.cn> 
 # Created [2016-08-16 Tue 08:29] 
  
-<<<<<<< HEAD
 usage() { 
-=======
-usage() {
->>>>>>> cepc/master
     printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
@@ -395,11 +391,7 @@ case $option in
             rm ./run/total/bkg_add_sig.root -rf
             rm ./run/bg/hist/all_bkg_merge.root -rf
             rm ./run/bg/plot/all_bkg_merge.root -rf
-<<<<<<< HEAD
             #merge all backgrounds;merge backgrounds and signal 
-=======
-            #merge all backgrounds;merge backgrounds and signal
->>>>>>> cepc/master
             ./python/scale_events.py ./run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_1.root ./run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root e2E2h_invi table/bg_sample_list.txt
             ./job/merge.sh
             cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
@@ -464,7 +456,6 @@ case $option in
             python python/get_bin.py table/out_list.txt
         ;;
     0.3.19) echo "Get Shorthand channel detail information"
-<<<<<<< HEAD
 #           cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
            rm table/out_list_b.txt
            rm table/tfbin_b.txt
@@ -480,14 +471,6 @@ case $option in
                 ./python/sel_eventsm.py run/total/hist/$dir preliminary/$dir
                 cd ./run/total/hist
             done
-=======
-           cp run/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/total/hist/signal.root
-           rm table/out_list_b.txt
-           rm table/tfbin_b.txt
-           python  python/gen_binb.py  run/total/hist
-           python  python/get_binb.py table/out_list_b.txt 
-
->>>>>>> cepc/master
 
  
 esac    
