@@ -23,7 +23,7 @@ class Cutflow():
     def __init__(self):
         self.h_evtflw = ROOT.TH1F('hevtflw','eventflow',10,0,10)
         self.h_evtflw.GetXaxis().SetBinLabel(1,'raw')
-        self.h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu^{+}}>=1&&N_{#mu^{-}}>=1')
+        self.h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu^{+}}=1&&N_{#mu^{-}}=1')
         self.h_evtflw.GetXaxis().SetBinLabel(3,'120GeV/c^{2}<M_{Recoil}<150GeV/c^{2}')
         self.h_evtflw.GetXaxis().SetBinLabel(4,'85GeV/c^{2}<M_{#mu^{+}#mu^{-}}<97GeV/c^{2}')
         self.h_evtflw.GetXaxis().SetBinLabel(5,'12GeV/c<P_{t}^{#mu^{+}#mu^{-}}')
@@ -60,6 +60,7 @@ class Cutflow():
 
         self.m_event=array('i',[0])
         self.m_n_neutral=array('i',[0])
+        self.m_Neutral_PID=array('i',[0])	
         self.m_sum_p_neutral=array('f',4*[-99]) 
         self.m_p_photon=array('f',4*[-99])
         self.m_e_photon=array('f',[0])
@@ -157,7 +158,7 @@ class Cutflow():
         self.N[0]+=1
         self.h_evtflw.Fill(0)
 
-        if not (t_in.m_n_leptonp>=1 and t_in.m_n_leptonm>=1):
+        if not (t_in.m_n_leptonp==1 and t_in.m_n_leptonm==1):
             return False
         self.N[1]+=1
         self.h_evtflw.Fill(1)
@@ -198,7 +199,9 @@ class Cutflow():
         else:
             m_l_ep=10
         if not (m_l_ep<2.4):
-            return False    
+            return False  
+#        if not (t_in.m_Neutral_PID>20000): 
+#            return False 
         self.N[8]+=1
         self.h_evtflw.Fill(8)  
 
@@ -240,6 +243,8 @@ class Cutflow():
         else:
             costheta_leptonp=-999
         self.m_event[0]=t_in.m_event
+        self.m_n_neutral[0]=t_in.m_n_neutral
+#        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
         self.m_e_other[0]=t_in.m_energy_visible-abs(t_in.m_p_leptonm[3])-abs(t_in.m_p_leptonp[3])
         self.m_e_photon[0]=t_in.m_p_photon[3]
         self.m_pt_photon[0]=t_in.m_pt_photon
@@ -369,6 +374,8 @@ class Cutflow():
         t_out=ROOT.TTree('tree','tree')
 
         t_out.Branch('m_event',self.m_event,'m_event/I')
+        t_out.Branch('m_n_neutral',self.m_n_neutral,'m_n_neutral/I')
+        t_out.Branch('m_Neutral_PID',self.m_Neutral_PID,'m_Neutral_PID/I')
         t_out.Branch('m_sum_p_neutral',self.m_sum_p_neutral,'m_sum_p_neutral[4]/F')
         t_out.Branch('m_p_photon',self.m_p_photon,'m_p_photon[4]/F')
         t_out.Branch('m_e_photon',self.m_e_photon,'m_e_photon/F')

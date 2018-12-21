@@ -110,7 +110,7 @@ def get_weight(event,processname,table_list):
                 cross_section=l[2]
                 print cross_section
     if processname=="e2E2h_invi":
-        ffH_cross=203.66
+        ffH_cross=6.77
         br_Hinv=0.5		
         weight=IntLum*ffH_cross*br_Hinv/event_gen
 

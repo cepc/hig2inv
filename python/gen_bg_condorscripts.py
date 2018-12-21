@@ -290,7 +290,7 @@ def main():
             fout.write('  eLog_File=${Log_Dir}/                               \n') 
             fout.write('                                                                                  \n') 
             fout.write('  script_name=%s                                                                  \n' % script_name) 
-            fout.write('  ./${script_name}   \n') 
+            fout.write('  hep_sub -g physics -o ${Log_File} -e ${eLog_File}  ${Work_Dir}/${script_name}   \n')  
             fout.write('                                                                                  \n') 
             fout.close()
             sys.stdout.write('Creating condor submit script %s \n'  % condor_scale_shell)

@@ -28,7 +28,7 @@ $gear_xml
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> DEBUG  </parameter> 
  </global>
 
-
+ 
 
 <processor name="Myhig2inv" type="hig2inv">
 
@@ -39,6 +39,7 @@ $gear_xml
   <parameter name="LeptonEMax" type="double"> 100.0 </parameter>
   <parameter name="LeptonEMin" type="double"> 10.0 </parameter>
   <parameter name="LeptonPtMin" type="double"> 0.0 </parameter>
+  <parameter name="Processname" type="string"> $processname </parameter>
   <parameter name="TreeOutputFile" type="string"> 
 $output_rootfile 
   </parameter>

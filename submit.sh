@@ -376,7 +376,7 @@ case $option in
     0.3.11) echo "Scale event..."
             cd ./run/bg/condor
             for dir in *
-            do
+            do  
  #               if [$dir != test]; then                 
                 cd ../../..
 

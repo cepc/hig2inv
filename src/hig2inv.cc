@@ -1,10 +1,10 @@
 // -*- C++ -*- //  
 //
-// Description: Higgs -> Invisible 
+// Description: Higgs -> Invisible    
 //
 // Original Author:  JING Maoqiang <jingmq@ihep.ac.cn>
 //         Created:  [2018-04-02 Mon 15:49] 
-//         Inspired by CHEN Zhenxing's code 
+//         Inspired by CHEN Zhenxing's code   
 //
 //
 
@@ -27,11 +27,13 @@
 // #include <values.h>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <TFile.h> 
 #include <TTree.h>
+#include <TH1.h>
 #include <TVector3.h>
 #include <TRandom.h>
-//#include <sstream>              
+#include <sstream>              
 #include <cmath>
 #include <vector>
 #include <TMath.h>
@@ -53,6 +55,7 @@ class hig2inv  : public marlin::Processor {
     private:
         std::string FileName;
         std::string TreeName;
+        std::string Processname;
 
         LCCollection* col_MC;
         LCCollection* col_Reco;
@@ -60,12 +63,17 @@ class hig2inv  : public marlin::Processor {
 
         TFile *m_file;
         TTree *m_tree;
+        TH1F* h_mc_init_plist;
+        TH1F* h_mc_higgs_dlist;
 
         int LeptonID, RecoPID, tmpPID, PhotonPID, ElectronPID, MuonPID, NeutrinoEPID, NeutrinoMuonPID, TauPID, NeutrinoTauPID, ZPID, HiggsPID;
+        int Dquark, Uquark, Squark, Cquark, Bquark;
         int nMC, nReco, NCandiP, NCandiM, NParent, NDaughter, nDaughter, DIndex;
         int OverWrite;
         float RecoEMax, RecoEMin, ZMass;
-        int m_n_gamma, m_n_charged, m_n_leptonp, m_n_leptonm, m_n_chargedp, m_n_chargedm, m_n_Higgsdaughter, m_n_neutral,m_n_neutrino;
+        int m_n_gamma, m_n_charged, m_n_leptonp, m_n_leptonm, m_n_chargedp, m_n_chargedm, m_n_Higgsdaughter, m_n_neutral,m_n_neutrino,m_Neutral_PID;
+        int Nmup;
+        int Nmum;
         unsigned int m_event;
         float m_sum_p_neutral[4], m_p_photon[4],m_p_visible[4],m_sum_p_charged[4], m_p_leptonp[4], m_p_leptonm[4], m_p_dilepton[4], m_p_Zdaughters[4], m_p_Zdaughterp[4], m_p_Zdaughterm[4], m_p_Higgsdaughters[4], m_p_Higgsdaughter1[4],m_p_Higgsdaughter2[4];
         float m_m_dimu, m_m_recoil,m_e_recoil,m_e_dimu;
@@ -92,14 +100,29 @@ class hig2inv  : public marlin::Processor {
         TLorentzVector P4_Neutral_Sum,P4_Charged_Sum,P_P, P_M, P_T, miss, FourMin_Lepton, FourMax_Lepton;
         std::vector<TLorentzVector> FourMom_LeptonP, FourMom_LeptonM, FourMom_ChargedP, FourMom_ChargedM, FourMom_Charged, FourMom_Gamma,CandiP, CandiM;
 
+        // MC info 
+        std::vector<int> m_mc_pdgid;
+        std::vector<int> m_mc_init_pdgid;
+        std::vector<TLorentzVector> P4_MCTruth_LeptonPlus;  
+        std::vector<TLorentzVector> P4_MCTruth_LeptonMinus;
+        std::vector<TLorentzVector> P4_MCTruth_photon;
+        std::vector<TLorentzVector> P4_MCTruth_Higgs;   
+
+
+
+        void book_histogram();
         void book_tree();
+        bool buildZToff();
+        
         void saveNeutral( int nReco, LCCollection* colReco );
         void savePhoton( int nReco, LCCollection* colReco );
         void selectCharged( int nReco, LCCollection* colReco );
         void selectLepton( int nReco, LCCollection* col_Reco);
-        void saveVisible(TLorentzVector m_sum_p_charged,TLorentzVector m_sum_p_neutral);
+        void saveVisible(TLorentzVector P4_Neutral_Sum,TLorentzVector P4_Charged_Sum);
         void saveminandmaxLepton(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);		
         void saveRecInfo(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);
+        //MC information
+        void checkGenMCInfo( LCCollection* col_MC ); 
         void saveMCInfo( int nMC, LCCollection* col_MC );
         void saveZdaughter( int NParent, int NDaughter, int tmpPID, float MCEn, MCParticle *a1_MC );
         void saveHiggsdaughter( int NParent, int NDaughter, MCParticle *itr, int tmpPID, float MCEn, MCParticle *a1_MC );
@@ -126,6 +149,12 @@ hig2inv::hig2inv()
             "The name of the ROOT tree" ,
             TreeName ,
             TreeName);
+
+    Processname="ee";  //muon is muonmuon channel,qq is qq channel.
+        registerProcessorParameter( "Processname" ,
+            "The name of the Processname" ,
+            Processname ,
+            Processname);
 
     LeptonID=13; // 11 for electron, 13 for muon
         registerProcessorParameter( "LeptonIDTag" ,
@@ -209,11 +238,36 @@ hig2inv::hig2inv()
             "Higgs Boson ID that will be used in this analysis." ,
             HiggsPID ,
             HiggsPID);
-
+    Dquark=1;
+        registerProcessorParameter( "Dquark" ,
+            "Dquark ID that will be used in this analysis." ,
+            Dquark ,
+            Dquark);
+    Uquark=2;
+        registerProcessorParameter( "Uquark" ,
+            "Uquark ID that will be used in this analysis." ,
+            Uquark ,
+            Uquark);
+    Squark=3;
+        registerProcessorParameter( "Squark" ,
+            "Squark ID that will be used in this analysis." ,
+            Squark ,
+            Squark);
+    Cquark=4;
+        registerProcessorParameter( "Cquark" ,
+            "Cquark ID that will be used in this analysis." ,
+            Cquark ,
+            Cquark);
+    Bquark=5;
+        registerProcessorParameter( "Bquark" ,
+            "Bquark ID that will be used in this analysis." ,
+            Bquark ,
+            Bquark);
+        
 }
 
 void hig2inv::init() {
-
+    book_histogram();
     book_tree();
 
 }
@@ -225,6 +279,8 @@ void hig2inv::processEvent( LCEvent * evt ) {
             variable_init();
 
             col_MC = evt->getCollection( "MCParticle" );
+            if(buildZToff()){
+
             col_Reco = evt->getCollection( "ArborPFOs" );
             nMC = col_MC->getNumberOfElements();
             nReco = col_Reco->getNumberOfElements();
@@ -234,11 +290,12 @@ void hig2inv::processEvent( LCEvent * evt ) {
             savePhoton( nReco, col_Reco );
             selectCharged( nReco, col_Reco );
             selectLepton(nReco,col_Reco);
-            saveVisible(m_sum_p_charged, m_sum_p_neutral);
+            saveVisible(P4_Neutral_Sum, P4_Charged_Sum);
             saveRecInfo(FourMom_LeptonP,FourMom_LeptonM);
             saveMCInfo( nMC, col_MC );
 
             m_tree->Fill();
+        }
         }
         catch (lcio::DataNotAvailableException err) { }
     }
@@ -250,9 +307,16 @@ void hig2inv::end() {
     if (m_tree) {
         TFile *tree_file = m_tree->GetCurrentFile(); //just in case we switched to a new file
         tree_file->Write();
+        h_mc_init_plist->Write();
+        h_mc_higgs_dlist->Write();
         delete tree_file;
     }
 
+}
+
+void hig2inv::book_histogram() {
+ h_mc_init_plist = new TH1F("h_mc_init_plist", "mc_init_plist", 80, -40, 40 );
+ h_mc_higgs_dlist = new TH1F("h_mc_higgs_dlist", "mc_higgs_dlist", 80, -40, 40 );
 }
 
 void hig2inv::book_tree() { 
@@ -265,6 +329,7 @@ void hig2inv::book_tree() {
     m_tree = new TTree(TreeName.c_str(),TreeName.c_str());
     m_tree->Branch("m_event",&m_event,"m_event/I");
     m_tree->Branch("m_n_neutral",  &m_n_neutral,  "m_n_neutral/I");
+    m_tree->Branch("m_Neutral_PID",  &m_Neutral_PID,  "m_Neutral_PID/I");
     m_tree->Branch("m_sum_p_neutral", m_sum_p_neutral, "m_sum_p_neutral[4]/F");
     m_tree->Branch("m_p_photon", m_p_photon, "m_p_photon[4]/F");
     m_tree->Branch("m_p_leptonp",  m_p_leptonp,  "m_p_lepton[4]/F");
@@ -321,6 +386,9 @@ void hig2inv::book_tree() {
     m_tree->Branch("m_maxp_lepton",  &m_maxp_lepton,  "m_maxp_lepton[4]/F");
 
 
+//MC info
+
+
 
 }
 
@@ -328,6 +396,9 @@ void hig2inv::variable_init() {
 
     m_n_charged = 0;
     m_n_neutral = 0;
+    Nmum = 0;
+    Nmup = 0;
+    m_Neutral_PID = 0;
     m_n_leptonp = 0;
     m_n_leptonm = 0;
     m_n_chargedp = 0;
@@ -410,7 +481,7 @@ void hig2inv::saveNeutral( int nReco, LCCollection* col_Reco ) {
         P4_Neutral_Sum[1] += a_Reco->getMomentum()[1];
         P4_Neutral_Sum[2] += a_Reco->getMomentum()[2];
         P4_Neutral_Sum[3] += a_Reco->getEnergy();
-
+        m_Neutral_PID = a_Reco->getType();
         counter++;
     }
     m_n_neutral = counter;	
@@ -428,14 +499,16 @@ void hig2inv::savePhoton( int nReco, LCCollection* col_Reco ) {
     for(int i = 0; i < nReco; i++) {
         ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(col_Reco->getElementAt(i));
         if(a_Reco->getCharge()!=0) continue;
+
         if(a_Reco->getType()!=PhotonPID) continue;
         if(fabs(a_Reco->getMomentum()[2]/a_Reco->getEnergy())>0.995) continue; // acceptance of the detector
         if(a_Reco->getEnergy()>tmp_emax) {
-            // photone = a_Reco->getEnergy();
+            tmp_emax = a_Reco->getEnergy();
             m_p_photon[3] = a_Reco->getEnergy();
             m_p_photon[0] = a_Reco->getMomentum()[0];
             m_p_photon[1] = a_Reco->getMomentum()[1];
             m_p_photon[2] = a_Reco->getMomentum()[2];
+
             m_pt_photon = sqrt(m_p_photon[0]*m_p_photon[0]+m_p_photon[1]*m_p_photon[1]);
             FourMom_Gamma.push_back(m_p_photon);
         }
@@ -486,7 +559,7 @@ void hig2inv::selectLepton( int nReco, LCCollection* col_Reco) {
     if ( RecoE > RecoEMin && RecoE < RecoEMax) {
         if (lepton_charge > 0.1)FourMom_ChargedP.push_back(curr);
         if (lepton_charge <-0.1)FourMom_ChargedM.push_back(curr);
-        if(RecoPID == MuonPID ) {
+        if(RecoPID == LeptonID ) {
            if( lepton_charge >  0.1 )FourMom_LeptonP.push_back( curr );
            if( lepton_charge < -0.1 )FourMom_LeptonM.push_back( curr );
         }
@@ -544,14 +617,14 @@ void hig2inv::saveminandmaxLepton( std::vector<TLorentzVector> FourMom_LeptonP, 
     }
 
 
-void hig2inv::saveVisible(TLorentzVector m_sum_p_charged,TLorentzVector m_sum_p_neutral) {
+void hig2inv::saveVisible(TLorentzVector P4_Neutral_Sum,TLorentzVector P4_Charged_Sum) {
     for(int i=0;i<4;i++){
-    m_p_visible[i] = m_sum_p_charged[i] + m_sum_p_neutral[i];
+    m_p_visible[i] = P4_Charged_Sum[i] +  P4_Neutral_Sum[i];
     }
-   m_m_visible = ( m_sum_p_charged + m_sum_p_neutral).M();
-   m_energy_visible = ( m_sum_p_charged + m_sum_p_neutral).E();
-   m_vis_rec_m = (P_T - m_sum_p_charged - m_sum_p_neutral).M();
-   m_vis_rec_e = (P_T - m_sum_p_charged - m_sum_p_neutral).E();
+   m_m_visible = ( P4_Charged_Sum+ P4_Neutral_Sum).M();
+   m_energy_visible = ( P4_Charged_Sum+ P4_Neutral_Sum).E();
+   m_vis_rec_m = (P_T - P4_Charged_Sum - P4_Neutral_Sum).M();
+   m_vis_rec_e = (P_T - P4_Charged_Sum - P4_Neutral_Sum).E();
 }
 
 void hig2inv::saveRecInfo( std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM ) {
@@ -722,7 +795,7 @@ void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, MCParticle *itr, in
 void hig2inv::saveNeutrino( int NParent, int NDaughter, MCParticle *itr, int tmpPID, float MCEn ) {
 
     if(NParent ==1 && NDaughter == 0) {
-        if( itr->getPDG() == MuonPID && ( abs(tmpPID) == NeutrinoEPID || abs(tmpPID) == NeutrinoMuonPID || abs(tmpPID) == NeutrinoTauPID ) ) {
+        if( itr->getPDG() == LeptonID && ( abs(tmpPID) == NeutrinoEPID || abs(tmpPID) == NeutrinoMuonPID || abs(tmpPID) == NeutrinoTauPID ) ) {
             m_n_neutrino++;
             m_energy_neutrino = MCEn;
         }
@@ -739,7 +812,7 @@ void hig2inv::printDecayChain( int MCParticleID, MCParticle *mcp ) {
     printMCinfo( MCParticleID, 1, mcp, pvec, dvec );
     
     // Follow daughter's information as well
-    if( 1 ){
+    if( 0 ){
         for( std::vector<MCParticle*>::iterator itr = dvec.begin(); itr != dvec.end(); ++itr ) {
             std::vector<MCParticle*> p_dvec, d_dvec;
             p_dvec = (*itr)->getParents();
@@ -763,10 +836,10 @@ void hig2inv::printMCinfo( int MCParticleID, int flag, MCParticle *mcp, std::vec
     for( std::vector<MCParticle*>::iterator itr = pvec.begin(); itr != pvec.end(); ++itr ) p_pid.push_back( (*itr)->getPDG() );
     for( std::vector<MCParticle*>::iterator itr = dvec.begin(); itr != dvec.end(); ++itr ) d_pid.push_back( (*itr)->getPDG() );
     
-    if( flag == 1 )std::cout << " MCParticleID = " <<  MCParticleID ;
+    if( flag == 1 )std::cout << " MCParticleID = " <<std::setw(4)<<  MCParticleID ;
     if( flag == 2 )std::cout << "           " << "    " ;                    // daughther info.
     std::cout << ", status=" << status << " : nParents = " << nparents << " : " ;
-    for( std::vector<int>::iterator itr = p_pid.begin(); itr != p_pid.end(); ++itr ) std::cout << *itr << " " ;
+    for( std::vector<int>::iterator itr = p_pid.begin(); itr != p_pid.end(); ++itr ) std::cout <<std::setw(5)<< *itr << " " ;
     if( p_pid.size() == 0 ) {
         std::cout << "     " << " " ;
         std::cout << "     " << " " ;
@@ -774,8 +847,84 @@ void hig2inv::printMCinfo( int MCParticleID, int flag, MCParticle *mcp, std::vec
     if( p_pid.size() == 1 ) {
         std::cout << "     " << " " ;
     }
-    std::cout << " : pdgid = " << pdgid << " : nDaughters = " << ndaughters << " : " ;
-    for( std::vector<int>::iterator itr = d_pid.begin(); itr != d_pid.end(); ++itr ) std::cout << *itr << ", " ;
+    std::cout << " : pdgid = " <<std::setw(5) << pdgid << " : nDaughters = " << ndaughters << " : " ;
+    for( std::vector<int>::iterator itr = d_pid.begin(); itr != d_pid.end(); ++itr ) std::cout <<std::setw(5)<< *itr << ", " ;
     std::cout << std::endl;
 
 }
+
+void hig2inv::checkGenMCInfo( LCCollection* col_MC ) {
+
+  int ncol = col_MC->getNumberOfElements();
+  for( int i = 0; i < ncol; i++) {
+
+    MCParticle *mcp = dynamic_cast<EVENT::MCParticle *>(col_MC->getElementAt(i));
+
+    std::vector<MCParticle*> pvec;
+    pvec = mcp->getParents();
+
+    int pdgid       =  mcp->getPDG();
+    int nparents    =  pvec.size();
+
+    int mother_pid=-9999;
+    if( nparents > 0 )mother_pid=pvec[0]->getPDG();
+
+    // Save Initial Partons PID
+    if( nparents == 0 )h_mc_init_plist->Fill( pdgid );  
+
+    // Save Higgs Daughter PID
+    if( nparents == 1 && mother_pid == HiggsPID )h_mc_higgs_dlist->Fill( pdgid );
+    if (Processname == "ee"){  
+    if (nparents == 0){
+    LeptonID=11;
+        if ( pdgid == ElectronPID ) {
+            Nmup++;
+        }
+        if(pdgid == -ElectronPID ) {
+            Nmum++;		
+        }	
+    }
+    }
+    if (Processname == "muon"){ 
+    LeptonID=13;
+    if (nparents == 0){
+        if ( pdgid == MuonPID ) {
+            Nmup++;
+        }
+        if(pdgid == -MuonPID ) {
+            Nmum++;		
+        }	
+    }	
+    }
+    if (Processname == "qq"){ 
+    if (nparents == 0){
+        if ( pdgid == Dquark ||pdgid == Uquark ||pdgid == Squark ||pdgid == Cquark ||pdgid == Bquark ) {
+            Nmup++;
+        }
+        if( pdgid == -Dquark ||pdgid == -Uquark ||pdgid == -Squark ||pdgid == -Cquark ||pdgid == -Bquark ) {
+            Nmum++;	
+        }	
+    }	
+    }
+    if (Processname == "BKGM"){ 
+    LeptonID=13;
+       Nmup=1;
+       Nmum=1;
+    }	
+    if (Processname == "BKGE"){ 
+    LeptonID=11;
+       Nmup=1;
+       Nmum=1;
+    }	
+  }
+
+}
+bool hig2inv::buildZToff() {
+    checkGenMCInfo(col_MC);
+  if (Nmup == 1 && Nmum == 1){
+      return true; 
+  }
+  else{
+      return false;
+  }
+    }
