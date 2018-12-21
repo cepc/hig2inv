@@ -93,10 +93,10 @@ def main():
                     lines = []
                     if detector_conf == 'CEPC_V4':
                         lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V4, 
-                                                    ecms=ECMS_CEPC_V4, output_rootfile=root_name ) )
+                                                    ecms=ECMS_CEPC_V4, output_rootfile=root_name, processname="BKGM" ) )
                     if detector_conf == 'V1':
                         lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V1,
-                                                    ecms=ECMS_CEPC_V1, output_rootfile=root_name ) )
+                                                    ecms=ECMS_CEPC_V1, output_rootfile=root_name, processname="BKGM" ) )
 
                     # Generate XML files
                     fout = open(outname,'w')

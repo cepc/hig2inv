@@ -244,7 +244,7 @@ class Cutflow():
             costheta_leptonp=-999
         self.m_event[0]=t_in.m_event
         self.m_n_neutral[0]=t_in.m_n_neutral
-        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
+#        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
         self.m_e_other[0]=t_in.m_energy_visible-abs(t_in.m_p_leptonm[3])-abs(t_in.m_p_leptonp[3])
         self.m_e_photon[0]=t_in.m_p_photon[3]
         self.m_pt_photon[0]=t_in.m_pt_photon
