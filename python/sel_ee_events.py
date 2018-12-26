@@ -23,44 +23,44 @@ class Cutflow():
     def __init__(self):
         self.h_evtflw = ROOT.TH1F('hevtflw','eventflow',10,0,10)
         self.h_evtflw.GetXaxis().SetBinLabel(1,'raw')
-        self.h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu^{+}}=1&&N_{#mu^{-}}=1')
-        self.h_evtflw.GetXaxis().SetBinLabel(3,'120GeV/c^{2}<M_{Recoil}<150GeV/c^{2}')
-        self.h_evtflw.GetXaxis().SetBinLabel(4,'85GeV/c^{2}<M_{#mu^{+}#mu^{-}}<97GeV/c^{2}')
-        self.h_evtflw.GetXaxis().SetBinLabel(5,'12GeV/c<P_{t}^{#mu^{+}#mu^{-}}')
-        self.h_evtflw.GetXaxis().SetBinLabel(6,'#phi_{#mu^{+}#mu^{-}}<175')
-        self.h_evtflw.GetXaxis().SetBinLabel(7,'P_{z}<50GeV')
-        self.h_evtflw.GetXaxis().SetBinLabel(8,'102GeV<Visible Energy<107GeV ')
-        self.h_evtflw.GetXaxis().SetBinLabel(9,'The ratio of Energy and P<2.4 ')
-        self.N=[0.,0.,0.,0.,0.,0.,0.,0.,0.]
+        self.h_evtflw.GetXaxis().SetBinLabel(2,'N_{e^{+}}==1&&N_{e^{-}}==1')
+        self.h_evtflw.GetXaxis().SetBinLabel(3,'120GeV/c^{2}<M_{Recoil}<160GeV/c^{2}')
+        self.h_evtflw.GetXaxis().SetBinLabel(4,'71GeV/c^{2}<M_{e^{+}e^{-}}<99GeV/c^{2}')
+        self.h_evtflw.GetXaxis().SetBinLabel(5,'10GeV/c<P_{t}^{e^{+}e^{-}}<55GeV')
+        self.h_evtflw.GetXaxis().SetBinLabel(6,'#\Delta#phi_{e^{+}e^{-}}<176')
+        self.h_evtflw.GetXaxis().SetBinLabel(7,'103GeV<Visible Energy<120GeV')
+        self.h_evtflw.GetXaxis().SetBinLabel(8,'1.8<E/P<2.4')
+        self.h_evtflw.GetXaxis().SetBinLabel(9,'|Pz|<55GeV')
+
+        self.N=[0.,0.,0.,0.,0.,0.,0.,0.,0.,0.] 
         #Before cuts histrogram define
-        self.h_before_cut_n_mounp = ROOT.TH1F('before_cut_number_mounp','before_cut_N_{#mu^{+}}',10,0,10)
-        self.h_before_cut_n_mounm = ROOT.TH1F('before_cut_number_mounm','before_cut_N_{#mu^{-}}',10,0,10)
+        self.h_before_cut_n_mounp = ROOT.TH1F('before_cut_number_mounp','before_cut_N_{e^{+}}',10,0,10)
+        self.h_before_cut_n_mounm = ROOT.TH1F('before_cut_number_mounm','before_cut_N_{e^{-}}',10,0,10)
         self.h_before_cut_n_changed = ROOT.TH1F('before_cut_n_changed','before_cut_N_{changed}',10,0,10)
         self.h_before_cut_n_photon = ROOT.TH1F('before_cut_n_photon','before_cut_N_{#gamma}',10,0,10)
-        self.h_before_cut_Pt = ROOT.TH1F('before_cut_Pt','before_cut_P_{t}^{#mu^{+}#mu^{-}}',180,0,90)
-        self.h_before_cut_Pz = ROOT.TH1F('before_cut_Pz','before_cut_|P_{z}^{#mu^{+}#mu^{-}}|',280,-70,70)
-        self.h_before_cut_theta = ROOT.TH1F('before_cut_theta','#phi_{#mu^{+}#mu^{-}}',400,0,200)
-        self.h_before_cut_vis = ROOT.TH1F('before_cut_vis','before_cut_Visible Energy',500,0,250)
-        self.h_before_cut_Mmumu= ROOT.TH1F('before_cut_Mmumu','before_cut_M_{#mu^{+}#mu^{-}}',500,0,250)
-        self.h_before_cut_Mrecoil = ROOT.TH1F('before_cut_Mrecoil','before_cut_M_{Recoil}',140,100,170)
-        self.h_before_cut_ep = ROOT.TH1F('before_cut_ep','before_cut_ep',300,1,4)
+        self.h_before_cut_Pt = ROOT.TH1F('before_cut_Pt','before_cut_P_{t}^{e^{+}e^{-}}',180,0,90)
+        self.h_before_cut_Pz = ROOT.TH1F('before_cut_Pz','before_cut_|P_{z}^{e^{+}e^{-}}|',280,-70,70)
+        self.h_before_cut_theta = ROOT.TH1F('before_cut_theta','#phi_{e^{+}e^{-}}',200,0,200)
+        self.h_before_cut_vis = ROOT.TH1F('before_cut_vis','before_cut_Visible Energy',600,0,300)
+        self.h_before_cut_Mmumu= ROOT.TH1F('before_cut_Mmumu','before_cut_M_{e^{+}e^{-}}',500,0,250)
+        self.h_before_cut_Mrecoil = ROOT.TH1F('before_cut_Mrecoil','before_cut_M_{Recoil}',180,100,190)
+        self.h_before_cut_ep = ROOT.TH1F('before_cut_ep','before_cut_ep',500,0,5)
         #After cut histrogram define
-        self.h_after_cut_n_mounp = ROOT.TH1F('after_cut_number_mounp','after_cut_N_{#mu^{+}}',10,0,10)
-        self.h_after_cut_n_mounm = ROOT.TH1F('after_cut_number_mounm','after_cut_N_{#mu^{-}}',10,0,10)
+        self.h_after_cut_n_mounp = ROOT.TH1F('after_cut_number_mounp','after_cut_N_{e^{+}}',10,0,10)
+        self.h_after_cut_n_mounm = ROOT.TH1F('after_cut_number_mounm','after_cut_N_{e^{-}}',10,0,10)
         self.h_after_cut_n_changed = ROOT.TH1F('after_cut_n_changed','after_cut_N_{changed}',10,0,10)
         self.h_after_cut_n_photon = ROOT.TH1F('after_cut_n_photon','after_cut_N_{#gamma}',10,0,10)
-        self.h_after_cut_Pt = ROOT.TH1F('after_cut_Pt','after_cut_P_{t}^{#mu^{+}#mu^{-}}',180,0,90)
-        self.h_after_cut_Pz = ROOT.TH1F('after_cut_Pz','after_cut_|P_{z}^{#mu^{+}#mu^{-}}|',280,-70,70)
-        self.h_after_cut_theta = ROOT.TH1F('after_cut_theta','#phi_{#mu^{+}#mu^{-}}',400,0,200)
-        self.h_after_cut_vis = ROOT.TH1F('after_cut_vis','after_cut_Visible Energy',80,80,120)
-        self.h_after_cut_Mmumu= ROOT.TH1F('after_cut_Mmumu','after_cut_M_{#mu^{+}#mu^{-}}',40,80,100)
-        self.h_after_cut_Mrecoil = ROOT.TH1F('after_cut_Mrecoil','after_cut_M_{Recoil}',140,100,170)
-        self.h_after_cut_ep = ROOT.TH1F('after_cut_ep','after_cut_ep',300,1,4)
-
+        self.h_after_cut_Pt = ROOT.TH1F('after_cut_Pt','after_cut_P_{t}^{e^{+}e^{-}}',180,0,90)
+        self.h_after_cut_Pz = ROOT.TH1F('after_cut_Pz','after_cut_|P_{z}^{e^{+}e^{-}}|',140,-70,70)
+        self.h_after_cut_theta = ROOT.TH1F('after_cut_theta','#phi_{e^{+}e^{-}}',180,0,180)
+        self.h_after_cut_vis = ROOT.TH1F('after_cut_vis','after_cut_Visible Energy',40,100,120)
+        self.h_after_cut_Mmumu= ROOT.TH1F('after_cut_Mmumu','after_cut_M_{e^{+}e^{-}}',60,70,100)
+        self.h_after_cut_Mrecoil = ROOT.TH1F('after_cut_Mrecoil','after_cut_M_{Recoil}',130,115,180)
+        self.h_after_cut_ep = ROOT.TH1F('after_cut_ep','after_cut_ep',120,1.6,2.8)
 
         self.m_event=array('i',[0])
         self.m_n_neutral=array('i',[0])
-        self.m_Neutral_PID=array('i',[0])	
+        self.m_Neutral_PID=array('i',[0])		
         self.m_sum_p_neutral=array('f',4*[-99]) 
         self.m_p_photon=array('f',4*[-99])
         self.m_e_photon=array('f',[0])
@@ -118,7 +118,6 @@ class Cutflow():
 
         self.m_minp_lepton=array('f',4*[-99])
         self.m_maxp_lepton=array('f',4*[-99])
-
         self.m_e_ep=array('f',[0])
         self.m_l_ep=array('f',[0])
 
@@ -140,7 +139,6 @@ class Cutflow():
         self.h_before_cut_Mmumu.Fill(t_in.m_m_dimu)
         self.h_before_cut_Mrecoil.Fill(t_in.m_m_recoil)
         self.h_before_cut_ep.Fill(m_l_ep)
-        
     def plot_after_cut(self,t_in,m_l_ep):
 
         self.h_after_cut_n_mounp.Fill(t_in.m_n_leptonp)
@@ -160,58 +158,54 @@ class Cutflow():
 
         if not (t_in.m_n_leptonp==1 and t_in.m_n_leptonm==1):
             return False
-        self.N[1]+=1
+        self.N[1]+=1		
         self.h_evtflw.Fill(1)
 
-        if not (t_in.m_m_recoil>120 and t_in.m_m_recoil<150):
+        if not (t_in.m_m_recoil>120 and t_in.m_m_recoil<160):
             return False
         self.N[2]+=1
         self.h_evtflw.Fill(2)
 
-        if not (t_in.m_m_dimu>85 and t_in.m_m_dimu<97):
+        if not (t_in.m_m_dimu>71 and t_in.m_m_dimu<99):
             return False
         self.N[3]+=1
         self.h_evtflw.Fill(3)
-
-        if not (t_in.m_pt_dilepton>12):
+#
+        if not (t_in.m_pt_dilepton>10 and t_in.m_pt_dilepton<55 ):
             return False
         self.N[4]+=1
         self.h_evtflw.Fill(4) 
-
-        if not (t_in.m_phi_dilepton_2<175):
+#
+        if not (t_in.m_phi_dilepton_2<176):
             return False
         self.N[5]+=1
         self.h_evtflw.Fill(5)
-
-        if not (abs(t_in.m_p_dilepton[2])<50):
+#
+        if not (t_in.m_energy_visible>103 and t_in.m_energy_visible<120):
             return False
         self.N[6]+=1
-        self.h_evtflw.Fill(6) 
-
-        if not (t_in.m_energy_visible>102 and t_in.m_energy_visible<107):
-            return False
-        self.N[7]+=1
-        self.h_evtflw.Fill(7)
+        self.h_evtflw.Fill(6)
         m_pp_lepton=math.sqrt(t_in.m_p_dilepton[0]*t_in.m_p_dilepton[0]+t_in.m_p_dilepton[1]*t_in.m_p_dilepton[1]+t_in.m_p_dilepton[2]*t_in.m_p_dilepton[2])
         m_ee_lepton=t_in.m_p_dilepton[3]
         if m_pp_lepton != 0 and abs(t_in.m_p_dilepton[3])<5000:
             m_l_ep=m_ee_lepton/m_pp_lepton
         else:
             m_l_ep=10
-        if not (m_l_ep<2.4):
+        if not (m_l_ep<2.4 and m_l_ep>1.8):
             return False  
-#        if not (t_in.m_Neutral_PID>20000): 
-#            return False 
+        self.N[7]+=1
+        self.h_evtflw.Fill(7) 
+#
+        if not (abs(t_in.m_p_dilepton[2])<55):
+            return False
         self.N[8]+=1
-        self.h_evtflw.Fill(8)  
-
-        #Plot cuts histrogram after cut
+        self.h_evtflw.Fill(8) 
+#        #Plot cuts histrogram after cut
         self.plot_after_cut(t_in,m_l_ep)
 #        #Fill root branches after cutting
-        self.fill_root(t_in,t_out)
+        self.fill_root(t_in,t_out,m_l_ep)
 
-    def fill_root(self,t_in,t_out):
-
+    def fill_root(self,t_in,t_out,m_l_ep):
         m_pp_photon=math.sqrt(t_in.m_p_photon[0]*t_in.m_p_photon[0]+t_in.m_p_photon[1]*t_in.m_p_photon[1]+t_in.m_p_photon[2]*t_in.m_p_photon[2])
         m_ee_photon=t_in.m_p_photon[3]
         if m_pp_photon != 0 and abs(t_in.m_p_photon[3])<5000:
@@ -224,7 +218,6 @@ class Cutflow():
             m_l_ep=m_ee_lepton/m_pp_lepton
         else:
             m_l_ep=10
-            
         LeptonmP = math.sqrt(t_in.m_p_leptonm[0] * t_in.m_p_leptonm[0] +
                              t_in.m_p_leptonm[1] * t_in.m_p_leptonm[1] +
                              t_in.m_p_leptonm[2] * t_in.m_p_leptonm[2])
@@ -244,7 +237,7 @@ class Cutflow():
             costheta_leptonp=-999
         self.m_event[0]=t_in.m_event
         self.m_n_neutral[0]=t_in.m_n_neutral
-#        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
+        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
         self.m_e_other[0]=t_in.m_energy_visible-abs(t_in.m_p_leptonm[3])-abs(t_in.m_p_leptonp[3])
         self.m_e_photon[0]=t_in.m_p_photon[3]
         self.m_pt_photon[0]=t_in.m_pt_photon
@@ -270,7 +263,7 @@ class Cutflow():
         self.m_phi_dilepton_2[0]=t_in.m_phi_dilepton_2
         self.m_cos_miss[0]=t_in.m_cos_miss
         self.m_cos_Z[0]=t_in.m_cos_Z
-        self.m_theta_dilepton[0]=t_in.m_angle_dilepton
+        self.m_theta_dilepton[0]=t_in.m_phi_dilepton_2
         self.m_cos_theta_leptonm[0]=costheta_leptonm
         self.m_cos_theta_leptonp[0]=costheta_leptonp
         self.m_angle_dilepton[0]=t_in.m_angle_dilepton
@@ -285,10 +278,9 @@ class Cutflow():
         self.m_e_recoil[0]=t_in.m_e_recoil
         self.m_mine_lepton[0]=t_in.m_mine_lepton
         self.m_maxe_lepton[0]=t_in.m_maxe_lepton
-
         self.m_e_ep[0]=m_e_ep
-        self.m_l_ep[0]=m_l_ep	
-        
+        self.m_l_ep[0]=m_l_ep
+
         for i in xrange(4):
             self.m_p_visible[i]=t_in.m_p_visible[i]
             self.m_p_photon[i]=t_in.m_p_photon[i]
@@ -365,7 +357,10 @@ class Cutflow():
 
         infile=args[0]
         outfile=args[1]
-
+#        h =[0]*21
+#        f = ROOT.TFile(infile)
+#        h[1] = f.Get('h_mc_init_plist')
+#        h[2] = f.Get('h_mc_higgs_dlist')
         tmp_file = ROOT.TFile(infile)
         t_in = tmp_file.Get('tree')
         tmp_entries = t_in.GetEntriesFast()
@@ -434,9 +429,9 @@ class Cutflow():
 
         t_out.Branch("m_minp_lepton",  self.m_minp_lepton,  "m_minp_lepton[4]/F");
         t_out.Branch("m_maxp_lepton",  self.m_maxp_lepton,  "m_maxp_lepton[4]/F");
-        t_out.Branch("m_e_ep",  self.m_e_ep,  "m_e_ep/F");
-        t_out.Branch("m_l_ep",  self.m_l_ep,  "m_l_ep/F");
 
+        t_out.Branch("m_e_ep",  self.m_e_ep,  "m_e_ep/F"); 
+        t_out.Branch("m_l_ep",  self.m_l_ep,  "m_l_ep/F"); 
         for i in xrange(tmp_entries):
             t_in.GetEntry(i)
             #Plot cuts histrogram before cut
@@ -447,6 +442,8 @@ class Cutflow():
 #            self.out_eff(t_in,self.N,infile)
         #Write cut flow histrogram
         self.cut_his_write()
+#        h[1].Write()
+#        h[2].Write()
         t_out.Write()
         fout.Close()
 
@@ -457,3 +454,4 @@ if __name__ == '__main__':
     print "Cut_successful"
     end_time = time.clock()
 print('Running time: %s Seconds'%(end_time-start_time))
+

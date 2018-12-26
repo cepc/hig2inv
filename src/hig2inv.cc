@@ -557,11 +557,11 @@ void hig2inv::selectLepton( int nReco, LCCollection* col_Reco) {
         RecoP[2] = a_Reco->getMomentum()[2];
         TLorentzVector curr(RecoP[0], RecoP[1], RecoP[2], RecoE);
     if ( RecoE > RecoEMin && RecoE < RecoEMax) {
-        if (lepton_charge > 0.1)FourMom_ChargedP.push_back(curr);
-        if (lepton_charge <-0.1)FourMom_ChargedM.push_back(curr);
+        if (lepton_charge > 0.0)FourMom_ChargedP.push_back(curr);
+        if (lepton_charge < 0.0)FourMom_ChargedM.push_back(curr);
         if(RecoPID == LeptonID ) {
-           if( lepton_charge >  0.1 )FourMom_LeptonP.push_back( curr );
-           if( lepton_charge < -0.1 )FourMom_LeptonM.push_back( curr );
+           if( lepton_charge >  0.0 )FourMom_LeptonP.push_back( curr );
+           if( lepton_charge < 0.0 )FourMom_LeptonM.push_back( curr );
         }
     }	
     }

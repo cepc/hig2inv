@@ -5,6 +5,7 @@ from string import Template
 def main(): 
     args = sys.argv[1]
     table = open(args , 'r' )
+    processname = args.split('/')[1]
     event = [0]*10
     events = [0]*10
     n=0
@@ -25,7 +26,7 @@ def main():
 #                continue
 #            else:
 #                events,m = four_f_bkg(l,events,m)
-    detail_inf(k,g,nm)           
+    detail_inf(k,g,nm,processname)           
 def two_f_bkg(l,event,n):
     if n < 3:
         for i in xrange(1,10):
@@ -120,11 +121,17 @@ def four_f_bkg(l,event,m):
         os.chmod(out_putname, 0744)
     return event,m
 
-def detail_inf(k,g,nm):
+def detail_inf(k,g,nm,processname):
     lenlist=len(nm)
     cwd = os.getcwd()
     src = 'detailinf'
-    out_putname = cwd + '/table/tfbin.txt' 
+    if processname == "mumuH":
+        out_putname = cwd + '/table/mumuH/tfbin.txt' 
+    elif processname == "eeH":
+        out_putname = cwd + '/table/eeH/tfbin.txt'
+    else:
+        print "This is wrong,please check this"
+        sys.exit() 
     fout_script = open(out_putname,'a')
     fout_script.write(' \\begin{table}[hbtp] \n')
     fout_script.write(' \caption{The number of all channels after cuts ')

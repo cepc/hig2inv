@@ -3,7 +3,7 @@
 Plot summary histograms  
 """
 
-__author__ = "Tanyh <shixin@ihep.ac.cn>"
+__author__ = "Tanyh <tanyuhang@ihep.ac.cn>"
 __copyright__ = "Copyright (c) Tanyh"
 __created__ = "[2016-07-25 Mon 09:22]"
 
@@ -17,51 +17,53 @@ from tools import check_outfile_path, set_root_style
 def main():
     set_root_style(stat=0, grid=0)
     ROOT.gStyle.SetPadLeftMargin(0.15)
-
+    processname = sys.argv[1]
     sample = sys.argv[1:]
-    fs = get_files_from_sample(sample)
+    fs = get_files_from_sample(sample,processname)
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
 
-#    draw_after_cut_n_moun(sample, c, fs)
-    draw_after_cut_n_photon(sample, c, fs)
-    draw_after_cut_Pt(sample, c, fs)
-    draw_after_cut_Pz(sample, c, fs)
-    draw_after_cut_theta(sample, c, fs)
-    draw_after_cut_vis(sample, c, fs)
-    draw_after_cut_Mmumu(sample, c, fs)
-    draw_after_cut_Mrecoil(sample, c, fs)
-    draw_after_cut_ep(sample, c, fs)
+#    draw_after_cut_n_moun(sample, c, fs, processname)
+#    draw_after_cut_n_photon(sample, c, fs, processname)
+    draw_after_cut_Pt(sample, c, fs, processname)
+    draw_after_cut_Pz(sample, c, fs, processname)
+    draw_after_cut_theta(sample, c, fs, processname)
+    draw_after_cut_vis(sample, c, fs, processname)
+    draw_after_cut_Mmumu(sample, c, fs, processname)
+    draw_after_cut_Mrecoil(sample, c, fs, processname)
+    draw_after_cut_ep(sample, c, fs, processname)
 
 
 
-def get_files_from_sample(sample):
+def get_files_from_sample(sample,processname):
     fs = []
     if 'sig+bkg' in sample:
-        fs.append(ROOT.TFile('run/total/bkg_add_sig.root'))
-        
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/bkg_add_sig.root'))
+    
     if 'signal' in sample:
-        fs.append(ROOT.TFile('run/total/hist/ffH_inv.root'))
-
+        if processname == "mumuH":
+            fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/mumuH_inv.root'))
+        if processname == "eeH":
+            fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/eeH_inv.root'))				
     if 'ZZ' in sample:
-        fs.append(ROOT.TFile('run/total/hist/ZZ.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/ZZ.root'))
 
     if 'WW' in sample:
-        fs.append(ROOT.TFile('run/total/hist/WW.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/WW.root'))
 
     if 'single_z' in sample:
-        fs.append(ROOT.TFile('run/total/hist/single_z.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/single_z.root'))
 
     if 'single_w' in sample:
-        fs.append(ROOT.TFile('run/total/hist/single_w.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/single_w.root'))
 
     if 'zzorww' in sample:
-        fs.append(ROOT.TFile('run/total/hist/zzorww.root'))	
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	
 
     if 'zorw' in sample:
-        fs.append(ROOT.TFile('run/total/hist/zorw.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zorw.root'))
         
     if '2f' in sample:
-        fs.append(ROOT.TFile('run/total/hist/2f.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/2f.root'))
 
 
 
@@ -88,7 +90,7 @@ def get_common_objects_to_draw(fs, hname, leg):
         elif fs.index(f) == 1:
 #            h.Scale(0.03)
             h.SetLineColor(2)
-            h.SetLineWidth(1)
+            h.SetLineWidth(2)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 2:
@@ -143,7 +145,7 @@ def leg_add_entry_hist(leg, f, h):
 #    if sample in ['bkg_add_sig']:
 #        leg.AddEntry(h, "bkg_add_sig")
 
-    if sample in ['ffH_inv']:
+    if sample in ['mumuH_inv','eeH_inv']:
         leg.AddEntry(h, "signal")
 
     elif sample in ['ZZ']:
@@ -173,9 +175,9 @@ def leg_add_entry_hist(leg, f, h):
     return leg
 
 
-def draw_after_cut_n_moun(sample, c, fs):
+def draw_after_cut_n_moun(sample, c, fs, processname):
     hname = 'after_cut_number_moun'
-    figfile = 'fig/after/hig2inv_after_cut_n_moun.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_n_moun.pdf'
 
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
@@ -198,9 +200,9 @@ def draw_after_cut_n_moun(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_after_cut_n_photon(sample, c, fs):
+def draw_after_cut_n_photon(sample, c, fs, processname):
     hname = 'after_cut_n_photon'
-    figfile = 'fig/after/hig2inv_after_cut_n_photon.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_n_photon.pdf'
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
@@ -223,22 +225,27 @@ def draw_after_cut_n_photon(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def  draw_after_cut_Pt(sample, c, fs):
+def  draw_after_cut_Pt(sample, c, fs, processname):
     hname = 'after_cut_Pt'
-    figfile = 'fig/after/hig2inv_after_cut_Pt.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_Pt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV/c)')
+            if processname == "mumuH":
+                h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV/c)')
+                h.SetMaximum(1000)
+            if processname == "eeH":
+                h.SetXTitle('P_{t}^{e^{+}e^{-}} (GeV/c)')
+                h.SetMaximum(600)
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(600)
+
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -248,22 +255,26 @@ def  draw_after_cut_Pt(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_after_cut_Pz(sample, c, fs):
+def draw_after_cut_Pz(sample, c, fs, processname):
     hname = 'after_cut_Pz'
-    figfile = 'fig/after/hig2inv_after_cut_Pz.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_Pz.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV/c)')
+            if processname == "mumuH":
+                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV/c)')
+            if processname == "eeH":
+                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV/c)')
+                h.SetMaximum(300)
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(150)
+
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -273,23 +284,27 @@ def draw_after_cut_Pz(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_after_cut_theta(sample, c, fs):
+def draw_after_cut_theta(sample, c, fs, processname):
     hname = 'after_cut_theta'
-    figfile = 'fig/after/hig2inv_after_cut_theta.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_theta.pdf'
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|#phi_{#mu^{+}#mu^{-}}|')
+            if processname == "mumuH":
+                h.SetXTitle('|#Delta#phi_{#mu^{+}#mu^{-}}|')
+            if processname == "eeH":
+                h.SetXTitle('|#Delta#phi_{e^{+}e^{-}}|')
+                h.SetMaximum(300)
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.SetMarkerStyle(1)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
-            h.SetMaximum(150);
+
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -299,15 +314,19 @@ def draw_after_cut_theta(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_after_cut_vis(sample, c, fs):
+def draw_after_cut_vis(sample, c, fs, processname):
     hname = 'after_cut_vis'
-    figfile = 'fig/after/hig2inv_after_cut_vis.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_vis.pdf'
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
+            if processname == "mumuH":
+                h.SetMaximum(3000)
+            if processname == "eeH": 
+                h.SetMaximum(600)          
             h.SetXTitle('Visible Energy (GeV/c^{2})')
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.GetXaxis().SetLabelSize(0.02)
@@ -315,7 +334,6 @@ def draw_after_cut_vis(sample, c, fs):
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(5000);
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -325,22 +343,27 @@ def draw_after_cut_vis(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_after_cut_Mmumu(sample, c, fs):
+def draw_after_cut_Mmumu(sample, c, fs, processname):
     hname = 'after_cut_Mmumu'
-    figfile = 'fig/after/hig2inv_after_cut_Mmumu.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_Mmumu.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV/c^{2})')
+            if processname == "mumuH":
+                h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV/c^{2})')
+                h.SetMaximum(2000)
+            if processname == "eeH":
+                h.SetXTitle('M_{e^{+}e^{-}}(GeV/c^{2})')
+                h.SetMaximum(1000)
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(2500);
+
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
@@ -350,9 +373,9 @@ def draw_after_cut_Mmumu(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def  draw_after_cut_Mrecoil(sample, c, fs):
+def  draw_after_cut_Mrecoil(sample, c, fs, processname):
     hname = 'after_cut_Mrecoil'
-    figfile = 'fig/after/hig2inv_after_cut_Mrecoil.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_Mrecoil.pdf'
     check_outfile_path(figfile)
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
@@ -360,8 +383,11 @@ def  draw_after_cut_Mrecoil(sample, c, fs):
 
     for h in hs:
         if hs.index(h) == 1:
-
-            h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV/c^{2})')
+            if processname == "mumuH":
+                  h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV/c^{2})')
+            if processname == "eeH":
+                h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV/c^{2})')
+                h.SetMaximum(800)
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -380,9 +406,9 @@ def  draw_after_cut_Mrecoil(sample, c, fs):
     leg.Draw()
     c.SaveAs(figfile)
 
-def  draw_after_cut_ep(sample, c, fs):
+def  draw_after_cut_ep(sample, c, fs, processname):
     hname = 'after_cut_ep'
-    figfile = 'fig/after/hig2inv_after_cut_ep.pdf'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_ep.pdf'
     check_outfile_path(figfile)
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)

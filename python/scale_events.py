@@ -87,6 +87,7 @@ def main():
     infile=args[0]
     outfile=args[1]
     processname=args[2]
+    print processname
     table_list=args[3]
     sample = ROOT.TFile(infile)
     b = sample.Get('hevtflw')
@@ -109,11 +110,14 @@ def get_weight(event,processname,table_list):
             if processname == process:
                 cross_section=l[2]
                 print cross_section
-    if processname=="e2E2h_invi":
+    if processname=="e2E2h_inv":
         ffH_cross=6.77
         br_Hinv=0.5		
         weight=IntLum*ffH_cross*br_Hinv/event_gen
-
+    elif processname=="eeh_inv":
+        ffH_cross=7.04
+        br_Hinv=0.5		
+        weight=IntLum*ffH_cross*br_Hinv/event_gen	
     elif cross_section==0.:
         print "Sample name misses, please check that!"
         sys.exit() 

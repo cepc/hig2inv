@@ -3,8 +3,8 @@
 Generate Condor Scripts  
 """
 
-__author__ = "Ryuta Kiuchi <kiuchi@ihep.ac.cn>"
-__copyright__ = "Copyright (c) Ryta Kiuchi"
+__author__ = "Tanyh <tanyuhang@ihep.ac.cn>"
+__copyright__ = "Copyright (c) Tanyh"
 __created__ = "[2018-06-11 Mon 9:00]"
 
 import sys
@@ -19,7 +19,7 @@ NAME
 
 SYNOPSIS
 
-    ./gen_condorscripts.py  [option] [input_dir] [output_dir] [flag]
+    ./gen_condorscripts.py  [option] [input_dir] [output_dir] [processname]
 
 option     : For Marling job ( option = 1 ) or Event selection ( option = 2 )
 input_dir  : Directory of Marlin Steer Files (option=1) or analyzed root files (option=2)  
@@ -36,12 +36,13 @@ DATE
 
 def main():
     args = sys.argv[1:]
-    if len(args) < 3:
+    if len(args) < 4:
         return usage()
 
     opt = int(args[0])
     src = args[1]
     dst = args[2]
+    pname = args[3]
 #    flag = args[3]
     
     if src.startswith('.'):                    
@@ -202,7 +203,10 @@ def main():
                     fout_script.write('                                 \n') 
                     fout_script.write('source setup.sh                  \n')
                     fout_script.write('                                 \n')
-                    fout_script.write('./python/sel_events.py  %s %s \n' % ( root_in, root_out ) )
+                    if pname == "ee":
+                        fout_script.write('./python/sel_ee_events.py  %s %s \n' % (root_in, root_out )) 
+                    else:
+                        fout_script.write('./python/sel_mumu_events.py  %s %s \n' % (root_in, root_out ))
                     fout_script.close()
                     sys.stdout.write('Creating condor submit script %s \n'  % outname)
 
@@ -249,9 +253,12 @@ def main():
 
             file_tmp = f.split('.root')[0]
             #src_tmp = src.split('ana')[0]
-
-            root_scale_in = cwd + '/' + 'run/bg/plot/'+dname+'/ana_File_merged_1.root'
-            root_scale_out = cwd + '/' + 'run/bg/hist/'+dname+'/ana_File_merged_1.root'
+            if pname == "ee":            					
+                root_scale_in = cwd + '/' +'run/eeH/bg/plot/'+dname+'/ana_File_merged_1.root'
+                root_scale_out = cwd + '/' +'run/eeH/bg/hist/'+dname+'/ana_File_merged_1.root'
+            else:
+                root_scale_in = cwd + '/' +'run/mumuH/bg/plot/'+dname+'/ana_File_merged_1.root'
+                root_scale_out = cwd + '/' +'run/mumuH/bg/hist/'+dname+'/ana_File_merged_1.root'
             table_list ='table/bg_sample_list.txt'
             fout_script = open(outname,'w')
             fout_script.write('#!/bin/bash                      \n') 
