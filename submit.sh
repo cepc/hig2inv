@@ -4,7 +4,18 @@
 # Author SHI Xin <shixin@ihep.ac.cn> 
 # Created [2016-08-16 Tue 08:29] 
 #mumuH_inv
-usage() { 
+usage() {
+    printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
+    printf "\nSYNOPSIS\n"
+    printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
+    printf "\nOPTIONS\n"   
+    printf "\n\t%-9s  %-40s"  "0.1"      "[run data sample for mumuH_inv->Maoqiang Jing]" 
+    printf "\n\t%-9s  %-40s"  "0.2"      "[run data sample for mumuH_inv->Tanyuhang]"  
+    printf "\n\t%-9s  %-40s"  "0.3"      "[run data sample for background of mumuH_inv]" 
+    printf "\n\t%-9s  %-40s"  "0.4"      "[run data sample for eeH_inv]" 
+    printf "\n\n" 
+}
+usage_0_1() { 
     printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]"  
@@ -16,8 +27,9 @@ usage() {
     printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Apply BDT cut"
     printf "\n\t%-5s  %-40s\n"  "0.1.6"    "Synthetize signal and background ROOT files"
     printf "\n\t%-5s  %-40s\n"  "0.1.7"    "Fit higggs mass spectra(recoilling mass of Z boson)"
-    printf "\n\t%-5s  %-40s\n"  "0.1.8"    "Calculate upper limmits of branch ratio"
-        
+    printf "\n\t%-5s  %-40s\n"  "0.1.8"    "Calculate upper limmits of branch ratio" 
+}
+ usage_0_2() {        
     #0.2 #mumuH_invisible
     printf "\n\t%-5s  %-40s\n"  "0.2"      "Runing signal samples..."
     printf "\n\t%-5s  %-40s\n"  "0.2.1"    "Split signal sample with each group 0.5G..."  
@@ -28,7 +40,9 @@ usage() {
     printf "\n\t%-5s  %-40s\n"  "0.2.6"    "Select events on signal (with a small sample)..."
     printf "\n\t%-5s  %-40s\n"  "0.2.7"    "Generate Condor job scripts for event selection..."
     printf "\n\t%-5s  %-40s\n"  "0.2.8"    "Submit Condor jobs for event selection on signal..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.9"    "Merge event root files..."         
+    printf "\n\t%-5s  %-40s\n"  "0.2.9"    "Merge event root files..."  
+}
+usage_0_3() {         
     #0.3 #background
     printf "\n\t%-5s  %-40s\n"  "0.3"      "Running on background sample...."
     printf "\n\t%-5s  %-40s\n"  "0.3.1"    "Split background sample with each group 20G..."  
@@ -48,52 +62,45 @@ usage() {
     printf "\n\t%-5s  %-40s\n"  "0.3.15"   "Applying BDT cut..."
     printf "\n\t%-5s  %-40s\n"  "0.3.16"   "Synthetizing signal and background ROOT files..."
     printf "\n\t%-5s  %-40s\n"  "0.3.17"   "Fitting higgs mass spectra(recoilling mass of Z boson)..."
-    printf "\n\t%-5s  %-40s\n"  "0.3.18"   "Calculating upper limmit of branch ratio..."
-
-
-    printf "\nDATE\n"
-    printf "\n\t%-5s\n" "AUGUST 2016"     
+    printf "\n\t%-5s  %-40s\n"  "0.3.18"   "Get background and signal number after different cuts" 
+    printf "\n\t%-5s  %-40s\n"  "0.3.19"   "Get Shorthand channel detail information"   
 }
 #eeH_inv(memo 0.4.3)
-usage_0_4_3(){
+usage_0_4(){
     printf "NAME\n\tsubmit.sh - eeH_inv\n"
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
     printf "\nOPTIONS\n" 
-    #0.1 #eeH_invisible
-    printf "\n\t%-5s  %-40s\n"  "0.1"      "Runing signal samples..."
-    printf "\n\t%-5s  %-40s\n"  "0.1.1"    "Split signal sample with each group 0.5G..."  
-    printf "\n\t%-5s  %-40s\n"  "0.1.2"    "Generate XML input files for Marlin job..."
-    printf "\n\t%-5s  %-40s\n"  "0.1.3"    "Run with a few events" 
-    printf "\n\t%-5s  %-40s\n"  "0.1.4"    "Generate Condor job scripts..." 
-    printf "\n\t%-5s  %-40s\n"  "0.1.5"    "Submit Condor jobs for pre-selection on signal..."
-    printf "\n\t%-5s  %-40s\n"  "0.1.6"    "Select events on signal (with a small sample)..."
-    printf "\n\t%-5s  %-40s\n"  "0.1.7"    "Generate Condor job scripts for event selection..."
-    printf "\n\t%-5s  %-40s\n"  "0.1.8"    "Submit Condor jobs for event selection on signal..."
-    printf "\n\t%-5s  %-40s\n"  "0.1.9"    "Merge event root files..."         
-    #0.2 #background
-    printf "\n\t%-5s  %-40s\n"  "0.2"      "Running on background sample...."
-    printf "\n\t%-5s  %-40s\n"  "0.2.1"    "Split background sample with each group 20G..."  
-    printf "\n\t%-5s  %-40s\n"  "0.2.2"    "Generate XML input files for Marlin job..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.3"    "Check statistics : print the number of files..." 
-    printf "\n\t%-5s  %-40s\n"  "0.2.4"    "GRun with a few events ..." 
-    printf "\n\t%-5s  %-40s\n"  "0.2.5"    "Generate Condor job scripts..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.6"    "Submit Condor jobs for pre-selection on background sample..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.7"    "Select events on background (with a small sample)..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.8"    "Generate Condor job scripts for event selection..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.9"    "Submit Condor jobs for pre-selection on background sample..." 
-    printf "\n\t%-5s  %-40s\n"  "0.2.10"   "Merge event root files..." 
-    printf "\n\t%-5s  %-40s\n"  "0.2.11"   "Scale event..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.12"   "Plot signal and background cut distribution"
-    printf "\n\t%-5s  %-40s\n"  "0.2.13"   "Plot before cut and after cut distribution" 
-    printf "\n\t%-5s  %-40s\n"  "0.2.14"   "Expand the background two times" 
-    printf "\n\t%-5s  %-40s\n"  "0.2.15"   "Applying BDT cut..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.16"   "Synthetizing signal and background ROOT files..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.17"   "Fitting higgs mass spectra(recoilling mass of Z boson)..."
-    printf "\n\t%-5s  %-40s\n"  "0.2.18"   "Calculating upper limmit of branch ratio..."
-
-    printf "\nDATE\n"
-    printf "\n\t%-5s\n" "AUGUST 2018"   	
+    #0.4 #eeH_invisible
+    printf "\n\t%-5s  %-40s\n"  "0.4.1"    "Split signal sample with each group 0.5G..."  
+    printf "\n\t%-5s  %-40s\n"  "0.4.2"    "Generate XML input files for Marlin job..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.3"    "Run with a few events" 
+    printf "\n\t%-5s  %-40s\n"  "0.4.4"    "Generate Condor job scripts..." 
+    printf "\n\t%-5s  %-40s\n"  "0.4.5"    "Submit Condor jobs for pre-selection on signal..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.6"    "Select events on signal (with a small sample)..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.7"    "Generate Condor job scripts for event selection..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.8"    "Submit Condor jobs for event selection on signal..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.9"    "Merge event root files..."         
+    #0.4 #background
+    printf "\n\t%-5s  %-40s\n"  "0.4.10"    "Split background sample with each group 20G..."  
+    printf "\n\t%-5s  %-40s\n"  "0.4.11"    "Generate XML input files for Marlin job..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.12"    "Check statistics : print the number of files..." 
+    printf "\n\t%-5s  %-40s\n"  "0.4.13"    "GRun with a few events ..." 
+    printf "\n\t%-5s  %-40s\n"  "0.4.14"    "Generate Condor job scripts..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.15"    "Submit Condor jobs for pre-selection on background sample..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.16"    "Select events on background (with a small sample)..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.17"    "Generate Condor job scripts for event selection..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.18"    "Submit Condor jobs for pre-selection on background sample..." 
+    printf "\n\t%-5s  %-40s\n"  "0.4.19"    "Merge event root files..." 
+    printf "\n\t%-5s  %-40s\n"  "0.4.20"    "Scale event..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.21"    "Plot signal and background cut distribution"
+    printf "\n\t%-5s  %-40s\n"  "0.4.22"    "Plot before cut and after cut distribution" 
+    printf "\n\t%-5s  %-40s\n"  "0.4.23"    "Expand the background two times" 
+    printf "\n\t%-5s  %-40s\n"  "0.4.24"    "Applying BDT cut..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.25"    "Synthetizing signal and background ROOT files..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.26"    "Calculating upper limit of branch ratio..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.27"    "Get background and signal number after different cuts"	
+    printf "\n\t%-5s  %-40s\n"  "0.4.28"    "Get Shorthand channel detail information"
 }
 
 
@@ -111,11 +118,9 @@ if [[ $# -eq 0 ]]; then
 else
     option=$1    
 fi
-
+sub_0_1(){
 case $option in 
-    0.1) echo " Maoqiang's code  "
 
-    ;;
     0.1.1) echo "Running on signal and background samples..."
         if [ ! -d "steer" ]; then
             mkdir steer -
@@ -192,15 +197,14 @@ case $option in
     0.1.8) echo "Calculating upper limmit of branch ratio..."
         cd python
         python cal_upperlimit.py
-    ;;
-
-    #example e2E2h_invisible 
-
-   
-    0.2)   echo "Runing signal samples..."
-   
-        ;;
+    
+    esac
+}
  
+
+sub_0_2(){   
+case $option in 
+#example e2E2h_invisible 
     0.2.1) echo "Split signal sample with each group 0.5G..."
         
             mkdir -p ./run/mumuH/e2E2h_invi/samples
@@ -270,13 +274,12 @@ case $option in
 
             ./python/mrg_rootfiles.py  ./run/mumuH/e2E2h_invi/events/ana  ./run/mumuH/e2E2h_invi/hist/e2E2h_invi 
 
-        ;;
+        esac
+}
+
+sub_0_3(){
     #background information 
-
-    0.3) echo "Running on background sample...."
-
-        ;;
-
+case $option in    
     0.3.1) echo "Split background sample with each group 20G..."
           
             mkdir -p   ./run/mumuH/bg/samples
@@ -519,12 +522,10 @@ case $option in
                 ./python/sel_eventsm.py run/mumuH/total/hist/$dir preliminary/mumuH/$dir
                 cd ./run/mumuH/total/hist
             done
-#    0.4.3) echo  "Runing ee samples..." 
-#    0.4.3.1)
 esac    
+}
 
-
-memo_0_4_3(){
+sub_0_4(){
 
 eeH_inv_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
 sel_all=0
@@ -533,17 +534,14 @@ sel_bg=2
 
 case $option in
     #example eeH_invisible 
-    0.1)   echo "Runing signal samples..."
-   
-        ;;
  
-    0.1.1) echo "Split signal sample with each group 0.5G..."
+    0.4.1) echo "Split signal sample with each group 0.5G..."
         
             mkdir -p ./run/eeH/eeh_invi/samples
             ./python/get_samples.py ${eeH_inv_slcio_dir} ./run/eeH/eeh_invi/samples/E240_Pffh_invi.txt 0.5G
         ;;       
            
-    0.1.2) echo "Generate XML input files for Marlin job..."
+    0.4.2) echo "Generate XML input files for Marlin job..."
                 
             mkdir -p   ./run/eeH/eeh_invi/steers
             mkdir -p   ./run/eeH/eeh_invi/steers/test
@@ -553,7 +551,7 @@ case $option in
     
         ;;
            
-    0.1.3) echo "Run with a few events"
+    0.4.3) echo "Run with a few events"
                    
             source setup.sh
 #           ./build.sh
@@ -561,14 +559,14 @@ case $option in
             
         ;;
 
-    0.1.4) echo "Generate Condor job scripts..."
+    0.4.4) echo "Generate Condor job scripts..."
 
             mkdir -p   ./run/eeH/eeh_invi/condor/script/marlin
            ./python/gen_condorscripts.py  1  ./run/eeH/eeh_invi/steers ./run/eeH/eeh_invi/condor  ${sel_signal}
            
         ;;
 
-    0.1.5) echo "Submit Condor jobs for pre-selection on signal..."
+    0.4.5) echo "Submit Condor jobs for pre-selection on signal..."
                     
             cd ./run/eeH/eeh_invi/condor
             mkdir -p log
@@ -576,14 +574,14 @@ case $option in
 
         ;;
 
-    0.1.6) echo "Select events on signal (with a small sample)..."  
+    0.4.6) echo "Select events on signal (with a small sample)..."  
 #            mkdir -p   ./run/eeh_invi/events/ana
             mkdir -p   ./run/eeH/eeh_invi/events/ana/
             ./python/sel_ee_events.py  ./run/eeH/eeh_invi/ana/ana_File-2.root  ana_File-2_test.root 
             
         ;; 
 
-    0.1.7) echo "Generate Condor job scripts for event selection..."
+    0.4.7) echo "Generate Condor job scripts for event selection..."
 
             mkdir -p   ./run/eeH/eeh_invi/events/ana
             mkdir -p   ./run/eeH/eeh_invi/condor/script/eventsel
@@ -591,7 +589,7 @@ case $option in
 
         ;;
     
-    0.1.8) echo "Submit Condor jobs for event selection on signal..."
+    0.4.8) echo "Submit Condor jobs for event selection on signal..."
 
             cd ./run/eeH/eeh_invi/condor
             mkdir -p log/events
@@ -600,7 +598,7 @@ case $option in
   
         ;;
 
-    0.1.9) echo  "Merge event root files..."
+    0.4.9) echo  "Merge event root files..."
            
             mkdir -p   ./run/eeH/eeh_invi/hist
 
@@ -609,17 +607,13 @@ case $option in
         ;;
     #background information 
 
-    0.2) echo "Running on background sample...."
-
-        ;;
-
-    0.2.1) echo "Split background sample with each group 20G..."
+    0.4.10) echo "Split background sample with each group 20G..."
           
             mkdir -p   ./run/eeH/bg/samples
             ./python/get_bg_samples.py ./table/bg_sample_list.txt ./run/eeH/bg/samples 20G           
 
         ;;           
-    0.2.2) echo "Generate XML input files for Marlin job..."  
+    0.4.11) echo "Generate XML input files for Marlin job..."  
 
             mkdir -p   ./run/eeH/bg/steers 
             mkdir -p   ./run/eeH/bg/ana
@@ -628,13 +622,13 @@ case $option in
         
         ;;
                
-    0.2.3) echo "Check statistics : print the number of files..."
+    0.4.12) echo "Check statistics : print the number of files..."
         
             ./python/check_stat.py  ./table/bg_sample_list.txt ./run/eeH/bg/samples 
         
        ;;
 
-    0.2.4) echo "Run with a few events ..."
+    0.4.13) echo "Run with a few events ..."
 #	   source setup.sh
 #	   ./build.sh
             cd ./run/eeH/bg/steers/
@@ -649,7 +643,7 @@ case $option in
 
         ;;
 
-    0.2.5) echo "Generate Condor job scripts..."
+    0.4.14) echo "Generate Condor job scripts..."
 
             mkdir -p   ./run/eeH/bg/condor
             cd ./run/eeH/bg/ana/
@@ -674,7 +668,7 @@ case $option in
 
         ;;
     
-    0.2.6) echo "Submit Condor jobs for pre-selection on background sample..."
+    0.4.15) echo "Submit Condor jobs for pre-selection on background sample..."
            echo " ---- "
            echo "Please enter the number of jobs for each backgrond (default: 1000)"  
 
@@ -689,7 +683,7 @@ case $option in
             done 
            ;;
             
-    0.2.7) echo "Select events on background (with a small sample)..."
+    0.4.16) echo "Select events on background (with a small sample)..."
 #            python python/check.py ./run/bg/log/marlin   0        
             mkdir -p   ./run/eeH/bg/events/ana/
 
@@ -697,7 +691,7 @@ case $option in
 
            ;;
 
-    0.2.8) echo "Generate Condor job scripts for event selection..."
+    0.4.17) echo "Generate Condor job scripts for event selection..."
    
             mkdir -p   ./run/eeH/bg/events/ana
         
@@ -722,7 +716,7 @@ case $option in
 
         ;;
 
-    0.2.9) echo "Submit Condor jobs for pre-selection on background sample..."
+    0.4.18) echo "Submit Condor jobs for pre-selection on background sample..."
 
             cd ./run/eeH/bg/condor
             for dir in *
@@ -736,7 +730,7 @@ case $option in
             done
 
         ;;
-    0.2.10) echo  "Merge event root files..."
+    0.4.19) echo  "Merge event root files..."
 #            python python/check.py ./run/bg/log/events 1
             mkdir -p ./run/eeH/bg/hist
             mkdir -p ./run/eeH/bg/plot
@@ -752,7 +746,7 @@ case $option in
            done
           ;; 
 
-    0.2.11) echo "Scale event..."
+    0.4.20) echo "Scale event..."
             cd ./run/eeH/bg/condor
             for dir in *
             do
@@ -764,7 +758,7 @@ case $option in
 #                fi
             done
     ;; 
-    0.2.12) echo "Plot signal and background cut distribution"
+    0.4.21) echo "Plot signal and background cut distribution"
             mkdir -p ./run/eeH/total/hist
             mkdir -p ./run/eeH/total/plot
             rm ./run/eeH/total/bkg_add_sig.root -rf
@@ -776,14 +770,14 @@ case $option in
             cp run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/eeH/total/hist/eeH_inv.root
        ;;
 
-    0.2.13) echo "Plot before cut and after cut distribution" 
+    0.4.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/eeH/after
             mkdir -p fig/eeH/before           
             ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w zzorww zorw 2f
             ./python/plt_after_summary.py eeH sig+bkg signal ZZ WW single_z single_w zzorww zorw  2f
 
             ;;
-    0.2.14) echo "Applying BDT cut..."
+    0.4.23) echo "Applying BDT cut..."
             if [ ! -d "BDT_output" ]; then
                 mkdir BDT_output
             fi
@@ -797,7 +791,7 @@ case $option in
             fi
     ;;
 
-    0.2.15) echo "Synthetizing signal and background ROOT files..."
+    0.4.24) echo "Synthetizing signal and background ROOT files..."
     
             rm ./BDT_output/Hinv_bkg_eeh_selected_BDT.root -rf
             # Expand background 62 times,make background and signal have the same scale.
@@ -809,16 +803,16 @@ case $option in
      
     ;;
 
-    0.2.16) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
+    0.4.25) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
 
             root ./src/fitsigbkg.cxx
     ;;
 
-    0.2.17) echo "Calculating upper limit of branch ratio..."
+    0.4.26) echo "Calculating upper limit of branch ratio..."
             
             python ./python/cal_upperlimit_BDT.py
     ;;
-    0.2.18) echo "Get background and signal number after different cuts"
+    0.4.27) echo "Get background and signal number after different cuts"
             rm table/eeH/bin.txt 
             rm table/eeH/out_list.txt
             rm table/eeH/tfbin.txt
@@ -835,14 +829,14 @@ case $option in
                
             python python/get_bin.py table/eeH/out_list.txt
         ;;
-    0.2.19) echo "Get Shorthand channel detail information"
+    0.4.28) echo "Get Shorthand channel detail information"
 #           cp run/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
            rm table/eeH/out_list_b.txt
            rm table/eeH/tfbin_b.txt
            python  python/gen_binb.py  run/eeH/total/hist eeH
 #           python  python/get_binb.py table/eeH/out_list_b.txt eeH
     ;;
-    0.2.20) echo " Optimize the cut conditions"
+    0.4.29) echo " Optimize the cut conditions"
             rm preliminary/eeH/*
 #			mkdir preliminary/eeH/
 #            ./test.py
@@ -864,14 +858,29 @@ esac
     # --------------------------------------------------------------------------
     #  Data  
     # --------------------------------------------------------------------------
-    0.4.3) echo "eeH_inv analysis..."
-        usage_0_4_3
-        for((i=1;i<=10;i++));
-        do
+    0.1) echo "eeH_inv analysis..."
+        usage_0_1
         echo "Please enter your option: " 
         read option  
-        memo_0_4_3 option 
-        done
+        sub_0_1 option 
+        ;;
+    0.2) echo "mumuH_inv analysis... -> Maoqiang Jing"
+        usage_0_2
+        echo "mumuH_inv analysis... " 
+        read option  
+        sub_0_2 option 
+        ;;
+    0.3) echo "The backgroud of mumuH_inv analysis..."
+        usage_0_3
+        echo "Please enter your option: " 
+        read option  
+        sub_0_3 option 
+        ;;
+    0.4) echo "eeH_inv analysis..."
+        usage_0_4
+        echo "Please enter your option: " 
+        read option  
+        sub_0_4 option 
         ;;
 
 esac
