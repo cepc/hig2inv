@@ -23,7 +23,7 @@ class Cutflow():
     def __init__(self):
         self.h_evtflw = ROOT.TH1F('hevtflw','eventflow',10,0,10)
         self.h_evtflw.GetXaxis().SetBinLabel(1,'raw')
-        self.h_evtflw.GetXaxis().SetBinLabel(2,'N_{e^{+}}==1self.self.N_{e^{-}}==1')
+        self.h_evtflw.GetXaxis().SetBinLabel(2,'N_{e^{+}}==1&&N_{e^{-}}==1')
         self.h_evtflw.GetXaxis().SetBinLabel(3,'120GeV/c^{2}<M_{Recoil}<160GeV/c^{2}')
         self.h_evtflw.GetXaxis().SetBinLabel(4,'71GeV/c^{2}<M_{e^{+}e^{-}}<99GeV/c^{2}')
         self.h_evtflw.GetXaxis().SetBinLabel(5,'10GeV/c<P_{t}^{e^{+}e^{-}}<55GeV')
