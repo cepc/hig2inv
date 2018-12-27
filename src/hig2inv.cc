@@ -67,9 +67,9 @@ class hig2inv  : public marlin::Processor {
         TH1F* h_mc_higgs_dlist;
 
         int LeptonID, RecoPID, tmpPID, PhotonPID, ElectronPID, MuonPID, NeutrinoEPID, NeutrinoMuonPID, TauPID, NeutrinoTauPID, ZPID, HiggsPID;
-        int Dquark, Uquark, Squark, Cquark, Bquark;
+        int Dquark, Uquark, Squark, Cquark, Bquark,WPID;
         int nMC, nReco, NCandiP, NCandiM, NParent, NDaughter, nDaughter, DIndex;
-        int OverWrite;
+        int OverWrite,DecayFlag;
         float RecoEMax, RecoEMin, ZMass;
         int m_n_gamma, m_n_charged, m_n_leptonp, m_n_leptonm, m_n_chargedp, m_n_chargedm, m_n_Higgsdaughter, m_n_neutral,m_n_neutrino,m_Neutral_PID;
         int Nmup;
@@ -108,6 +108,82 @@ class hig2inv  : public marlin::Processor {
         std::vector<TLorentzVector> P4_MCTruth_photon;
         std::vector<TLorentzVector> P4_MCTruth_Higgs;   
 
+        int m_mc_lepton_minus_id;
+        int m_mc_lepton_plus_id;
+
+        int m_mc_init_n_lepton_plus;
+        int m_mc_init_n_lepton_minus;
+
+        double m_mc_init_leptonp_e;
+        double m_mc_init_leptonp_p;
+        double m_mc_init_leptonp_pt;
+        double m_mc_init_leptonp_pz;
+
+        double m_mc_init_leptonp_phi;
+        double m_mc_init_leptonp_theta;
+
+        double m_mc_init_leptonm_e;
+        double m_mc_init_leptonm_p;
+        double m_mc_init_leptonm_pt;
+        double m_mc_init_leptonm_pz;
+
+        double m_mc_init_leptonm_phi;
+        double m_mc_init_leptonm_theta;
+
+        double m_mc_init_dilepton_m;
+        double m_mc_init_dilepton_e;
+        double m_mc_init_dilepton_p;
+        double m_mc_init_dilepton_pt;
+        double m_mc_init_dilepton_pz;
+
+        double m_mc_init_dilepton_rec_m;
+        double m_mc_init_dilepton_dphi;
+        double m_mc_init_dilepton_dang;
+
+        int m_mc_init_n_photon;
+        std::vector<double> m_mc_init_photon_e;
+        std::vector<double> m_mc_init_photon_p;
+        std::vector<double> m_mc_init_photon_pt;
+        std::vector<double> m_mc_init_photon_pz;
+        std::vector<double> m_mc_init_photon_phi;  
+        std::vector<double> m_mc_init_photon_theta;
+
+        double m_mc_higgs_m;
+        double m_mc_higgs_e;
+        double m_mc_higgs_rec_m;
+
+        int m_mc_n_Zboson;
+        int m_mc_higgs_decay_type;
+        std::vector<int> m_mc_higgs_daughter_pdgid;
+        std::vector<int> m_mc_z1_daughter_pid;
+        std::vector<int> m_mc_z2_daughter_pid;
+        std::vector<TLorentzVector> P4_MCTruth_Z1;  
+        std::vector<TLorentzVector> P4_MCTruth_Z2;  
+        std::vector<int> m_mc_w1_daughter_pid;
+        std::vector<int> m_mc_w2_daughter_pid;
+        std::vector<TLorentzVector> P4_MCTruth_W1;  
+        std::vector<TLorentzVector> P4_MCTruth_W2;  
+
+        double m_mc_zw1_m;
+        double m_mc_zw1_p;
+        double m_mc_zw1_pt;
+        double m_mc_zw1_e;
+        double m_mc_zw1_rec_m;
+
+        double m_mc_zw2_m;
+        double m_mc_zw2_p;
+        double m_mc_zw2_pt;
+        double m_mc_zw2_e;
+        double m_mc_zw2_rec_m;
+        
+        double m_mc_zw1zw2_m;
+        double m_mc_zw1zw2_e;
+        double m_mc_zw1zw2_rec_m;
+
+        int m_mc_zz_flag;
+        int m_mc_ww_flag;
+        int m_mc_h2gaugeboson_flag;
+
 
 
         void book_histogram();
@@ -129,6 +205,8 @@ class hig2inv  : public marlin::Processor {
         void saveNeutrino( int NParent, int NDaughter, MCParticle *a1_MC, int tmpPID, float MCEn );
         void printDecayChain( int MCParticleID, MCParticle *mcp );
         void printMCinfo( int MCParticleID, int flag, MCParticle *mcp, std::vector<MCParticle*> pvec, std::vector<MCParticle*> dvec );
+        void saveMCTruthInfo( LCCollection* col_MC );
+        void fillMCInfo();
         void variable_init();
 
 };
@@ -263,7 +341,16 @@ hig2inv::hig2inv()
             "Bquark ID that will be used in this analysis." ,
             Bquark ,
             Bquark);
-        
+    WPID=24;
+        registerProcessorParameter( "WPID" ,
+            "W Boson ID that will be used in this analysis." ,
+            WPID ,
+            WPID);
+    DecayFlag=0;  //1 is H->Z ; 2 is H->W ; 3 is H->q ; 4 is H ->Lepton ; 5 is H->Gluon ; 6 is H-> Photon in MC.  
+        registerProcessorParameter( "DecayFlag" ,
+            "DecayFlag is Higgs decay once produced particles" ,
+            DecayFlag ,
+            DecayFlag);            
 }
 
 void hig2inv::init() {
@@ -292,7 +379,9 @@ void hig2inv::processEvent( LCEvent * evt ) {
             selectLepton(nReco,col_Reco);
             saveVisible(P4_Neutral_Sum, P4_Charged_Sum);
             saveRecInfo(FourMom_LeptonP,FourMom_LeptonM);
-            saveMCInfo( nMC, col_MC );
+             saveMCTruthInfo( col_MC );            
+
+//            saveMCInfo( nMC, col_MC );
 
             m_tree->Fill();
         }
@@ -387,7 +476,80 @@ void hig2inv::book_tree() {
 
 
 //MC info
+  m_tree->Branch("mc_pdgid", &m_mc_pdgid);
+  m_tree->Branch("mc_init_pdgid", &m_mc_init_pdgid);
+  
+  m_tree->Branch("mc_lepton_minus_id", &m_mc_lepton_minus_id, "mc_lepton_minus_id/I");
+  m_tree->Branch("mc_lepton_plus_id", &m_mc_lepton_plus_id, "mc_lepton_plus_id/I");
+  
+  m_tree->Branch("mc_init_n_lepton_plus", &m_mc_init_n_lepton_plus,  "mc_init_n_lepton_plus/I");
+  m_tree->Branch("mc_init_n_lepton_minus", &m_mc_init_n_lepton_minus,  "mc_init_n_lepton_minus/I");
+  
+  m_tree->Branch("mc_init_leptonp_e",  &m_mc_init_leptonp_e,   "mc_init_leptonp_e/D");
+  m_tree->Branch("mc_init_leptonp_p",  &m_mc_init_leptonp_p,   "mc_init_leptonp_p/D");
+  m_tree->Branch("mc_init_leptonp_pt", &m_mc_init_leptonp_pt,  "mc_init_leptonp_pt/D");
+  m_tree->Branch("mc_init_leptonp_pz", &m_mc_init_leptonp_pz,  "mc_init_leptonp_pz/D");
 
+  m_tree->Branch("mc_init_leptonp_phi", &m_mc_init_leptonp_phi,  "mc_init_leptonp_phi/D");
+  m_tree->Branch("mc_init_leptonp_theta", &m_mc_init_leptonp_theta,  "mc_init_leptonp_theta/D");
+  
+  m_tree->Branch("mc_init_leptonm_e",  &m_mc_init_leptonm_e,   "mc_init_leptonm_e/D");
+  m_tree->Branch("mc_init_leptonm_p",  &m_mc_init_leptonm_p,   "mc_init_leptonm_p/D");
+  m_tree->Branch("mc_init_leptonm_pt", &m_mc_init_leptonm_pt,  "mc_init_leptonm_pt/D");
+  m_tree->Branch("mc_init_leptonm_pz", &m_mc_init_leptonm_pz,  "mc_init_leptonm_pz/D");
+
+  m_tree->Branch("mc_init_leptonm_phi", &m_mc_init_leptonm_phi,  "mc_init_leptonm_phi/D");
+  m_tree->Branch("mc_init_leptonm_theta", &m_mc_init_leptonm_theta,  "mc_init_leptonm_theta/D");
+  
+  m_tree->Branch("mc_init_dilepton_m",  &m_mc_init_dilepton_m,   "mc_init_dilepton_m/D");
+  m_tree->Branch("mc_init_dilepton_e",  &m_mc_init_dilepton_e,   "mc_init_dilepton_e/D");
+  m_tree->Branch("mc_init_dilepton_p",  &m_mc_init_dilepton_p,   "mc_init_dilepton_p/D");
+  m_tree->Branch("mc_init_dilepton_pt", &m_mc_init_dilepton_pt,  "mc_init_dilepton_pt/D");
+  m_tree->Branch("mc_init_dilepton_pz", &m_mc_init_dilepton_pz,  "mc_init_dilepton_pz/D");
+  m_tree->Branch("mc_init_dilepton_rec_m", &m_mc_init_dilepton_rec_m,  "mc_init_dilepton_rec_m/D");
+  m_tree->Branch("mc_init_dilepton_dphi", &m_mc_init_dilepton_dphi,  "mc_init_dilepton_dphi/D");
+  m_tree->Branch("mc_init_dilepton_dang", &m_mc_init_dilepton_dang,  "mc_init_dilepton_dang/D");
+  
+  m_tree->Branch("mc_init_n_photon", &m_mc_init_n_photon,  "mc_init_n_photon/I");
+  m_tree->Branch("mc_init_photon_e",  &m_mc_init_photon_e);
+  m_tree->Branch("mc_init_photon_p",  &m_mc_init_photon_p);
+  m_tree->Branch("mc_init_photon_pt",  &m_mc_init_photon_pt);
+  m_tree->Branch("mc_init_photon_pz",  &m_mc_init_photon_pz);
+  m_tree->Branch("mc_init_photon_phi",  &m_mc_init_photon_phi);
+  m_tree->Branch("mc_init_photon_theta",  &m_mc_init_photon_theta);
+
+  m_tree->Branch("mc_higgs_m", &m_mc_higgs_m, "mc_higgs_m/D");
+  m_tree->Branch("mc_higgs_e", &m_mc_higgs_e, "mc_higgs_e/D");
+  m_tree->Branch("mc_higgs_rec_m", &m_mc_higgs_rec_m, "mc_higgs_rec_m/D");
+  m_tree->Branch("mc_higgs_decay_type", &m_mc_higgs_decay_type, "mc_higgs_decay_type/I");
+  m_tree->Branch("mc_higgs_daughter_pdgid", &m_mc_higgs_daughter_pdgid);
+ 
+  m_tree->Branch("mc_n_Zboson", &m_mc_n_Zboson, "mc_n_Zboson/I");
+  
+  m_tree->Branch("mc_z1_daughter_pid", &m_mc_z1_daughter_pid);
+  m_tree->Branch("mc_z2_daughter_pid", &m_mc_z2_daughter_pid);
+
+  m_tree->Branch("mc_w1_daughter_pid", &m_mc_w1_daughter_pid);
+  m_tree->Branch("mc_w2_daughter_pid", &m_mc_w2_daughter_pid);
+  
+  m_tree->Branch("mc_zw1_m", &m_mc_zw1_m, "mc_zw1_m/D");
+  m_tree->Branch("mc_zw1_p", &m_mc_zw1_p, "mc_zw1_p/D");
+  m_tree->Branch("mc_zw1_pt", &m_mc_zw1_pt, "mc_zw1_pt/D");
+  m_tree->Branch("mc_zw1_e", &m_mc_zw1_e, "mc_zw1_e/D");
+  m_tree->Branch("mc_zw1_rec_m", &m_mc_zw1_rec_m, "mc_zw1_rec_m/D");
+  
+  m_tree->Branch("mc_zw2_m", &m_mc_zw2_m, "mc_zw2_m/D");
+  m_tree->Branch("mc_zw2_p", &m_mc_zw2_p, "mc_zw2_p/D");
+  m_tree->Branch("mc_zw2_pt", &m_mc_zw2_pt, "mc_zw2_pt/D");
+  m_tree->Branch("mc_zw2_e", &m_mc_zw2_e, "mc_zw2_e/D");
+  m_tree->Branch("mc_zw2_rec_m", &m_mc_zw2_rec_m, "mc_zw2_rec_m/D");
+  
+  m_tree->Branch("mc_zw1zw2_m", &m_mc_zw1zw2_m, "mc_zw1zw2_m/D");
+  m_tree->Branch("mc_zw1zw2_e", &m_mc_zw1zw2_e, "mc_zw1zw2_e/D");
+  m_tree->Branch("mc_zw1zw2_rec_m", &m_mc_zw1zw2_rec_m, "mc_zw1zw2_rec_m/D");
+  m_tree->Branch("mc_zz_flag", &m_mc_zz_flag, "mc_zz_flag/I");
+  m_tree->Branch("mc_ww_flag", &m_mc_ww_flag, "mc_ww_flag/I");
+  m_tree->Branch("mc_h2gaugeboson_flag", &m_mc_h2gaugeboson_flag, "mc_h2gaugeboson_flag/I");
 
 
 }
@@ -469,6 +631,31 @@ void hig2inv::variable_init() {
     CandiP.clear();
     CandiM.clear();
 
+  // MC info. 
+  m_mc_pdgid.clear();
+  m_mc_init_pdgid.clear();
+  m_mc_higgs_daughter_pdgid.clear();
+  P4_MCTruth_LeptonPlus.clear();
+  P4_MCTruth_LeptonMinus.clear();
+  P4_MCTruth_photon.clear();
+  P4_MCTruth_Higgs.clear();
+
+  m_mc_init_photon_e.clear();
+  m_mc_init_photon_p.clear();
+  m_mc_init_photon_pt.clear();
+  m_mc_init_photon_pz.clear();
+  m_mc_init_photon_phi.clear();
+  m_mc_init_photon_theta.clear();
+
+  m_mc_z1_daughter_pid.clear();
+  m_mc_z2_daughter_pid.clear();
+  P4_MCTruth_Z1.clear();
+  P4_MCTruth_Z2.clear();
+
+  m_mc_w1_daughter_pid.clear();
+  m_mc_w2_daughter_pid.clear();
+  P4_MCTruth_W1.clear();
+  P4_MCTruth_W2.clear();
 }
 
 void hig2inv::saveNeutral( int nReco, LCCollection* col_Reco ) {
@@ -508,7 +695,6 @@ void hig2inv::savePhoton( int nReco, LCCollection* col_Reco ) {
             m_p_photon[0] = a_Reco->getMomentum()[0];
             m_p_photon[1] = a_Reco->getMomentum()[1];
             m_p_photon[2] = a_Reco->getMomentum()[2];
-
             m_pt_photon = sqrt(m_p_photon[0]*m_p_photon[0]+m_p_photon[1]*m_p_photon[1]);
             FourMom_Gamma.push_back(m_p_photon);
         }
@@ -703,106 +889,6 @@ void hig2inv::saveRecInfo( std::vector<TLorentzVector> FourMom_LeptonP, std::vec
   }
   }
 }
-void hig2inv::saveMCInfo( int nMC, LCCollection* col_MC ) {
-
-    for(int i = 0; i < nMC; i++) {
-        a1_MC = dynamic_cast<EVENT::MCParticle *>(col_MC->getElementAt(i));
-        tmpPID = a1_MC->getPDG();
-        NParent = a1_MC->getParents().size();
-        NDaughter = a1_MC->getDaughters().size();
-        MCEn = a1_MC->getEnergy();
-        saveZdaughter( NParent, NDaughter, tmpPID, MCEn, a1_MC );
-        std::vector<MCParticle*> pvec;
-        pvec = a1_MC->getParents();
-        for( std::vector<MCParticle*>::iterator itr = pvec.begin(); itr != pvec.end(); ++itr ) {
-            saveHiggsdaughter( NParent, NDaughter, *itr, tmpPID, MCEn, a1_MC );
-            saveNeutrino( NParent, NDaughter, *itr, tmpPID, MCEn );
-        }
-        if( 0 ) printDecayChain( i , a1_MC );
-    }
-
-}
-
-void hig2inv::saveZdaughter( int NParent, int NDaughter, int tmpPID, float MCEn, MCParticle *a1_MC ) {
-
-    if(NParent == 0 && abs(tmpPID) == LeptonID ) { //Including all Z decay
-        m_PID_Zdaughter = abs(tmpPID);
-        m_p_Zdaughters[3] = MCEn;
-        m_p_Zdaughters[0] = a1_MC->getMomentum()[0];
-        m_p_Zdaughters[1] = a1_MC->getMomentum()[1];
-        m_p_Zdaughters[2] = a1_MC->getMomentum()[2];
-        if(tmpPID > 0) {
-            m_p_Zdaughterp[0] = a1_MC->getMomentum()[0];
-            m_p_Zdaughterp[1] = a1_MC->getMomentum()[1];
-            m_p_Zdaughterp[2] = a1_MC->getMomentum()[2];
-            m_p_Zdaughterp[3] = MCEn;
-        }
-        else if(tmpPID < 0) {
-            m_p_Zdaughterm[0] = a1_MC->getMomentum()[0];
-            m_p_Zdaughterm[1] = a1_MC->getMomentum()[1];
-            m_p_Zdaughterm[2] = a1_MC->getMomentum()[2];
-            m_p_Zdaughterm[3] = MCEn;
-        }
-    }
-
-}
-
-void hig2inv::saveHiggsdaughter( int NParent, int NDaughter, MCParticle *itr, int tmpPID, float MCEn, MCParticle *a1_MC ) {
-
-    if(abs(tmpPID) == ZPID && NParent == 1 && itr->getPDG() == HiggsPID ) { //Higgs
-        m_n_Higgsdaughter = NDaughter;
-        m_p_Higgsdaughters[3] = MCEn;
-        m_p_Higgsdaughters[0] = a1_MC->getMomentum()[0];
-        m_p_Higgsdaughters[1] = a1_MC->getMomentum()[1];
-        m_p_Higgsdaughters[2] = a1_MC->getMomentum()[2];
-        for(int i = 0; i < NDaughter; i++) { //NDaughter
-            MCParticle *b_MC = a1_MC->getDaughters()[i];
-            m_PID_HiggsDaughter = b_MC->getPDG();
-            m_PID_Higgsdaughter[DIndex] = m_PID_HiggsDaughter;
-            if(m_PID_HiggsDaughter < 6 || m_PID_HiggsDaughter == MuonPID || m_PID_HiggsDaughter == ElectronPID || m_PID_HiggsDaughter == TauPID ) {
-                if(m_PID_HiggsDaughter > 0) {
-                    m_p_Higgsdaughter1[3] = b_MC->getEnergy();
-                    m_p_Higgsdaughter1[0] = b_MC->getMomentum()[0];
-                    m_p_Higgsdaughter1[1] = b_MC->getMomentum()[1];
-                    m_p_Higgsdaughter1[2] = b_MC->getMomentum()[2];
-                }
-                else if(m_PID_HiggsDaughter < 0) {
-                    m_p_Higgsdaughter2[3] = b_MC->getEnergy();
-                    m_p_Higgsdaughter2[0] = b_MC->getMomentum()[0];
-                    m_p_Higgsdaughter2[1] = b_MC->getMomentum()[1];
-                    m_p_Higgsdaughter2[2] = b_MC->getMomentum()[2];
-                }
-            }
-            else if(DIndex == 0) {
-                m_p_Higgsdaughter1[3] = b_MC->getEnergy();
-                m_p_Higgsdaughter1[0] = b_MC->getMomentum()[0];
-                m_p_Higgsdaughter1[1] = b_MC->getMomentum()[1];
-                m_p_Higgsdaughter1[2] = b_MC->getMomentum()[2];
-                DIndex = 1;
-            }
-            else if(DIndex == 1) {
-                m_p_Higgsdaughter2[3] = b_MC->getEnergy();
-                m_p_Higgsdaughter2[0] = b_MC->getMomentum()[0];
-                m_p_Higgsdaughter2[1] = b_MC->getMomentum()[1];
-                m_p_Higgsdaughter2[2] = b_MC->getMomentum()[2];
-            }
-            m_PID_HiggsDaughter = abs(m_PID_HiggsDaughter);
-        }
-    }
-
-}
-
-void hig2inv::saveNeutrino( int NParent, int NDaughter, MCParticle *itr, int tmpPID, float MCEn ) {
-
-    if(NParent ==1 && NDaughter == 0) {
-        if( itr->getPDG() == LeptonID && ( abs(tmpPID) == NeutrinoEPID || abs(tmpPID) == NeutrinoMuonPID || abs(tmpPID) == NeutrinoTauPID ) ) {
-            m_n_neutrino++;
-            m_energy_neutrino = MCEn;
-        }
-    }
-
-}
-
 void hig2inv::printDecayChain( int MCParticleID, MCParticle *mcp ) {
     std::vector<MCParticle*> pvec, dvec;
     pvec = mcp->getParents();
@@ -927,4 +1013,442 @@ bool hig2inv::buildZToff() {
   else{
       return false;
   }
+}
+void hig2inv::saveMCTruthInfo( LCCollection* col_MC ) {
+
+  int ncol = col_MC->getNumberOfElements();
+  
+  int Zcount=0;
+  int Wcount=0;
+  for( int i = 0; i < ncol; i++) {
+
+    MCParticle *mcp = dynamic_cast<EVENT::MCParticle *>(col_MC->getElementAt(i));
+
+    std::vector<MCParticle*> pvec, dvec;
+    pvec = mcp->getParents();
+    dvec = mcp->getDaughters();
+
+    int status      =  mcp->getGeneratorStatus(); 
+    int pdgid       =  mcp->getPDG();
+    //int mass        =  mcp->getMass();
+    int nparents    =  pvec.size();
+    //int ndaughters  =  dvec.size();
+
+    // Print decay chain info, if need them.
+    if( 0 ) printDecayChain( i , mcp );
+
+
+    int mother_pid=-9999;
+    if( nparents > 0 )mother_pid=pvec[0]->getPDG();
+
+    if( nparents == 0 ) { 
+    
+      double px = mcp->getMomentum()[0];
+      double py = mcp->getMomentum()[1];
+      double pz = mcp->getMomentum()[2];
+      double e = mcp->getEnergy();
+      
+      TLorentzVector p4vec(px, py, pz, e);
+      
+      if( pdgid == MuonPID || pdgid == ElectronPID || pdgid == TauPID) {
+        m_mc_lepton_minus_id = pdgid;
+        P4_MCTruth_LeptonMinus.push_back( p4vec );
+      }
+      if( pdgid == -MuonPID|| pdgid == -ElectronPID|| pdgid == -TauPID){
+        m_mc_lepton_plus_id = pdgid;
+        P4_MCTruth_LeptonPlus.push_back( p4vec );
+      }
+      
+      if( pdgid == PhotonPID )P4_MCTruth_photon.push_back( p4vec );
+      if( pdgid == HiggsPID )P4_MCTruth_Higgs.push_back( p4vec );
+    
+      m_mc_init_pdgid.push_back( pdgid );
     }
+
+    // Search Higgs daughters
+    if( nparents == 1 && mother_pid == HiggsPID ) { // mother is Higgs
+
+      m_mc_higgs_daughter_pdgid.push_back( pdgid );
+
+      if( pdgid == ZPID ) {  // Z boson
+    
+    //for( int j = 0; j < ndaughters; j++ ) 
+    for( int j = 0; j < 2; j++ )  { // fill daughter's info
+      
+      int d_pid  = dvec[j]->getPDG();
+      
+      double px = dvec[j]->getMomentum()[0];
+      double py = dvec[j]->getMomentum()[1];
+      double pz = dvec[j]->getMomentum()[2];
+      double e = dvec[j]->getEnergy();
+      
+      TLorentzVector p4vec(px, py, pz, e);
+
+      if( Zcount == 0 ) {
+        m_mc_z1_daughter_pid.push_back( d_pid );
+        P4_MCTruth_Z1.push_back( p4vec );	    
+      }
+      else if( Zcount == 1 ) {
+        m_mc_z2_daughter_pid.push_back( d_pid );
+        P4_MCTruth_Z2.push_back( p4vec );
+      }
+    }
+    
+    DecayFlag = 1;
+    Zcount++;
+      }
+
+      if( abs(pdgid) == WPID ) {  // W boson
+    
+    for( int j = 0; j < 2; j++ )  { // fill daughter's info
+      
+      int d_pid  = dvec[j]->getPDG();
+      
+      double px = dvec[j]->getMomentum()[0];
+      double py = dvec[j]->getMomentum()[1];
+      double pz = dvec[j]->getMomentum()[2];
+      double e = dvec[j]->getEnergy();
+      
+      TLorentzVector p4vec(px, py, pz, e);
+
+      if( Wcount == 0 ) {
+        m_mc_w1_daughter_pid.push_back( d_pid );
+        P4_MCTruth_W1.push_back( p4vec );	    
+      }
+      else if( Wcount == 1 ) {
+        m_mc_w2_daughter_pid.push_back( d_pid );
+        P4_MCTruth_W2.push_back( p4vec );
+      }
+    }
+    
+    DecayFlag = 2;
+    Wcount++;
+      }    
+      
+      if( abs(pdgid) >= 1  && abs(pdgid) <= 6  ) DecayFlag = 3;  //qq
+      if( abs(pdgid) >= 11 && abs(pdgid) <= 16 ) DecayFlag = 4;  //Lepton
+      if( pdgid == 21 ) DecayFlag = 5;  //Gluon
+      if( pdgid == 22 ) DecayFlag = 6; //Photon
+    
+    }
+
+    if(status==1)m_mc_pdgid.push_back(pdgid);
+  }
+
+  m_mc_n_Zboson = Zcount;
+  m_mc_higgs_decay_type = DecayFlag;
+
+  fillMCInfo();
+
+}
+
+void hig2inv::fillMCInfo() {
+
+  int n_init_lepton_p = P4_MCTruth_LeptonPlus.size();
+  int n_init_lepton_m = P4_MCTruth_LeptonMinus.size();
+  
+  // Initial two leptons
+  m_mc_init_n_lepton_plus  = n_init_lepton_p;
+  m_mc_init_n_lepton_minus = n_init_lepton_m;
+
+  if( n_init_lepton_p > 0 && n_init_lepton_m > 0 ) {
+
+    m_mc_init_leptonp_e  = P4_MCTruth_LeptonPlus[0].E();
+    m_mc_init_leptonp_p  = P4_MCTruth_LeptonPlus[0].P();
+    m_mc_init_leptonp_pt = P4_MCTruth_LeptonPlus[0].Pt();
+    m_mc_init_leptonp_pz = P4_MCTruth_LeptonPlus[0].Pz();
+
+    m_mc_init_leptonp_phi = P4_MCTruth_LeptonPlus[0].Phi()      *180.0/M_PI;
+    m_mc_init_leptonp_theta = P4_MCTruth_LeptonPlus[0].Theta()  *180.0/M_PI;
+  
+    m_mc_init_leptonm_e  = P4_MCTruth_LeptonMinus[0].E();
+    m_mc_init_leptonm_p  = P4_MCTruth_LeptonMinus[0].P();
+    m_mc_init_leptonm_pt = P4_MCTruth_LeptonMinus[0].Pt();
+    m_mc_init_leptonm_pz = P4_MCTruth_LeptonMinus[0].Pz();
+
+    m_mc_init_leptonm_phi = P4_MCTruth_LeptonMinus[0].Phi()     *180.0/M_PI;
+    m_mc_init_leptonm_theta = P4_MCTruth_LeptonMinus[0].Theta() *180.0/M_PI;
+  
+    double mll     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).M();
+    double ell     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).E();
+    double pll     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).P();
+    double ptll    = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).Pt();
+    double pzll    = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).Pz();
+    double rec_mll = (P_T - P4_MCTruth_LeptonPlus[0] - P4_MCTruth_LeptonMinus[0] ).M();
+    double dphi    = fabs(P4_MCTruth_LeptonPlus[0].DeltaPhi(P4_MCTruth_LeptonMinus[0])) *180.0/M_PI;
+    double dang    = P4_MCTruth_LeptonPlus[0].Angle(P4_MCTruth_LeptonMinus[0].Vect())   *180.0/M_PI;
+  
+    m_mc_init_dilepton_m = mll;
+    m_mc_init_dilepton_e = ell;
+    m_mc_init_dilepton_p = pll;
+    m_mc_init_dilepton_pt = ptll;
+    m_mc_init_dilepton_pz = pzll;
+    m_mc_init_dilepton_rec_m = rec_mll;
+    m_mc_init_dilepton_dphi = dphi;
+    m_mc_init_dilepton_dang = dang;
+  }
+  else {
+    
+    m_mc_init_leptonp_e  = -9999.0;
+    m_mc_init_leptonp_p  = -9999.0;
+    m_mc_init_leptonp_pt = -9999.0;
+    m_mc_init_leptonp_pz = -9999.0;
+
+    m_mc_init_leptonp_phi = -9999.0;
+    m_mc_init_leptonp_theta = -9999.0;
+  
+    m_mc_init_leptonm_e  = -9999.0;
+    m_mc_init_leptonm_p  = -9999.0;
+    m_mc_init_leptonm_pt = -9999.0;
+    m_mc_init_leptonm_pz = -9999.0;
+
+    m_mc_init_leptonm_phi = -9999.0;
+    m_mc_init_leptonm_theta = -9999.0;
+  
+    m_mc_init_dilepton_m = -9999.0;
+    m_mc_init_dilepton_e = -9999.0;
+    m_mc_init_dilepton_p = -9999.0;
+    m_mc_init_dilepton_pt = -9999.0;
+    m_mc_init_dilepton_pz = -9999.0;
+    m_mc_init_dilepton_rec_m = -9999.0;
+    m_mc_init_dilepton_dphi = -9999.0;
+    m_mc_init_dilepton_dang = -9999.0;
+  }
+    
+  // Initial photons
+  int n_init_photon = P4_MCTruth_photon.size();
+  
+  m_mc_init_n_photon  = n_init_photon;
+
+  for( int i=0; i<n_init_photon; i++) {
+
+    m_mc_init_photon_e.push_back( P4_MCTruth_photon[i].E() );
+    m_mc_init_photon_p.push_back( P4_MCTruth_photon[i].P() );
+    m_mc_init_photon_pt.push_back( P4_MCTruth_photon[i].Pt() );
+    m_mc_init_photon_pz.push_back( P4_MCTruth_photon[i].Pz() );
+
+    m_mc_init_photon_phi.push_back( P4_MCTruth_photon[i].Phi()*180.0/M_PI );
+    m_mc_init_photon_theta.push_back( P4_MCTruth_photon[i].Theta()*180.0/M_PI );
+  }
+
+  if( n_init_photon == 0 ) {
+
+    m_mc_init_photon_e.push_back( -99.0 );
+    m_mc_init_photon_p.push_back( -99.0 );
+    m_mc_init_photon_pt.push_back( -99.0 );
+    m_mc_init_photon_pz.push_back( -999.0 );
+
+    m_mc_init_photon_phi.push_back( -99.0 );
+    m_mc_init_photon_theta.push_back( -99.0 );
+  }
+
+
+  // Initial Higgs
+  int n_higgs = P4_MCTruth_Higgs.size();
+  if( n_higgs == 1 ) {
+
+    m_mc_higgs_m = P4_MCTruth_Higgs[0].M();
+    m_mc_higgs_e = P4_MCTruth_Higgs[0].E();
+    m_mc_higgs_rec_m = ( P_T - P4_MCTruth_Higgs[0] ).M();
+  }
+  else {
+
+    m_mc_higgs_m = -9999.0;
+    m_mc_higgs_e = -9999.0;
+    m_mc_higgs_rec_m = -9999.0;
+  }
+
+
+  // H->ZZ* or H->WW* channels   
+  int n_z1_daughters = P4_MCTruth_Z1.size();
+  int n_z2_daughters = P4_MCTruth_Z2.size();
+  int n_w1_daughters = P4_MCTruth_W1.size();
+  int n_w2_daughters = P4_MCTruth_W2.size();
+
+  int h2zz_flag=0;
+  int h2ww_flag=0;
+  m_mc_zz_flag = -1;
+  m_mc_ww_flag = -1;
+
+  TLorentzVector p4_zw1_daughter_1, p4_zw1_daughter_2;
+  TLorentzVector p4_zw2_daughter_1, p4_zw2_daughter_2;
+
+  // Higgs -> ZZ
+  if( n_higgs == 1 && n_z1_daughters == 2 && n_z2_daughters == 2 ) {
+
+    h2zz_flag = 1;
+
+    int flag1=0;
+    int flag2=0;
+    //*******  Z1 decay combination   *******//
+    // Z1->qq
+    if( abs(m_mc_z1_daughter_pid[0]) >= 1 && abs(m_mc_z1_daughter_pid[0]) <= 6 ) { flag1 = 1; }
+
+    // Z1->nunu
+    if( abs(m_mc_z1_daughter_pid[0]) == NeutrinoEPID ||
+    abs(m_mc_z1_daughter_pid[0]) == NeutrinoMuonPID     ||
+    abs(m_mc_z1_daughter_pid[0]) == NeutrinoTauPID         ) { flag1 = 2; }
+
+    // Z1->ll
+    if( abs(m_mc_z1_daughter_pid[0]) == ElectronPID ||
+    abs(m_mc_z1_daughter_pid[0]) == MuonPID     ||
+    abs(m_mc_z1_daughter_pid[0]) == TauPID         ) { flag1 = 3; }
+
+    // Strange !
+    if( (m_mc_z1_daughter_pid[0] + m_mc_z1_daughter_pid[1]) != 0 ) { flag1 = 4; }
+  
+    //*******  Z2 decay combination   *******//
+    // Z2->qq
+    if( abs(m_mc_z2_daughter_pid[0]) >= 1 && abs(m_mc_z2_daughter_pid[0]) <= 6 ) { flag2 = 1; }
+
+    // Z2->nunu
+    if( abs(m_mc_z2_daughter_pid[0]) == NeutrinoEPID ||
+    abs(m_mc_z2_daughter_pid[0]) == NeutrinoMuonPID     ||
+    abs(m_mc_z2_daughter_pid[0]) == NeutrinoTauPID         ) { flag2 = 2; }
+
+    // Z2->ll
+    if( abs(m_mc_z2_daughter_pid[0]) == ElectronPID ||
+    abs(m_mc_z2_daughter_pid[0]) == MuonPID     ||
+    abs(m_mc_z2_daughter_pid[0]) == TauPID         ) { flag2 = 3; }
+
+    // Strange Combination
+    if( (m_mc_z2_daughter_pid[0] + m_mc_z2_daughter_pid[1]) != 0 ) { flag2 = 4; }
+
+    m_mc_zz_flag = flag2*10 + flag1;
+  
+    // Replace Neutrino component to "invisible"
+    TLorentzVector p4_null(0,0,0,0);
+
+    p4_zw1_daughter_1 = P4_MCTruth_Z1[0];
+    p4_zw1_daughter_2 = P4_MCTruth_Z1[1];
+    p4_zw2_daughter_1 = P4_MCTruth_Z2[0];
+    p4_zw2_daughter_2 = P4_MCTruth_Z2[1];
+
+    if( flag1 == 2 ) { // neutrino
+    
+      p4_zw1_daughter_1 = p4_null;
+      p4_zw1_daughter_2 = p4_null;
+    }
+    if( flag2 == 2 ) { // neutrino
+    
+      p4_zw2_daughter_1 = p4_null;
+      p4_zw2_daughter_2 = p4_null;
+    }
+  }
+
+  // Higgs -> WW
+  if( n_higgs == 1 && n_w1_daughters == 2 && n_w2_daughters == 2  ) {     
+
+    h2ww_flag = 1;
+
+    int flag1=0;
+    int flag2=0;
+    //*******  W1 decay combination   *******//
+    // W1->qq
+    if( abs(m_mc_w1_daughter_pid[0]) >= 1 && abs(m_mc_w1_daughter_pid[0]) <= 6 ) { flag1 = 1; }
+
+    // W1->nu+l
+    if( abs(m_mc_w1_daughter_pid[0]) == NeutrinoEPID  || 
+        abs(m_mc_w1_daughter_pid[0]) == NeutrinoMuonPID      ||
+    abs(m_mc_w1_daughter_pid[0]) == NeutrinoTauPID            ) { flag1 = 2; }
+
+    // W1->l+nu
+    if( abs(m_mc_w1_daughter_pid[1]) == NeutrinoEPID  || 
+        abs(m_mc_w1_daughter_pid[1]) == NeutrinoMuonPID      ||
+    abs(m_mc_w1_daughter_pid[1]) == NeutrinoTauPID            ) { flag1 = 3; }
+
+  
+    //*******  W2 decay combination   *******//
+    // W2->qq
+    if( abs(m_mc_w2_daughter_pid[0]) >= 1 && abs(m_mc_w2_daughter_pid[0]) <= 6 ) { flag2 = 1; }
+
+    // W2->nu+l
+    if( abs(m_mc_w2_daughter_pid[0]) == NeutrinoEPID  || 
+        abs(m_mc_w2_daughter_pid[0]) == NeutrinoMuonPID      ||
+    abs(m_mc_w2_daughter_pid[0]) == NeutrinoTauPID            ) { flag2 = 2; }
+
+    // W2->l+nu
+    if( abs(m_mc_w2_daughter_pid[1]) == NeutrinoEPID  || 
+        abs(m_mc_w2_daughter_pid[1]) == NeutrinoMuonPID      ||
+    abs(m_mc_w2_daughter_pid[1]) == NeutrinoTauPID            ) { flag2 = 3; }
+
+
+    m_mc_ww_flag = flag2*10 + flag1;
+
+    // Replace Neutrino component to "invisible"
+    TLorentzVector p4_null(0,0,0,0);
+    p4_zw1_daughter_1 = P4_MCTruth_W1[0];
+    p4_zw1_daughter_2 = P4_MCTruth_W1[1];
+    p4_zw2_daughter_1 = P4_MCTruth_W2[0];
+    p4_zw2_daughter_2 = P4_MCTruth_W2[1];
+
+    if( flag1 == 2 ) p4_zw1_daughter_1 = p4_null; // neutrino
+    if( flag1 == 3 ) p4_zw1_daughter_2 = p4_null; // neutrino
+
+    if( flag2 == 2 ) p4_zw2_daughter_1 = p4_null; // neutrino
+    if( flag2 == 3 ) p4_zw2_daughter_2 = p4_null; // neutrino
+  }
+
+
+  // Save Variables ( H->ZZ*/WW* )
+  if( h2zz_flag == 0 && h2ww_flag == 0 ) m_mc_h2gaugeboson_flag = 0;
+  if( h2zz_flag == 1 && h2ww_flag == 0 ) m_mc_h2gaugeboson_flag = 1;
+  if( h2zz_flag == 0 && h2ww_flag == 1 ) m_mc_h2gaugeboson_flag = 2;
+  if( h2zz_flag == 1 && h2ww_flag == 1 ) m_mc_h2gaugeboson_flag = 3;
+
+
+  if( h2zz_flag == 1 || h2ww_flag == 1 ) {
+
+    double zw1_m  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).M();
+    double zw1_p  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).P();
+    double zw1_pt = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).Pt();
+    double zw1_e  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).E();
+    double zw1_rec_m  = ( P_T - p4_zw1_daughter_1 - p4_zw1_daughter_2 ).M();
+
+    double zw2_m  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).M();
+    double zw2_p  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).P();
+    double zw2_pt = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).Pt();
+    double zw2_e  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).E();
+    double zw2_rec_m  = ( P_T - p4_zw2_daughter_1 - p4_zw2_daughter_2 ).M();
+
+    double zw1zw2_m = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 + p4_zw2_daughter_1 + p4_zw2_daughter_2 ).M();
+    double zw1zw2_e = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 + p4_zw2_daughter_1 + p4_zw2_daughter_2 ).E();
+    double zw1zw2_rec_m = ( P_T - p4_zw1_daughter_1 - p4_zw1_daughter_2 - p4_zw2_daughter_1 - p4_zw2_daughter_2 ).M();
+
+    m_mc_zw1_m  = zw1_m;
+    m_mc_zw1_p  = zw1_p;
+    m_mc_zw1_pt = zw1_pt;
+    m_mc_zw1_e  = zw1_e;
+    m_mc_zw1_rec_m = zw1_rec_m;
+
+    m_mc_zw2_m  = zw2_m;
+    m_mc_zw2_p  = zw2_p;
+    m_mc_zw2_pt = zw2_pt;
+    m_mc_zw2_e  = zw2_e;
+    m_mc_zw2_rec_m = zw2_rec_m;
+
+    m_mc_zw1zw2_m = zw1zw2_m;
+    m_mc_zw1zw2_e = zw1zw2_e;
+    m_mc_zw1zw2_rec_m = zw1zw2_rec_m;
+  }
+  else {
+
+    m_mc_zw1_m  = -9999.0;
+    m_mc_zw1_p  = -9999.0;
+    m_mc_zw1_pt = -9999.0;
+    m_mc_zw1_e  = -9999.0;
+    m_mc_zw1_rec_m = -9999.0;
+
+    m_mc_zw2_m  = -9999.0;
+    m_mc_zw2_p  = -9999.0;
+    m_mc_zw2_pt = -9999.0;
+    m_mc_zw2_e  = -9999.0;
+    m_mc_zw2_rec_m = -9999.0;
+
+    m_mc_zw1zw2_m = -9999.0;
+    m_mc_zw1zw2_e = -9999.0;
+    m_mc_zw1zw2_rec_m = -9999.0;
+  }
+
+}
+

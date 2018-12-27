@@ -118,6 +118,10 @@ if [[ $# -eq 0 ]]; then
 else
     option=$1    
 fi
+
+
+
+
 sub_0_1(){
 case $option in 
 
@@ -278,6 +282,7 @@ case $option in
 }
 
 sub_0_3(){
+
     #background information 
 case $option in    
     0.3.1) echo "Split background sample with each group 20G..."
@@ -852,35 +857,53 @@ case $option in
 #            ./python/sel_eventsm.py  run/total/hist/total_bkg.root  preliminary/total_bkg.root
 esac    
 }
-
-
- case $option in 
+case $option in 
+# sample: 0.1 is print detail information about each step and then you can run the step you want.
+#         0.1.* is directly running the step. 
     # --------------------------------------------------------------------------
     #  Data  
     # --------------------------------------------------------------------------
-    0.1) echo "eeH_inv analysis..."
+    0.1) echo "mumuH_inv analysis...  -> Maoqiang Jing"
         usage_0_1
         echo "Please enter your option: " 
-        read option  
+        read option 
         sub_0_1 option 
         ;;
-    0.2) echo "mumuH_inv analysis... -> Maoqiang Jing"
-        usage_0_2
-        echo "mumuH_inv analysis... " 
-        read option  
+    0.1.*) echo "mumuH_inv analysis...  -> Maoqiang Jing"
+        sub_0_1 option
+        ;;
+        
+    0.2) echo "mumuH_inv analysis..."
+        if [ $option == 0.2 ]; then  
+           usage_0_2
+           echo "mumuH_inv analysis... " 
+           read option
+        fi  
         sub_0_2 option 
         ;;
-    0.3) echo "The backgroud of mumuH_inv analysis..."
+    0.2.*) echo "mumuH_inv analysis..."
+        sub_0_2 option 
+        ;;
+
+    0.3) echo "The backgroud of mumuH_inv analysis..." 
         usage_0_3
         echo "Please enter your option: " 
-        read option  
+        read option 
         sub_0_3 option 
         ;;
+    0.3.*) echo "The backgroud of mumuH_inv analysis..."
+        sub_0_3 option 
+        ;;
+
     0.4) echo "eeH_inv analysis..."
         usage_0_4
         echo "Please enter your option: " 
-        read option  
+        read option
         sub_0_4 option 
         ;;
+        
+    0.4.*) echo "eeH_inv analysis..."
+        sub_0_4 option 
+        ;; 	
 
 esac
