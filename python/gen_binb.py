@@ -17,7 +17,7 @@ from array import array
 def main():
     args = sys.argv[1:]
     inputfile = args[0]
-    pname=[]
+    pname=args[1]
     for root, dirs, files in os.walk(inputfile):   
         for f in files:        
             event = []
@@ -28,8 +28,13 @@ def main():
 #        print input_path
             event = get_bin_value(input_path)
 
-
-            recode_information(processname,event)
+            if pname  == "mumuH": 
+                recode_mumu_information(processname,event)
+            elif pname == "eeH":
+                recode_ee_information(processname,event)    
+            else:
+                print "This is  wrong. Please check it" 
+                sys.exit()           
 
 def get_bin_value(inputfile):  
     sample = ROOT.TFile(inputfile)
@@ -41,9 +46,9 @@ def get_bin_value(inputfile):
 
     
 
-def recode_information(src,event):
+def recode_mumu_information(src,event):
     cwd = os.getcwd() 
-    out_putname = cwd + '/' + 'table/' + 'out_list_b.txt'
+    out_putname = cwd + '/' + 'table/mumuH/' + 'out_list_b.txt'
     fout_script = open(out_putname,'a')
     print src
     if src == 'zorw':
@@ -53,6 +58,17 @@ def recode_information(src,event):
     fout_script.close()
     sys.stdout.write('Outputname %s \n'  % out_putname)
     os.chmod(out_putname, 0744)
-
+def recode_ee_information(src,event):
+    cwd = os.getcwd()
+    out_putname = cwd + '/' + 'table/eeH/' + 'out_list_b.txt'
+    fout_script = open(out_putname,'a')
+    print src
+    if src == 'zorw':
+        fout_script.write('#cuts information by ground \n')
+        fout_script.write('%-15s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s\n'%('#processname','raw','N_mu','Mrecoil','mmdie','pt','#phi','visible','E/P','Pz'))
+    fout_script.write('%-15s,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d\n'%(src,event[0],event[1],event[2],event[3],event[4],event[5],event[6],event[7],event[8]))
+    fout_script.close()
+    sys.stdout.write('Outputname %s \n'  % out_putname)
+    os.chmod(out_putname, 0744)
 if __name__ == '__main__':
     main()

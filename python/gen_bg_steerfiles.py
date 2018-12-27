@@ -25,7 +25,8 @@ def main():
     src = args[2]
     dst = args[3]
     rootfname = args[4]
-
+    pname = args[5]
+#pname = processname
     if src.startswith('.'):                    
         src = src[2:]
     if src.endswith('/'):                    
@@ -93,10 +94,10 @@ def main():
                     lines = []
                     if detector_conf == 'CEPC_V4':
                         lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V4, 
-                                                    ecms=ECMS_CEPC_V4, output_rootfile=root_name, processname="BKGM" ) )
+                                                    ecms=ECMS_CEPC_V4, output_rootfile=root_name, processname=pname ) )
                     if detector_conf == 'V1':
                         lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V1,
-                                                    ecms=ECMS_CEPC_V1, output_rootfile=root_name, processname="BKGM" ) )
+                                                    ecms=ECMS_CEPC_V1, output_rootfile=root_name, processname=pname ) )
 
                     # Generate XML files
                     fout = open(outname,'w')
@@ -113,10 +114,10 @@ def main():
                         lines = []
                         if detector_conf == 'CEPC_V4':
                             lines.append( t.substitute( slcio_in_list=data1, max_event_num=100, gear_xml=GEAR_CEPC_V4, 
-                                                        ecms=ECMS_CEPC_V4, output_rootfile=root_name ) )
+                                                        ecms=ECMS_CEPC_V4, output_rootfile=root_name, processname=pname ) )
                         if detector_conf == 'V1':
                             lines.append( t.substitute( slcio_in_list=data1, max_event_num=100, gear_xml=GEAR_CEPC_V1,
-                                                        ecms=ECMS_CEPC_V1, output_rootfile=root_name ) )
+                                                        ecms=ECMS_CEPC_V1, output_rootfile=root_name, processname=pname ) )
 
                         outname = './' + output_dir + '/test/sample-' + str(nfile) + '.xml'
                         fout = open(outname,'w')

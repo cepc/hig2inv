@@ -36,13 +36,13 @@ DATE
 
 def main():
     args = sys.argv[1:]
-    if len(args) < 3:
+    if len(args) < 4:
         return usage()
 
     opt = int(args[0])
     src = args[1]
     dst = args[2]
-   
+    pname = args[3]
     
     if src.startswith('.'):                    
         src = src[2:]
@@ -159,7 +159,10 @@ def main():
                 fout_script.write('source setup.sh                  \n')
                 fout_script.write('                                 \n') 
 #                fout_script.write('./python/chs_events.py %s %s %s\n' %(root_in, root_scale_out, Select_name))
-                fout_script.write('./python/sel_events.py  %s %s \n' % (root_in, root_out )) 
+                if pname == "ee":
+                    fout_script.write('./python/sel_ee_events.py  %s %s \n' % (root_in, root_out )) 
+                else:
+                    fout_script.write('./python/sel_mumu_events.py  %s %s \n' % (root_in, root_out ))
                 fout_script.write('                                 \n') 
                 fout_script.close()
                 sys.stdout.write('Creating condor submit script %s \n'  % outname)

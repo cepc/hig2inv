@@ -42,14 +42,14 @@ DATE
 
 def main():
     args = sys.argv[1:]
-    if len(args) < 4:
+    if len(args) < 5:
         return usage()
 
     tpl = args[0]
     src = args[1]
     dst = args[2]
     rootfname = args[3]
-
+    pname = args[4]
     if src.startswith('.'):                    
         src = src[2:]
         print(src)
@@ -97,7 +97,7 @@ def main():
             t = Template(xml_in)
             lines = []
             lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V4, 
-                                        ecms=ECMS_CEPC_V4, output_rootfile=root_name ) )
+                                        ecms=ECMS_CEPC_V4, output_rootfile=root_name, processname=pname ) )
 
             # Generate XML files
             fout = open(outname,'w')
@@ -113,7 +113,7 @@ def main():
                 t = Template(xml_in)
                 lines = []
                 lines.append( t.substitute( slcio_in_list=data1, max_event_num=-1, gear_xml=GEAR_CEPC_V4, 
-                                            ecms=ECMS_CEPC_V4, output_rootfile=root_name ) )
+                                            ecms=ECMS_CEPC_V4, output_rootfile=root_name, processname=pname ) )
 
 
                 outname = './' + dst + '/test/sample-' + str(nfile) + '.xml'

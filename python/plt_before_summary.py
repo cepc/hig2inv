@@ -17,55 +17,59 @@ from tools import check_outfile_path, set_root_style
 def main(): 
     set_root_style(stat=0, grid=0)
     ROOT.gStyle.SetPadLeftMargin(0.15)
-
-    sample = sys.argv[1:]
-    fs = get_files_from_sample(sample)
+    processname = sys.argv[1]
+    sample = sys.argv[2:]
+    fs = get_files_from_sample(sample,processname)
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
 
-#    draw_before_cut_n_moun(sample, c, fs)
-    draw_before_cut_n_photon(sample, c, fs)
-    draw_before_cut_Pt(sample, c, fs)
-    draw_before_cut_Pz(sample, c, fs)
-    draw_before_cut_theta(sample, c, fs)
-    draw_before_cut_vis(sample, c, fs)
-    draw_before_cut_Mmumu(sample, c, fs)
-    draw_before_cut_Mrecoil(sample, c, fs)
-    draw_before_cut_ep(sample, c, fs)
+#    draw_before_cut_n_moun(sample, c, fs, processname)
+#	draw_before_cut_n_photon(sample, c, fs, processname)
+    draw_before_cut_Pt(sample, c, fs, processname)
+    draw_before_cut_Pz(sample, c, fs, processname)
+    draw_before_cut_theta(sample, c, fs, processname)
+    draw_before_cut_vis(sample, c, fs, processname)
+    draw_before_cut_Mmumu(sample, c, fs, processname)
+    draw_before_cut_Mrecoil(sample, c, fs, processname)
+    draw_before_cut_ep(sample, c, fs, processname)
 
 
 
-def get_files_from_sample(sample):
+def get_files_from_sample(sample,processname):
     fs = []       
     if 'signal' in sample:
-        fs.append(ROOT.TFile('run/total/hist/ffH_inv.root'))
+        if processname == "mumuH":
+            fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/mumuH_inv.root'))
+        if processname == "eeH":
+            fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/eeH_inv.root'))	
+
 
     if 'ZZ' in sample:
-        fs.append(ROOT.TFile('run/total/hist/ZZ.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/ZZ.root'))
 
     if 'WW' in sample:
-        fs.append(ROOT.TFile('run/total/hist/WW.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/WW.root'))
 
     if 'single_z' in sample:
-        fs.append(ROOT.TFile('run/total/hist/single_z.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/single_z.root'))
 
     if 'single_w' in sample:
-        fs.append(ROOT.TFile('run/total/hist/single_w.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/single_w.root'))
 
     if 'zzorww' in sample:
-        fs.append(ROOT.TFile('run/total/hist/zzorww.root'))	
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	
 
     if 'zorw' in sample:
-        fs.append(ROOT.TFile('run/total/hist/zorw.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zorw.root'))
         
     if '2f' in sample:
-        fs.append(ROOT.TFile('run/total/hist/2f.root'))
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/2f.root'))
 
 
 
 
     return fs
 
-def get_common_objects_to_draw(fs, hname, leg):
+def get_common_objects_to_draw(fs, hname, leg, processname):
     hs = []
 
     leg.SetTextSize(0.)
@@ -79,7 +83,10 @@ def get_common_objects_to_draw(fs, hname, leg):
         
 
         if fs.index(f) == 0:
-            h.Scale(1.0/509150.0)
+            if processname == "eeH":
+                h.Scale(1.0/17600.0)
+            if processname == "mumuH":
+                h.Scale(1.0/16925.0)                
             h.SetLineColor(2)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
@@ -141,7 +148,7 @@ def leg_add_entry_hist(leg, f, h):
     sample = sample.split('.root')[0]
 
 
-    if sample in ['ffH_inv']:
+    if sample in ['mumuH_inv','eeH_inv']:
         leg.AddEntry(h, "signal")
 
     elif sample in ['ZZ']:
@@ -171,23 +178,26 @@ def leg_add_entry_hist(leg, f, h):
     return leg
 
 
-def draw_before_cut_n_moun(sample, c, fs):
+def draw_before_cut_n_moun(sample, c, fs, processname):
     hname = 'before_cut_number_moun'
-    figfile = 'fig/before/hig2inv_before_cut_n_moun.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_n_moun.pdf'
 
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
     for h in hs:
         if hs.index(h) == 7:
-            h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV/c^{2})')
+            if processname == "mumuH":
+                h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV/c^{2})')
+            if processname == "eeH":
+                h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV/c^{2})')
+                h.SetMaximum(6000000)
+                h.SetMinimum(10)
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(6000000)
-            h.SetMinimum(10)
             h.Draw()
     for h in hs:
         if not hs.index(h) == 7:
@@ -197,11 +207,11 @@ def draw_before_cut_n_moun(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_before_cut_n_photon(sample, c, fs):
+def draw_before_cut_n_photon(sample, c, fs, processname):
     hname = 'before_cut_n_photon'
-    figfile = 'fig/before/hig2inv_before_cut_n_photon.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_n_photon.pdf'
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
@@ -223,23 +233,29 @@ def draw_before_cut_n_photon(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def  draw_before_cut_Pt(sample, c, fs):
+def  draw_before_cut_Pt(sample, c, fs, processname):
     hname = 'before_cut_Pt'
-    figfile = 'fig/before/hig2inv_before_cut_Pt.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_Pt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
-            h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV/c)')
+            if processname == "mumuH":
+                h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV/c)')
+                h.SetMaximum(0.03)
+                h.SetMinimum(0.00000000000001)	
+            if processname == "eeH":
+                h.SetXTitle('P_{t}^{e^{+}e^{-}} (GeV/c)')	
+                h.SetMaximum(0.03)
+                h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(0.003)
-            h.SetMinimum(0.00000000000001)
+
             h.Draw()
     for h in hs:
         if not hs.index(h) == 7:
@@ -249,23 +265,28 @@ def  draw_before_cut_Pt(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_before_cut_Pz(sample, c, fs):
+def draw_before_cut_Pz(sample, c, fs, processname):
     hname = 'before_cut_Pz'
-    figfile = 'fig/before/hig2inv_before_cut_Pz.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_Pz.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
-            h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV/c)')
+            if processname == "mumuH":
+                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV/c)')
+                h.SetMaximum(0.01)
+                h.SetMinimum(0.0000001)
+            if processname == "eeH":
+                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV/c)')
+                h.SetMaximum(0.01)
+                h.SetMinimum(0.0000001)
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(0.0006)
-            h.SetMinimum(0.0000001)
             h.Draw()
     for h in hs:
         if not hs.index(h) == 7:
@@ -275,24 +296,29 @@ def draw_before_cut_Pz(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_before_cut_theta(sample, c, fs):
+def draw_before_cut_theta(sample, c, fs, processname):
     hname = 'before_cut_theta'
-    figfile = 'fig/before/hig2inv_before_cut_theta.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_theta.pdf'
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
-            h.SetXTitle('|#phi_{#mu^{+}#mu^{-}}|')
+            if processname == "mumuH":
+                h.SetXTitle('|#Delta#phi_{#mu^{+}#mu^{-}}|')
+                h.SetMaximum(0.01)
+                h.SetMinimum(0.000001)
+            if processname == "eeH":
+                h.SetXTitle('|#Delta#phi_{e^{+}e^{-}}|')
+                h.SetMaximum(0.05)
+                h.SetMinimum(0)
             h.SetYTitle('Normalized to 1')
             h.SetMarkerStyle(1)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
-            h.SetMaximum(0.001)
-            h.SetMinimum(0)
             h.Draw()
     for h in hs:
         if not hs.index(h) == 7:
@@ -302,12 +328,12 @@ def draw_before_cut_theta(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_before_cut_vis(sample, c, fs):
+def draw_before_cut_vis(sample, c, fs, processname):
     hname = 'before_cut_vis'
-    figfile = 'fig/before/hig2inv_before_cut_vis.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_vis.pdf'
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
@@ -329,23 +355,28 @@ def draw_before_cut_vis(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def draw_before_cut_Mmumu(sample, c, fs):
+def draw_before_cut_Mmumu(sample, c, fs, processname):
     hname = 'before_cut_Mmumu'
-    figfile = 'fig/before/hig2inv_before_cut_Mmumu.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_Mmumu.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
-            h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV/c^{2})')
+            if processname == "mumuH":
+                h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV/c^{2})')
+                h.SetMaximum(0.02)
+                h.SetMinimum(0.0001)
+            if processname == "eeH":
+                h.SetXTitle('M_{e^{+}e^{-}}(GeV/c^{2})')
+                h.SetMaximum(0.04)
+                h.SetMinimum(0.0001)
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
             h.SetMarkerStyle(1)
-            h.SetMaximum(0.004)
-            h.SetMinimum(0.0001)
             h.Draw()
     for h in hs:
         if not hs.index(h) == 7:
@@ -355,18 +386,24 @@ def draw_before_cut_Mmumu(sample, c, fs):
     c.SaveAs(figfile)
 
 
-def  draw_before_cut_Mrecoil(sample, c, fs):
+def  draw_before_cut_Mrecoil(sample, c, fs, processname):
     hname = 'before_cut_Mrecoil'
-    figfile = 'fig/before/hig2inv_before_cut_Mrecoil.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_Mrecoil.pdf'
     check_outfile_path(figfile)
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
-
-            h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV/c^{2})')
+            if processname == "mumuH":
+                h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV/c^{2})')
+                h.SetMaximum(0.06)
+                h.SetMinimum(0.0000000000000001)
+            if processname == "eeH":
+                h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV/c^{2})')
+                h.SetMaximum(0.05)
+                h.SetMinimum(0.00000000000001)
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -376,8 +413,6 @@ def  draw_before_cut_Mrecoil(sample, c, fs):
             # Plot title?
             h.SetMarkerStyle(1)
 #            gPad.SetLogy();
-            h.SetMaximum(0.005)
-            h.SetMinimum(0.00000000000001)
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
@@ -387,13 +422,13 @@ def  draw_before_cut_Mrecoil(sample, c, fs):
 
     leg.Draw()
     c.SaveAs(figfile)
-def  draw_before_cut_ep(sample, c, fs):
+def  draw_before_cut_ep(sample, c, fs, processname):
     hname = 'before_cut_ep'
-    figfile = 'fig/before/hig2inv_before_cut_ep.pdf'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_ep.pdf'
     check_outfile_path(figfile)
 
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
-    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 7:
@@ -404,7 +439,7 @@ def  draw_before_cut_ep(sample, c, fs):
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
-            h.SetMaximum(0.003)
+            h.SetMaximum(0.03)
             h.SetMinimum(0.00000000000001)
             #            h.GetYaxis().SetRange(0,400)
             # Plot title?
