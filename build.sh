@@ -1,4 +1,12 @@
 #!/usr/bin/env bash 
+#Fast Jet
+cd ./MarlinFastJet-00-02
+rm -fr build
+mkdir build
+cd build
+cmake -C ../ILCSoft.cmake ..
+make install 
+cd ../../
 
 rm -fr build
 mkdir build

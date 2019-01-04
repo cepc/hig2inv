@@ -21,16 +21,25 @@ def main():
     sample = sys.argv[2:]
     fs = get_files_from_sample(sample,processname)
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
-
+    if "processname == qqH":
+        draw_before_cut_dijet_Pt(sample, c, fs, processname)
+        draw_before_cut_dijet_Pz(sample, c, fs, processname)
+        draw_before_cut_dijet_ang(sample, c, fs, processname)
+        draw_before_cut_dijet_phi(sample, c, fs, processname)
+        draw_before_cut_dijet_e(sample, c, fs, processname)
+        draw_before_cut_dijet_m(sample, c, fs, processname)
+        draw_before_cut_dijet_rec_m(sample, c, fs, processname)
+        draw_before_cut_dijet_p(sample, c, fs, processname)						
 #    draw_before_cut_n_moun(sample, c, fs, processname)
 #	draw_before_cut_n_photon(sample, c, fs, processname)
-    draw_before_cut_Pt(sample, c, fs, processname)
-    draw_before_cut_Pz(sample, c, fs, processname)
-    draw_before_cut_theta(sample, c, fs, processname)
-    draw_before_cut_vis(sample, c, fs, processname)
-    draw_before_cut_Mmumu(sample, c, fs, processname)
-    draw_before_cut_Mrecoil(sample, c, fs, processname)
-    draw_before_cut_ep(sample, c, fs, processname)
+    else:
+        draw_before_cut_Pt(sample, c, fs, processname)
+        draw_before_cut_Pz(sample, c, fs, processname)
+        draw_before_cut_theta(sample, c, fs, processname)
+        draw_before_cut_vis(sample, c, fs, processname)
+        draw_before_cut_Mmumu(sample, c, fs, processname)
+        draw_before_cut_Mrecoil(sample, c, fs, processname)
+        draw_before_cut_ep(sample, c, fs, processname)
 
 
 
@@ -41,7 +50,8 @@ def get_files_from_sample(sample,processname):
             fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/mumuH_inv.root'))
         if processname == "eeH":
             fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/eeH_inv.root'))	
-
+        if processname == "qqH":
+            fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/qqH_inv.root'))	
 
     if 'ZZ' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/ZZ.root'))
@@ -86,13 +96,15 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
             if processname == "eeH":
                 h.Scale(1.0/17600.0)
             if processname == "mumuH":
-                h.Scale(1.0/16925.0)                
+                h.Scale(1.0/16925.0)
+            if processname == "qqH":
+                h.Scale(1.0/342025.0)                 
             h.SetLineColor(2)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 1:
-            h.Scale(1.0/23955150.0)
+            h.Scale(1.0/5704399.0)
             h.SetLineColor(22)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
@@ -148,7 +160,7 @@ def leg_add_entry_hist(leg, f, h):
     sample = sample.split('.root')[0]
 
 
-    if sample in ['mumuH_inv','eeH_inv']:
+    if sample in ['mumuH_inv','eeH_inv','qqH_inv']:
         leg.AddEntry(h, "signal")
 
     elif sample in ['ZZ']:
@@ -453,6 +465,230 @@ def  draw_before_cut_ep(sample, c, fs, processname):
 
     leg.Draw()
     c.SaveAs(figfile)
+
+def draw_before_cut_dijet_Pt(sample, c, fs, processname):
+
+    hname = 'before_cut_dijet_pt'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_pt.pdf'
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+
+            h.SetXTitle('P_{t}^{dijet}(GeV/c)')	
+            h.SetMaximum(0.1)
+            h.SetMinimum(0.00000000000001)		
+            h.SetYTitle('Normalized to 1')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            h.SetMarkerStyle(1)
+
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+
+def draw_before_cut_dijet_Pz(sample, c, fs, processname):
+
+    hname = 'before_cut_dijet_pz'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_pz.pdf'
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+            h.SetXTitle('|P_{z}^{dijet}| (GeV/c)')
+            h.SetMaximum(0.03)
+            h.SetMinimum(0.0000001)
+            h.SetYTitle('Normalized to 1')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            h.SetMarkerStyle(1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+
+def draw_before_cut_dijet_ang(sample, c, fs, processname):
+    hname = 'before_cut_dijet_dang'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_dang.pdf'
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+            h.SetXTitle('|#angle_{dijet}|')
+            h.SetMaximum(0.1)
+            h.SetMinimum(0.000001)
+
+            h.SetYTitle('Normalized to 1')
+            h.SetMarkerStyle(1)
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)	
+def draw_before_cut_dijet_phi(sample, c, fs, processname):
+    hname = 'before_cut_dijet_dphi'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_dphi.pdf'
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+            h.SetXTitle('|#Delta#phi_{dijet}|')
+            h.SetMaximum(0.05)
+            h.SetMinimum(0)
+            h.SetYTitle('Normalized to 1')
+            h.SetMarkerStyle(1)
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+def draw_before_cut_dijet_e(sample, c, fs, processname):
+
+    hname = 'before_cut_dijet_e'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_e.pdf'
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+            h.SetXTitle('Visible Energy (GeV/c^{2})')
+            h.SetYTitle('Normalized to 1')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            h.SetMarkerStyle(1)
+            h.SetMaximum(0.06)
+            h.SetMinimum(0.000001)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)	
+
+def draw_before_cut_dijet_m(sample, c, fs, processname):
+
+    hname = 'before_cut_dijet_m'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_m.pdf'
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+            h.SetXTitle('M_{dejet}(GeV)')
+            h.SetMaximum(0.04)
+            h.SetMinimum(0.0001)
+            h.SetYTitle('Normalized to 1')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            h.SetMarkerStyle(1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+
+def draw_before_cut_dijet_rec_m(sample, c, fs, processname):	
+    hname = 'before_cut_m_dijet_rec_m'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_m_dijet_rec_m.pdf'
+    check_outfile_path(figfile)
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+
+            h.SetXTitle('M_{recoil}^{dijet}(GeV)')
+            h.SetMaximum(0.05)
+            h.SetMinimum(0.00000000000001)
+            h.SetYTitle('Normalized to 1')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            #            h.GetYaxis().SetRange(0,400)
+            # Plot title?
+            h.SetMarkerStyle(1)
+#            gPad.SetLogy();
+            #            h.SetMinimum(0.1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            #            h.GetYaxis().SetLimits(0,1000)
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+def draw_before_cut_dijet_p(sample, c, fs, processname):	
+    hname = 'before_cut_dijet_p'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_m_dijet_p.pdf'
+    check_outfile_path(figfile)
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 7:
+
+            h.SetXTitle('P_{dijet}(GeV)')
+            h.SetMaximum(0.05)
+            h.SetMinimum(0.00000000000001)
+            h.SetYTitle('Normalized to 1')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            #            h.GetYaxis().SetRange(0,400)
+            # Plot title?
+            h.SetMarkerStyle(1)
+#            gPad.SetLogy();
+            #            h.SetMinimum(0.1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 7:
+            #            h.GetYaxis().SetLimits(0,1000)
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+
 
 
 if __name__ == '__main__':

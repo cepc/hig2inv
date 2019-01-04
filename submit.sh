@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash        
 
 # Main driver to submit jobs 
@@ -13,6 +14,7 @@ usage() {
     printf "\n\t%-9s  %-40s"  "0.2"      "[run data sample for mumuH_inv->Tanyuhang]"  
     printf "\n\t%-9s  %-40s"  "0.3"      "[run data sample for background of mumuH_inv]" 
     printf "\n\t%-9s  %-40s"  "0.4"      "[run data sample for eeH_inv]" 
+    printf "\n\t%-9s  %-40s"  "0.5"      "[run data sample for qqH_inv]"
     printf "\n\n" 
 }
 usage_0_1() { 
@@ -103,6 +105,38 @@ usage_0_4(){
     printf "\n\t%-5s  %-40s\n"  "0.4.28"    "Get Shorthand channel detail information"
 }
 
+usage_0_5(){
+    printf "NAME\n\tsubmit.sh - qqH_inv\n"
+    printf "\nSYNOPSIS\n"
+    printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
+    printf "\nOPTIONS\n" 
+    #0.5 #qqH_invisible
+    printf "\n\t%-5s  %-40s\n"  "0.5.1"    "Split signal sample with each group 0.5G..."  
+    printf "\n\t%-5s  %-40s\n"  "0.5.2"    "Generate XML input files for Marlin job..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.3"    "Run with a few events" 
+    printf "\n\t%-5s  %-40s\n"  "0.5.4"    "Generate Condor job scripts..." 
+    printf "\n\t%-5s  %-40s\n"  "0.5.5"    "Submit Condor jobs for pre-selection on signal..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.6"    "Select events on signal (with a small sample)..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.7"    "Generate Condor job scripts for event selection..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.8"    "Submit Condor jobs for event selection on signal..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.9"    "Merge event root files..."         
+    #0.5 #background
+    printf "\n\t%-5s  %-40s\n"  "0.5.10"    "Split background sample with each group 20G..."  
+    printf "\n\t%-5s  %-40s\n"  "0.5.11"    "Generate XML input files for Marlin job..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.12"    "Check statistics : print the number of files..." 
+    printf "\n\t%-5s  %-40s\n"  "0.5.13"    "GRun with a few events ..." 
+    printf "\n\t%-5s  %-40s\n"  "0.5.14"    "Generate Condor job scripts..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.15"    "Submit Condor jobs for pre-selection on background sample..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.16"    "Select events on background (with a small sample)..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.17"    "Generate Condor job scripts for event selection..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.18"    "Submit Condor jobs for pre-selection on background sample..." 
+    printf "\n\t%-5s  %-40s\n"  "0.5.19"    "Merge event root files..." 
+    printf "\n\t%-5s  %-40s\n"  "0.5.20"    "Scale event..."
+    printf "\n\t%-5s  %-40s\n"  "0.5.21"    "Plot signal and background cut distribution"
+    printf "\n\t%-5s  %-40s\n"  "0.5.22"    "Plot before cut and after cut distribution" 
+    printf "\n\t%-5s  %-40s\n"  "0.5.23"    "Get background and signal number after different cuts"	
+    printf "\n\t%-5s  %-40s\n"  "0.5.24"    "Get Shorthand channel detail information"
+}
 
 
 signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
@@ -532,18 +566,13 @@ esac
 
 sub_0_4(){
 
-eeH_inv_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
-sel_all=0
-sel_signal=1
-sel_bg=2
-
 case $option in
     #example eeH_invisible 
  
     0.4.1) echo "Split signal sample with each group 0.5G..."
         
             mkdir -p ./run/eeH/eeh_invi/samples
-            ./python/get_samples.py ${eeH_inv_slcio_dir} ./run/eeH/eeh_invi/samples/E240_Pffh_invi.txt 0.5G
+            ./python/get_samples.py ${signal_slcio_dir} ./run/eeH/eeh_invi/samples/E240_Pffh_invi.txt 0.5G
         ;;       
            
     0.4.2) echo "Generate XML input files for Marlin job..."
@@ -770,7 +799,7 @@ case $option in
             rm ./run/eeH/bg/hist/all_bkg_merge.root -rf
             rm ./run/eeH/bg/plot/all_bkg_merge.root -rf
             #merge all backgrounds;merge backgrounds and signal 
-            ./python/scale_events.py ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_1.root ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root eeh_inv table/bg_sample_list.txt
+#            ./python/scale_events.py ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_1.root ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root eeh_inv table/bg_sample_list.txt
             ./job/merge.sh 1
             cp run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/eeH/total/hist/eeH_inv.root
        ;;
@@ -857,6 +886,296 @@ case $option in
 #            ./python/sel_eventsm.py  run/total/hist/total_bkg.root  preliminary/total_bkg.root
 esac    
 }
+
+
+
+sub_0_5(){
+
+case $option in
+    #example qqH_invisible 
+ 
+    0.5.1) echo "Split signal sample with each group 0.5G..."
+        
+            mkdir -p ./run/qqH/qqh_invi/samples
+            ./python/get_samples.py ${signal_slcio_dir} ./run/qqH/qqh_invi/samples/E240_Pffh_invi.txt 0.5G
+        ;;       
+           
+    0.5.2) echo "Generate XML input files for Marlin job..."
+                
+            mkdir -p   ./run/qqH/qqh_invi/steers
+            mkdir -p   ./run/qqH/qqh_invi/steers/test
+            mkdir -p   ./run/qqH/qqh_invi/ana/test       
+                              
+            ./python/get_steerfiles.py ./table/template_jobfile.xml ./run/qqH/qqh_invi/samples ./run/qqH/qqh_invi/steers ./run/qqH/qqh_invi/ana/ana_File.root qq   
+    
+        ;;
+           
+    0.5.3) echo "Run with a few events"
+                   
+            source setup.sh
+#           ./build.sh
+            Marlin run/qqH/qqh_invi/steers/test/sample-1.xml
+            
+        ;;
+
+    0.5.4) echo "Generate Condor job scripts..."
+
+            mkdir -p   ./run/qqH/qqh_invi/condor/script/marlin
+           ./python/gen_condorscripts.py  1  ./run/qqH/qqh_invi/steers ./run/qqH/qqh_invi/condor  ${sel_signal}
+           
+        ;;
+
+    0.5.5) echo "Submit Condor jobs for pre-selection on signal..."
+                    
+            cd ./run/qqH/qqh_invi/condor
+            mkdir -p log
+            ./condor_submit.sh 
+
+        ;;
+
+    0.5.6) echo "Select events on signal (with a small sample)..."  
+#            mkdir -p   ./run/eeh_invi/events/ana
+            mkdir -p   ./run/qqH/qqh_invi/events/ana/
+            ./python/sel_qq_events.py  ./run/qqH/qqh_invi/ana/ana_File-2.root  ana_File-2_test.root 
+            
+        ;; 
+
+    0.5.7) echo "Generate Condor job scripts for event selection..."
+
+            mkdir -p   ./run/qqH/qqh_invi/events/ana
+            mkdir -p   ./run/qqH/qqh_invi/condor/script/eventsel
+            ./python/gen_condorscripts.py  2  ./run/qqH/qqh_invi/ana ./run/qqH/qqh_invi/condor  qq
+
+        ;;
+    
+    0.5.8) echo "Submit Condor jobs for event selection on signal..."
+
+            cd ./run/qqH/qqh_invi/condor
+            mkdir -p log/events
+            ./condor_submit_eventsel.sh
+
+  
+        ;;
+
+    0.5.9) echo  "Merge event root files..."
+           
+            mkdir -p   ./run/qqH/qqh_invi/hist
+
+            ./python/mrg_rootfiles.py  ./run/qqH/qqh_invi/events/ana  ./run/qqH/qqh_invi/hist/qqh_invi 
+
+        ;;
+    #background information 
+
+    0.5.10) echo "Split background sample with each group 20G..."
+          
+            mkdir -p   ./run/qqH/bg/samples
+            ./python/get_bg_samples.py ./table/bg_sample_list.txt ./run/qqH/bg/samples 20G           
+
+        ;;           
+    0.5.11) echo "Generate XML input files for Marlin job..."  
+
+            mkdir -p   ./run/qqH/bg/steers 
+            mkdir -p   ./run/qqH/bg/ana
+
+            ./python/gen_bg_steerfiles.py ./table/bg_sample_list.txt ./table/template_jobfile.xml  ./run/qqH/bg/samples  ./run/qqH/bg/steers  ./run/qqH/bg/ana BKGQ
+        
+        ;;
+               
+    0.5.12) echo "Check statistics : print the number of files..."
+        
+            ./python/check_stat.py  ./table/bg_sample_list.txt ./run/qqH/bg/samples 
+        
+       ;;
+
+    0.5.13) echo "Run with a few events ..."
+#	   source setup.sh
+#	   ./build.sh
+            cd ./run/qqH/bg/steers/
+
+            for dir in *            
+            do
+                mkdir -p ../ana/$dir
+                cd ${dir}/test
+                Marlin sample-1.xml
+                cd ../../
+            done
+
+        ;;
+
+    0.5.14) echo "Generate Condor job scripts..."
+
+            mkdir -p   ./run/qqH/bg/condor
+            cd ./run/qqH/bg/ana/
+            for dir in *
+            do
+                mkdir -p ../condor/$dir
+            done
+
+            cd ../condor/
+            for dir in *
+            do
+                cd $dir
+                rm -rf log/marlin
+                rm -rf script/marlin
+                mkdir -p log/marlin
+                mkdir -p script/marlin
+                cd ../
+            done
+
+            cd ../../../../
+            ./python/gen_bg_condorscripts.py  1  ./run/qqH/bg/steers ./run/qqH/bg/condor qq
+
+        ;;
+    
+    0.5.15) echo "Submit Condor jobs for pre-selection on background sample..."
+           echo " ---- "
+           echo "Please enter the number of jobs for each backgrond (default: 1000)"  
+
+            njob=1000    
+            cd ./run/qqH/bg/condor
+            for dir in *
+            do
+                cd $dir
+                echo `pwd`
+                ./condor_submit.sh $njob
+                cd ../
+            done 
+           ;;
+            
+    0.5.16) echo "Select events on background (with a small sample)..."
+#            python python/check.py ./run/bg/log/marlin   0        
+            mkdir -p   ./run/qqH/bg/events/ana/
+
+            ./python/sel_qq_events.py  run/qqH/bg/steers/qq/test/ana_bg_test_1.root  ./run/qqH/bg/steers/qq/test/ana_bg_test_1_event.root  
+
+           ;;
+
+    0.5.17) echo "Generate Condor job scripts for event selection..."
+   
+            mkdir -p   ./run/qqH/bg/events/ana
+        
+            cd ./run/qqH/bg/condor
+
+            for dir in *
+            do
+                mkdir -p   ../scale/ana/$dir
+                mkdir -p ../events/ana/$dir
+                cd $dir
+                rm -rf log/events
+                rm -rf script/eventsel
+                rm -rf script/scalesel
+                mkdir -p log/events
+                mkdir -p script/eventsel
+                mkdir -p script/scalesel
+                cd ../
+            done
+       
+            cd ../../../../
+            ./python/gen_bg_condorscripts.py  2  ./run/qqH/bg/ana ./run/qqH/bg/condor qq  
+
+        ;;
+
+    0.5.18) echo "Submit Condor jobs for pre-selection on background sample..."
+
+            cd ./run/qqH/bg/condor
+            for dir in *
+            do
+ #               if [$dir != test]; then                 
+                cd $dir
+                echo `pwd`
+                ./condor_submit_eventsel.sh 
+                cd ../
+#                fi
+            done
+
+        ;;
+    0.5.19) echo  "Merge event root files..."
+#            python python/check.py ./run/bg/log/events 1
+            mkdir -p ./run/qqH/bg/hist
+            mkdir -p ./run/qqH/bg/plot
+            cd ./run/qqH/bg/ana/
+            for dir in *
+            do
+            mkdir -p ../hist/$dir
+            mkdir -p ../plot/$dir
+               cd ../../../../
+               #Merge data before scale
+               ./python/mrg_rootfiles.py  ./run/qqH/bg/events/ana/$dir ./run/qqH/bg/plot/$dir
+               cd ./run/qqH/bg/ana	       
+           done
+          ;; 
+
+    0.5.20) echo "Scale event..."
+            cd ./run/qqH/bg/condor
+            for dir in *
+            do
+ #               if [$dir != test]; then  
+                echo `pwd`               
+                cd ../../../../
+                ./run/qqH/bg/condor/$dir/condor_scale_eventsel.sh 
+                cd run/qqH/bg/condor
+#                fi
+            done
+    ;; 
+    0.5.21) echo "Plot signal and background cut distribution"
+	        rm -rf ./run/qqH/total/
+            mkdir -p ./run/qqH/total/hist
+            mkdir -p ./run/qqH/total/plot 
+            #merge all backgrounds;merge backgrounds and signal 
+            ./python/scale_qq_events.py ./run/qqH/qqh_invi/hist/qqh_invi/ana_File_merged_1.root ./run/qqH/qqh_invi/hist/qqh_invi/ana_File_merged_scale_1.root qqh_inv table/bg_sample_list.txt
+            ./job/merge.sh 2
+            cp run/qqH/qqh_invi/hist/qqh_invi/ana_File_merged_scale_1.root  run/qqH/total/hist/qqH_inv.root
+       ;;
+
+    0.5.22) echo "Plot before cut and after cut distribution" 
+            mkdir -p fig/qqH/after
+            mkdir -p fig/qqH/before           
+            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w zzorww zorw 2f
+            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w zzorww zorw  2f
+
+            ;;
+    0.5.23) echo "Get background and signal number after different cuts"
+            rm table/qqH/bin.txt 
+            rm table/qqH/out_list.txt
+            rm table/qqH/tfbin.txt
+            mkdir table/qqH
+            cd ./run/qqH/bg/events/ana
+            for dir in *
+            do 
+                cd ../../../../../
+                python python/gen_bin.py run/qqH/bg/plot/$dir table/bg_sample_list.txt  qqH              
+                cd ./run/qqH/bg/events/ana
+            done 
+            cd ../../../../../
+            python python/gen_bin.py run/qqH/qqh_invi/hist/qqh_invi table/bg_sample_list.txt qqH
+               
+            python python/get_bin.py table/qqH/out_list.txt
+        ;;
+
+    0.5.24) echo "Get Shorthand channel detail information"
+#           cp run/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
+           rm table/qqH/out_list_b.txt
+           rm table/qqH/tfbin_b.txt
+           python  python/gen_binb.py  run/qqH/total/hist qqH
+#           python  python/get_binb.py table/qqH/out_list_b.txt qqH
+    ;;
+    0.5.25) echo " Optimize the cut conditions"
+#            rm preliminary/qqH/*
+#			mkdir preliminary/qqH/
+#            ./test.py
+#            hep_sub -g physics -o out/ -e out/  test.sh    
+            cd ./run/qqH/total/hist 
+            for dir in *
+            do 
+                cd ../../../../
+                python ./python/sel_qq_eventsm.py run/qqH/total/hist/$dir preliminary/qqH/$dir
+                cd ./run/qqH/total/hist
+            done
+#            ./python/sel_eventsm.py  run/total/hist/ffH_inv.root  preliminary/ffH_inv.root
+#            ./python/sel_eventsm.py  run/total/hist/total_bkg.root  preliminary/total_bkg.root
+esac    
+}
+
 case $option in 
 # sample: 0.1 is print detail information about each step and then you can run the step you want.
 #         0.1.* is directly running the step. 
@@ -874,11 +1193,9 @@ case $option in
         ;;
         
     0.2) echo "mumuH_inv analysis..."
-        if [ $option == 0.2 ]; then  
            usage_0_2
            echo "mumuH_inv analysis... " 
-           read option
-        fi  
+           read option  
         sub_0_2 option 
         ;;
     0.2.*) echo "mumuH_inv analysis..."
@@ -905,5 +1222,17 @@ case $option in
     0.4.*) echo "eeH_inv analysis..."
         sub_0_4 option 
         ;; 	
+
+    0.5) echo "qqH_inv analysis..."
+        usage_0_5
+        echo "Please enter your option: " 
+        read option
+        sub_0_5 option 
+        ;;
+        
+    0.5.*) echo "qqH_inv analysis..."
+        sub_0_5 option 
+        ;; 	
+
 
 esac
