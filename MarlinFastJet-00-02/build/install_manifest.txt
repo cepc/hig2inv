@@ -1,3 +1,0 @@
-/cefs/higgs/tanyuhang/hig2inv/MarlinFastJet-00-02/lib/libMarlinFastJet.so.0.2.0
-/cefs/higgs/tanyuhang/hig2inv/MarlinFastJet-00-02/lib/libMarlinFastJet.so.0.2
-/cefs/higgs/tanyuhang/hig2inv/MarlinFastJet-00-02/lib/libMarlinFastJet.so
