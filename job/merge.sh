@@ -1,9 +1,14 @@
 #!/bin/bash
-if [[ $# -eq 0 ]]; then
+
+if [[ $1 == 0 ]]; then
 cd ./run/mumuH/bg/hist
-else
+
+elif [[ $1 == 1 ]]; then
 cd ./run/eeH/bg/hist
+else
+cd ./run/qqH/bg/hist
 fi
+
 hadd ../../total/hist/2f.root e1e1/* e2e2/* e3e3/* qq/* 
 hadd ../../total/hist/ZZ.root  zz_*/* 
 hadd ../../total/hist/WW.root  ww*/*
@@ -22,8 +27,10 @@ hadd ../../total/plot/zzorww.root zzorww*/*
 hadd ../../total/plot/zorw.root szeorsw*/*
 hadd ../../total/plot/total_bkg.root ../../total/plot/*
 cd ../../total 
-if [[ $# -eq 0 ]]; then
+if [[ $1 == 0 ]]; then
 hadd bkg_add_sig.root ./hist/total_bkg.root ../e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root 
-else
+elif [[ $1 == 1 ]]; then
 hadd bkg_add_sig.root ./hist/total_bkg.root ../eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root
+else
+hadd bkg_add_sig.root ./hist/total_bkg.root ../qqh_invi/hist/qqh_invi/ana_File_merged_scale_1.root
 fi

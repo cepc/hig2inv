@@ -52,17 +52,17 @@ class Cutflow():
         self.h_after_cut_Pt = ROOT.TH1F('after_cut_Pt','after_cut_P_{t}^{#mu^{+}#mu^{-}}',180,0,90)
         self.h_after_cut_Pz = ROOT.TH1F('after_cut_Pz','after_cut_|P_{z}^{#mu^{+}#mu^{-}}|',280,-70,70)
         self.h_after_cut_theta = ROOT.TH1F('after_cut_theta','#phi_{#mu^{+}#mu^{-}}',400,0,200)
-        self.h_after_cut_vis = ROOT.TH1F('after_cut_vis','after_cut_Visible Energy',20,100,110)
+        self.h_after_cut_vis = ROOT.TH1F('after_cut_vis','after_cut_Visible Energy',40,90,110)
         self.h_after_cut_Mmumu= ROOT.TH1F('after_cut_Mmumu','after_cut_M_{#mu^{+}#mu^{-}}',40,80,100)
         self.h_after_cut_Mrecoil = ROOT.TH1F('after_cut_Mrecoil','after_cut_M_{Recoil}',40,120,140)
         self.h_after_cut_ep = ROOT.TH1F('after_cut_ep','after_cut_ep',150,1.5,3)
 
 
         self.m_event=array('i',[0])
-#        self.m_n_neutral=array('i',[0])
+        self.m_n_neutral=array('i',[0])
         self.m_Neutral_PID=array('i',[0])	
         self.m_sum_p_neutral=array('f',4*[-99]) 
-        self.m_p_photon=array('f',4*[-99])
+        self.m_sum_p_photon=array('f',4*[-99])
         self.m_e_photon=array('f',[0])
         self.m_p_leptonp=array('f',4*[-99])
         self.m_p_leptonm=array('f',4*[-99])
@@ -74,7 +74,7 @@ class Cutflow():
         self.m_p_Zdaughters=array('f',4*[-99])
         self.m_p_Zdaughterp=array('f',4*[-99])
         self.m_p_Zdaughterm=array('f',4*[-99])
-        self.m_pt_photon=array('f',[0])
+        self.m_sum_pt_photon=array('f',[0])
         self.m_pt_dilepton=array('f',[0])
         self.m_pt_leptonm=array('f',[0])
         self.m_pt_leptonp=array('f',[0])
@@ -306,11 +306,11 @@ class Cutflow():
         else:
             costheta_leptonp=-999
         self.m_event[0]=t_in.m_event
-#        self.m_n_neutral[0]=t_in.m_n_neutral
-#        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
+        self.m_n_neutral[0]=t_in.m_n_neutral
+        self.m_Neutral_PID[0]=t_in.m_Neutral_PID
         self.m_e_other[0]=t_in.m_energy_visible-abs(t_in.m_p_leptonm[3])-abs(t_in.m_p_leptonp[3])
-        self.m_e_photon[0]=t_in.m_p_photon[3]
-        self.m_pt_photon[0]=t_in.m_pt_photon
+        self.m_e_photon[0]=t_in.m_sum_p_photon[3]
+        self.m_sum_pt_photon[0]=t_in.m_sum_pt_photon
         self.m_pt_dilepton[0]=t_in.m_pt_dilepton
         self.m_pt_leptonm[0]=math.sqrt(t_in.m_p_leptonm[0]*t_in.m_p_leptonm[0]+t_in.m_p_leptonm[1]*t_in.m_p_leptonm[1])
         self.m_pt_leptonp[0]=math.sqrt(t_in.m_p_leptonp[0]*t_in.m_p_leptonp[0]+t_in.m_p_leptonp[1]*t_in.m_p_leptonp[1])
@@ -327,7 +327,7 @@ class Cutflow():
         self.m_n_chargedm[0]=t_in.m_n_chargedm
         self.m_n_Higgsdaughter[0]=t_in.m_n_Higgsdaughter
         self.m_n_neutrino[0]=t_in.m_n_neutrino
-#        self.m_m_dimu[0]=t_in.m_m_dimu
+        self.m_m_dimu[0]=t_in.m_m_dimu
         self.m_m_dimu[0]=math.sqrt(abs(t_in.m_p_dilepton[3]*t_in.m_p_dilepton[3]-t_in.m_p_dilepton[0]*t_in.m_p_dilepton[0]-t_in.m_p_dilepton[1]*t_in.m_p_dilepton[1]-t_in.m_p_dilepton[2]*t_in.m_p_dilepton[2]))
         self.m_m_recoil[0]=t_in.m_m_recoil
         self.m_phi_dilepton_1[0]=t_in.m_phi_dilepton_1
@@ -356,8 +356,8 @@ class Cutflow():
         self.m_n_neutral[0]=t_in.m_n_neutral
         self.m_Neutral_PID[0]=t_in.m_Neutral_PID
         self.m_e_other[0]=t_in.m_energy_visible-abs(t_in.m_p_leptonm[3])-abs(t_in.m_p_leptonp[3])
-        self.m_e_photon[0]=t_in.m_p_photon[3]
-        self.m_pt_photon[0]=t_in.m_pt_photon
+        self.m_e_photon[0]=t_in.m_sum_p_photon[3]
+        self.m_sum_pt_photon[0]=t_in.m_sum_pt_photon
         self.m_pt_dilepton[0]=t_in.m_pt_dilepton
         self.m_pt_leptonm[0]=math.sqrt(t_in.m_p_leptonm[0]*t_in.m_p_leptonm[0]+t_in.m_p_leptonm[1]*t_in.m_p_leptonm[1])
         self.m_pt_leptonp[0]=math.sqrt(t_in.m_p_leptonp[0]*t_in.m_p_leptonp[0]+t_in.m_p_leptonp[1]*t_in.m_p_leptonp[1])
@@ -448,7 +448,7 @@ class Cutflow():
 
         for i in xrange(4):
             self.m_p_visible[i]=t_in.m_p_visible[i]
-            self.m_p_photon[i]=t_in.m_p_photon[i]
+            self.m_sum_p_photon[i]=t_in.m_sum_p_photon[i]
             self.m_sum_p_neutral[i]=t_in.m_sum_p_neutral[i]
             self.m_p_leptonp[i]=t_in.m_p_leptonp[i]
             self.m_p_leptonm[i]=t_in.m_p_leptonm[i]
@@ -489,6 +489,22 @@ class Cutflow():
 
         t_out.Fill()
 
+        self.m_mc_init_photon_e.clear()
+        self.m_mc_init_photon_p.clear()
+        self.m_mc_init_photon_pt.clear()
+        self.m_mc_init_photon_pz.clear()
+        self.m_mc_init_photon_phi.clear()
+        self.m_mc_init_photon_theta.clear()
+
+        self.m_mc_z1_daughter_pid.clear()
+        self.m_mc_z2_daughter_pid.clear()
+        self.m_mc_pdgid.clear()
+        self.m_mc_init_pdgid.clear()
+        self.m_mc_w1_daughter_pid.clear()
+        self.m_mc_w2_daughter_pid.clear()
+        self.m_mc_higgs_daughter_pdgid.clear()
+
+        
 #    def out_eff(self,t_in,N,infile):
 #
 #        infile2 = infile.split('ana_')[0]
@@ -554,10 +570,10 @@ class Cutflow():
         t_out=ROOT.TTree('tree','tree')
 
         t_out.Branch('m_event',self.m_event,'m_event/I')
-#        t_out.Branch('m_n_neutral',self.m_n_neutral,'m_n_neutral/I')
+        t_out.Branch('m_n_neutral',self.m_n_neutral,'m_n_neutral/I')
         t_out.Branch('m_Neutral_PID',self.m_Neutral_PID,'m_Neutral_PID/I')
         t_out.Branch('m_sum_p_neutral',self.m_sum_p_neutral,'m_sum_p_neutral[4]/F')
-        t_out.Branch('m_p_photon',self.m_p_photon,'m_p_photon[4]/F')
+        t_out.Branch('m_sum_p_photon',self.m_sum_p_photon,'m_sum_p_photon[4]/F')
         t_out.Branch('m_e_photon',self.m_e_photon,'m_e_photon/F')
         t_out.Branch('m_e_other',self.m_e_other,'m_e_other/F')		
         t_out.Branch('m_p_leptonp',self.m_p_leptonp,'m_p_leptonp[4]/F')
@@ -570,7 +586,7 @@ class Cutflow():
         t_out.Branch('m_p_Zdaughters',self.m_p_Zdaughters,'m_p_Zdaughters[4]/F')
         t_out.Branch('m_p_Zdaughterp',self.m_p_Zdaughterp,'m_p_Zdaughterp[4]/F')
         t_out.Branch('m_p_Zdaughterm',self.m_p_Zdaughterm,'m_p_Zdaughterm[4]/F')
-        t_out.Branch('m_pt_photon',self.m_pt_photon,'m_pt_photon/F')
+        t_out.Branch('m_sum_pt_photon',self.m_sum_pt_photon,'m_sum_pt_photon/F')
         t_out.Branch('m_pt_dilepton',self.m_pt_dilepton,'m_pt_dilepton/F')
         t_out.Branch('m_pt_leptonm',self.m_pt_leptonm,'m_pt_leptonm/F')
         t_out.Branch('m_pt_leptonp',self.m_pt_leptonp,'m_pt_leptonp/F')

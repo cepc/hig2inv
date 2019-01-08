@@ -205,6 +205,8 @@ def main():
                     fout_script.write('                                 \n')
                     if pname == "ee":
                         fout_script.write('./python/sel_ee_events.py  %s %s \n' % (root_in, root_out )) 
+                    elif pname == "qq":
+                        fout_script.write('./python/sel_qq_events.py  %s %s \n' % (root_in, root_out )) 
                     else:
                         fout_script.write('./python/sel_mumu_events.py  %s %s \n' % (root_in, root_out ))
                     fout_script.close()
@@ -256,6 +258,9 @@ def main():
             if pname == "ee":            					
                 root_scale_in = cwd + '/' +'run/eeH/bg/plot/'+dname+'/ana_File_merged_1.root'
                 root_scale_out = cwd + '/' +'run/eeH/bg/hist/'+dname+'/ana_File_merged_1.root'
+            elif pname == "qq":
+                root_scale_in = cwd + '/' +'run/qqH/bg/plot/'+dname+'/ana_File_merged_1.root'
+                root_scale_out = cwd + '/' +'run/qqH/bg/hist/'+dname+'/ana_File_merged_1.root'
             else:
                 root_scale_in = cwd + '/' +'run/mumuH/bg/plot/'+dname+'/ana_File_merged_1.root'
                 root_scale_out = cwd + '/' +'run/mumuH/bg/hist/'+dname+'/ana_File_merged_1.root'
@@ -267,7 +272,7 @@ def main():
             fout_script.write('                                 \n') 
             fout_script.write('source setup.sh                  \n')
             fout_script.write('                                 \n')
-            fout_script.write('./python/scale_events.py  %s %s %s %s\n' % ( root_scale_in, root_scale_out,dname,table_list ) )                     
+            fout_script.write('./python/scale_qq_events.py  %s %s %s %s\n' % ( root_scale_in, root_scale_out,dname,table_list ) )                     
             fout_script.write('                                 \n') 
             fout_script.close()
             sys.stdout.write('Creating condor submit script %s \n'  % outname)

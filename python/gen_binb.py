@@ -31,7 +31,10 @@ def main():
             if pname  == "mumuH": 
                 recode_mumu_information(processname,event)
             elif pname == "eeH":
-                recode_ee_information(processname,event)    
+                recode_ee_information(processname,event)
+            elif pname == "qqH":
+                recode_qq_information(processname,event) 
+                print 1   
             else:
                 print "This is  wrong. Please check it" 
                 sys.exit()           
@@ -61,6 +64,18 @@ def recode_mumu_information(src,event):
 def recode_ee_information(src,event):
     cwd = os.getcwd()
     out_putname = cwd + '/' + 'table/eeH/' + 'out_list_b.txt'
+    fout_script = open(out_putname,'a')
+    print src
+    if src == 'zorw':
+        fout_script.write('#cuts information by ground \n')
+        fout_script.write('%-15s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s\n'%('#processname','raw','N_mu','Mrecoil','mmdie','pt','#phi','visible','E/P','Pz'))
+    fout_script.write('%-15s,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d\n'%(src,event[0],event[1],event[2],event[3],event[4],event[5],event[6],event[7],event[8]))
+    fout_script.close()
+    sys.stdout.write('Outputname %s \n'  % out_putname)
+    os.chmod(out_putname, 0744)
+def recode_qq_information(src,event):
+    cwd = os.getcwd()
+    out_putname = cwd + '/' + 'table/qqH/' + 'out_list_b.txt'
     fout_script = open(out_putname,'a')
     print src
     if src == 'zorw':

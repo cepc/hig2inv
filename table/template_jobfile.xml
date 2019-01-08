@@ -10,7 +10,11 @@
 
 
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
- <execute>        
+ <execute>
+   <processor name="MyIsolatedLeptonFinderProcessor"/>   
+<!--   <processor name="VertexFinder"/>               -->
+<!--   <processor name="JetClusteringAndFlavorTag"/>  -->
+   <processor name="MyFastJetClustering"/>        
    <processor name="Myhig2inv"/>  
  </execute>
 
@@ -28,7 +32,7 @@ $gear_xml
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> DEBUG  </parameter> 
  </global>
 
- 
+
 
 <processor name="Myhig2inv" type="hig2inv">
 
@@ -46,4 +50,261 @@ $output_rootfile
 
 </processor>
 
+
+
+<processor name="MyFastJetClustering" type="FastJetProcessor">
+  <parameter name="recParticleIn" type="string" lcioOutType="ReconstructedParticle"> WithoutIsoLeps </parameter>
+  <parameter name="jetOut" type="string" lcioOutType="ReconstructedParticle">FastJets </parameter>
+  <parameter name="recParticleOut1" type="string" lcioOutType="ReconstructedParticle"> FJPList1 </parameter>
+  <parameter name="recParticleOut2" type="string" lcioOutType="ReconstructedParticle"> FJPList2 </parameter>
+  <parameter name="algorithm" type="StringVec">ee_kt_algorithm  </parameter>   
+  <parameter name="recombinationScheme" type="string"> E_scheme </parameter>
+  <parameter name="clusteringMode" type="StringVec"> ExclusiveNJets 2 </parameter> 
+  <parameter name="storeParticlesInJets" type="bool"> true </parameter>
+</processor>
+
+
+<processor name="MyIsolatedLeptonFinderProcessor" type="ISOlatedLeptonFinderProcessor">
+    <!--Isolated Lepton Finder Processor-->
+    <!--Cosine of the half-angle of the cone used in isolation criteria-->
+    <parameter name="CosConeAngle" type="float">0.98 </parameter>
+    <!--Electron ID: Maximum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="ElectronMaxEcalToHcalFraction" type="float">1 </parameter>
+    <!--Electron ID: Maximum energy deposit divided by momentum-->
+    <parameter name="ElectronMaxEnergyDepositByMomentum" type="float">1.4 </parameter>
+    <!--Electron ID: Minimum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="ElectronMinEcalToHcalFraction" type="float">0.9 </parameter>
+    <!--Electron ID: Minimum energy deposit divided by momentum-->
+    <parameter name="ElectronMinEnergyDepositByMomentum" type="float">0.7 </parameter>
+    <!--Maximum impact parameter in 3D-->
+    <parameter name="ImpactParameterMax3D" type="float">0.01 </parameter>
+    <!--Maximum impact parameter significance in 3D-->
+    <parameter name="ImpactParameterMax3DSignificance" type="float">1e+20 </parameter>
+    <!--Maximum d0 impact parameter-->
+    <parameter name="ImpactParameterMaxD0" type="float">1e+20 </parameter>
+    <!--Maximum d0 impact parameter significance-->
+    <parameter name="ImpactParameterMaxD0Significance" type="float">1e+20 </parameter>
+    <!--Maximum z0 impact parameter-->
+    <parameter name="ImpactParameterMaxZ0" type="float">1e+20 </parameter>
+    <!--Maximum z0 impact parameter significance-->
+    <parameter name="ImpactParameterMaxZ0Significance" type="float">1e+20 </parameter>
+    <!--Minimum impact parameter in 3D-->
+    <parameter name="ImpactParameterMin3D" type="float">0 </parameter>
+    <!--Minimum impact parameter significance in 3D-->
+    <parameter name="ImpactParameterMin3DSignificance" type="float">0 </parameter>
+    <!--Minimum d0 impact parameter-->
+    <parameter name="ImpactParameterMinD0" type="float">0 </parameter>
+    <!--Minimum d0 impact parameter significance-->
+    <parameter name="ImpactParameterMinD0Significance" type="float">0 </parameter>
+    <!--Minimum z0 impact parameter-->
+    <parameter name="ImpactParameterMinZ0" type="float">0 </parameter>
+    <!--Minimum z0 impact parameter significance-->
+    <parameter name="ImpactParameterMinZ0Significance" type="float">0 </parameter>
+    <!--Input collection of ReconstructedParticles-->
+    <parameter name="InputCollection" type="string" lcioInType="ReconstructedParticle">ArborPFOs </parameter>
+    <!--Maximum cone energy for isolation requirement-->
+    <parameter name="IsolationMaximumConeEnergy" type="float">1e+20 </parameter>
+    <!--Maximum track energy for isolation requirement-->
+    <parameter name="IsolationMaximumTrackEnergy" type="float">1e+20 </parameter>
+    <!--Minimum cone energy for isolation requirement-->
+    <parameter name="IsolationMinimumConeEnergy" type="float">0 </parameter>
+    <!--Minimum track energy for isolation requirement-->
+    <parameter name="IsolationMinimumTrackEnergy" type="float">10 </parameter>
+    <!--Polynomial cut (A) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
+    <parameter name="IsolationPolynomialCutA" type="float">0.16 </parameter>
+    <!--Polynomial cut (B) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
+    <parameter name="IsolationPolynomialCutB" type="float">0 </parameter>
+    <!--Polynomial cut (C) on track energy and cone energy: Econe^2 < A*Etrk^2+B*Etrk+C-->
+    <parameter name="IsolationPolynomialCutC" type="float">0 </parameter>
+    <!--Input collection of jets for isolation-->
+    <parameter name="JetCollection" type="string" lcioInType="ReconstructedParticle">JetsForIsolation </parameter>
+    <!--Maximum Xt in jet-based isolation-->
+    <parameter name="JetIsolationVetoMaximumXt" type="float">0.25 </parameter>
+    <!--Maximum Z in jet-based isolation-->
+    <parameter name="JetIsolationVetoMaximumZ" type="float">0.6 </parameter>
+    <!--Minimum Xt in jet-based isolation-->
+    <parameter name="JetIsolationVetoMinimumXt" type="float">0 </parameter>
+    <!--Mininum Z in jet-based isolation-->
+    <parameter name="JetIsolationVetoMinimumZ" type="float">0 </parameter>
+    <!--Muon ID: Maximum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="MuonMaxEcalToHcalFraction" type="float">0.4 </parameter>
+    <!--Muon ID: Maximum energy deposit divided by momentum-->
+    <parameter name="MuonMaxEnergyDepositByMomentum" type="float">0.3 </parameter>
+    <!--Muon ID: Minimum Ecal deposit divided by sum of Ecal and Hcal deposits-->
+    <parameter name="MuonMinEcalToHcalFraction" type="float">0 </parameter>
+    <!--Muon ID: Minimum energy deposit divided by momentum-->
+    <parameter name="MuonMinEnergyDepositByMomentum" type="float">0 </parameter>
+    <!--Output collection of isolated leptons-->
+    <parameter name="OutputCollectionIsolatedLeptons" type="string" lcioOutType="ReconstructedParticle">IsoLeps </parameter>
+    <!--Copy of input collection but without the isolated leptons-->
+    <parameter name="OutputCollectionWithoutIsolatedLepton" type="string" lcioOutType="ReconstructedParticle">WithoutIsoLeps </parameter>
+    <!--Use impact parameter cuts for consistency with primary/secondary track-->
+    <parameter name="UseImpactParameter" type="bool"> false </parameter>
+    <!--Use impact parameter significance cuts for consistency with primary/secondary track-->
+    <parameter name="UseImpactParameterSignificance" type="bool">false </parameter>
+    <!--Use jet-based isolation-->
+    <parameter name="UseJetIsolation" type="bool">false </parameter>
+    <!--Use primitive particle ID based on calorimeter energy deposits-->
+    <parameter name="UsePID" type="bool"> false </parameter>
+    <!--Use polynomial cuts on track and cone energy-->
+    <parameter name="UsePolynomialIsolation" type="bool">true </parameter>
+    <!--Use rectangular cuts on track and cone energy-->
+    <parameter name="UseRectangularIsolation" type="bool">true </parameter>
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+    <parameter name="Verbosity" type="string">DEBUG </parameter>
+</processor>
+
+
+<processor name="VertexFinder" type="LcfiplusProcessor">
+        
+        <!-- run primary and secondary vertex finders -->
+        <parameter name="Algorithms" type="stringVec"> PrimaryVertexFinder BuildUpVertex </parameter>
+        <parameter name="ReadSubdetectorEnergies" type="int" value="1"/> <!-- true for ILD -->
+        <parameter name="UpdateVertexRPDaughters" type="int" value="0"/> <!-- false for non-updative PandoraPFOs -->
+        <parameter name="TrackHitOrdering" type="int" value="1"/> <!-- Track hit ordering: 0=ILD-LOI,SID-DBD, 1=ILD-DBD -->
+        <parameter name="PrintEventNumber" type="int" value="0"/> <!-- 0 for not printing event number, n for printing every n events -->
+        
+        <!-- specify input collection names -->
+        <parameter name="PFOCollection" type="string" value="ArborPFOs" />
+        <parameter name="PrimaryVertexCollectionName" type="string" value="PrimaryVertex" />
+        <parameter name="BuildUpVertexCollectionName" type="string" value="BuildUpVertex" />
+        <parameter name="BuildUpVertex.V0VertexCollectionName" type="string" value="BuildUpVertex_V0" />
+        
+        <!-- parameters for primary vertex finder -->
+        <parameter name="PrimaryVertexFinder.TrackMaxD0" type="double" value="20." />
+        <parameter name="PrimaryVertexFinder.TrackMaxZ0" type="double" value="20." />
+        <parameter name="PrimaryVertexFinder.TrackMaxInnermostHitRadius" type="double" value="20." />
+        <parameter name="PrimaryVertexFinder.TrackMinVtxFtdHits" type="int" value="1" />
+        <parameter name="PrimaryVertexFinder.Chi2Threshold" type="double" value="25." />
+        
+        <!-- parameters for secondary vertex finder -->
+        <parameter name="BuildUpVertex.TrackMaxD0" type="double" value="10." />
+        <parameter name="BuildUpVertex.TrackMaxZ0" type="double" value="20." />
+        <parameter name="BuildUpVertex.TrackMinPt" type="double" value="0.1" />
+        <parameter name="BuildUpVertex.TrackMaxD0Err" type="double" value="0.1" />
+        <parameter name="BuildUpVertex.TrackMaxZ0Err" type="double" value="0.1" />
+        <parameter name="BuildUpVertex.TrackMinVtxFtdHits" type="int" value="1" />
+        <parameter name="BuildUpVertex.PrimaryChi2Threshold" type="double" value="25." />
+        <parameter name="BuildUpVertex.SecondaryChi2Threshold" type="double" value="9." />
+        <parameter name="BuildUpVertex.MassThreshold" type="double" value="10." />
+        <parameter name="BuildUpVertex.MinDistFromIP" type="double" value="0.3" />
+        <parameter name="BuildUpVertex.MaxChi2ForDistOrder" type="double" value="1.0" />
+        <parameter name="BuildUpVertex.AssocIPTracks" type="int" value="1" />
+        <parameter name="BuildUpVertex.AssocIPTracksMinDist" type="double" value="0." />
+        <parameter name="BuildUpVertex.AssocIPTracksChi2RatioSecToPri" type="double" value="2.0" />
+        <parameter name="BuildUpVertex.UseV0Selection" type="int" value="1" />
+        
+</processor>
+
+
+<processor name="JetClusteringAndFlavorTag" type="LcfiplusProcessor">
+	
+	<!-- run primary and secondary vertex finders -->
+	<parameter name="Algorithms" type="stringVec"> JetClustering JetVertexRefiner FlavorTag ReadMVA</parameter>
+	
+	<!-- general parameters -->
+	<parameter name="PFOCollection" type="string" value="WithoutIsoLeps" /> <!-- input PFO collection -->
+	<parameter name="UseMCP" type="int" value="0" /> <!-- MC info not used -->
+	<parameter name="MCPCollection" type="string" value="" /> <!-- not used -->
+	<parameter name="MCPFORelation" type="string" value="" /> <!-- not used -->
+	<parameter name="ReadSubdetectorEnergies" type="int" value="1"/> <!-- true for ILD -->
+	<parameter name="UpdateVertexRPDaughters" type="int" value="0"/> <!-- false for non-updative PandoraPFOs -->
+	<parameter name="TrackHitOrdering" type="int" value="1"/> <!-- Track hit ordering: 0=ILD-LOI,SID-DBD, 1=ILD-DBD -->
+	
+	<!-- jet clustering parameters -->
+	<parameter name="JetClustering.InputVertexCollectionName" type="string" value="BuildUpVertex" /> <!-- vertex collections to be used in JC -->
+	<parameter name="JetClustering.OutputJetCollectionName" type="stringVec" value="VertexJets" /> <!-- output collection name, may be multiple -->
+	<parameter name="JetClustering.NJetsRequested" type="intVec" value="2" /> <!-- Multiple NJets can be specified -->
+	
+	<parameter name="JetClustering.YCut" type="doubleVec" value="0." /> <!-- specify 0 if not used -->
+	<parameter name="JetClustering.UseMuonID" type="int" value="1" /> <!-- jet-muon ID for jet clustering -->
+	<parameter name="JetClustering.VertexSelectionMinimumDistance" type="double" value="0.3" /> <!-- in mm -->
+	<parameter name="JetClustering.VertexSelectionMaximumDistance" type="double" value="30." /> <!-- in mm -->
+	<parameter name="JetClustering.VertexSelectionK0MassWidth" type="double" value="0.02" /> <!-- in GeV -->
+	<parameter name="JetClustering.YAddedForJetVertexVertex" type="double" value="100"/> <!-- add penalty for combining vertices -->
+	<parameter name="JetClustering.YAddedForJetLeptonVertex" type="double" value="100"/> <!-- add penalty for combining lepton and vertex -->
+	<parameter name="JetClustering.YAddedForJetLeptonLepton" type="double" value="100"/> <!-- add penalty for combining leptons -->
+	
+	<!-- vertex refiner parameters -->
+	<parameter name="JetVertexRefiner.InputJetCollectionName" type="string" value="VertexJets" />
+	<parameter name="JetVertexRefiner.OutputJetCollectionName" type="string" value="RefinedJets" />
+	<parameter name="JetVertexRefiner.PrimaryVertexCollectionName" type="string" value="PrimaryVertex" />
+	<parameter name="JetVertexRefiner.InputVertexCollectionName" type="string" value="BuildUpVertex" />
+	<parameter name="JetVertexRefiner.V0VertexCollectionName" type="string" value="BuildUpVertex_V0" />
+	<parameter name="JetVertexRefiner.OutputVertexCollectionName" type="string" value="RefinedVertex" />
+	
+	<parameter name="JetVertexRefiner.MinPosSingle" type="double" value="0.3" />
+	<parameter name="JetVertexRefiner.MaxPosSingle" type="double" value="30." />
+	<parameter name="JetVertexRefiner.MinEnergySingle" type="double" value="1." />
+	<parameter name="JetVertexRefiner.MaxAngleSingle" type="double" value="0.5" />
+	<parameter name="JetVertexRefiner.MaxSeparationPerPosSingle" type="double" value="0.1" />
+	<parameter name="JetVertexRefiner.mind0sigSingle" type="double" value="5." />
+	<parameter name="JetVertexRefiner.minz0sigSingle" type="double" value="5." />
+	<parameter name="JetVertexRefiner.OneVertexProbThreshold" type="double" value="0.001" />
+	<parameter name="JetVertexRefiner.MaxCharmFlightLengthPerJetEnergy" type="double" value="0.1" />
+	
+	<!-- FlavorTag parameters -->
+	<parameter name="PrimaryVertexCollectionName" type="string" value="PrimaryVertex" />
+	<parameter name="FlavorTag.JetCollectionName" type="string" value="RefinedJets" />
+	<parameter name="MakeNtuple.AuxiliaryInfo" type="int" value="-1" />
+	
+	<parameter name="FlavorTag.WeightsDirectory" type="string" value="/workfs/bes/lig/config/ilcsoft/lcfiweights" />
+	<parameter name="FlavorTag.WeightsPrefix" type="string" value="qq91_v02_p01" />
+	<parameter name="FlavorTag.BookName" type="string" value="bdt" />
+	<parameter name="FlavorTag.PIDAlgo" type="string" value="lcfiplus" />
+	<parameter name="FlavorTag.D0ProbFileName" type="string" value="/workfs/bes/lig/config/ilcsoft/lcfiweights/d0prob_zpole.root"/>
+	<parameter name="FlavorTag.Z0ProbFileName" type="string" value="/workfs/bes/lig/config/ilcsoft/lcfiweights/z0prob_zpole.root"/>
+	
+	<parameter name="FlavorTag.CategoryDefinition1" type="string">nvtx==0</parameter>
+	<parameter name="FlavorTag.CategoryPreselection1" type="string">trk1d0sig!=0</parameter>
+	<parameter name="FlavorTag.CategoryVariables1" type="stringVec">
+               trk1d0sig trk2d0sig trk1z0sig trk2z0sig trk1pt_jete trk2pt_jete jprobr5sigma jprobz5sigma
+               d0bprob d0cprob d0qprob z0bprob z0cprob z0qprob nmuon nelectron trkmass
+	</parameter>
+	<parameter name="FlavorTag.CategorySpectators1" type="stringVec">
+               aux nvtx
+	</parameter>
+	
+	<parameter name="FlavorTag.CategoryDefinition2" type="string">nvtx==1&&nvtxall==1</parameter>
+	<parameter name="FlavorTag.CategoryPreselection2" type="string">trk1d0sig!=0</parameter>
+	<parameter name="FlavorTag.CategoryVariables2" type="stringVec">
+               trk1d0sig trk2d0sig trk1z0sig trk2z0sig trk1pt_jete trk2pt_jete jprobr jprobz
+               vtxlen1_jete vtxsig1_jete vtxdirang1_jete vtxmom1_jete vtxmass1 vtxmult1 vtxmasspc vtxprob
+               d0bprob d0cprob d0qprob z0bprob z0cprob z0qprob
+               trkmass nelectron nmuon
+	</parameter>
+	<parameter name="FlavorTag.CategorySpectators2" type="stringVec">
+		aux nvtx
+	</parameter>
+	
+	<parameter name="FlavorTag.CategoryDefinition3" type="string">nvtx==1&&nvtxall==2</parameter>
+	<parameter name="FlavorTag.CategoryPreselection3" type="string">trk1d0sig!=0</parameter>
+	<parameter name="FlavorTag.CategoryVariables3" type="stringVec">
+		trk1d0sig trk2d0sig trk1z0sig trk2z0sig trk1pt_jete trk2pt_jete jprobr jprobz
+		vtxlen1_jete vtxsig1_jete vtxdirang1_jete vtxmom1_jete vtxmass1 vtxmult1 vtxmasspc vtxprob
+		1vtxprob vtxlen12all_jete vtxmassall
+	</parameter>
+	<parameter name="FlavorTag.CategorySpectators3" type="stringVec">
+		aux nvtx
+	</parameter>
+	
+	<parameter name="FlavorTag.CategoryDefinition4" type="string">nvtx>=2</parameter>
+	<parameter name="FlavorTag.CategoryPreselection4" type="string">trk1d0sig!=0</parameter>
+	<parameter name="FlavorTag.CategoryVariables4" type="stringVec">
+		trk1d0sig trk2d0sig trk1z0sig trk2z0sig trk1pt_jete trk2pt_jete jprobr jprobz
+		vtxlen1_jete vtxsig1_jete vtxdirang1_jete vtxmom1_jete vtxmass1 vtxmult1 vtxmasspc vtxprob
+		vtxlen2_jete vtxsig2_jete vtxdirang2_jete vtxmom2_jete vtxmass2 vtxmult2
+		vtxlen12_jete vtxsig12_jete vtxdirang12_jete vtxmom_jete vtxmass vtxmult
+		1vtxprob
+	</parameter>
+	<parameter name="FlavorTag.CategorySpectators4" type="stringVec">
+		aux nvtx
+	</parameter>
+	
+</processor>
+
+
+
+
 </marlin>
+

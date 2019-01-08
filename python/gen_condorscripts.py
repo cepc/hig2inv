@@ -161,6 +161,8 @@ def main():
 #                fout_script.write('./python/chs_events.py %s %s %s\n' %(root_in, root_scale_out, Select_name))
                 if pname == "ee":
                     fout_script.write('./python/sel_ee_events.py  %s %s \n' % (root_in, root_out )) 
+                elif pname == "qq":
+                    fout_script.write('./python/sel_qq_events.py  %s %s \n' % (root_in, root_out )) 
                 else:
                     fout_script.write('./python/sel_mumu_events.py  %s %s \n' % (root_in, root_out ))
                 fout_script.write('                                 \n') 
