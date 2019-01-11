@@ -21,7 +21,7 @@ def main():
     sample = sys.argv[1:]
     fs = get_files_from_sample(sample,processname)
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
-    if "processname == qqH":
+    if  processname == "qqH":
         draw_after_cut_dijet_Pt(sample, c, fs, processname)
         draw_after_cut_dijet_Pz(sample, c, fs, processname)
         draw_after_cut_dijet_ang(sample, c, fs, processname)
@@ -29,7 +29,9 @@ def main():
         draw_after_cut_dijet_e(sample, c, fs, processname)
         draw_after_cut_dijet_m(sample, c, fs, processname)
         draw_after_cut_dijet_rec_m(sample, c, fs, processname)
-        draw_after_cut_dijet_p(sample, c, fs, processname)	
+        draw_after_cut_dijet_p(sample, c, fs, processname)
+        draw_after_cut_vis(sample, c, fs, processname)
+        draw_after_cut_cos_miss(sample, c, fs, processname)	
     else:
         draw_after_cut_Pt(sample, c, fs, processname)
         draw_after_cut_Pz(sample, c, fs, processname)
@@ -64,11 +66,7 @@ def get_files_from_sample(sample,processname):
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/single_w.root'))
 
     if 'zzorww' in sample:
-        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	
-
-    if 'zorw' in sample:
-        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zorw.root'))
-        
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	       
     if '2f' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/2f.root'))
 
@@ -125,12 +123,6 @@ def get_common_objects_to_draw(fs, hname, leg):
 
         elif fs.index(f) == 6:
 
-            h.SetLineColor(9)
-            h.SetLineWidth(1)
-            h.SetMarkerStyle(1)
-
-        elif fs.index(f) == 7:
-
             h.SetLineColor(3)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
@@ -169,9 +161,6 @@ def leg_add_entry_hist(leg, f, h):
 
     elif sample in ['zzorww']:
         leg.AddEntry(h, "zzorww")
-
-    elif sample in ['zorw']:
-        leg.AddEntry(h, "zorw")
 
     elif sample in ['2f']:
         leg.AddEntry(h, "2fbkg")
@@ -333,7 +322,9 @@ def draw_after_cut_vis(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetMaximum(3000)
             if processname == "eeH": 
-                h.SetMaximum(600)          
+                h.SetMaximum(600)   
+            if processname == "qqH": 
+                h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV/c^{2})')
             h.SetYTitle('Events/(1Gev/C^{2})')
             h.GetXaxis().SetLabelSize(0.02)
@@ -430,6 +421,7 @@ def  draw_after_cut_ep(sample, c, fs, processname):
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
             h.GetYaxis().CenterTitle()
+            h.SetMaximum(400)
             #            h.GetYaxis().SetRange(0,400)
             # Plot title?
             h.SetMarkerStyle(1)
@@ -611,7 +603,7 @@ def draw_after_cut_dijet_rec_m(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
-        if hs.index(h) == 1:
+        if hs.index(h) == 0:
 
             h.SetXTitle('M_{recoil}^{dijet}(GeV)')
             h.SetMaximum(10000)
@@ -628,7 +620,7 @@ def draw_after_cut_dijet_rec_m(sample, c, fs, processname):
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 1:
+        if not hs.index(h) == 0:
             #            h.GetYaxis().SetLimits(0,1000)
             h.Draw('same')
 
@@ -644,7 +636,7 @@ def draw_after_cut_dijet_p(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
-        if hs.index(h) == 1:
+        if hs.index(h) == 0:
 
             h.SetXTitle('P_{dijet}(GeV)')
             h.SetMaximum(10000)
@@ -661,7 +653,40 @@ def draw_after_cut_dijet_p(sample, c, fs, processname):
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 1:
+        if not hs.index(h) == 0:
+            #            h.GetYaxis().SetLimits(0,1000)
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
+    
+def draw_after_cut_cos_miss(sample, c, fs, processname):	
+    hname = 'after_cut_cos_miss'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_cos_miss.pdf'
+    check_outfile_path(figfile)
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg)
+
+    for h in hs:
+        if hs.index(h) == 0:
+
+            h.SetXTitle('|cos#theta_{miss}|')
+            h.SetMaximum(3000)
+#            h.SetMinimum(0.00000000000001)
+            h.SetYTitle('Events/(0.5GeV)')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            #            h.GetYaxis().SetRange(0,400)
+            # Plot title?
+            h.SetMarkerStyle(1)
+#            gPad.SetLogy();
+            #            h.SetMinimum(0.1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 0:
             #            h.GetYaxis().SetLimits(0,1000)
             h.Draw('same')
 

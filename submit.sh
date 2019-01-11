@@ -2,7 +2,7 @@
 #!/usr/bin/env bash        
 
 # Main driver to submit jobs 
-# Author SHI Xin <shixin@ihep.ac.cn> 
+# Author SHI Xin <shixin@ihep.ac.cn>  
 # Created [2016-08-16 Tue 08:29] 
 #mumuH_inv
 usage() {
@@ -488,8 +488,8 @@ case $option in
     0.3.13) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/mumuH/after
             mkdir -p fig/mumuH/before           
-            ./python/plt_before_summary.py mumuH signal ZZ WW single_z single_w zzorww zorw 2f
-            ./python/plt_after_summary.py mumuH sig+bkg signal ZZ WW single_z single_w zzorww zorw  2f
+            ./python/plt_before_summary.py mumuH signal ZZ WW single_z single_w zzorww 2f
+            ./python/plt_after_summary.py mumuH  signal ZZ WW single_z single_w zzorww 2f
 
             ;;
     0.3.14) echo "Applying BDT cut..."
@@ -799,7 +799,7 @@ case $option in
             rm ./run/eeH/bg/hist/all_bkg_merge.root -rf
             rm ./run/eeH/bg/plot/all_bkg_merge.root -rf
             #merge all backgrounds;merge backgrounds and signal 
-#            ./python/scale_events.py ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_1.root ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root eeh_inv table/bg_sample_list.txt
+            ./python/scale_events.py ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_1.root ./run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root eeh_inv table/bg_sample_list.txt
             ./job/merge.sh 1
             cp run/eeH/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/eeH/total/hist/eeH_inv.root
        ;;
@@ -807,8 +807,8 @@ case $option in
     0.4.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/eeH/after
             mkdir -p fig/eeH/before           
-            ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w zzorww zorw 2f
-            ./python/plt_after_summary.py eeH sig+bkg signal ZZ WW single_z single_w zzorww zorw  2f
+            ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w zzorww  2f
+            ./python/plt_after_summary.py eeH  signal ZZ WW single_z single_w zzorww  2f
 
             ;;
     0.4.23) echo "Applying BDT cut..."
@@ -867,7 +867,7 @@ case $option in
 #           cp run/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
            rm table/eeH/out_list_b.txt
            rm table/eeH/tfbin_b.txt
-           python  python/gen_binb.py  run/eeH/total/hist eeH
+           python  python/gen_binb.py  table/eeH/out_list.txt eeH
 #           python  python/get_binb.py table/eeH/out_list_b.txt eeH
     ;;
     0.4.29) echo " Optimize the cut conditions"
@@ -952,7 +952,7 @@ case $option in
 
             cd ./run/qqH/qqh_invi/condor
             mkdir -p log/events
-            ./condor_submit_eventsel.sh
+            ./condor_submit_eventsel.sh 
 
   
         ;;
@@ -1130,13 +1130,13 @@ case $option in
     0.5.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/qqH/after
             mkdir -p fig/qqH/before           
-            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w zzorww zorw 2f
-            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w zzorww zorw  2f
+            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w zzorww  2f
+            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w zzorww   2f
 
             ;;
     0.5.23) echo "Get background and signal number after different cuts"
             rm table/qqH/bin.txt 
-            rm table/qqH/out_list.txt
+            rm table/qqH/out_list.txt 
             rm table/qqH/tfbin.txt
             mkdir table/qqH
             cd ./run/qqH/bg/events/ana
@@ -1144,19 +1144,20 @@ case $option in
             do 
                 cd ../../../../../
                 python python/gen_bin.py run/qqH/bg/plot/$dir table/bg_sample_list.txt  qqH              
-                cd ./run/qqH/bg/events/ana
+                cd ./run/qqH/bg/events/ana 
             done 
             cd ../../../../../
             python python/gen_bin.py run/qqH/qqh_invi/hist/qqh_invi table/bg_sample_list.txt qqH
                
             python python/get_bin.py table/qqH/out_list.txt
         ;;
-
+ 
     0.5.24) echo "Get Shorthand channel detail information"
 #           cp run/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
-           rm table/qqH/out_list_b.txt
+           rm table/qqH/out_list_b.txt 
            rm table/qqH/tfbin_b.txt
-           python  python/gen_binb.py  run/qqH/total/hist qqH
+           python  python/gen_binb.py  table/qqH/out_list.txt  qqH
+
 #           python  python/get_binb.py table/qqH/out_list_b.txt qqH
     ;;
     0.5.25) echo " Optimize the cut conditions"

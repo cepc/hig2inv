@@ -21,7 +21,7 @@ def main():
     sample = sys.argv[2:]
     fs = get_files_from_sample(sample,processname)
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
-    if "processname == qqH":
+    if processname == "qqH":
         draw_before_cut_dijet_Pt(sample, c, fs, processname)
         draw_before_cut_dijet_Pz(sample, c, fs, processname)
         draw_before_cut_dijet_ang(sample, c, fs, processname)
@@ -29,7 +29,9 @@ def main():
         draw_before_cut_dijet_e(sample, c, fs, processname)
         draw_before_cut_dijet_m(sample, c, fs, processname)
         draw_before_cut_dijet_rec_m(sample, c, fs, processname)
-        draw_before_cut_dijet_p(sample, c, fs, processname)						
+        draw_before_cut_dijet_p(sample, c, fs, processname)	
+        draw_before_cut_vis(sample, c, fs, processname)
+        draw_before_cut_cos_miss(sample, c, fs, processname)						
 #    draw_before_cut_n_moun(sample, c, fs, processname)
 #	draw_before_cut_n_photon(sample, c, fs, processname)
     else:
@@ -67,9 +69,6 @@ def get_files_from_sample(sample,processname):
 
     if 'zzorww' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	
-
-    if 'zorw' in sample:
-        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zorw.root'))
         
     if '2f' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/2f.root'))
@@ -90,10 +89,8 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
 
     for f in fs:
         h = f.Get(hname)
-        
-
         if fs.index(f) == 0:
-            if processname == "eeH":
+            if processname == "eeH":				
                 h.Scale(1.0/17600.0)
             if processname == "mumuH":
                 h.Scale(1.0/16925.0)
@@ -110,7 +107,7 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 2:
-            h.Scale(1.0/44763316.0)
+            h.Scale(1.0/45380550.0)
             h.SetLineColor(5)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
@@ -134,12 +131,6 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 6:
-            h.Scale(1.0/1247400.0)
-            h.SetLineColor(9)
-            h.SetLineWidth(1)
-            h.SetMarkerStyle(1)
-
-        elif fs.index(f) == 7:
             h.Scale(1.0/444816800.0)
             h.SetLineColor(3)
             h.SetLineWidth(1)
@@ -178,9 +169,6 @@ def leg_add_entry_hist(leg, f, h):
     elif sample in ['zzorww']:
         leg.AddEntry(h, "zzorww")
 
-    elif sample in ['zorw']:
-        leg.AddEntry(h, "zorw")
-
     elif sample in ['2f']:
         leg.AddEntry(h, "2fbkg")
         
@@ -197,7 +185,7 @@ def draw_before_cut_n_moun(sample, c, fs, processname):
     leg = ROOT.TLegend(0.7, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             if processname == "mumuH":
                 h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV/c^{2})')
             if processname == "eeH":
@@ -212,7 +200,7 @@ def draw_before_cut_n_moun(sample, c, fs, processname):
             h.SetMarkerStyle(1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -226,7 +214,7 @@ def draw_before_cut_n_photon(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('N_{#gamma}')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
@@ -238,7 +226,7 @@ def draw_before_cut_n_photon(sample, c, fs, processname):
             h.SetMinimum(0.0001)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -252,7 +240,7 @@ def  draw_before_cut_Pt(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             if processname == "mumuH":
                 h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV/c)')
                 h.SetMaximum(0.03)
@@ -270,7 +258,7 @@ def  draw_before_cut_Pt(sample, c, fs, processname):
 
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -284,7 +272,7 @@ def draw_before_cut_Pz(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             if processname == "mumuH":
                 h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV/c)')
                 h.SetMaximum(0.01)
@@ -301,7 +289,7 @@ def draw_before_cut_Pz(sample, c, fs, processname):
             h.SetMarkerStyle(1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -316,13 +304,13 @@ def draw_before_cut_theta(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             if processname == "mumuH":
-                h.SetXTitle('|#Delta#phi_{#mu^{+}#mu^{-}}|')
+                h.SetXTitle('#Delta#phi_{#mu^{+}#mu^{-}}')
                 h.SetMaximum(0.01)
                 h.SetMinimum(0.000001)
             if processname == "eeH":
-                h.SetXTitle('|#Delta#phi_{e^{+}e^{-}}|')
+                h.SetXTitle('#Delta#phi_{e^{+}e^{-}}')
                 h.SetMaximum(0.05)
                 h.SetMinimum(0)
             h.SetYTitle('Normalized to 1')
@@ -333,7 +321,7 @@ def draw_before_cut_theta(sample, c, fs, processname):
             h.GetYaxis().CenterTitle()
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -348,7 +336,7 @@ def draw_before_cut_vis(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('Visible Energy (GeV/c^{2})')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
@@ -360,7 +348,7 @@ def draw_before_cut_vis(sample, c, fs, processname):
             h.SetMinimum(0.000001)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -374,7 +362,7 @@ def draw_before_cut_Mmumu(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV/c^{2})')
                 h.SetMaximum(0.02)
@@ -391,7 +379,7 @@ def draw_before_cut_Mmumu(sample, c, fs, processname):
             h.SetMarkerStyle(1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -407,7 +395,7 @@ def  draw_before_cut_Mrecoil(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             if processname == "mumuH":
                 h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV/c^{2})')
                 h.SetMaximum(0.06)
@@ -428,7 +416,7 @@ def  draw_before_cut_Mrecoil(sample, c, fs, processname):
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             #            h.GetYaxis().SetLimits(0,1000)
             h.Draw('same')
 
@@ -443,7 +431,7 @@ def  draw_before_cut_ep(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
 
             h.SetXTitle('E/P')
             h.SetYTitle('Events/(1Gev/C^{2})')
@@ -459,7 +447,7 @@ def  draw_before_cut_ep(sample, c, fs, processname):
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             #            h.GetYaxis().SetLimits(0,1000)
             h.Draw('same')
 
@@ -474,7 +462,7 @@ def draw_before_cut_dijet_Pt(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
 
             h.SetXTitle('P_{t}^{dijet}(GeV/c)')	
             h.SetMaximum(0.1)
@@ -488,7 +476,7 @@ def draw_before_cut_dijet_Pt(sample, c, fs, processname):
 
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -502,7 +490,7 @@ def draw_before_cut_dijet_Pz(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('|P_{z}^{dijet}| (GeV/c)')
             h.SetMaximum(0.03)
             h.SetMinimum(0.0000001)
@@ -514,7 +502,7 @@ def draw_before_cut_dijet_Pz(sample, c, fs, processname):
             h.SetMarkerStyle(1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -528,7 +516,7 @@ def draw_before_cut_dijet_ang(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('|#angle_{dijet}|')
             h.SetMaximum(0.1)
             h.SetMinimum(0.000001)
@@ -541,7 +529,7 @@ def draw_before_cut_dijet_ang(sample, c, fs, processname):
             h.GetYaxis().CenterTitle()
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -554,7 +542,7 @@ def draw_before_cut_dijet_phi(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('|#Delta#phi_{dijet}|')
             h.SetMaximum(0.05)
             h.SetMinimum(0)
@@ -566,7 +554,7 @@ def draw_before_cut_dijet_phi(sample, c, fs, processname):
             h.GetYaxis().CenterTitle()
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -580,7 +568,7 @@ def draw_before_cut_dijet_e(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('Visible Energy (GeV/c^{2})')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
@@ -592,7 +580,7 @@ def draw_before_cut_dijet_e(sample, c, fs, processname):
             h.SetMinimum(0.000001)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -606,7 +594,7 @@ def draw_before_cut_dijet_m(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
             h.SetXTitle('M_{dejet}(GeV)')
             h.SetMaximum(0.04)
             h.SetMinimum(0.0001)
@@ -618,7 +606,7 @@ def draw_before_cut_dijet_m(sample, c, fs, processname):
             h.SetMarkerStyle(1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             h.Draw('same')
 
     leg.Draw()
@@ -633,7 +621,7 @@ def draw_before_cut_dijet_rec_m(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
 
             h.SetXTitle('M_{recoil}^{dijet}(GeV)')
             h.SetMaximum(0.05)
@@ -650,7 +638,7 @@ def draw_before_cut_dijet_rec_m(sample, c, fs, processname):
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             #            h.GetYaxis().SetLimits(0,1000)
             h.Draw('same')
 
@@ -665,7 +653,7 @@ def draw_before_cut_dijet_p(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
-        if hs.index(h) == 7:
+        if hs.index(h) == 6:
 
             h.SetXTitle('P_{dijet}(GeV)')
             h.SetMaximum(0.05)
@@ -682,13 +670,45 @@ def draw_before_cut_dijet_p(sample, c, fs, processname):
             #            h.SetMinimum(0.1)
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 7:
+        if not hs.index(h) == 6:
             #            h.GetYaxis().SetLimits(0,1000)
             h.Draw('same')
 
     leg.Draw()
     c.SaveAs(figfile)
 
+def draw_before_cut_cos_miss(sample, c, fs, processname):	
+    hname = 'before_cut_cos_miss'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_cos_miss.pdf'
+    check_outfile_path(figfile)
+
+    leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
+    hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
+
+    for h in hs:
+        if hs.index(h) == 0:
+
+            h.SetXTitle('cos#theta_{miss}')
+            h.SetMaximum(0.06)
+#            h.SetMinimum(0.00000000000001)
+            h.SetYTitle('Events/(0.5GeV)')
+            h.GetXaxis().SetLabelSize(0.02)
+            h.GetYaxis().SetLabelSize(0.02)
+            h.GetXaxis().CenterTitle()
+            h.GetYaxis().CenterTitle()
+            #            h.GetYaxis().SetRange(0,400)
+            # Plot title?
+            h.SetMarkerStyle(1)
+#            gPad.SetLogy();
+            #            h.SetMinimum(0.1)
+            h.Draw()
+    for h in hs:
+        if not hs.index(h) == 0:
+            #            h.GetYaxis().SetLimits(0,1000)
+            h.Draw('same')
+
+    leg.Draw()
+    c.SaveAs(figfile)
 
 
 if __name__ == '__main__':

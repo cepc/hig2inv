@@ -139,7 +139,7 @@ m_mc_init_photon_theta=ROOT.std.vector(float)()
 m_mc_z1_daughter_pid=ROOT.std.vector(float)()
 m_mc_z2_daughter_pid=ROOT.std.vector(float)()
 m_mc_pdgid=ROOT.std.vector(float)()
-m_mc_init_pdgid=ROOT.std.vector(float)()
+m_mc_init_pdgid=ROOT.std.vector(float)() 
 m_mc_w1_daughter_pid=ROOT.std.vector(float)()
 m_mc_w2_daughter_pid=ROOT.std.vector(float)() 
 m_mc_higgs_daughter_pdgid=ROOT.std.vector(float)()
@@ -171,15 +171,18 @@ def get_weight(event,processname,table_list):
             process=l[0]            
             if processname == process:
                 cross_section=l[2]
-                print cross_section
     if processname=="e2E2h_inv":
         ffH_cross=6.77
         br_Hinv=0.5		
         weight=IntLum*ffH_cross*br_Hinv/event_gen
     elif processname=="eeh_inv":
-        ffH_cross=7.04
+        ffH_cross=7.04 
         br_Hinv=0.5		
-        weight=IntLum*ffH_cross*br_Hinv/event_gen	
+        weight=IntLum*ffH_cross*br_Hinv/event_gen
+    elif processname=="qqh_inv":
+        ffH_cross=136.81
+        br_Hinv=0.5		
+        weight=IntLum*ffH_cross*br_Hinv/event_gen		
     elif cross_section==0.:
         print "Sample name misses, please check that!"
         sys.exit() 
@@ -509,5 +512,19 @@ def root_information(infile,outfile,weight,event):
         h[i].Write()
     h_evtflw.Write()
     t_out.Write()
+    m_mc_init_photon_e.clear()
+    m_mc_init_photon_p.clear()
+    m_mc_init_photon_pt.clear()
+    m_mc_init_photon_pz.clear()
+    m_mc_init_photon_phi.clear()
+    m_mc_init_photon_theta.clear()
+
+    m_mc_z1_daughter_pid.clear()
+    m_mc_z2_daughter_pid.clear()
+    m_mc_pdgid.clear()
+    m_mc_init_pdgid.clear()
+    m_mc_w1_daughter_pid.clear()
+    m_mc_w2_daughter_pid.clear()
+    m_mc_higgs_daughter_pdgid.clear()
 if __name__ == '__main__':
     main()
