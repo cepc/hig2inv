@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" 
+"""  
 Plot summary histograms 
 """
  
@@ -14,11 +14,12 @@ import ROOT
 from tools import check_outfile_path, set_root_style
 
 
-def main(): 
+def main():  
     set_root_style(stat=0, grid=0)
     ROOT.gStyle.SetPadLeftMargin(0.15)
     processname = sys.argv[1]
     sample = sys.argv[2:]
+
     fs = get_files_from_sample(sample,processname)
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
     if processname == "qqH":
@@ -73,7 +74,8 @@ def get_files_from_sample(sample,processname):
     if '2f' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/2f.root'))
 
-
+    if 'ZH_visible' in sample:
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/ZH_visible.root'))
 
 
     return fs
@@ -113,7 +115,7 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 3:
-            h.Scale(1.0/8955800.0)
+            h.Scale(1.0/9348250.0)
             h.SetLineColor(6)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
@@ -133,6 +135,11 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
         elif fs.index(f) == 6:
             h.Scale(1.0/444816800.0)
             h.SetLineColor(3)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+        elif fs.index(f) == 7:
+            h.Scale(1.0/1018300.0)       
+            h.SetLineColor(12)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
         else:
@@ -171,7 +178,8 @@ def leg_add_entry_hist(leg, f, h):
 
     elif sample in ['2f']:
         leg.AddEntry(h, "2fbkg")
-        
+    elif sample in ['ZH_visible']:
+        leg.AddEntry(h, "ZH_visible") 
     else:
         raise NameError(sample)
 
@@ -337,7 +345,7 @@ def draw_before_cut_vis(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('Visible Energy (GeV/c^{2})')
+            h.SetXTitle('Visible Energy (GeV/c^{2})(raw data)')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -464,7 +472,7 @@ def draw_before_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV/c)')	
+            h.SetXTitle('P_{t}^{dijet}(GeV/c)(raw data)')	
             h.SetMaximum(0.1)
             h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Normalized to 1')
@@ -491,7 +499,7 @@ def draw_before_cut_dijet_Pz(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV/c)')
+            h.SetXTitle('|P_{z}^{dijet}| (GeV/c)(raw data)')
             h.SetMaximum(0.03)
             h.SetMinimum(0.0000001)
             h.SetYTitle('Normalized to 1')
@@ -517,7 +525,7 @@ def draw_before_cut_dijet_ang(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('|#angle_{dijet}|')
+            h.SetXTitle('|#angle_{dijet}|(raw data)')
             h.SetMaximum(0.1)
             h.SetMinimum(0.000001)
 
@@ -543,7 +551,7 @@ def draw_before_cut_dijet_phi(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('|#Delta#phi_{dijet}|')
+            h.SetXTitle('|#Delta#phi_{dijet}|(raw data)')
             h.SetMaximum(0.05)
             h.SetMinimum(0)
             h.SetYTitle('Normalized to 1')
@@ -569,7 +577,7 @@ def draw_before_cut_dijet_e(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('Visible Energy (GeV/c^{2})')
+            h.SetXTitle('Visible Energy (GeV/c^{2})(raw data)')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -595,7 +603,7 @@ def draw_before_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('M_{dejet}(GeV)')
+            h.SetXTitle('M_{dejet}(GeV)(raw data)')
             h.SetMaximum(0.04)
             h.SetMinimum(0.0001)
             h.SetYTitle('Normalized to 1')
@@ -623,7 +631,7 @@ def draw_before_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)')
+            h.SetXTitle('M_{recoil}^{dijet}(GeV)(raw data)')
             h.SetMaximum(0.05)
             h.SetMinimum(0.00000000000001)
             h.SetYTitle('Normalized to 1')
@@ -655,7 +663,7 @@ def draw_before_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
 
-            h.SetXTitle('P_{dijet}(GeV)')
+            h.SetXTitle('P_{dijet}(GeV)(raw data)')
             h.SetMaximum(0.05)
             h.SetMinimum(0.00000000000001)
             h.SetYTitle('Normalized to 1')
@@ -688,7 +696,7 @@ def draw_before_cut_cos_miss(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('cos#theta_{miss}')
+            h.SetXTitle('cos#theta_{miss}(raw data)')
             h.SetMaximum(0.06)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')

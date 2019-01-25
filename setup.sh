@@ -6,7 +6,7 @@ unset MARLIN_DLL
 # Set Variables for MARLIN Execution
 shopt -s expand_aliases
 #source /besfs/groups/higgs/Software/v01-17-05_slc6/init_ilcsoft.sh
-source $PWD/init_ilcsoft.sh
+source $PWD/init_ilcsoft.sh 
 
 # FastJet
 export MARLIN_DLL=$PWD/MarlinFastJet-00-02/lib/libMarlinFastJet.so:$MARLIN_DLL
@@ -20,4 +20,8 @@ export PATH=/afs/ihep.ac.cn/soft/common/sysgroup/hep_job/bin:$PATH
 
 
 # PyROOT 
-export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
+export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH 
+
+
+#TAU
+#export MARLIN_DLL=$PWD/lib/libTauAna.so

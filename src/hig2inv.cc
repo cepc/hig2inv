@@ -13,6 +13,7 @@
 //
 
 // for MCParticle, collection and reconstruction
+//#include <TauReco.hh>
 #include <EVENT/LCCollection.h>
 #include <IMPL/LCCollectionVec.h>
 #include <EVENT/LCFloatVec.h> 
@@ -57,7 +58,8 @@ class hig2inv  : public marlin::Processor {
         std::string FileName;
         std::string TreeName;
         std::string Processname;
-
+        
+//        LCCollection* col_tau;		
         LCCollection* col_MC;
         LCCollection* col_Reco;
         LCCollection* col_FastJet;
@@ -441,12 +443,10 @@ void hig2inv::processEvent( LCEvent * evt ) {
         try{
             variable_init();
             col_Reco = evt->getCollection( "ArborPFOs" );
-            col_FastJet = evt->getCollection("FastJets");
+
             col_MC = evt->getCollection( "MCParticle" );
-            Col_FJPList1 = evt->getCollection( "FJPList1" );        // FastJet, List of rec. particle list for jet1
-            Col_FJPList2 = evt->getCollection( "FJPList2" );        // FastJet, List of rec. particle list for jet2
-//            Col_Leps    = evt->getCollection( "IsoLeps"        );    
-            Col_WoLeps  = evt->getCollection( "WithoutIsoLeps" ); 
+
+//            col_tau = evt->getCollection( "TauJet" );
             if(buildZToff()){
 
             nReco = col_Reco->getNumberOfElements();
@@ -458,14 +458,22 @@ void hig2inv::processEvent( LCEvent * evt ) {
             saveVisible(P4_Neutral_Sum, P4_Charged_Sum);
             saveRecInfo(FourMom_LeptonP,FourMom_LeptonM);
             if  (Processname == "qq" || Processname == "BKGQ"){
+            col_FastJet = evt->getCollection("FastJets");
+            Col_FJPList1 = evt->getCollection( "FJPList1" );        // FastJet, List of rec. particle list for jet1
+            Col_FJPList2 = evt->getCollection( "FJPList2" );        // FastJet, List of rec. particle list for jet2
+//            Col_Leps    = evt->getCollection( "IsoLeps"        );    
+            Col_WoLeps  = evt->getCollection( "WithoutIsoLeps" ); 
             saveFastJet(col_FastJet);
             saveJetInfo( P4_Jet );
             }   
+
+
             saveMCTruthInfo( col_MC );            
 
 //            saveMCInfo( nMC, col_MC );
 
             m_tree->Fill();
+            
             }
         }
         catch (lcio::DataNotAvailableException err) { }
@@ -1246,10 +1254,10 @@ void hig2inv::checkGenMCInfo( LCCollection* col_MC ) {
     if (Processname == "muon"){ 
     LeptonID=13;
     if (nparents == 0){
-        if ( pdgid == MuonPID ) {
+        if ( pdgid ==  MuonPID ) {
             Nmup++;
         }
-        if(pdgid == -MuonPID ) {
+        if(pdgid == - MuonPID ) {
             Nmum++;		
         }	
     }	

@@ -183,7 +183,7 @@ export PATH="$MARLINTPC/bin:$PATH"
 #--------------------------------------------------------------------------------
 #     Druid
 #--------------------------------------------------------------------------------
-export DRUID="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/Druid/2.4"
+export DRUID="/afs/ihep.ac.cn/users/m/manqi/Software/Druid_SL6_2"
 export PATH="$DRUID/bin:$PATH"
 
 
@@ -196,7 +196,7 @@ export LD_LIBRARY_PATH="$HepPDT_HOME/lib:$LD_LIBRARY_PATH"
 
 
 #--------------------------------------------------------------------------------
-#     GDML
+#     GDML 
 #--------------------------------------------------------------------------------
 export GDML="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/gdml/v03-00-02"
 export LD_LIBRARY_PATH="$GDML/lib:$LD_LIBRARY_PATH"
@@ -217,6 +217,11 @@ export SLIC="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/slic/v03-01-03"
 export PATH="$SLIC/build/bin:$PATH"
 export LD_LIBRARY_PATH="$SLIC/build/lib:$LD_LIBRARY_PATH"
 
+#--------------------------------------------------------------------------------
+#     Druid
+#--------------------------------------------------------------------------------
+export DRUID="/afs/ihep.ac.cn/users/m/manqi/Software/Druid_SL6_2"
+export PATH="$DRUID/bin:$PATH"
 
 #--------------------------------------------------------------------------------
 #     DD4hep
