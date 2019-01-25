@@ -16,6 +16,7 @@ hadd ../../total/hist/WW.root  ww*/*
 hadd ../../total/hist/single_z.root sz*/*
 hadd ../../total/hist/single_w.root sw_*/*
 hadd ../../total/hist/zzorww.root zzorww*/*
+hadd ../../total/hist/ZH_visible.root Z_*/*
 hadd ../../total/hist/total_bkg.root ../../total/hist/*
 cd ../plot
 hadd ../../total/plot/2f.root e1e1/* e2e2/* e3e3/* qq/* 
@@ -24,6 +25,7 @@ hadd ../../total/plot/WW.root  ww*/*
 hadd ../../total/plot/single_z.root sz*/*
 hadd ../../total/plot/single_w.root sw*/*
 hadd ../../total/plot/zzorww.root zzorww*/*
+hadd ../../total/plot/ZH_visible.root Z_*/*
 hadd ../../total/plot/total_bkg.root ../../total/plot/*
 cd ../../total 
 if [[ $1 == 0 ]]; then

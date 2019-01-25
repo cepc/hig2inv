@@ -122,7 +122,7 @@ def main():
         fout.write('  eLog_File=${Log_Dir}/${Time_Stamp}/err_${num}.txt                               \n') 
         fout.write('                                                                                  \n') 
         fout.write('  script_name=%s                                                                  \n' % script_name) 
-        fout.write('  hep_sub -g physics -o ${Log_File} -e ${eLog_File} ${Work_Dir}/${script_name}   \n') 
+        fout.write('  source ${Work_Dir}/${script_name}   \n') 
         fout.write('done                                                                              \n') 
         fout.write('                                                                                  \n') 
         fout.close()

@@ -8,6 +8,7 @@ cmake -C ../ILCSoft.cmake ..
 make install 
 cd ../../
 
+
 rm -fr build
 mkdir build
 cd build

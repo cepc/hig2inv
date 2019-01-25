@@ -1,15 +1,15 @@
 
 #!/usr/bin/env bash        
 
-# Main driver to submit jobs 
+# Main driver to submit jobs   
 # Author SHI Xin <shixin@ihep.ac.cn>  
-# Created [2016-08-16 Tue 08:29] 
+# Created [2016-08-16 Tue 08:29]  
 #mumuH_inv
 usage() {
     printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
-    printf "\nOPTIONS\n"   
+    printf "\nOPTIONS\n"    
     printf "\n\t%-9s  %-40s"  "0.1"      "[run data sample for mumuH_inv->Maoqiang Jing]" 
     printf "\n\t%-9s  %-40s"  "0.2"      "[run data sample for mumuH_inv->Tanyuhang]"  
     printf "\n\t%-9s  %-40s"  "0.3"      "[run data sample for background of mumuH_inv]" 
@@ -94,7 +94,7 @@ usage_0_4(){
     printf "\n\t%-5s  %-40s\n"  "0.4.17"    "Generate Condor job scripts for event selection..."
     printf "\n\t%-5s  %-40s\n"  "0.4.18"    "Submit Condor jobs for pre-selection on background sample..." 
     printf "\n\t%-5s  %-40s\n"  "0.4.19"    "Merge event root files..." 
-    printf "\n\t%-5s  %-40s\n"  "0.4.20"    "Scale event..."
+    printf "\n\t%-5s  %-40s\n"  "0.4.20"    "Scale event..." 
     printf "\n\t%-5s  %-40s\n"  "0.4.21"    "Plot signal and background cut distribution"
     printf "\n\t%-5s  %-40s\n"  "0.4.22"    "Plot before cut and after cut distribution" 
     printf "\n\t%-5s  %-40s\n"  "0.4.23"    "Expand the background two times" 
@@ -474,22 +474,22 @@ case $option in
             done
     ;; 
     0.3.12) echo "Plot signal and background cut distribution"
-            mkdir -p ./run/mumuH/total/hist
+            mkdir -p ./run/mumuH/total/hist 
             mkdir -p ./run/mumuH/total/plot
             rm ./run/mumuH/total/bkg_add_sig.root -rf
             rm ./run/mumuH/bg/hist/all_bkg_merge.root -rf
             rm ./run/mumuH/bg/plot/all_bkg_merge.root -rf
             #merge all backgrounds;merge backgrounds and signal 
             ./python/scale_events.py ./run/mumuH/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_1.root ./run/mumuH/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root e2E2h_inv table/bg_sample_list.txt
-            ./job/merge.sh 
+            ./job/merge.sh 0
             cp run/mumuH/e2E2h_invi/hist/e2E2h_invi/ana_File_merged_scale_1.root  run/mumuH/total/hist/mumuH_inv.root
        ;;
 
     0.3.13) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/mumuH/after
             mkdir -p fig/mumuH/before           
-            ./python/plt_before_summary.py mumuH signal ZZ WW single_z single_w zzorww 2f
-            ./python/plt_after_summary.py mumuH  signal ZZ WW single_z single_w zzorww 2f
+            ./python/plt_before_summary.py mumuH signal ZZ WW single_z single_w zzorww 2f ZH_visible
+            ./python/plt_after_summary.py mumuH  signal ZZ WW single_z single_w zzorww 2f ZH_visible
 
             ;;
     0.3.14) echo "Applying BDT cut..."
@@ -549,7 +549,7 @@ case $option in
 
            rm table/mumuH/out_list_b.txt
            rm table/mumuH/tfbin_b.txt
-           python  python/gen_binb.py  run/mumuH/total/hist  mumuH
+           python  python/gen_binb.py  table/mumuH/out_list.txt  mumuH
 #           python  python/get_binb.py table/mumuH/out_list_b.txt mumuH
     ;;
     0.3.20) echo " Optimize the cut conditions"
@@ -807,8 +807,8 @@ case $option in
     0.4.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/eeH/after
             mkdir -p fig/eeH/before           
-            ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w zzorww  2f
-            ./python/plt_after_summary.py eeH  signal ZZ WW single_z single_w zzorww  2f
+            ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w zzorww  2f ZH_visible
+            ./python/plt_after_summary.py eeH  signal ZZ WW single_z single_w zzorww  2f ZH_visible
 
             ;;
     0.4.23) echo "Applying BDT cut..."
@@ -1118,7 +1118,7 @@ case $option in
             done
     ;; 
     0.5.21) echo "Plot signal and background cut distribution"
-	        rm -rf ./run/qqH/total/
+            rm -rf ./run/qqH/total/
             mkdir -p ./run/qqH/total/hist
             mkdir -p ./run/qqH/total/plot 
             #merge all backgrounds;merge backgrounds and signal 
@@ -1130,8 +1130,8 @@ case $option in
     0.5.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/qqH/after
             mkdir -p fig/qqH/before           
-            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w zzorww  2f
-            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w zzorww   2f
+            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w zzorww  2f  ZH_visible
+            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w zzorww   2f   ZH_visible
 
             ;;
     0.5.23) echo "Get background and signal number after different cuts"
