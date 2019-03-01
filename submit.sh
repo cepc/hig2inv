@@ -137,7 +137,17 @@ usage_0_5(){
     printf "\n\t%-5s  %-40s\n"  "0.5.23"    "Get background and signal number after different cuts"	
     printf "\n\t%-5s  %-40s\n"  "0.5.24"    "Get Shorthand channel detail information"
 }
-
+usage_0_6(){
+    printf "NAME\n\tsubmit.sh - fit and calculate upperlimit\n"
+    printf "\nSYNOPSIS\n"
+    printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
+    printf "\nOPTIONS\n" 
+    printf "\n\t%-5s  %-40s\n"  "0.6.1"    "Get the information from mumuH" 
+	printf "\n\t%-5s  %-40s\n"  "0.6.2"    "Get the information from eeH" 
+	printf "\n\t%-5s  %-40s\n"  "0.6.3"    "Get the information from qqH"
+	printf "\n\t%-5s  %-40s\n"  "0.6.4"    "move data to one file"  
+	printf "\n\t%-5s  %-40s\n"  "0.6.5"    "fit and generate Asimovdata"  	   
+}
 
 signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
 
@@ -1177,6 +1187,40 @@ case $option in
 esac    
 }
 
+sub_0_6(){
+
+case $option in
+   #before use 0_6 you should source calculate/setupATLAS.sh
+	0.6.1) echo "Get the information from mumuH"
+           cp run/mumuH/total/hist/* calculate/mz4v/	
+		   cp run/qqH/total/hist/* calculate/qz4v/
+		   cp run/eeH/total/hist/* calculate/ez4v/
+           cd  calculate/mz4v/
+           root -l mz4v.cxx
+	;;
+	0.6.2) echo "Get the information from eeH"
+           cd  calculate/ez4v/
+           root -l ez4v.cxx
+	;;
+	0.6.3) echo "Get the information from qqH"
+           cd  calculate/qz4v/
+           root -l qz4v.cxx
+	;;
+	0.6.4) echo "move data to one file"
+           cp calculate/mz4v/mz4v* calculate/workspace/data/hinvi/
+           cp calculate/ez4v/ez4v* calculate/workspace/data/hinvi/
+           cp calculate/qz4v/qz4v* calculate/workspace/data/hinvi/
+	;;	
+	0.6.5) echo "fit and generate Asimovdata"
+	       mkdir fig/mz4v -p
+	       mkdir fig/ez4v -p
+	       mkdir fig/qz4v -p		   
+           cd calculate/workspace
+		   ./job/run.sh		
+#		   mv mz4v* ../workspace/data/hinvi
+esac
+}
+
 case $option in 
 # sample: 0.1 is print detail information about each step and then you can run the step you want.
 #         0.1.* is directly running the step. 
@@ -1235,5 +1279,15 @@ case $option in
         sub_0_5 option 
         ;; 	
 
+    0.6) echo "fit and calculate upperlimit"
+        usage_0_6
+        echo "Please enter your option: " 
+        read option
+        sub_0_6 option 
+        ;;
+
+    0.6.*) echo "fit and calculate upperlimit"
+        sub_0_6 option 
+        ;; 	
 
 esac
