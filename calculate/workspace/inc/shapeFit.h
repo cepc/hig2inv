@@ -1,4 +1,6 @@
-
+"""
+##Define the function used in .cxx
+"""
 
 __author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
 __copyright__ = "Copyright (c) Tanyuhang"
@@ -10,8 +12,8 @@ __created__ = "[2019-03-04 ]"
    
 const int Nch = 3;  
 const TString m_CN[Nch] = {  
-//                                "qz4v", 
-//                                "ez4v",
+                                "qz4v", 
+                                "ez4v",
 								"mz4v",      
 								};
 							
