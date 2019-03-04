@@ -1,0 +1,26 @@
+// 2016.8.22 add shape comparison module
+// 2116.8.28 将plotfit函数融进higgsshape以将fitresult打印在图上
+// 2016.11.7 Add Kappa and NP
+// 2017.5.22 更新数据,换掉上版错误的结果
+// 2017.7.9  Kappa finish
+// 2017.7.10 Combine mu+Kappa
+// 9 kappa version
+// 2017.7.18 Update tautau, invi sample
+//将老的qq sample scale 到新比例,得到的结果。(由于原来的bkg
+//sample不全),结果太精确。
+//将crossx,lumi误差各部分独立,改为全局相同:失败
+// 2017.7.20 vvH换用新数据
+// Default:9 kappa. can change to 8 and 7.
+// 2017.7.21 bbccgg补完,精简plot_bkg,现在所有sm bkg合并为一
+//修正template pdf生成方式
+// 2017.8.8 新型建2d 方式
+// 8.9 template fixed!终于修好了
+//增加z decay的分类测量
+// 8.10 优化排版
+// 8.12 自动化假设整理结果 
+// 重构、简化代码
+//2017.08.21 现在代码缺少WW fusion和 宽度 所以结果不正确。计划增加
+//NP 结果也不正确
+//8.22 加入inclusive data以及 fake qq inclusive 废止不用。还是用0.5%
+//假如fake data确定width和vvhbb进入拟合。现在的情况是2.8%的宽度信息 进入拟合之后也变好了。情况像liu zhen那样变化,但还不够。
+//9.11 将mmtt,vvtt的zh道细化
