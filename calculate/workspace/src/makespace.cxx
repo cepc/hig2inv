@@ -1,3 +1,16 @@
+
+"""
+##Generate Asimov data and fit 
+
+"""
+
+__author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
+__copyright__ = "Copyright (c) Tanyuhang"
+__created__ = "[2019-03-04 ]"
+
+
+
+
 #define DEBUG 1 // to 1: more details 
 #include "head.h" 
 using namespace std;

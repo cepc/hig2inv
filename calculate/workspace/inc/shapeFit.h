@@ -1,10 +1,17 @@
+
+
+__author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
+__copyright__ = "Copyright (c) Tanyuhang"
+__created__ = "[2019-03-04 ]"
+
+
 #ifndef SHAPE_H 
 #define SHAPE_H
    
 const int Nch = 3;  
 const TString m_CN[Nch] = {  
-                                "qz4v", 
-                                "ez4v",
+//                                "qz4v", 
+//                                "ez4v",
 								"mz4v",      
 								};
 							
@@ -23,7 +30,7 @@ typedef struct channel
 
 const channel c[3]=
 {
-    {   "qz4v", 1, 1, 120, 150,
+    {   "qz4v", 1, 1, 100, 150,
         "data/hinvi/qz4v_bkg.root",
         {"s"},
         {
@@ -208,7 +215,7 @@ RooWorkspace *makespace(TString cname, int index);
 Float_t    pdfShape    (RooWorkspace &ws,   channel c, TString proc, TString func);
 
 RooAbsPdf* pdffit      (TString cname, RooRealVar &var, RooDataSet &data, TString func);
-// void pdffit(RooAbsPdf* pdf, TString func); 难以实现 因为需要factory写死参数
+
 void plotFit    (RooWorkspace *wchannel,channel c, TString proc="s",TString lu_n="5");
 void plotImport (RooWorkspace *wspace,  channel c, TString proc,    TString lu_n="5");
 void PlotPdf    (RooWorkspace *wspace, int n_bkg , TString cname); 
