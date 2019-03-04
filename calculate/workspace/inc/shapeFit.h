@@ -1,3 +1,11 @@
+
+// Description: Defined some function used in shaFit.cxx and makespace.cxx    
+//
+// Original Author:  tanyh <tanyuhang@ihep.ac.cn>
+//         Created:  [2019-03-04 ] 
+//         Inspired by Kaili's code  
+
+
 #ifndef SHAPE_H 
 #define SHAPE_H
    
@@ -23,7 +31,7 @@ typedef struct channel
 
 const channel c[3]=
 {
-    {   "qz4v", 1, 1, 120, 150,
+    {   "qz4v", 1, 1, 100, 150,
         "data/hinvi/qz4v_bkg.root",
         {"s"},
         {
@@ -208,7 +216,7 @@ RooWorkspace *makespace(TString cname, int index);
 Float_t    pdfShape    (RooWorkspace &ws,   channel c, TString proc, TString func);
 
 RooAbsPdf* pdffit      (TString cname, RooRealVar &var, RooDataSet &data, TString func);
-// void pdffit(RooAbsPdf* pdf, TString func); 难以实现 因为需要factory写死参数
+
 void plotFit    (RooWorkspace *wchannel,channel c, TString proc="s",TString lu_n="5");
 void plotImport (RooWorkspace *wspace,  channel c, TString proc,    TString lu_n="5");
 void PlotPdf    (RooWorkspace *wspace, int n_bkg , TString cname); 

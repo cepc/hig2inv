@@ -1,3 +1,11 @@
+// -*- C++ -*- //  
+//
+// Description: get constant quality of Higgs    
+//
+// Original Author:  tanyh <tanyuhang@ihep.ac.cn>
+//         Created:  [2019-03-04 ] 
+//         Inspired by Kaili's code   
+
 #include <cstdlib>
 #include <vector>
 #include <iostream>
@@ -21,11 +29,9 @@ void mm_ntuple(TString a,TString b);
 void ez4v()
 {
 
-  // mm_ntuple("bkgzqq.root",  "bkg.root");
-  // mm_ntuple("sm.root",   "bkg.root");
   mm_ntuple("eeH_inv.root",   "ez4v_sig.root");
   mm_ntuple("total_bkg.root", "ez4v_bkg.root");
-  // mm_ntuple("sig30c1.root",   "3c1.root");
+
 }
 
 void mm_ntuple(TString a,TString b)
@@ -35,8 +41,7 @@ void mm_ntuple(TString a,TString b)
   TFile *target  = new TFile(b,"RECREATE");
   TTree *data = (TTree *)f->Get("tree");
 
-//   Float_t      RecoMass,TauTauM;
-//   Double_t     recmass,
+
   Double_t VisMass,  MisMass;
   Float_t  VisMassf, MisMassf;
   Float_t      weight;
@@ -48,7 +53,7 @@ void mm_ntuple(TString a,TString b)
   Float_t g1CosPolar,g2CosPolar, g1E, g2E, g1rcCos, g2rcCos, ggE, ggM, rcM, g1PTrans, g2PTrans, ggPTrans, rcCosPolar, g1g2cos;
   Float_t LD0, LZ0, NLD0, NLZ0;
 
-//    data->SetBranchAddress("ggM",          &ggM); // For recoil M, recoilM is MCtruth.
+
    data->SetBranchAddress("m_m_recoil",      &MisMassf);
    data->SetBranchAddress("m_m_dimu",        &VisMassf);
 
@@ -61,39 +66,17 @@ void mm_ntuple(TString a,TString b)
   output->Branch("Mass_invar"    ,&MisMassf,         "Mass_invar/F");
   output->Branch("Mass_Z"        ,&VisMassf,         "Mass_vis/F");
   output->Branch("weight"        ,&weight,           "weight/F");
-//   output->Branch("g1PTrans"      ,&g1PTrans,    "g1PTrans/F");
-//   output->Branch("g2PTrans"      ,&g2PTrans,    "g2PTrans/F");
-//   output->Branch("ggPTrans"      ,&ggPTrans,    "ggPTrans/F");
-//   output->Branch("rcCosPolar"    ,&rcCosPolar,  "rcCosPolar/F");
-//   output->Branch("g1g2Cos"       ,&g1g2cos,     "g1g2Cos/F");
+
 double sum=0;
  
   for (Long64_t ievt=0; ievt<nentries;ievt++)
  {
      data->GetEntry(ievt);
-//   if (
-//       abs(g1CosPolar) < 0.99 && abs(g2CosPolar) < 0.99 && g1E>25 && g2E>25 
-//    && ((g1CosPolar+1)*(g2CosPolar-1) < -0.07 && (g1CosPolar-1)*(g2CosPolar+1) < -0.07)&&(-0.9 < (g1CosPolar+g2CosPolar) && (g1CosPolar+g2CosPolar) < 0.9)
-//    && g1rcCos > -0.95
-//    && g2rcCos < 0.70
-//    && ggE < 0.48*ggM+83
-//    && 0.74*ggM+41<ggE
-//    && ggM>113 && ggM<150  
-//    )
-//   if (MisMassf>120 && MisMassf<130 && VisMassf>89 && VisMassf<94)
-//   {
-//     //   VisMassf=(Float_t)VisMass;
-//     //   MisMassf=(Float_t)MisMass;
-//     //  cout<<"Reco:"<<RecoMass<<endl;
+
      if (b.Contains("s")) weight=0.00212;
      if (b.Contains("b")) weight=1;
      sum+=weight;
-//     //  if (b.Contains("zh")) weight=6587/2279.;
-//     //  decay=HDecay[0];
-//     //  cout<<"decay:"<<decay<<endl;
-//     if (b.Contains("3"))  weight=0.02875;
-//     if (b.Contains("5"))  weight=0.0023;
-    // if (b.Contains("fast"))  weight*=0.925;
+
 
      output->Fill();
   }

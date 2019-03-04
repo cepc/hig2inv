@@ -1,5 +1,12 @@
-//2017.7.9 kappa
-//7.10 Combined 
+// -*- C++ -*- //  
+//
+// Description: Genarate Asimov data and fit data    
+//
+// Original Author:  tanyh <tanyuhang@ihep.ac.cn>
+//         Created:  [2019-03-04 ] 
+//         Inspired by Kaili's code   
+
+
 #include "numberCounting.h" 
 #include "shapeFit.h"
 #include "makespace.cxx" 
@@ -64,6 +71,7 @@ int main(int argc, char **argv)
     combination->import(*AsimovSB);
  //   cerr<<"channellist:"<<channellist<<endl;
     //  ks->Print("v");
+	cout<<".................combination................"<<endl;
     combination->Print("v");
 //    ModelConfig *mconfig = new ModelConfig("ModelConfig",combination);
 //    mconfig -> SetPdf(*combination->pdf("CombinedPdf"));
@@ -111,15 +119,14 @@ void PlotPdf (RooWorkspace *wspace, int n_bkg , TString cname)
     lymax=lymin+0.05*n_ent;
     lxmax=lxmin+0.2;
     TLegend *legend = new TLegend(lxmin, lymin, lxmax, lymax);
-    //6.09以后可以自动设置位置
+
 //    FormatLegend(legend);
 //    FormatLegend(legend);
     legend->AddEntry("MCdata","CEPC Simulation","P");
     legend->AddEntry("Fit","S+B Fit","L");
 
     legend->AddEntry("s" , "Signal", "L"); 
-    // if ( cname.Contains("zhaoh"))    legend->AddEntry("einc","CEPC Simulation",   "f");   
-    // if ( istautau || cname.Contains("imp"))                   legend->AddEntry("ww",  "H#rightarrowWW", "L");
+
     if ( n_bkg != 0)   legend->AddEntry("bkg", "Background",  "L"); //always be last
     
     legend->Draw("same");
@@ -165,7 +172,7 @@ void PlotAsimov (RooWorkspace *wspace, int n_bkg , TString cname)
 	lymax=lymin+0.05*n_ent;
 	lxmax=lxmin+0.2;
 	TLegend *legend = new TLegend(lxmin, lymin, lxmax, lymax);
-	//6.09以后可以自动设置位置
+
 	legend->AddEntry("MCdata","CEPC Simulation","P");
 	legend->AddEntry("Fit","S+B Fit","L");
 

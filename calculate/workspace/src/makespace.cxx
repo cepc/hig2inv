@@ -1,3 +1,13 @@
+// -*- C++ -*- //  
+//
+// Description: Genarate Asimov data and fit data    
+//
+// Original Author:  tanyh <tanyuhang@ihep.ac.cn>
+//         Created:  [2019-03-04 ] 
+//         Inspired by Kaili's code  
+
+
+
 #define DEBUG 1 // to 1: more details 
 #include "head.h" 
 using namespace std;
