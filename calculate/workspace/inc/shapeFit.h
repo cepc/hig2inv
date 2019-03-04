@@ -1,10 +1,9 @@
-"""
-##Define the function used in .cxx
-"""
 
-__author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
-__copyright__ = "Copyright (c) Tanyuhang"
-__created__ = "[2019-03-04 ]"
+// Description: Defined some function used in shaFit.cxx and makespace.cxx    
+//
+// Original Author:  tanyh <tanyuhang@ihep.ac.cn>
+//         Created:  [2019-03-04 ] 
+//         Inspired by Kaili's code  
 
 
 #ifndef SHAPE_H 

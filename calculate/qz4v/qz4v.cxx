@@ -1,10 +1,10 @@
-"""
-##get information from ee mumu and qq
-"""
-
-__author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
-__copyright__ = "Copyright (c) Tanyuhang"
-__created__ = "[2019-03-04 ]"
+// -*- C++ -*- //  
+//
+// Description: get constant quality of Higgs    
+//
+// Original Author:  tanyh <tanyuhang@ihep.ac.cn>
+//         Created:  [2019-03-04 ] 
+//         Inspired by Kaili's code   
 
 
 
