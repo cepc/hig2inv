@@ -146,7 +146,9 @@ usage_0_6(){
 	printf "\n\t%-5s  %-40s\n"  "0.6.2"    "Get the information from eeH" 
 	printf "\n\t%-5s  %-40s\n"  "0.6.3"    "Get the information from qqH"
 	printf "\n\t%-5s  %-40s\n"  "0.6.4"    "move data to one file"  
-	printf "\n\t%-5s  %-40s\n"  "0.6.5"    "fit and generate Asimovdata"  	   
+	printf "\n\t%-5s  %-40s\n"  "0.6.5"    "fit and generate Asimovdata" 
+	printf "\n\t%-5s  %-40s\n"  "0.6.6"    "calculate BR upper limit"  
+	printf "\n\t%-5s  %-40s\n"  "0.6.7"    "The result of BR upper limit"	 	   
 }
 
 signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
@@ -1218,6 +1220,15 @@ case $option in
            cd calculate/workspace
 		   ./job/run.sh		
 #		   mv mz4v* ../workspace/data/hinvi
+    ;;
+
+	0.6.6) echo "calculate BR upper limit "	
+	        cd calculate/cepcFit/
+			./jobs/invi.sh
+	;;
+	0.6.7) echo "The result of BR upper limit"
+           python python/combine.py
+
 esac
 }
 
