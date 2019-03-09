@@ -6,7 +6,6 @@
 //         Created:  [2019-03-04 ] 
 //         Inspired by Kaili's code   
 
-
 #include "numberCounting.h" 
 #include "shapeFit.h"
 #include "makespace.cxx" 
@@ -72,12 +71,13 @@ int main(int argc, char **argv)
  //   cerr<<"channellist:"<<channellist<<endl;
     //  ks->Print("v");
 	cout<<".................combination................"<<endl;
+
+    ModelConfig *mconfig = new ModelConfig("ModelConfig",combination);
+    mconfig -> SetPdf(*combination->pdf("CombinedPdf"));
+    mconfig -> SetObservables( *combination->set("Observables"));  //specify the observables
+    mconfig -> SetParametersOfInterest( (*combination->set("poi")) ); //specify the parameters of interest 
+    combination -> import(*mconfig);
     combination->Print("v");
-//    ModelConfig *mconfig = new ModelConfig("ModelConfig",combination);
-//    mconfig -> SetPdf(*combination->pdf("CombinedPdf"));
-//    mconfig -> SetObservables( *combination->set("Observables"));  //specify the observables
-//    mconfig -> SetParametersOfInterest( (*combination->set("poi")) ); //specify the parameters of interest 
-//    combination -> import(*mconfig);
     combination->writeToFile("out/workspace/cepc_5.root");
     TDatime time;
     int time_i=time.GetTime();
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     TString Ntime = time_str;
     combination->writeToFile("out/workspace/_"+Ntime+".root");
     
-    cout<<"workspace/cepc_5 finished, primez"<<endl;
+    cout<<"out/workspace/cepc_5.root finished, primez"<<endl;
 
     finish = clock();
     cout<<endl<<"main:: All Done! Used time: "<<(finish - start)/CLOCKS_PER_SEC<<"seconds"<<endl;
