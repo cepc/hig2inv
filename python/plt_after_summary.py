@@ -23,7 +23,7 @@ def main():
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
     if  processname == "qqH":
         draw_after_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_cut_TauTauM(sample, c, fs, processname)
         draw_after_cut_dijet_ang(sample, c, fs, processname)
         draw_after_cut_dijet_phi(sample, c, fs, processname)
         draw_after_cut_dijet_e(sample, c, fs, processname)
@@ -34,7 +34,7 @@ def main():
         draw_after_cut_cos_miss(sample, c, fs, processname)	
         #draw after first cut
         draw_after_first_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_first_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_first_cut_TauTauM(sample, c, fs, processname)
         draw_after_first_cut_dijet_ang(sample, c, fs, processname)
         draw_after_first_cut_dijet_phi(sample, c, fs, processname)
         draw_after_first_cut_dijet_e(sample, c, fs, processname)
@@ -45,7 +45,7 @@ def main():
         draw_after_first_cut_cos_miss(sample, c, fs, processname)
         #draw after second cut
         draw_after_second_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_second_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_second_cut_TauTauM(sample, c, fs, processname)
         draw_after_second_cut_dijet_ang(sample, c, fs, processname)
         draw_after_second_cut_dijet_phi(sample, c, fs, processname)
         draw_after_second_cut_dijet_e(sample, c, fs, processname)
@@ -56,7 +56,7 @@ def main():
         draw_after_second_cut_cos_miss(sample, c, fs, processname)	
         #draw after third cut
         draw_after_third_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_third_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_third_cut_TauTauM(sample, c, fs, processname)
         draw_after_third_cut_dijet_ang(sample, c, fs, processname)
         draw_after_third_cut_dijet_phi(sample, c, fs, processname)
         draw_after_third_cut_dijet_e(sample, c, fs, processname)
@@ -67,7 +67,7 @@ def main():
         draw_after_third_cut_cos_miss(sample, c, fs, processname)	
         #draw after fourth cut
         draw_after_fourth_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_fourth_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_fourth_cut_TauTauM(sample, c, fs, processname)
         draw_after_fourth_cut_dijet_ang(sample, c, fs, processname)
         draw_after_fourth_cut_dijet_phi(sample, c, fs, processname)
         draw_after_fourth_cut_dijet_e(sample, c, fs, processname)
@@ -78,7 +78,7 @@ def main():
         draw_after_fourth_cut_cos_miss(sample, c, fs, processname)			
         #draw after fifth cut
         draw_after_fifth_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_fifth_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_fifth_cut_TauTauM(sample, c, fs, processname)
         draw_after_fifth_cut_dijet_ang(sample, c, fs, processname)
         draw_after_fifth_cut_dijet_phi(sample, c, fs, processname)
         draw_after_fifth_cut_dijet_e(sample, c, fs, processname)
@@ -89,7 +89,7 @@ def main():
         draw_after_fifth_cut_cos_miss(sample, c, fs, processname)			
         #draw after sixth cut
         draw_after_sixth_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_sixth_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_sixth_cut_TauTauM(sample, c, fs, processname)
         draw_after_sixth_cut_dijet_ang(sample, c, fs, processname)
         draw_after_sixth_cut_dijet_phi(sample, c, fs, processname)
         draw_after_sixth_cut_dijet_e(sample, c, fs, processname)
@@ -100,7 +100,7 @@ def main():
         draw_after_sixth_cut_cos_miss(sample, c, fs, processname)			
         #draw after seventh cut
         draw_after_seventh_cut_dijet_Pt(sample, c, fs, processname)
-        draw_after_seventh_cut_dijet_Pz(sample, c, fs, processname)
+        draw_after_seventh_cut_TauTauM(sample, c, fs, processname)
         draw_after_seventh_cut_dijet_ang(sample, c, fs, processname)
         draw_after_seventh_cut_dijet_phi(sample, c, fs, processname)
         draw_after_seventh_cut_dijet_e(sample, c, fs, processname)
@@ -113,7 +113,7 @@ def main():
     else:
 #After first cut
         draw_after_first_cut_Pt(sample, c, fs, processname)
-        draw_after_first_cut_Pz(sample, c, fs, processname)
+        draw_after_first_cut_vdt(sample, c, fs, processname)
         draw_after_first_cut_theta(sample, c, fs, processname)
         draw_after_first_cut_vis(sample, c, fs, processname)
         draw_after_first_cut_Mmumu(sample, c, fs, processname)
@@ -121,7 +121,7 @@ def main():
         draw_after_first_cut_ep(sample, c, fs, processname)
 #After second cut
         draw_after_second_cut_Pt(sample, c, fs, processname)
-        draw_after_second_cut_Pz(sample, c, fs, processname)
+        draw_after_second_cut_vdt(sample, c, fs, processname)
         draw_after_second_cut_theta(sample, c, fs, processname)
         draw_after_second_cut_vis(sample, c, fs, processname)
         draw_after_second_cut_Mmumu(sample, c, fs, processname)
@@ -129,7 +129,7 @@ def main():
         draw_after_second_cut_ep(sample, c, fs, processname)
 #After third cut
         draw_after_third_cut_Pt(sample, c, fs, processname)
-        draw_after_third_cut_Pz(sample, c, fs, processname)
+        draw_after_third_cut_vdt(sample, c, fs, processname)
         draw_after_third_cut_theta(sample, c, fs, processname)
         draw_after_third_cut_vis(sample, c, fs, processname)
         draw_after_third_cut_Mmumu(sample, c, fs, processname)
@@ -137,7 +137,7 @@ def main():
         draw_after_third_cut_ep(sample, c, fs, processname)	
 #After fourth cut
         draw_after_fourth_cut_Pt(sample, c, fs, processname)
-        draw_after_fourth_cut_Pz(sample, c, fs, processname)
+        draw_after_fourth_cut_vdt(sample, c, fs, processname)
         draw_after_fourth_cut_theta(sample, c, fs, processname)
         draw_after_fourth_cut_vis(sample, c, fs, processname)
         draw_after_fourth_cut_Mmumu(sample, c, fs, processname)
@@ -145,7 +145,7 @@ def main():
         draw_after_fourth_cut_ep(sample, c, fs, processname)
 #After fifth cut
         draw_after_fifth_cut_Pt(sample, c, fs, processname)
-        draw_after_fifth_cut_Pz(sample, c, fs, processname)
+        draw_after_fifth_cut_vdt(sample, c, fs, processname)
         draw_after_fifth_cut_theta(sample, c, fs, processname)
         draw_after_fifth_cut_vis(sample, c, fs, processname)
         draw_after_fifth_cut_Mmumu(sample, c, fs, processname)
@@ -153,7 +153,7 @@ def main():
         draw_after_fifth_cut_ep(sample, c, fs, processname)
 #After sixth cut
         draw_after_sixth_cut_Pt(sample, c, fs, processname)
-        draw_after_sixth_cut_Pz(sample, c, fs, processname)
+        draw_after_sixth_cut_vdt(sample, c, fs, processname)
         draw_after_sixth_cut_theta(sample, c, fs, processname)
         draw_after_sixth_cut_vis(sample, c, fs, processname)
         draw_after_sixth_cut_Mmumu(sample, c, fs, processname)
@@ -161,7 +161,7 @@ def main():
         draw_after_sixth_cut_ep(sample, c, fs, processname)
 #After seventh cut
         draw_after_seventh_cut_Pt(sample, c, fs, processname)
-        draw_after_seventh_cut_Pz(sample, c, fs, processname)
+        draw_after_seventh_cut_vdt(sample, c, fs, processname)
         draw_after_seventh_cut_theta(sample, c, fs, processname)
         draw_after_seventh_cut_vis(sample, c, fs, processname)
         draw_after_seventh_cut_Mmumu(sample, c, fs, processname)
@@ -169,7 +169,7 @@ def main():
         draw_after_seventh_cut_ep(sample, c, fs, processname)					
 #After all cut
         draw_after_cut_Pt(sample, c, fs, processname)
-        draw_after_cut_Pz(sample, c, fs, processname)
+        draw_after_cut_vdt(sample, c, fs, processname)
         draw_after_cut_theta(sample, c, fs, processname)
         draw_after_cut_vis(sample, c, fs, processname)
         draw_after_cut_Mmumu(sample, c, fs, processname)
@@ -200,6 +200,9 @@ def get_files_from_sample(sample,processname):
     if 'single_w' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/single_w.root'))
 
+    if 'szorsw' in sample:
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/sz_sw.root'))
+
     if 'zzorww' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	       
     if '2f' in sample:
@@ -229,43 +232,41 @@ def get_common_objects_to_draw(fs, hname, leg):
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 1:
-
             h.SetLineColor(22)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 2:
-
             h.SetLineColor(5)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 3:
-
-            h.SetLineColor(6)
-            h.SetLineWidth(1)
-            h.SetMarkerStyle(1)
-
-        elif fs.index(f) == 4:
-
-            h.SetLineColor(7)
-            h.SetLineWidth(1)
-            h.SetMarkerStyle(1)
- 
-        elif fs.index(f) == 5:
-
             h.SetLineColor(42)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
-        elif fs.index(f) == 6:
+        elif fs.index(f) == 4:
+            h.SetLineColor(6)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
 
-            h.SetLineColor(3)
+        elif fs.index(f) == 5:
+            h.SetLineColor(7)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+ 
+        elif fs.index(f) == 6:     
+            h.SetLineColor(14)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 7:
-    
+            h.SetLineColor(3)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 8:      
             h.SetLineColor(12)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
@@ -295,6 +296,9 @@ def leg_add_entry_hist(leg, f, h):
 
     elif sample in ['WW']:
         leg.AddEntry(h, "WW")
+
+    elif sample in ['sz_sw']:
+        leg.AddEntry(h, "szorsw")
 
     elif sample in ['single_z']:
         leg.AddEntry(h, "single_z")
@@ -349,19 +353,19 @@ def  draw_after_first_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_first_cut_Pz(sample, c, fs, processname):
-    hname = 'after_first_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_first_cut_Pz.pdf'
+def draw_after_first_cut_vdt(sample, c, fs, processname):
+    hname = 'after_first_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_first_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after first cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after first cut)')
                 h.SetMaximum(20000)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after first cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after first cut)')
                 h.SetMaximum(120000)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -573,19 +577,19 @@ def  draw_after_second_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_second_cut_Pz(sample, c, fs, processname):
-    hname = 'after_second_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_second_cut_Pz.pdf'
+def draw_after_second_cut_vdt(sample, c, fs, processname):
+    hname = 'after_second_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_second_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after second cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after second cut)')
                 h.SetMaximum(2500)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after second cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after second cut)')
                 h.SetMaximum(50000)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -797,19 +801,19 @@ def  draw_after_third_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_third_cut_Pz(sample, c, fs, processname):
-    hname = 'after_third_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_third_cut_Pz.pdf'
+def draw_after_third_cut_vdt(sample, c, fs, processname):
+    hname = 'after_third_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_third_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after third cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after third cut)')
                 h.SetMaximum(2000)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after third cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after third cut)')
                 h.SetMaximum(30000)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -1024,19 +1028,19 @@ def  draw_after_fourth_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_fourth_cut_Pz(sample, c, fs, processname):
-    hname = 'after_fourth_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fourth_cut_Pz.pdf'
+def draw_after_fourth_cut_vdt(sample, c, fs, processname):
+    hname = 'after_fourth_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fourth_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after fourth cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after fourth cut)')
                 h.SetMaximum(600)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after fourth cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after fourth cut)')
                 h.SetMaximum(10000)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -1251,19 +1255,19 @@ def  draw_after_fifth_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_fifth_cut_Pz(sample, c, fs, processname):
-    hname = 'after_fifth_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fifth_cut_Pz.pdf'
+def draw_after_fifth_cut_vdt(sample, c, fs, processname):
+    hname = 'after_fifth_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fifth_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after fifth cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after fifth cut)')
                 h.SetMaximum(1200)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after fifth cut)')
+                h.SetXTitle('|the recoil mass of visible minus tau (GeV)(after fifth cut)')
                 h.SetMaximum(3000)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -1478,19 +1482,19 @@ def  draw_after_sixth_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_sixth_cut_Pz(sample, c, fs, processname):
-    hname = 'after_sixth_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_sixth_cut_Pz.pdf'
+def draw_after_sixth_cut_vdt(sample, c, fs, processname):
+    hname = 'after_sixth_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_sixth_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after sixth cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after sixth cut)')
                 h.SetMaximum(500)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after sixth cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after sixth cut)')
                 h.SetMaximum(300)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -1708,19 +1712,19 @@ def  draw_after_seventh_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_seventh_cut_Pz(sample, c, fs, processname):
-    hname = 'after_seventh_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_seventh_cut_Pz.pdf'
+def draw_after_seventh_cut_vdt(sample, c, fs, processname):
+    hname = 'after_seventh_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_seventh_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after seventh cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after seventh cut)')
                 h.SetMaximum(100)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after seventh cut)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after seventh cut)')
                 h.SetMaximum(300)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -1938,19 +1942,19 @@ def  draw_after_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_after_cut_Pz(sample, c, fs, processname):
-    hname = 'after_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_Pz.pdf'
+def draw_after_cut_vdt(sample, c, fs, processname):
+    hname = 'after_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV)(after all cuts)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after all cuts)')
                 h.SetMaximum(100)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV)(after all cuts)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)(after all cuts)')
                 h.SetMaximum(300)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
@@ -2142,7 +2146,7 @@ def draw_after_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after all cuts)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after all cuts)')	
             h.SetMaximum(14000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -2160,16 +2164,16 @@ def draw_after_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_dijet_pz.pdf'
+    hname = 'after_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after all cuts)')
+            h.SetXTitle('the  mass of  tau (GeV)(after all cuts)')
             h.SetMaximum(2000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2273,7 +2277,7 @@ def draw_after_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after all cuts)')
+            h.SetXTitle('M_{visible}(GeV)(after all cuts)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2302,7 +2306,7 @@ def draw_after_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after all cuts)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after all cuts)')
             h.SetMaximum(8000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2336,7 +2340,7 @@ def draw_after_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after all cuts)')
+            h.SetXTitle('P_{visible}(GeV)(after all cuts)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2402,7 +2406,7 @@ def draw_after_first_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after first cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after first cut)')	
             h.SetMaximum(280000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -2420,16 +2424,16 @@ def draw_after_first_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_first_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_first_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_first_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_first_cut_dijet_pz.pdf'
+    hname = 'after_first_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_first_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after first cut)')
+            h.SetXTitle('the mass of tau (GeV)(after first cut)')
             h.SetMaximum(40000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2533,7 +2537,7 @@ def draw_after_first_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after first cut)')
+            h.SetXTitle('M_{visible}(GeV)(after first cut)')
             h.SetMaximum(300000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2561,7 +2565,7 @@ def draw_after_first_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after first cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after first cut)')
             h.SetMaximum(200000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2594,7 +2598,7 @@ def draw_after_first_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after first cut)')
+            h.SetXTitle('P_{visible}(GeV)(after first cut)')
             h.SetMaximum(200000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2660,7 +2664,7 @@ def draw_after_second_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after second cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after second cut)')	
             h.SetMaximum(140000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -2678,16 +2682,16 @@ def draw_after_second_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_second_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_second_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_second_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_second_cut_dijet_pz.pdf'
+    hname = 'after_second_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_second_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after second cut)')
+            h.SetXTitle('the mass of tau (GeV)(after second cut)')
             h.SetMaximum(20000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2791,7 +2795,7 @@ def draw_after_second_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after second cut)')
+            h.SetXTitle('M_{visible}(GeV)(after second cut)')
             h.SetMaximum(60000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2819,7 +2823,7 @@ def draw_after_second_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after second cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after second cut)')
             h.SetMaximum(150000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2852,7 +2856,7 @@ def draw_after_second_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after second cut)')
+            h.SetXTitle('P_{visible}(GeV)(after second cut)')
             h.SetMaximum(100000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -2919,7 +2923,7 @@ def draw_after_third_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after third cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after third cut)')	
             h.SetMaximum(28000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -2937,16 +2941,16 @@ def draw_after_third_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_third_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_third_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_third_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_third_cut_dijet_pz.pdf'
+    hname = 'after_third_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_third_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after third cut)')
+            h.SetXTitle('the mass of tau (GeV)(after third cut)')
             h.SetMaximum(20000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3050,7 +3054,7 @@ def draw_after_third_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after third cut)')
+            h.SetXTitle('M_{visible}(GeV)(after third cut)')
             h.SetMaximum(15000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3078,7 +3082,7 @@ def draw_after_third_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after third cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after third cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3111,7 +3115,7 @@ def draw_after_third_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after third cut)')
+            h.SetXTitle('P_{visible}(GeV)(after third cut)')
             h.SetMaximum(30000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3178,7 +3182,7 @@ def draw_after_fourth_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after fourth cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after fourth cut)')	
             h.SetMaximum(14000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -3196,16 +3200,16 @@ def draw_after_fourth_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_fourth_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_fourth_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_fourth_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fourth_cut_dijet_pz.pdf'
+    hname = 'after_fourth_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fourth_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after fourth cut)')
+            h.SetXTitle('the mass of tau (GeV)(after fourth cut)')
             h.SetMaximum(2000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3309,7 +3313,7 @@ def draw_after_fourth_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after fourth cut)')
+            h.SetXTitle('M_{visible}(GeV)(after fourth cut)')
             h.SetMaximum(15000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3337,7 +3341,7 @@ def draw_after_fourth_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after fourth cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after fourth cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3370,7 +3374,7 @@ def draw_after_fourth_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after fourth cut)')
+            h.SetXTitle('P_{visible}(GeV)(after fourth cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3436,7 +3440,7 @@ def draw_after_fifth_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after fourth cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after fourth cut)')	
             h.SetMaximum(14000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -3454,16 +3458,16 @@ def draw_after_fifth_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_fifth_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_fifth_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_fifth_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fifth_cut_dijet_pz.pdf'
+    hname = 'after_fifth_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_fifth_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after fifth cut)')
+            h.SetXTitle('the  mass of  tau (GeV)(after fifth cut)')
             h.SetMaximum(2000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3567,7 +3571,7 @@ def draw_after_fifth_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after fifth cut)')
+            h.SetXTitle('M_{visible}(GeV)(after fifth cut)')
             h.SetMaximum(15000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3595,7 +3599,7 @@ def draw_after_fifth_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after fifth cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after fifth cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3628,7 +3632,7 @@ def draw_after_fifth_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after fifth cut)')
+            h.SetXTitle('P_{visible}(GeV)(after fifth cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3695,7 +3699,7 @@ def draw_after_sixth_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after sixth cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after sixth cut)')	
             h.SetMaximum(14000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -3713,16 +3717,16 @@ def draw_after_sixth_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_sixth_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_sixth_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_sixth_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_sixth_cut_dijet_pz.pdf'
+    hname = 'after_sixth_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_sixth_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after sixth cut)')
+            h.SetXTitle('the  mass of tau (GeV)(after sixth cut)')
             h.SetMaximum(2000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3826,7 +3830,7 @@ def draw_after_sixth_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after sixth cut)')
+            h.SetXTitle('M_{visible}(GeV)(after sixth cut)')
             h.SetMaximum(15000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3854,7 +3858,7 @@ def draw_after_sixth_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after sixth cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after sixth cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3887,7 +3891,7 @@ def draw_after_sixth_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after sixth cut)')
+            h.SetXTitle('P_{visible}(GeV)(after sixth cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -3953,7 +3957,7 @@ def draw_after_seventh_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 1:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV)(after seventh cut)')	
+            h.SetXTitle('P_{t}^{visible}(GeV)(after seventh cut)')	
             h.SetMaximum(14000)
 #            h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Events/(0.5GeV)')
@@ -3971,16 +3975,16 @@ def draw_after_seventh_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_after_seventh_cut_dijet_Pz(sample, c, fs, processname):
+def draw_after_seventh_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'after_seventh_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_seventh_cut_dijet_pz.pdf'
+    hname = 'after_seventh_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'after/hig2inv_after_seventh_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV)(after seventh cut)')
+            h.SetXTitle('the mass of tau (GeV)(after seventh cut)')
             h.SetMaximum(2000)
 #            h.SetMinimum(0.0000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -4084,7 +4088,7 @@ def draw_after_seventh_cut_dijet_m(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 1:
-            h.SetXTitle('M_{dijet}(GeV)(after seventh cut)')
+            h.SetXTitle('M_{visible}(GeV)(after seventh cut)')
             h.SetMaximum(15000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -4112,7 +4116,7 @@ def draw_after_seventh_cut_dijet_rec_m(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('M_{recoil}^{dijet}(GeV)(after seventh cut)')
+            h.SetXTitle('M_{recoil}^{visible}(GeV)(after seventh cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
@@ -4145,7 +4149,7 @@ def draw_after_seventh_cut_dijet_p(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 0:
 
-            h.SetXTitle('P_{dijet}(GeV)(after seventh cut)')
+            h.SetXTitle('P_{visible}(GeV)(after seventh cut)')
             h.SetMaximum(10000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')

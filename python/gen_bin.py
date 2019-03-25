@@ -37,13 +37,14 @@ def get_bin_value(inputfile):
     sample = ROOT.TFile(inputfile)
     h = sample.Get('hevtflw')
     event = []
-    for i in range(1,10):
-        event.append(h.GetBinContent(i))   
+    for i in range(1,11):
+        event.append(h.GetBinContent(i))
+    print event[8]   
     return event
 
 def get_decay_scale(processname,event,table_list):
 
-    IntLum=5000
+    IntLum=5600
     event_gen=event[0]
     table = open(table_list , 'r' )
     cross_section=0.
@@ -108,9 +109,9 @@ def fourf_mumu_bkg(src,nm1,nm2,event,scale):
     fout_script.write('$85GeV<M_{\mu^{+}\mu^{-}}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
     fout_script.write('$12GeV<P_{t}^{\mu^{+}\mu^{-}}$& %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
     fout_script.write('$\Delta\phi<175$\degree & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
-    fout_script.write('$|P_{t}^{\mu^{+}\mu^{-}}|<50GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
-    fout_script.write('$102GeV<Visible Energy<107GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-    fout_script.write('$\\frac{E}{P}<2.4$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+    fout_script.write('$102GeV<Visible Energy<107GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+    fout_script.write('$\\frac{E}{P}<2.4$  & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+    fout_script.write('Impact_{Tau}$<$0.0007& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
@@ -124,7 +125,7 @@ def fourf_mumu_bkg(src,nm1,nm2,event,scale):
     os.chmod(out_putname, 0744)
 
 def twof_mumu_bkg(src,event,scale):
-    for i in range(0,9):
+    for i in range(0,10):
         event[i]=event[i]*scale
     cwd = os.getcwd()
     out_putname = cwd + '/table/mumuH/bin.txt' 
@@ -147,9 +148,9 @@ def twof_mumu_bkg(src,event,scale):
     fout_script.write('$85GeV<M_{\mu^{+}\mu^{-}}<97GeV$  & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
     fout_script.write('$12GeV<P_{t}^{\mu^{+}\mu^{-}}$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
     fout_script.write('$\Delta\phi<175$\degree & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
-    fout_script.write('$|P_{t}^{\mu^{+}\mu^{-}}|<50GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
-    fout_script.write('$102GeV<Visible Energy<107GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-    fout_script.write('$\\frac{E}{P}<2.4$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+    fout_script.write('$102GeV<Visible Energy<107GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+    fout_script.write(' $\\frac{E}{P}<2.4$& %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+    fout_script.write(' Impact_{Tau}$<$0.0007& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
@@ -186,7 +187,7 @@ def write_ee_after_cut(inputfile,event,scale):
     else:
         twof_ee_bkg(src,event,scale)
 def fourf_ee_bkg(src,nm1,nm2,event,scale):
-    for i in range(0,9):
+    for i in range(0,10):
         event[i]=event[i]*scale
     cwd = os.getcwd()
     out_putname = cwd + '/table/eeH/bin.txt'
@@ -204,14 +205,14 @@ def fourf_ee_bkg(src,nm1,nm2,event,scale):
     fout_script.write(' \hline \n')
     fout_script.write(' & The number of %s\_%s & Effectiveness \\\ \hline \n'  % (nm1,nm2))
     fout_script.write('Total generate & %d & %.3f \%% \\\ \n' %(event[0],(event[0]/event[0])*100))
-    fout_script.write('$N_{jet}$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
-    fout_script.write('$10GeV<P_{t}^{dijet}<55GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
+    fout_script.write('$N_{e^{+}}=1,N_{e^{-}}=1$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
+    fout_script.write('$120GeV<M_{recoil}<170GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
     fout_script.write('$71GeV<M_{e^{+}e^{-}}<99GeV$& %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
-    fout_script.write('$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+    fout_script.write('$12GeV<P_{t}^{e^{+}e^{-}}<55GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
     fout_script.write('$\Delta\phi<176$\degree & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
     fout_script.write('$103GeV<Visible Energy<120GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
     fout_script.write('$1.8<\\frac{E_{e^+e^-}}{P_{e^+e^-}}<2.4$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-    fout_script.write('$|P_{z}^{e^{+}e^{-}}|<55GeV$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+    fout_script.write('$ReM_{visdtau}>220GeV$  and Impact_{Tau}$<$0.0011& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
@@ -225,7 +226,7 @@ def fourf_ee_bkg(src,nm1,nm2,event,scale):
     os.chmod(out_putname, 0744)
 
 def twof_ee_bkg(src,event,scale):
-    for i in range(0,9):
+    for i in range(0,10):
         event[i]=event[i]*scale
     cwd = os.getcwd()
     out_putname = cwd + '/table/eeH/bin.txt' 
@@ -243,14 +244,14 @@ def twof_ee_bkg(src,event,scale):
     fout_script.write(' \hline \n')
     fout_script.write(' & The number of %s & Effectiveness \\\ \hline \n' % src)
     fout_script.write('Total generate & %d & %.3f \%% \\\ \n' %(event[0],(event[0]/event[0])*100))
-    fout_script.write('$N_{e^{+}}==1,N_{e^{-}}==1$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
-    fout_script.write('$120GeV<M_{recoil}<160GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
+    fout_script.write('$N_{e^{+}}=1,N_{e^{-}}=1$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
+    fout_script.write('$120GeV<M_{recoil}<170GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
     fout_script.write('$71GeV<M_{e^{+}e^{-}}<99GeV$& %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
     fout_script.write('$12GeV<P_{t}^{e^{+}e^{-}}<55GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
     fout_script.write('$\Delta\phi<176$\degree & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
     fout_script.write('$103GeV<Visible Energy<120GeV$ & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
     fout_script.write('$1.8<\\frac{E_{e^+e^-}}{P_{e^+e^-}}<2.4$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-    fout_script.write('$|P_{z}^{e^{+}e^{-}}|<55GeV$& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+    fout_script.write('$ReM_{visdtau}>220GeV$ and Impact_{Tau}$<$0.0011& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
@@ -288,8 +289,9 @@ def write_qq_after_cut(inputfile,event,scale):
         twof_qq_bkg(src,event,scale)
 
 def fourf_qq_bkg(src,nm1,nm2,event,scale):
-    for i in range(0,9):
+    for i in range(0,10):
         event[i]=event[i]*scale
+    print event[8]
     cwd = os.getcwd()
     out_putname = cwd + '/table/qqH/bin.txt'
     fout_script = open(out_putname,'a')
@@ -306,14 +308,14 @@ def fourf_qq_bkg(src,nm1,nm2,event,scale):
     fout_script.write(' \hline \n')
     fout_script.write(' & The number of %s\_%s & Effectiveness \\\ \hline \n'  % (nm1,nm2))
     fout_script.write('Total generate & %d & %.3f \%% \\\ \n' %(event[0],(event[0]/event[0])*100))
-    fout_script.write('$N_{jet}=2$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
-    fout_script.write('$100GeV<M_{recolil}^{dijet}<140GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
-    fout_script.write('$30GeV<P_{t}^{dijet}<60GeV$& %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
-    fout_script.write('$20GeV<P_{dijet}<58GeV$& %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
-    fout_script.write('$85GeV<M_{dijet}<102GeV$ & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
-    fout_script.write('98GeV$<$Energy of dijet$<$115GeV  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
-    fout_script.write('$\Delta\phi_{dijet}<175$\degree & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-    fout_script.write('$\Delta\phi_{dijet}<175$\degree & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+    fout_script.write('$100GeV<M_{recolil}^{visible}<150GeV$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
+    fout_script.write('$30GeV<P_{t}^{visible}<60GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
+    fout_script.write('$20GeV<P_{visible}<58GeV$& %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
+    fout_script.write('$85GeV<M_{visible}<102GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+    fout_script.write('$\Delta\phi_{visible}<175$\degree& %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
+    fout_script.write('90GeV$<$Visible Energy$<$117GeV& %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+    fout_script.write('$N_{neutral}>15$,$N_{lepton}=0$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+    fout_script.write('$M_{Tau}<105GeV$,$Impact_{Tau}<0.00007$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')
@@ -327,8 +329,9 @@ def fourf_qq_bkg(src,nm1,nm2,event,scale):
     os.chmod(out_putname, 0744)
 
 def twof_qq_bkg(src,event,scale):
-    for i in range(0,9):
+    for i in range(0,10):
         event[i]=event[i]*scale
+    print event[8]
     cwd = os.getcwd()
     out_putname = cwd + '/table/qqH/bin.txt' 
     fout_script = open(out_putname,'a')
@@ -345,14 +348,14 @@ def twof_qq_bkg(src,event,scale):
     fout_script.write(' \hline \n')
     fout_script.write(' & The number of %s & Effectiveness \\\ \hline \n' % src)
     fout_script.write('Total generate & %d & %.3f \%% \\\ \n' %(event[0],(event[0]/event[0])*100))
-    fout_script.write('$N_{jet}=2$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
-    fout_script.write('$100GeV<M_{recolil}^{dijet}<140GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
-    fout_script.write('$30GeV<P_{t}^{dijet}<60GeV$& %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
-    fout_script.write('$20GeV<P_{dijet}<58GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
-    fout_script.write('$85GeV<M_{dijet}<102GeV$& %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
-    fout_script.write('$98GeV< Energy of dijet <115GeV$ & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
-    fout_script.write('$\Delta\phi_{dijet}<175$\degree & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-    fout_script.write('$\Delta\phi_{dijet}<175$\degree& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+    fout_script.write('$100GeV<M_{recolil}^{dijet}<150GeV$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
+    fout_script.write('$30GeV<P_{t}^{dijet}<60GeV$& %d & %.3f \%% \\\ \n' %(event[2],(event[2]/event[0])*100))
+    fout_script.write('$20GeV<P_{dijet}<58GeV$& %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
+    fout_script.write('$85GeV<M_{dijet}<102GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+    fout_script.write('$\Delta\phi_{dijet}<175$\degree& %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
+    fout_script.write('90GeV$<$Visible Energy$<$117GeV& %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+    fout_script.write('$N_{neutral}>15$,$N_{lepton}=0$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+    fout_script.write('$M_{Tau}<105GeV$,$Impact_{Tau}<0.00007$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
     fout_script.write(' \hline \n')
     fout_script.write(' \hline \n')
     fout_script.write(' \end{tabular} \n')

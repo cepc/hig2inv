@@ -22,6 +22,6 @@ export PATH=/afs/ihep.ac.cn/soft/common/sysgroup/hep_job/bin:$PATH
 # PyROOT 
 export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH 
 
+#Marlin Tau
 
-#TAU
-#export MARLIN_DLL=$PWD/lib/libTauAna.so
+export MARLIN_DLL=$PWD/MarlinTau/lib/libTauReco.so:$MARLIN_DLL

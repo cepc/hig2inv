@@ -56,11 +56,11 @@ def two_f_bkg(l,event,n):
         fout_script.write('$N_{\mu^+}=1,N_{\mu^-}=1,N_{charged}<3$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
         fout_script.write('$N_{\gamma}=0$ & %d & %.3f \%% \\\ \n' %(event[2],event[2]/event[0]*100))
         fout_script.write('$25GeV<P_{t}^{\mu^+\mu^-}<70GeV$ & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
-        fout_script.write('$|P_{z}^{\mu^+\mu^-}|<50GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
-        fout_script.write('$\\theta_{\mu^+\mu^-}<145$ & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
-        fout_script.write('$100GeV<E_{visible}<110GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
-        fout_script.write('$86GeV<M_{\mu^+\mu^-}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-        fout_script.write('$120GeV<M_{recoil}<140GeV$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+        fout_script.write('$\\theta_{\mu^+\mu^-}<145$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+        fout_script.write('$100GeV<E_{visible}<110GeV$& %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
+        fout_script.write('$86GeV<M_{\mu^+\mu^-}<97GeV$& %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+        fout_script.write('$120GeV<M_{recoil}<140GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+        fout_script.write('$ReM_{visdtau}<5$& %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
         fout_script.write(' \hline \n')
         fout_script.write(' \hline \n')
         fout_script.write(' \end{tabular} \n')
@@ -103,11 +103,11 @@ def four_f_bkg(l,event,m):
         fout_script.write('$N_{\mu^+}=1,N_{\mu^-}=1,N_{charged}<3$ & %d  & %.3f \%% \\\ \n' %(event[1],(event[1]/event[0])*100))
         fout_script.write('$N_{\gamma}=0$ & %d & %.3f \%% \\\ \n' %(event[2],event[2]/event[0]*100))
         fout_script.write('$25GeV<P_{t}^{\mu^+\mu^-}<70GeV & %d & %.3f \%% \\\ \n'  %(event[3],(event[3]/event[0])*100))
-        fout_script.write('$|P_{z}^{\mu^+\mu^-}|<50GeV$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
-        fout_script.write('$\\theta_{\mu^+\mu^-}<145$ & %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
-        fout_script.write('$100GeV<E_{visible}<110GeV$  & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
-        fout_script.write('$86GeV<M_{\mu^+\mu^-}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
-        fout_script.write('$120GeV<M_{recoil}<140GeV$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
+        fout_script.write('$\\theta_{\mu^+\mu^-}<145$ & %d & %.3f \%% \\\ \n'  %(event[4],(event[4]/event[0])*100))
+        fout_script.write(' $100GeV<E_{visible}<110GeV$& %d & %.3f \%% \\\ \n' %(event[5],(event[5]/event[0])*100))
+        fout_script.write(' $86GeV<M_{\mu^+\mu^-}<97GeV$ & %d & %.3f \%% \\\ \n'  %(event[6],(event[6]/event[0])*100))
+        fout_script.write('$120GeV<M_{recoil}<140GeV$ & %d & %.3f \%% \\\ \n'  %(event[7],(event[7]/event[0])*100))
+        fout_script.write('$ReM_{visdtau}<5$ & %d & %.3f \%% \\\ \n'  %(event[8],(event[8]/event[0])*100))
         fout_script.write(' \hline \n')
         fout_script.write(' \hline \n')
         fout_script.write(' \end{tabular} \n')
@@ -129,6 +129,8 @@ def detail_inf(k,g,nm,processname):
         out_putname = cwd + '/table/mumuH/tfbin.txt' 
     elif processname == "eeH":
         out_putname = cwd + '/table/eeH/tfbin.txt'
+    elif processname == "qqH":
+        out_putname = cwd + '/table/qqH/tfbin.txt'
     else:
         print "This is wrong,please check this"
         sys.exit() 

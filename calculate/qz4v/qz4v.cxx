@@ -28,11 +28,11 @@
 #endif
 
 void mm_ntuple(TString a,TString b);
-void mz4v()
+void qz4v()
 {
 
-  mm_ntuple("mumuH_inv.root",   "mz4v_sig.root");
-  mm_ntuple("total_bkg.root", "mz4v_bkg.root");
+  mm_ntuple("qqH_inv.root",   "qz4v_sig.root");
+  mm_ntuple("total_bkg.root", "qz4v_bkg.root");
 
 }
 
@@ -57,8 +57,8 @@ void mm_ntuple(TString a,TString b)
   Float_t LD0, LZ0, NLD0, NLZ0;
 
 
-   data->SetBranchAddress("m_m_recoil",      &MisMassf);
-   data->SetBranchAddress("m_m_dimu",        &VisMassf);
+   data->SetBranchAddress("m_miss_m",      &MisMassf);
+   data->SetBranchAddress("m_m_visible",        &VisMassf);
 
 
   Int_t nentries = data->GetEntries();

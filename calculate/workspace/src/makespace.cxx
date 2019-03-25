@@ -19,7 +19,7 @@ RooWorkspace *makespace(TString cname, int index)
     RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
 
 
-    channel c=channelbyname(cname);
+    channel c=channelbyname(cname); 
     checkcname(cname);
 
     n_sig =  c.nsig;
@@ -156,7 +156,7 @@ RooWorkspace *makespace(TString cname, int index)
 	obs_plus_wt->add(*wchannel->set("Observables"));
 	RooDataSet *AsimovSB =  new RooDataSet("AsimovSB", "AsimovSB", *obs_plus_wt, WeightVar(wt));
 
-	Float_t npoints = 1000.;
+	Float_t npoints = 1000;
 	Float_t total_SBevents = 0;
 
 	if ( isinvi ) npoints*= 20;
