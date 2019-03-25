@@ -10,16 +10,17 @@ cd ./run/qqH/bg/hist
 echo 1
 fi
 
-hadd ../../total/hist/2f.root e1e1/* e2e2/* e3e3/* qq/* 
+hadd ../../total/hist/2f.root e1e1/* e2e2/* e3e3/* qq/* n1n1/* n2n2/* n3n3/*
 hadd ../../total/hist/ZZ.root  zz_*/* 
 hadd ../../total/hist/WW.root  ww*/*
-hadd ../../total/hist/single_z.root sz*/*
+hadd ../../total/hist/single_z.root sze_*/*  sznu*/*
+hadd ../../total/hist/sz_sw.root    szeorsw*/*
 hadd ../../total/hist/single_w.root sw_*/*
 hadd ../../total/hist/zzorww.root zzorww*/*
 hadd ../../total/hist/ZH_visible.root Z_*/*
 hadd ../../total/hist/total_bkg.root ../../total/hist/*
 cd ../plot
-hadd ../../total/plot/2f.root e1e1/* e2e2/* e3e3/* qq/* 
+hadd ../../total/plot/2f.root e1e1/* e2e2/* e3e3/* qq/*  n1n1/* n2n2/* n3n3/*
 hadd ../../total/plot/ZZ.root  zz_*/* 
 hadd ../../total/plot/WW.root  ww*/*
 hadd ../../total/plot/single_z.root sz*/*

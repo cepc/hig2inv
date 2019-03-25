@@ -44,6 +44,11 @@ $gear_xml
   <parameter name="LeptonEMin" type="double"> 10.0 </parameter>
   <parameter name="LeptonPtMin" type="double"> 0.0 </parameter>
   <parameter name="Processname" type="string"> $processname </parameter>
+  <parameter name="TrackCone" type="float">0.43 </parameter>
+  <parameter name="smallTrackCone" type="float">0.12 </parameter>
+  <parameter name="TrackEn" type="float">0.5 </parameter>
+  <parameter name="E_par" type="float">0.92 </parameter>
+  <parameter name="TauMass" type="float">2.0 </parameter>
   <parameter name="TreeOutputFile" type="string"> 
 $output_rootfile 
   </parameter>

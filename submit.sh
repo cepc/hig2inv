@@ -13,7 +13,7 @@ usage() {
     printf "\n\t%-9s  %-40s"  "0.1"      "[run data sample for mumuH_inv->Maoqiang Jing]" 
     printf "\n\t%-9s  %-40s"  "0.2"      "[run data sample for mumuH_inv->Tanyuhang]"  
     printf "\n\t%-9s  %-40s"  "0.3"      "[run data sample for background of mumuH_inv]" 
-    printf "\n\t%-9s  %-40s"  "0.4"      "[run data sample for eeH_inv]" 
+    printf "\n\t%-9s  %-40s"  "0.4"      "[run data sample for eeH_inv]"  
     printf "\n\t%-9s  %-40s"  "0.5"      "[run data sample for qqH_inv]"
     printf "\n\n" 
 }
@@ -60,14 +60,11 @@ usage_0_3() {
     printf "\n\t%-5s  %-40s\n"  "0.3.11"   "Scale event..."
     printf "\n\t%-5s  %-40s\n"  "0.3.12"   "Plot signal and background cut distribution"
     printf "\n\t%-5s  %-40s\n"  "0.3.13"   "Plot before cut and after cut distribution" 
-    printf "\n\t%-5s  %-40s\n"  "0.3.14"   "Expand the background two times" 
-    printf "\n\t%-5s  %-40s\n"  "0.3.15"   "Applying BDT cut..."
-    printf "\n\t%-5s  %-40s\n"  "0.3.16"   "Synthetizing signal and background ROOT files..."
-    printf "\n\t%-5s  %-40s\n"  "0.3.17"   "Fitting higgs mass spectra(recoilling mass of Z boson)..."
-    printf "\n\t%-5s  %-40s\n"  "0.3.18"   "Get background and signal number after different cuts" 
-    printf "\n\t%-5s  %-40s\n"  "0.3.19"   "Get Shorthand channel detail information"   
+    printf "\n\t%-5s  %-40s\n"  "0.3.14"   "Get background and signal number after different cuts" 
+    printf "\n\t%-5s  %-40s\n"  "0.3.15"   "Get Shorthand channel detail information"  
+    printf "\n\t%-5s  %-40s\n"  "0.3.16"   "Optimize the cut conditions"  
 }
-#eeH_inv(memo 0.4.3)
+#eeH_inv(memo 0.4.3) 
 usage_0_4(){
     printf "NAME\n\tsubmit.sh - eeH_inv\n"
     printf "\nSYNOPSIS\n"
@@ -97,12 +94,8 @@ usage_0_4(){
     printf "\n\t%-5s  %-40s\n"  "0.4.20"    "Scale event..." 
     printf "\n\t%-5s  %-40s\n"  "0.4.21"    "Plot signal and background cut distribution"
     printf "\n\t%-5s  %-40s\n"  "0.4.22"    "Plot before cut and after cut distribution" 
-    printf "\n\t%-5s  %-40s\n"  "0.4.23"    "Expand the background two times" 
-    printf "\n\t%-5s  %-40s\n"  "0.4.24"    "Applying BDT cut..."
-    printf "\n\t%-5s  %-40s\n"  "0.4.25"    "Synthetizing signal and background ROOT files..."
-    printf "\n\t%-5s  %-40s\n"  "0.4.26"    "Calculating upper limit of branch ratio..."
-    printf "\n\t%-5s  %-40s\n"  "0.4.27"    "Get background and signal number after different cuts"	
-    printf "\n\t%-5s  %-40s\n"  "0.4.28"    "Get Shorthand channel detail information"
+    printf "\n\t%-5s  %-40s\n"  "0.4.23"    "Get background and signal number after different cuts"	
+    printf "\n\t%-5s  %-40s\n"  "0.4.24"    "Get Shorthand channel detail information"
 }
 
 usage_0_5(){
@@ -143,12 +136,12 @@ usage_0_6(){
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
     printf "\nOPTIONS\n" 
     printf "\n\t%-5s  %-40s\n"  "0.6.1"    "Get the information from mumuH" 
-	printf "\n\t%-5s  %-40s\n"  "0.6.2"    "Get the information from eeH" 
-	printf "\n\t%-5s  %-40s\n"  "0.6.3"    "Get the information from qqH"
-	printf "\n\t%-5s  %-40s\n"  "0.6.4"    "move data to one file"  
-	printf "\n\t%-5s  %-40s\n"  "0.6.5"    "fit and generate Asimovdata" 
-	printf "\n\t%-5s  %-40s\n"  "0.6.6"    "calculate BR upper limit"  
-	printf "\n\t%-5s  %-40s\n"  "0.6.7"    "The result of BR upper limit"	 	   
+    printf "\n\t%-5s  %-40s\n"  "0.6.2"    "Get the information from eeH" 
+    printf "\n\t%-5s  %-40s\n"  "0.6.3"    "Get the information from qqH"
+    printf "\n\t%-5s  %-40s\n"  "0.6.4"    "move data to one file"  
+    printf "\n\t%-5s  %-40s\n"  "0.6.5"    "fit and generate Asimovdata" 
+    printf "\n\t%-5s  %-40s\n"  "0.6.6"    "calculate BR upper limit"  
+    printf "\n\t%-5s  %-40s\n"  "0.6.7"    "The result of BR upper limit"	 	   
 }
 
 signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
@@ -500,46 +493,11 @@ case $option in
     0.3.13) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/mumuH/after
             mkdir -p fig/mumuH/before           
-            ./python/plt_before_summary.py mumuH signal ZZ WW single_z single_w zzorww 2f ZH_visible
-            ./python/plt_after_summary.py mumuH  signal ZZ WW single_z single_w zzorww 2f ZH_visible
-
+            ./python/plt_before_summary.py mumuH signal ZZ WW single_z single_w szorsw zzorww 2f ZH_visible
+            ./python/plt_after_summary.py mumuH  signal ZZ WW single_z single_w szorsw zzorww 2f ZH_visible
             ;;
-    0.3.14) echo "Applying BDT cut..."
-            if [ ! -d "BDT_output" ]; then
-                mkdir BDT_output
-            fi
-            cd BDT
-            if [ ! -f "../BDT_output/bkg_e2e2h.root" ]; then
-                echo "Samples are about to be trained, after that please check the distribution to get BDT cut and run ./submit 0.3.12 again to apply that!"
-                root -l Hinv.C
-            else
-                echo "BDT cut is about to be applied!"
-                root -l -q HinvApplication.C
-            fi
-    ;;
-
-    0.3.15) echo "Synthetizing signal and background ROOT files..."
-    
-            rm ./BDT_output/Hinv_bkg_e2e2h_selected_BDT.root -rf
-            # Expand background 62 times,make background and signal have the same scale.
-            python ./python/scale_bkg_events.py ./BDT_output/Hinv_sig_e2e2h_BDT.root ./BDT_output/Hinv_sig_e2e2h_selected_BDT.root all_bkg
-
-            rm  ./run/total/bkg_add_sig_BDT.root
-
-            hadd ./run/total/bkg_add_sig_BDT.root ./BDT_output/Hinv_sig_e2e2h_selected_BDT.root ./BDT_output/Hinv_bkg_e2e2h_BDT.root
-     
-    ;;
-
-    0.3.16) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
-
-            root ./src/fitsigbkg.cxx
-    ;;
-
-    0.3.17) echo "Calculating upper limit of branch ratio..."
-            
-            python ./python/cal_upperlimit_BDT.py
-    ;;
-    0.3.18) echo "Get background and signal number after different cuts"
+   
+    0.3.14) echo "Get background and signal number after different cuts"
             rm table/mumuH/bin.txt 
             rm table/mumuH/out_list.txt
             rm table/mumuH/tfbin.txt
@@ -554,17 +512,17 @@ case $option in
             done 
             cd ../../../../../
             python python/gen_bin.py run/mumuH/e2E2h_invi/hist/e2E2h_invi table/bg_sample_list.txt mumuH
-               
-            python python/get_bin.py table/mumuH/out_list.txt
+            python python/get_bin.py table/mumuH/out_list.txt      
+            
         ;;
-    0.3.19) echo "Get Shorthand channel detail information"
+    0.3.15) echo "Get Shorthand channel detail information"
 
            rm table/mumuH/out_list_b.txt
            rm table/mumuH/tfbin_b.txt
            python  python/gen_binb.py  table/mumuH/out_list.txt  mumuH
 #           python  python/get_binb.py table/mumuH/out_list_b.txt mumuH
     ;;
-    0.3.20) echo " Optimize the cut conditions"
+    0.3.16) echo " Optimize the cut conditions"
             rm preliminary/mumuH/*
             cd ./run/mumuH/total/hist
             for dir in *
@@ -819,46 +777,13 @@ case $option in
     0.4.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/eeH/after
             mkdir -p fig/eeH/before           
-            ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w zzorww  2f ZH_visible
-            ./python/plt_after_summary.py eeH  signal ZZ WW single_z single_w zzorww  2f ZH_visible
+            ./python/plt_before_summary.py  eeH signal ZZ WW single_z single_w szorsw zzorww  2f ZH_visible
+            ./python/plt_after_summary.py eeH  signal ZZ WW single_z single_w szorsw zzorww  2f ZH_visible
 
-            ;;
-    0.4.23) echo "Applying BDT cut..."
-            if [ ! -d "BDT_output" ]; then
-                mkdir BDT_output
-            fi
-            cd BDT
-            if [ ! -f "../BDT_output/bkg_e2e2h.root" ]; then
-                echo "Samples are about to be trained, after that please check the distribution to get BDT cut and run ./submit 0.2.12 again to apply that!"
-                root -l Hinv.C
-            else
-                echo "BDT cut is about to be applied!"
-                root -l -q HinvApplication.C
-            fi
+
+
     ;;
-
-    0.4.24) echo "Synthetizing signal and background ROOT files..."
-    
-            rm ./BDT_output/Hinv_bkg_eeh_selected_BDT.root -rf
-            # Expand background 62 times,make background and signal have the same scale.
-            python ./python/scale_bkg_events.py ./BDT_output/Hinv_sig_eeh_BDT.root ./BDT_output/Hinv_sig_eeh_selected_BDT.root all_bkg
-
-            rm  ./run/total/bkg_add_sig_BDT.root
-
-            hadd ./run/total/bkg_add_sig_BDT.root ./BDT_output/Hinv_sig_eeh_selected_BDT.root ./BDT_output/Hinv_bkg_eeh_BDT.root
-     
-    ;;
-
-    0.4.25) echo "Fitting higgs mass spectra(recoilling mass of Z boson)..."
-
-            root ./src/fitsigbkg.cxx
-    ;;
-
-    0.4.26) echo "Calculating upper limit of branch ratio..."
-            
-            python ./python/cal_upperlimit_BDT.py
-    ;;
-    0.4.27) echo "Get background and signal number after different cuts"
+    0.4.23) echo "Get background and signal number after different cuts"
             rm table/eeH/bin.txt 
             rm table/eeH/out_list.txt
             rm table/eeH/tfbin.txt
@@ -875,14 +800,14 @@ case $option in
                
             python python/get_bin.py table/eeH/out_list.txt
         ;;
-    0.4.28) echo "Get Shorthand channel detail information"
+    0.4.24) echo "Get Shorthand channel detail information"
 #           cp run/eeh_invi/hist/eeh_invi/ana_File_merged_scale_1.root  run/total/hist/ffH_inv.root
            rm table/eeH/out_list_b.txt
            rm table/eeH/tfbin_b.txt
            python  python/gen_binb.py  table/eeH/out_list.txt eeH
 #           python  python/get_binb.py table/eeH/out_list_b.txt eeH
     ;;
-    0.4.29) echo " Optimize the cut conditions"
+    0.4.25) echo " Optimize the cut conditions"
             rm preliminary/eeH/*
 #			mkdir preliminary/eeH/
 #            ./test.py
@@ -1108,7 +1033,7 @@ case $option in
             cd ./run/qqH/bg/ana/
             for dir in *
             do
-            mkdir -p ../hist/$dir
+            mkdir -p ../hist/$dir 
             mkdir -p ../plot/$dir
                cd ../../../../
                #Merge data before scale
@@ -1142,8 +1067,8 @@ case $option in
     0.5.22) echo "Plot before cut and after cut distribution" 
             mkdir -p fig/qqH/after
             mkdir -p fig/qqH/before           
-            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w zzorww  2f  ZH_visible
-            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w zzorww   2f   ZH_visible
+            ./python/plt_before_summary.py  qqH signal ZZ WW single_z single_w szorsw zzorww  2f  ZH_visible
+            ./python/plt_after_summary.py qqH signal ZZ WW single_z single_w szorsw zzorww   2f   ZH_visible
 
             ;;
     0.5.23) echo "Get background and signal number after different cuts"
@@ -1193,40 +1118,40 @@ sub_0_6(){
 
 case $option in
    #before use 0_6 you should source calculate/setupATLAS.sh
-	0.6.1) echo "Get the information from mumuH"
+    0.6.1) echo "Get the information from mumuH"
            cp run/mumuH/total/hist/* calculate/mz4v/	
-		   cp run/qqH/total/hist/* calculate/qz4v/
-		   cp run/eeH/total/hist/* calculate/ez4v/
+           cp run/qqH/total/hist/* calculate/qz4v/
+           cp run/eeH/total/hist/* calculate/ez4v/
            cd  calculate/mz4v/
            root -l mz4v.cxx
-	;;
-	0.6.2) echo "Get the information from eeH"
+    ;;
+    0.6.2) echo "Get the information from eeH"
            cd  calculate/ez4v/
            root -l ez4v.cxx
-	;;
-	0.6.3) echo "Get the information from qqH"
+    ;;
+    0.6.3) echo "Get the information from qqH"
            cd  calculate/qz4v/
            root -l qz4v.cxx
-	;;
-	0.6.4) echo "move data to one file"
+    ;;
+    0.6.4) echo "move data to one file"
            cp calculate/mz4v/mz4v* calculate/workspace/data/hinvi/
            cp calculate/ez4v/ez4v* calculate/workspace/data/hinvi/
            cp calculate/qz4v/qz4v* calculate/workspace/data/hinvi/
-	;;	
-	0.6.5) echo "fit and generate Asimovdata"
-	       mkdir fig/mz4v -p
-	       mkdir fig/ez4v -p
-	       mkdir fig/qz4v -p		   
+    ;;	
+    0.6.5) echo "fit and generate Asimovdata"
+           mkdir fig/mz4v -p
+           mkdir fig/ez4v -p
+           mkdir fig/qz4v -p		   
            cd calculate/workspace
-		   ./job/run.sh		
+           ./job/run.sh		
 #		   mv mz4v* ../workspace/data/hinvi
     ;;
 
-	0.6.6) echo "calculate BR upper limit "	
-	        cd calculate/cepcFit/
-			./jobs/invi.sh
-	;;
-	0.6.7) echo "The result of BR upper limit"
+    0.6.6) echo "calculate BR upper limit "	
+            cd calculate/cepcFit/
+            ./jobs/invi.sh
+    ;;
+    0.6.7) echo "The result of BR upper limit"
            python python/combine.py
 
 esac

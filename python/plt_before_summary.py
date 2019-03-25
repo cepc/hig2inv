@@ -24,7 +24,7 @@ def main():
     c = ROOT.TCanvas('c', 'c', 200, 10, 700, 500)
     if processname == "qqH":
         draw_before_cut_dijet_Pt(sample, c, fs, processname)
-        draw_before_cut_dijet_Pz(sample, c, fs, processname)
+        draw_before_cut_TauTauM(sample, c, fs, processname)
         draw_before_cut_dijet_ang(sample, c, fs, processname)
         draw_before_cut_dijet_phi(sample, c, fs, processname)
         draw_before_cut_dijet_e(sample, c, fs, processname)
@@ -37,7 +37,7 @@ def main():
 #	draw_before_cut_n_photon(sample, c, fs, processname)
     else:
         draw_before_cut_Pt(sample, c, fs, processname)
-        draw_before_cut_Pz(sample, c, fs, processname)
+        draw_before_cut_vdt(sample, c, fs, processname)
         draw_before_cut_theta(sample, c, fs, processname)
         draw_before_cut_vis(sample, c, fs, processname)
         draw_before_cut_Mmumu(sample, c, fs, processname)
@@ -70,6 +70,9 @@ def get_files_from_sample(sample,processname):
 
     if 'zzorww' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/zzorww.root'))	
+
+    if 'szorsw' in sample:
+        fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/sz_sw.root'))	
         
     if '2f' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/2f.root'))
@@ -93,9 +96,9 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
         h = f.Get(hname)
         if fs.index(f) == 0:
             if processname == "eeH":				
-                h.Scale(1.0/17600.0)
+                h.Scale(1.0/19712.0)
             if processname == "mumuH":
-                h.Scale(1.0/16925.0)
+                h.Scale(1.0/18956.0)
             if processname == "qqH":
                 h.Scale(1.0/342025.0)                 
             h.SetLineColor(2)
@@ -103,45 +106,53 @@ def get_common_objects_to_draw(fs, hname, leg, processname):
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 1:
-            h.Scale(1.0/5704399.0)
+            h.Scale(1.0/6389430.0)
             h.SetLineColor(22)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 2:
-            h.Scale(1.0/45380550.0)
+            h.Scale(1.0/50826214.0)
             h.SetLineColor(5)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
         elif fs.index(f) == 3:
-            h.Scale(1.0/9348250.0)
-            h.SetLineColor(6)
-            h.SetLineWidth(1)
-            h.SetMarkerStyle(1)
-
-        elif fs.index(f) == 4:
-            h.Scale(1.0/17426250.0)
-            h.SetLineColor(7)
-            h.SetLineWidth(1)
-            h.SetMarkerStyle(1)
- 
-        elif fs.index(f) == 5:
-            h.Scale(1.0/18250750.0)
+            h.Scale(1.0/7932735.0)
             h.SetLineColor(42)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
 
+        elif fs.index(f) == 4:
+            h.Scale(1.0/19517400.0)
+            h.SetLineColor(6)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 5:
+            h.Scale(1.0/1397088.0)
+            h.SetLineColor(7)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+ 
         elif fs.index(f) == 6:
-            h.Scale(1.0/444816800.0)
+            h.Scale(1.0/20440840.0)       
+            h.SetLineColor(14)
+            h.SetLineWidth(1)
+            h.SetMarkerStyle(1)
+
+        elif fs.index(f) == 7:
+            h.Scale(1.0/498194816.0)
             h.SetLineColor(3)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
-        elif fs.index(f) == 7:
-            h.Scale(1.0/1018300.0)       
+
+        elif fs.index(f) == 8:
+            h.Scale(1.0/1140495.0)       
             h.SetLineColor(12)
             h.SetLineWidth(1)
             h.SetMarkerStyle(1)
+
         else:
             print "Sample name misses, please check that!"
             sys.exit() 		
@@ -166,6 +177,9 @@ def leg_add_entry_hist(leg, f, h):
 
     elif sample in ['WW']:
         leg.AddEntry(h, "WW")
+
+    elif sample in ['sz_sw']:
+        leg.AddEntry(h, "szorsw")
 
     elif sample in ['single_z']:
         leg.AddEntry(h, "single_z")
@@ -195,9 +209,9 @@ def draw_before_cut_n_moun(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
             if processname == "mumuH":
-                h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV/c^{2})')
+                h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV)')
             if processname == "eeH":
-                h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV/c^{2})')
+                h.SetXTitle('M(#pi^{+}#pi^{-}) (GeV)')
                 h.SetMaximum(6000000)
                 h.SetMinimum(10)
             h.SetYTitle('Normalized to 1')
@@ -250,11 +264,11 @@ def  draw_before_cut_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
             if processname == "mumuH":
-                h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV/c)')
+                h.SetXTitle('P_{t}^{#mu^{+}#mu^{-}} (GeV)')
                 h.SetMaximum(0.03)
                 h.SetMinimum(0.00000000000001)	
             if processname == "eeH":
-                h.SetXTitle('P_{t}^{e^{+}e^{-}} (GeV/c)')	
+                h.SetXTitle('P_{t}^{e^{+}e^{-}} (GeV)')	
                 h.SetMaximum(0.03)
                 h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Normalized to 1')
@@ -265,7 +279,7 @@ def  draw_before_cut_Pt(sample, c, fs, processname):
             h.SetMarkerStyle(1)
 
             h.Draw()
-    for h in hs:
+    for h in hs: 
         if not hs.index(h) == 6:
             h.Draw('same')
 
@@ -273,20 +287,20 @@ def  draw_before_cut_Pt(sample, c, fs, processname):
     c.SaveAs(figfile)
 
 
-def draw_before_cut_Pz(sample, c, fs, processname):
-    hname = 'before_cut_Pz'
-    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_Pz.pdf'
+def draw_before_cut_vdt(sample, c, fs, processname):
+    hname = 'before_cut_vdt'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_vdt.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 6:
             if processname == "mumuH":
-                h.SetXTitle('|P_{z}^{#mu^{+}#mu^{-}}| (GeV/c)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)')
                 h.SetMaximum(0.01)
                 h.SetMinimum(0.0000001)
             if processname == "eeH":
-                h.SetXTitle('|P_{z}^{e^{+}e^{-}}| (GeV/c)')
+                h.SetXTitle('the recoil mass of visible minus tau (GeV)')
                 h.SetMaximum(0.01)
                 h.SetMinimum(0.0000001)
             h.SetYTitle('Normalized to 1')
@@ -345,7 +359,7 @@ def draw_before_cut_vis(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('Visible Energy (GeV/c^{2})(raw data)')
+            h.SetXTitle('Visible Energy (GeV)(raw data)')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -372,11 +386,11 @@ def draw_before_cut_Mmumu(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
             if processname == "mumuH":
-                h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV/c^{2})')
+                h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)')
                 h.SetMaximum(0.02)
                 h.SetMinimum(0.0001)
             if processname == "eeH":
-                h.SetXTitle('M_{e^{+}e^{-}}(GeV/c^{2})')
+                h.SetXTitle('M_{e^{+}e^{-}}(GeV)')
                 h.SetMaximum(0.04)
                 h.SetMinimum(0.0001)
             h.SetYTitle('Normalized to 1')
@@ -405,11 +419,11 @@ def  draw_before_cut_Mrecoil(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
             if processname == "mumuH":
-                h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV/c^{2})')
+                h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)')
                 h.SetMaximum(0.06)
                 h.SetMinimum(0.0000000000000001)
             if processname == "eeH":
-                h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV/c^{2})')
+                h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)')
                 h.SetMaximum(0.05)
                 h.SetMinimum(0.00000000000001)
             h.SetYTitle('Normalized to 1')
@@ -442,7 +456,7 @@ def  draw_before_cut_ep(sample, c, fs, processname):
         if hs.index(h) == 6:
 
             h.SetXTitle('E/P')
-            h.SetYTitle('Events/(1Gev/C^{2})')
+            h.SetYTitle('Events/(1Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -472,7 +486,7 @@ def draw_before_cut_dijet_Pt(sample, c, fs, processname):
     for h in hs:
         if hs.index(h) == 6:
 
-            h.SetXTitle('P_{t}^{dijet}(GeV/c)(raw data)')	
+            h.SetXTitle('P_{t}^{dijet}(GeV)(raw data)')	
             h.SetMaximum(0.1)
             h.SetMinimum(0.00000000000001)		
             h.SetYTitle('Normalized to 1')
@@ -490,16 +504,16 @@ def draw_before_cut_dijet_Pt(sample, c, fs, processname):
     leg.Draw()
     c.SaveAs(figfile)
 
-def draw_before_cut_dijet_Pz(sample, c, fs, processname):
+def draw_before_cut_TauTauM(sample, c, fs, processname):
 
-    hname = 'before_cut_dijet_pz'
-    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_dijet_pz.pdf'
+    hname = 'before_cut_TauTauM'
+    figfile = 'fig/'+processname+'/'+'before/hig2inv_before_cut_TauTauM.pdf'
     leg = ROOT.TLegend(0.8, 0.71, 0.9, 0.91)
     hs, leg = get_common_objects_to_draw(fs, hname, leg, processname)
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('|P_{z}^{dijet}| (GeV/c)(raw data)')
+            h.SetXTitle('the mass of Candidate tau (GeV)(raw data)')
             h.SetMaximum(0.03)
             h.SetMinimum(0.0000001)
             h.SetYTitle('Normalized to 1')
@@ -577,7 +591,7 @@ def draw_before_cut_dijet_e(sample, c, fs, processname):
 
     for h in hs:
         if hs.index(h) == 6:
-            h.SetXTitle('Visible Energy (GeV/c^{2})(raw data)')
+            h.SetXTitle('Visible Energy (GeV)(raw data)')
             h.SetYTitle('Normalized to 1')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)

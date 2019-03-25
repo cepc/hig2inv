@@ -38,14 +38,14 @@ const channel c[3]=
             {"s",   "data/hinvi/qz4v_sig.root"}
         }
     },
-    {   "ez4v", 1, 1, 120, 160,
+    {   "ez4v", 1, 1, 120, 170,
         "data/hinvi/ez4v_bkg.root",
         {"s"},
         {
             {"s",   "data/hinvi/ez4v_sig.root"}
         }
     },
-    {   "mz4v", 1, 1, 120, 130,
+    {   "mz4v", 1, 1, 120, 150,
         // "data/hinvi/invi_mm_bkg.root",
         "data/hinvi/mz4v_bkg.root",
         {"s"},
@@ -95,9 +95,9 @@ const map<TString, TString> varname=
 };
 const map<TString, Float_t> histomax=
 {
-    {"qz4v",15000},
-    {"ez4v",3000 },
-    {"mz4v",800 }
+    {"qz4v",25000},
+    {"ez4v",4000 },
+    {"mz4v",4000 }
 
 };
 TString funcsetting(TString cname, TString proc)
@@ -139,7 +139,7 @@ Float_t lum=1; // 5 ab-1 to 5.6 ab-1   How to understand this?
 Float_t weightscale  (TString cname, TString proc)
 {
     Float_t w=1;
-    return w*1.12;
+    return w*1.00;
 }
 
 bool isinvi=false;
@@ -186,7 +186,7 @@ bool SetPlotMaximum(TString cname )
     if ( histomax.count(cname)>0 ) 
     {
         defined     = true;
-        PlotMaximum = histomax.at(cname)*1.12;  // 5 to 5.6;
+        PlotMaximum = histomax.at(cname)*1.0;  // 5 to 5.6;
     }
     return defined;
 }

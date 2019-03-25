@@ -2,18 +2,14 @@
 //
 // Description: Higgs -> Invisible    
 //
-// Original Author:  JING Maoqiang <jingmq@ihep.ac.cn>
-//         Created:  [2018-04-02 Mon 15:49] 
+// Original Author:  tanyh <tanyh@ihep.ac.cn>
+//         Created:  [2019-03-13 ] 
 //         Inspired by CHEN Zhenxing's code   
-//
-//
- 
 //
 // system include files
 //
-
 // for MCParticle, collection and reconstruction
-//#include <TauReco.hh>
+#include <hig2inv.hh>
 #include <EVENT/LCCollection.h>
 #include <IMPL/LCCollectionVec.h>
 #include <EVENT/LCFloatVec.h> 
@@ -40,254 +36,9 @@
 #include <vector>
 #include <TMath.h>
 #include <TLorentzVector.h>
-//#include <stdexcept>
-//#include <Rtypes.h>
+#include <EVENT/LCFloatVec.h>
+#include <EVENT/LCRelation.h>
 
-class hig2inv  : public marlin::Processor {
-
-    public:
-        Processor*  newProcessor() { return new hig2inv ; }
-        hig2inv();
-        ~hig2inv() {};
-
-        void init();
-        void processEvent( LCEvent * evt );
-        void end();
-
-    private:
-        std::string FileName;
-        std::string TreeName;
-        std::string Processname;
-        
-//        LCCollection* col_tau;		
-        LCCollection* col_MC;
-        LCCollection* col_Reco;
-        LCCollection* col_FastJet;
-        MCParticle *a1_MC;
-        LCCollection* Col_WoLeps;
-        LCCollection* Col_FJPList1;
-        LCCollection* Col_FJPList2;
-        LCCollection* Col_Jets;
-        LCCollection* Col_Leps;
-
-        TFile *m_file;
-        TTree *m_tree;
-        TH1F* h_mc_init_plist;
-        TH1F* h_mc_higgs_dlist;
-
-        int LeptonID, RecoPID, tmpPID, PhotonPID, ElectronPID, MuonPID, NeutrinoEPID, NeutrinoMuonPID, TauPID, NeutrinoTauPID, ZPID, HiggsPID;
-        int Dquark, Uquark, Squark, Cquark, Bquark,WPID;
-        int nMC, nReco, NCandiP, NCandiM, NParent, NDaughter, nDaughter, DIndex;
-        int OverWrite,DecayFlag;
-        float RecoEMax, RecoEMin, ZMass;
-        int m_n_gamma, m_n_charged, m_n_lepton,m_n_leptonp, m_n_leptonm, m_n_chargedp, m_n_chargedm, m_n_Higgsdaughter, m_n_neutral,m_n_neutrino,m_Neutral_PID;
-        int Nmup;
-        int Nmum;
-        unsigned int m_event;
-        float m_sum_p_neutral[4], m_sum_p_photon[4],m_p_visible[4],m_sum_p_charged[4], m_p_leptonp[4], m_p_leptonm[4], m_p_dilepton[4], m_p_Zdaughters[4], m_p_Zdaughterp[4], m_p_Zdaughterm[4], m_p_Higgsdaughters[4], m_p_Higgsdaughter1[4],m_p_Higgsdaughter2[4];
-        float m_m_dimu, m_m_recoil,m_e_recoil,m_e_dimu;
-        float m_sum_pt_photon, m_pt_dilepton;
-        float RecoE,lepton_charge;
-        float RecoP[3];
-        float m_energy_visible, m_energy_neutrino,m_miss_m,m_miss_e,m_m_visible;
-        float m_mine_lepton,m_maxe_lepton;
-        float m_minp_lepton[4],m_maxp_lepton[4];
-        // float m_m_recoil[11];
-        // float spreadfactor[11];
-        float scale1, scale2;
-        float currVisMass, currRecoilMass, currVisEnergy;
-        float MinZThrDis;
-        float m_phi_dilepton_1, m_phi_dilepton_2;
-        float phi_p_tmp, phi_m_tmp;
-        float m_cos_miss, m_cos_Z;
-        float m_angle_dilepton;
-        float m_delta_pt;
-        float MCEn;
-        int m_PID_Zdaughter, m_PID_HiggsDaughter, m_PID_Higgsdaughter[2];
-        float m_miss_phi2;
-        float m_miss_Et;
-        float m_miss_phi;
-        //qq channel lepton information 
-        int m_n_Muon;
-        int m_n_Electron;
-        float m_maxpx_muon;
-        float m_maxpy_muon;
-        float m_maxpz_muon;
-        float m_maxpe_muon;
-
-        float m_minpx_muon;
-        float m_minpy_muon;
-        float m_minpz_muon;
-        float m_minpe_muon;
-
-        float m_maxpx_electron;
-        float m_maxpy_electron;
-        float m_maxpz_electron;
-        float m_maxpe_electron;
-
-        float m_minpx_electron;
-        float m_minpy_electron;
-        float m_minpz_electron;
-        float m_minpe_electron;
-
-
-        std::vector<float>  m_px_muon;
-        std::vector<float>  m_py_muon;
-        std::vector<float>  m_pz_muon;
-        std::vector<float>  m_pe_muon;
-        std::vector<float>  m_px_electron;
-        std::vector<float>  m_py_electron;
-        std::vector<float>  m_pz_electron;
-        std::vector<float>  m_pe_electron;
-
-        // TLorentzVector P_P, P_M, P_T[11];
-        std::vector<TLorentzVector> P4_Muon;  
-
-        std::vector<TLorentzVector> P4_Electron;  
-
-
-        TLorentzVector P4_Neutral_Sum,P4_Charged_Sum,P_P, P_M, P_T, miss, FourMin_Lepton, FourMax_Lepton,P4_sum_p_photon;
-        std::vector<TLorentzVector> FourMom_LeptonP, FourMom_LeptonM, FourMom_ChargedP, FourMom_ChargedM, FourMom_Charged, FourMom_Gamma,CandiP, CandiM;
-
-
-        // jet info
-
-        int m_n_jet;
-        std::vector<TLorentzVector> P4_Jet;  
-
-        std::vector<float> m_jet_m;
-        std::vector<float> m_jet_p;
-        std::vector<float> m_jet_pt;
-        std::vector<float> m_jet_pz;
-        std::vector<float> m_jet_e;
-
-        std::vector<float> m_jet_phi;
-        std::vector<float> m_jet_theta;
-
-        std::vector<float> m_dijet_m;
-        std::vector<float> m_dijet_p;
-        std::vector<float> m_dijet_pt;
-        std::vector<float> m_dijet_pz;
-        std::vector<float> m_dijet_e;
-        std::vector<float> m_dijet_rec_m;
-        std::vector<float> m_dijet_dphi;
-        std::vector<float> m_dijet_dang;
-
-
-
-        // MC info 
-        std::vector<int> m_mc_pdgid;
-        std::vector<int> m_mc_init_pdgid;
-        std::vector<TLorentzVector> P4_MCTruth_LeptonPlus;  
-        std::vector<TLorentzVector> P4_MCTruth_LeptonMinus;
-        std::vector<TLorentzVector> P4_MCTruth_photon;
-        std::vector<TLorentzVector> P4_MCTruth_Higgs;   
-
-        int m_mc_lepton_minus_id;
-        int m_mc_lepton_plus_id;
-
-        int m_mc_init_n_lepton_plus;
-        int m_mc_init_n_lepton_minus;
-
-        double m_mc_init_leptonp_e;
-        double m_mc_init_leptonp_p;
-        double m_mc_init_leptonp_pt;
-        double m_mc_init_leptonp_pz;
-
-        double m_mc_init_leptonp_phi;
-        double m_mc_init_leptonp_theta;
-
-        double m_mc_init_leptonm_e;
-        double m_mc_init_leptonm_p;
-        double m_mc_init_leptonm_pt;
-        double m_mc_init_leptonm_pz;
-
-        double m_mc_init_leptonm_phi;
-        double m_mc_init_leptonm_theta;
-
-        double m_mc_init_dilepton_m;
-        double m_mc_init_dilepton_e;
-        double m_mc_init_dilepton_p;
-        double m_mc_init_dilepton_pt;
-        double m_mc_init_dilepton_pz;
-
-        double m_mc_init_dilepton_rec_m;
-        double m_mc_init_dilepton_dphi;
-        double m_mc_init_dilepton_dang;
-
-        int m_mc_init_n_photon;
-        std::vector<double> m_mc_init_photon_e;
-        std::vector<double> m_mc_init_photon_p;
-        std::vector<double> m_mc_init_photon_pt;
-        std::vector<double> m_mc_init_photon_pz;
-        std::vector<double> m_mc_init_photon_phi;  
-        std::vector<double> m_mc_init_photon_theta;
-
-        double m_mc_higgs_m;
-        double m_mc_higgs_e;
-        double m_mc_higgs_rec_m;
-
-        int m_mc_n_Zboson;
-        int m_mc_higgs_decay_type;
-
-        std::vector<int> m_mc_higgs_daughter_pdgid;
-        std::vector<int> m_mc_z1_daughter_pid;
-        std::vector<int> m_mc_z2_daughter_pid;
-        std::vector<TLorentzVector> P4_MCTruth_Z1;  
-        std::vector<TLorentzVector> P4_MCTruth_Z2;  
-        std::vector<int> m_mc_w1_daughter_pid;
-        std::vector<int> m_mc_w2_daughter_pid;
-        std::vector<TLorentzVector> P4_MCTruth_W1;  
-        std::vector<TLorentzVector> P4_MCTruth_W2;  
-
-        double m_mc_zw1_m;
-        double m_mc_zw1_p;
-        double m_mc_zw1_pt;
-        double m_mc_zw1_e;
-        double m_mc_zw1_rec_m;
-
-        double m_mc_zw2_m;
-        double m_mc_zw2_p;
-        double m_mc_zw2_pt;
-        double m_mc_zw2_e;
-        double m_mc_zw2_rec_m;
-        
-        double m_mc_zw1zw2_m;
-        double m_mc_zw1zw2_e;
-        double m_mc_zw1zw2_rec_m;
-
-        int m_mc_zz_flag;
-        int m_mc_ww_flag;
-        int m_mc_h2gaugeboson_flag;
-
-
-
-        void book_histogram();
-        void book_tree();
-        bool buildZToff();
-        
-        void saveNeutral( int nReco, LCCollection* colReco );
-        void savePhoton( int nReco, LCCollection* colReco );
-        void selectCharged( int nReco, LCCollection* colReco );
-        void selectLepton( int nReco, LCCollection* col_Reco);
-        void saveVisible(TLorentzVector P4_Neutral_Sum,TLorentzVector P4_Charged_Sum);
-        void saveMinAndMaxLepton(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);		
-        void saveRecInfo(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);
-        void saveMuonIf(std::vector<TLorentzVector> P4_Muon);		
-        void saveElectronIf(std::vector<TLorentzVector> P4_Electron);		
-        //Save qqH channel
-        void saveFastJet(LCCollection* col_FastJet);
-        void saveJetInfo( std::vector<TLorentzVector> P4_jet );
-        //MC information
-        void checkGenMCInfo( LCCollection* col_MC ); 
-        void saveNeutrino( int NParent, int NDaughter, MCParticle *a1_MC, int tmpPID, float MCEn );
-        void printDecayChain( int MCParticleID, MCParticle *mcp );
-        void printMCinfo( int MCParticleID, int flag, MCParticle *mcp, std::vector<MCParticle*> pvec, std::vector<MCParticle*> dvec );
-        void saveMCTruthInfo( LCCollection* col_MC );
-        void fillMCInfo();
-        void variable_init();
-
-};
 
 hig2inv a_hig2inv_instance;
 
@@ -428,7 +179,38 @@ hig2inv::hig2inv()
         registerProcessorParameter( "DecayFlag" ,
             "DecayFlag is Higgs decay once produced particles" ,
             DecayFlag ,
-            DecayFlag);            
+            DecayFlag);      
+    //tau information 
+    registerProcessorParameter( "TrackCone",
+            "Cone between tracks",
+            _trackcone,
+            _trackcone);	
+    registerProcessorParameter( "smallTrackCone",
+            "Cone between tracks",
+            _trackcone1,
+            _trackcone1);	
+    
+    registerProcessorParameter( "TauMass",
+            "Mass of Tau",
+            _taumass,
+            _taumass);	
+    
+    registerProcessorParameter( "E_par",
+            "energy importance",
+            _E_par,
+            _E_par);	
+
+    registerProcessorParameter( "LeadTrackEn",
+            "leading tracks energy",
+            _Ltracken,
+            _Ltracken);	
+    
+
+    registerProcessorParameter( "TrackEn",
+            "tracks energy",
+            _tracken,
+            _tracken);	
+
 }
 
 void hig2inv::init() {
@@ -445,28 +227,27 @@ void hig2inv::processEvent( LCEvent * evt ) {
             col_Reco = evt->getCollection( "ArborPFOs" );
 
             col_MC = evt->getCollection( "MCParticle" );
-
-//            col_tau = evt->getCollection( "TauJet" );
+            Col_WoLeps  = evt->getCollection( "WithoutIsoLeps" ); 
+			Col_Leps    = evt->getCollection( "IsoLeps");                         
             if(buildZToff()){
+            if  (Processname == "qq" || Processname == "BKGQ"){
+            col_FastJet = evt->getCollection("FastJets");   
 
+            saveFastJet(col_FastJet);
+            saveJetInfo( P4_Jet );
+            } 				
+            _nMCP = col_MC->getNumberOfElements();
             nReco = col_Reco->getNumberOfElements();
+            nLepton = Col_Leps->getNumberOfElements();
             m_event=evt->getEventNumber();
             saveNeutral( nReco, col_Reco );
             savePhoton( nReco, col_Reco );
             selectCharged( nReco, col_Reco );
-            selectLepton(nReco,col_Reco);
+            selectLepton(nLepton,Col_Leps,P4_Jet);
             saveVisible(P4_Neutral_Sum, P4_Charged_Sum);
             saveRecInfo(FourMom_LeptonP,FourMom_LeptonM);
-            if  (Processname == "qq" || Processname == "BKGQ"){
-            col_FastJet = evt->getCollection("FastJets");
-            Col_FJPList1 = evt->getCollection( "FJPList1" );        // FastJet, List of rec. particle list for jet1
-            Col_FJPList2 = evt->getCollection( "FJPList2" );        // FastJet, List of rec. particle list for jet2
-//            Col_Leps    = evt->getCollection( "IsoLeps"        );    
-            Col_WoLeps  = evt->getCollection( "WithoutIsoLeps" ); 
-            saveFastJet(col_FastJet);
-            saveJetInfo( P4_Jet );
-            }   
-
+            RecoAna( evt );
+  
 
             saveMCTruthInfo( col_MC );            
 
@@ -539,9 +320,11 @@ void hig2inv::book_tree() {
 
     m_tree->Branch("m_m_dimu",  &m_m_dimu,  "m_m_dimu/F");
     m_tree->Branch("m_e_dimu",  &m_e_dimu,  "m_e_dimu/F");
+    m_tree->Branch("m_p_dimu",  &m_p_dimu,  "m_p_dimu/F");
     // m_tree->Branch("m_m_recoil",  m_m_recoil,  "m_m_recoil[11]/F");
     m_tree->Branch("m_m_recoil",  &m_m_recoil,  "m_m_recoil/F");
     m_tree->Branch("m_e_recoil",  &m_e_recoil,  "m_e_recoil/F");
+    m_tree->Branch("m_p_recoil",  &m_p_recoil,  "m_p_recoil/F");
     m_tree->Branch("m_phi_dilepton_1",  &m_phi_dilepton_1,  "m_phi_dilepton_1/F");
     m_tree->Branch("m_phi_dilepton_2",  &m_phi_dilepton_2,  "m_phi_dilepton_2/F");
     m_tree->Branch("m_cos_miss",  &m_cos_miss,  "m_cos_miss/F");
@@ -559,6 +342,7 @@ void hig2inv::book_tree() {
     m_tree->Branch("m_p_visible",  &m_p_visible,  "m_p_visible[4]/F");
     m_tree->Branch("m_miss_m",  &m_miss_m,  "m_miss_m/F");
     m_tree->Branch("m_miss_e",  &m_miss_e,  "m_miss_e/F");
+    m_tree->Branch("m_miss_p",  &m_miss_p,  "m_miss_p/F");
 
     m_tree->Branch("m_mine_lepton",  &m_mine_lepton,  "m_mine_lepton/F");
     m_tree->Branch("m_maxe_lepton",  &m_maxe_lepton,  "m_maxe_lepton/F");
@@ -572,7 +356,7 @@ void hig2inv::book_tree() {
     m_tree->Branch("m_miss_phi2",  &m_miss_phi2,  "m_miss_phi2/F");	
     
 //new qq channel branch
-    if (Processname == "qq" || Processname == "BKGQ"){
+
     m_tree->Branch("m_n_Muon",  &m_n_Muon,  "m_n_Muon/I");
     m_tree->Branch("m_n_Electron",  &m_n_Electron,  "m_n_Electron/I");  
 
@@ -590,6 +374,16 @@ void hig2inv::book_tree() {
     m_tree->Branch("m_maxpz_muon",  &m_maxpz_muon,  "m_maxpz_muon/F");
     m_tree->Branch("m_maxpe_muon",  &m_maxpe_muon,  "m_maxpe_muon/F");
 
+    m_tree->Branch("m_maxangle_mujet",  &m_maxangle_mujet,  "m_maxangle_mujet/F");
+    m_tree->Branch("m_maxphi_mujet",  &m_maxphi_mujet,  "m_maxphi_mujet/F");
+    m_tree->Branch("m_maxangle_ejet",  &m_maxangle_ejet,  "m_maxangle_ejet/F");
+    m_tree->Branch("m_maxphi_ejet",  &m_maxphi_ejet,  "m_maxphi_ejet/F");
+
+    m_tree->Branch("m_minangle_mujet",  &m_minangle_mujet,  "m_minangle_mujet/F");
+    m_tree->Branch("m_minphi_mujet",  &m_minphi_mujet,  "m_minphi_mujet/F");
+    m_tree->Branch("m_minangle_ejet",  &m_minangle_ejet,  "m_minangle_ejet/F");
+    m_tree->Branch("m_minphi_ejet",  &m_minphi_ejet,  "m_minphi_ejet/F");
+
     m_tree->Branch("m_minpx_muon",  &m_minpx_muon,  "m_minpx_muon/F");
     m_tree->Branch("m_minpy_muon",  &m_minpy_muon,  "m_minpy_muon/F");
     m_tree->Branch("m_minpz_muon",  &m_minpz_muon,  "m_minpz_muon/F");
@@ -606,6 +400,7 @@ void hig2inv::book_tree() {
     m_tree->Branch("m_minpe_electron",  &m_minpe_electron,  "m_minpe_electron/F");
     
     // Jets
+    if (Processname == "qq" || Processname == "BKGQ"){
     m_tree->Branch("m_n_jet",  &m_n_jet,  "m_n_jet/I");
 
     m_tree->Branch("jet_m", &m_jet_m);
@@ -625,8 +420,7 @@ void hig2inv::book_tree() {
     m_tree->Branch("dijet_rec_m", &m_dijet_rec_m);
     m_tree->Branch("dijet_dphi", &m_dijet_dphi);
     m_tree->Branch("dijet_dang", &m_dijet_dang);
-    }
-
+    } 
     //MC info
     m_tree->Branch("mc_pdgid", &m_mc_pdgid);
     m_tree->Branch("mc_init_pdgid", &m_mc_init_pdgid);
@@ -703,6 +497,34 @@ void hig2inv::book_tree() {
     m_tree->Branch("mc_ww_flag", &m_mc_ww_flag, "mc_ww_flag/I");
     m_tree->Branch("mc_h2gaugeboson_flag", &m_mc_h2gaugeboson_flag, "mc_h2gaugeboson_flag/I");
 
+    //tau information 
+
+    m_tree->Branch("nTau", 		&_nTau, 	"nTau/I");
+    m_tree->Branch("nTauP", 		&_nTauP, 	"nTauP/I");
+    m_tree->Branch("nTauM", 		&_nTauM, 	"nTauM/I");
+    m_tree->Branch("fakeTau", 		&_fakeTau, 	"fakeTau/I");
+    m_tree->Branch("totalJet", 		&_totalJet, 	"totalJet/I");
+    m_tree->Branch("visEnergy[999]", 	_visEnergy, 	"visEnergy[999]/F");
+
+    m_tree->Branch("visEp",	&_visEp,		"visEp/F");
+    m_tree->Branch("visEm",       &_visEm,          "visEm/F");
+    m_tree->Branch("visPp[3]",	_visPp,		"visPp[3]/F");
+    m_tree->Branch("visPm[3]",  _visPm,          "visPm[3]/F");
+    m_tree->Branch("invMp",	&_invMp,		"invMp/F");
+    m_tree->Branch("invMm",       &_invMm,          "invMm/F");
+
+    m_tree->Branch("evtN",    &_evtN,       "evtN/I");
+    m_tree->Branch("TauTauImpact", &_TauTauImpact, "TauTauImpact/F");
+    m_tree->Branch("TauTauD0", &_TauTauD0, "TauTauD0/F");
+    m_tree->Branch("TauTauZ0", &_TauTauZ0, "TauTauZ0/F");
+    m_tree->Branch("tauP_impact", &_tauP_impact, "tauP_impact/F");
+    m_tree->Branch("tauM_impact", &_tauM_impact, "tauM_impact/F");
+    m_tree->Branch("RecoilM",    &_RecoilM,       "RecoilM/F");
+    m_tree->Branch("qqRecoilM",    &_qqRecoilM,       "qqRecoilM/F");
+    m_tree->Branch("TauTauM",    &_TauTauM,       "TauTauM/F");
+    m_tree->Branch("qqM",    &_qqM,       "qqM/F");
+    m_tree->Branch("TotalEvtEn",    &_TotalEvtEn,       "TotalEvtEn/F");
+    m_tree->Branch("TotalEvtP[3]",    _TotalEvtP,       "TotalEvtP[3]/F");
 
 }
 
@@ -724,7 +546,9 @@ void hig2inv::variable_init() {
     m_energy_neutrino = 0.;
     m_m_dimu = 0.0;  //m_m_visible -> m_m_dimu;
     m_e_dimu = 0.0;
-    m_m_recoil=-999.;
+    m_p_dimu = 0.0;
+    m_p_recoil=0.0;
+    m_m_recoil=0.0;
     m_e_recoil=-999.;
     m_energy_visible = 0.;
     m_m_visible = 0.;
@@ -745,6 +569,7 @@ void hig2inv::variable_init() {
     m_pt_dilepton = 0;
     m_miss_m = 0.0;
     m_miss_e = 0.0;
+    m_miss_p = 0.0;
     m_mine_lepton = 0.0;
     m_maxe_lepton = 0.0;
 
@@ -753,6 +578,7 @@ void hig2inv::variable_init() {
     m_miss_phi2 = 0.0;
     m_n_Muon = 0;
     m_n_Electron = 0;
+// Tau information
 
     TLorentzVector beamp(0,0,120.0,120.0);
     TLorentzVector beamm(0,0,-120.0,120.0);
@@ -760,7 +586,7 @@ void hig2inv::variable_init() {
     scale2 = (gRandom->Gaus(1, 0.0024));
     TLorentzVector ecms(0, 0, 0, 240);
     P_T = ecms;
-
+    sqrts=240.0;
     // Jet information
     m_n_jet = 0;
 
@@ -788,7 +614,7 @@ void hig2inv::variable_init() {
         P4_Neutral_Sum[i]= 0.0;//change to get visble energy and mass
         P4_sum_p_photon[i]= 0.0;
         m_p_visible[i] = 0.0;
-
+  
 
     }  
     //qq channel lepton information
@@ -878,6 +704,7 @@ void hig2inv::variable_init() {
   m_mc_w2_daughter_pid.clear();
   P4_MCTruth_W1.clear();
   P4_MCTruth_W2.clear();
+  
 }
 
 void hig2inv::saveNeutral( int nReco, LCCollection* col_Reco ) {
@@ -943,10 +770,10 @@ void hig2inv::selectCharged( int nReco, LCCollection* col_Reco ) {
 
 }
 
-void hig2inv::selectLepton( int nReco, LCCollection* col_Reco) {
+void hig2inv::selectLepton( int nLepton, LCCollection* Col_Leps,std::vector<TLorentzVector> P4_jet) {
     int count = 0;
-    for(int i = 0; i < nReco; i++) {
-        ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(col_Reco->getElementAt(i));
+    for(int i = 0; i < nLepton; i++) {
+        ReconstructedParticle *a_Reco = dynamic_cast<EVENT::ReconstructedParticle *>(Col_Leps->getElementAt(i));
         if(a_Reco->getCharge()==0) continue;
         lepton_charge = a_Reco->getCharge();
         RecoPID = abs(a_Reco->getType());
@@ -955,7 +782,7 @@ void hig2inv::selectLepton( int nReco, LCCollection* col_Reco) {
         RecoP[1] = a_Reco->getMomentum()[1];
         RecoP[2] = a_Reco->getMomentum()[2];
         TLorentzVector curr(RecoP[0], RecoP[1], RecoP[2], RecoE);
-    if ( RecoE > RecoEMin && RecoE < RecoEMax) {
+    if ( RecoE > 0.0 && RecoE < RecoEMax) {
         if (lepton_charge > 0.1)FourMom_ChargedP.push_back(curr);
         if (lepton_charge < -0.1)FourMom_ChargedM.push_back(curr);
         if (Processname == "qq" || Processname == "BKGQ"){
@@ -997,18 +824,19 @@ void hig2inv::selectLepton( int nReco, LCCollection* col_Reco) {
     m_n_chargedp = FourMom_ChargedP.size();
     m_n_chargedm = FourMom_ChargedM.size();
 //qq channel information
-    if (Processname == "qq" || Processname == "BKGQ"){
+   // if (Processname == "qq" || Processname == "BKGQ"){
     m_n_Muon=P4_Muon.size();
     //m_n_Muon=count;
     m_n_Electron=P4_Electron.size();
 
-    saveMuonIf(P4_Muon);
-    saveElectronIf(P4_Electron);
-    }
+    saveMuonIf(P4_Muon,P4_jet);
+    saveElectronIf(P4_Electron, P4_jet);
+    //}
 
 }
-void hig2inv::saveMuonIf( std::vector<TLorentzVector> P4_Muon ){
+void hig2inv::saveMuonIf( std::vector<TLorentzVector> P4_Muon,std::vector<TLorentzVector> P4_jet ){
     int nMuon=P4_Muon.size();
+    int nJet=P4_jet.size();
     float min_value=100.0;
     float max_value=0.0;
     for(int i=0; i<nMuon; i++){
@@ -1032,6 +860,46 @@ void hig2inv::saveMuonIf( std::vector<TLorentzVector> P4_Muon ){
         m_minpz_muon=P_Muon.Pz();
         m_minpe_muon=P_Muon.E();
     }
+    if (nMuon!=0){
+    TLorentzVector currP(m_maxpx_muon,m_maxpy_muon,m_maxpz_muon,m_maxpe_muon); 
+    float angle=0.0;
+    float phi=0.0;
+    float m_angle1_mujet=0.0;
+    float m_phi1_mujet=0.0;
+    for(int i=0; i<nJet; i++){  
+
+        m_angle1_mujet=(currP - P4_jet[i]).Theta();
+        m_phi1_mujet=(currP - P4_jet[i]).Phi();
+        if (m_angle1_mujet>angle){
+            angle=m_angle1_mujet;
+            m_maxangle_mujet=m_angle1_mujet*180.0/M_PI;
+        }
+
+        if (m_phi1_mujet>phi){
+            phi=m_phi1_mujet;
+            m_maxphi_mujet=m_phi1_mujet*180.0/M_PI;
+        }	
+    float maxangle=360.0;
+    float maxphi=360.0;
+    float m_angle2_mujet=0.0;
+    float m_phi2_mujet=0.0;
+    for(int i=0; i<nJet; i++){  
+
+        m_angle2_mujet=(currP - P4_jet[i]).Theta();
+        m_phi2_mujet=(currP - P4_jet[i]).Phi();
+        if (m_angle2_mujet<maxangle){
+            maxangle=m_angle2_mujet;
+            m_minangle_mujet=m_angle2_mujet*180.0/M_PI;
+        }
+
+        if (m_phi2_mujet<maxphi){
+            maxphi=m_phi2_mujet;
+            m_minphi_mujet=m_phi2_mujet*180.0/M_PI;
+        }		
+    }
+    }
+    }
+    }
     if (nMuon==0){
     m_maxpx_muon=0.0;
     m_maxpy_muon=0.0;
@@ -1041,14 +909,19 @@ void hig2inv::saveMuonIf( std::vector<TLorentzVector> P4_Muon ){
     m_minpy_muon=0.0;
     m_minpz_muon=0.0;
     m_minpe_muon=0.0;
+    m_maxphi_mujet=0.0;
+    m_maxangle_mujet=0.0;
+    m_minphi_mujet=0.0;
+    m_minangle_mujet=0.0;
     }
-}
+
 }
 
-void hig2inv::saveElectronIf( std::vector<TLorentzVector> P4_Electron){
+void hig2inv::saveElectronIf( std::vector<TLorentzVector> P4_Electron,std::vector<TLorentzVector> P4_jet){
     int nElectron=P4_Electron.size();
     float min_value=100.0;
     float max_value=0.0;
+    int nJet=P4_jet.size();
     for(int i=0; i<nElectron; i++){
     TLorentzVector P_Electron = P4_Electron[i];
     m_px_electron.push_back(P_Electron[0]);
@@ -1070,6 +943,45 @@ void hig2inv::saveElectronIf( std::vector<TLorentzVector> P4_Electron){
         m_minpe_electron=P_Electron.E();
     }
 }
+    if (nElectron!=0){
+    TLorentzVector currP(m_maxpx_electron,m_maxpy_electron,m_maxpz_electron,m_maxpe_electron); 
+    float angle=0.0;
+    float phi=0.0;
+    float m_angle1_ejet=0.0;
+    float m_phi1_ejet=0.0;
+    for(int i=0; i<nJet; i++){  
+
+        m_angle1_ejet=(currP - P4_jet[i]).Theta();
+        m_phi1_ejet=(currP - P4_jet[i]).Phi();
+        if (m_angle1_ejet>angle){
+            angle=m_angle1_ejet;
+            m_maxangle_ejet=m_angle1_ejet*180.0/M_PI;
+        }
+
+        if (m_phi1_ejet>phi){
+            phi=m_phi1_ejet;
+            m_maxphi_ejet=m_phi1_ejet*180.0/M_PI;
+        }		
+    }
+    float maxangle=360.0;
+    float maxphi=360.0;
+    float m_angle2_ejet=0.0;
+    float m_phi2_ejet=0.0;
+    for(int i=0; i<nJet; i++){  
+
+        m_angle2_ejet=(currP - P4_jet[i]).Theta();
+        m_phi2_ejet=(currP - P4_jet[i]).Phi();
+        if (m_angle2_ejet<maxangle){
+            maxangle=m_angle2_ejet;
+            m_minangle_ejet=m_angle2_ejet*180.0/M_PI;
+        }
+
+        if (m_phi2_ejet<maxphi){
+            maxphi=m_phi2_ejet;
+            m_minphi_ejet=m_phi2_ejet*180.0/M_PI;
+        }		
+    }
+    }
     if (nElectron==0){
     m_maxpx_electron=0.0;
     m_maxpy_electron=0.0;
@@ -1079,7 +991,12 @@ void hig2inv::saveElectronIf( std::vector<TLorentzVector> P4_Electron){
     m_minpy_electron=0.0;
     m_minpz_electron=0.0;
     m_minpe_electron=0.0;
+    m_maxphi_ejet=0.0;
+    m_maxangle_ejet=0.0;
+    m_minphi_ejet=0.0;
+    m_minangle_ejet=0.0;
     }
+
 }
 
 void hig2inv::saveMinAndMaxLepton( std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM ) {
@@ -1088,12 +1005,12 @@ void hig2inv::saveMinAndMaxLepton( std::vector<TLorentzVector> FourMom_LeptonP, 
     n_leptonp = FourMom_LeptonP.size();
     n_leptonm = FourMom_LeptonM.size();
     if (n_leptonp>0 && n_leptonm>0){
-        double min_value=100.0;
-        double max_value=0.0;
+        float min_value=100.0;
+        float max_value=0.0;
         for (int i=0; i< n_leptonp; i++){
         for (int j=0; j< n_leptonm; j++){
-            double E_leptonp=FourMom_LeptonP[i].E();
-            double E_leptonm=FourMom_LeptonM[j].E();
+            float E_leptonp=FourMom_LeptonP[i].E();
+            float E_leptonm=FourMom_LeptonM[j].E();
             if (E_leptonp <min_value || E_leptonm<min_value){
                 if(E_leptonp<E_leptonm){
                 min_value=E_leptonp;
@@ -1136,7 +1053,7 @@ void hig2inv::saveVisible(TLorentzVector P4_Neutral_Sum,TLorentzVector P4_Charge
    miss = P_T - P4_Charged_Sum - P4_Neutral_Sum;
    m_miss_m = miss.M();
    m_miss_e = miss.E();
-   
+   m_miss_p = miss.P();  
    m_cos_miss = miss.CosTheta();
    m_miss_phi = miss.Phi();
    m_miss_Et = miss.Et();
@@ -1158,8 +1075,10 @@ void hig2inv::saveRecInfo( std::vector<TLorentzVector> FourMom_LeptonP, std::vec
         MinZThrDis = fabs(currdimumass - ZMass);
         m_m_dimu = currdimumass;
         m_e_dimu = (P_P + P_M).E();
+        m_p_dimu = (P_P + P_M).P();
     // save recil mass
         m_e_recoil = (P_T - P_P - P_M).E();
+        m_p_recoil = (P_T - P_P - P_M).P();
         currRecoilMass = (P_T - P_P - P_M).M();
         m_m_recoil = currRecoilMass;
         // save lepton information
@@ -1208,8 +1127,10 @@ void hig2inv::saveRecInfo( std::vector<TLorentzVector> FourMom_LeptonP, std::vec
    m_p_dilepton[k] = 0.0;  
    m_m_recoil = 0.0;
    m_e_recoil = 0.0;
+   m_p_recoil = 0.0;
    m_pt_dilepton = 0.0;
    m_m_dimu = 0.0;
+   m_p_dimu = 0.0;
    m_phi_dilepton_2 = 0.0;
    m_angle_dilepton = 0.0;
    m_delta_pt = 0.0;
@@ -1217,7 +1138,6 @@ void hig2inv::saveRecInfo( std::vector<TLorentzVector> FourMom_LeptonP, std::vec
   }
   }
 }
-
 
 void hig2inv::checkGenMCInfo( LCCollection* col_MC ) {
 
@@ -1462,10 +1382,10 @@ void hig2inv::saveMCTruthInfo( LCCollection* col_MC ) {
 
     if( nparents == 0 ) { 
     
-      double px = mcp->getMomentum()[0];
-      double py = mcp->getMomentum()[1];
-      double pz = mcp->getMomentum()[2];
-      double e = mcp->getEnergy();
+      float px = mcp->getMomentum()[0];
+      float py = mcp->getMomentum()[1];
+      float pz = mcp->getMomentum()[2];
+      float e = mcp->getEnergy();
       
       TLorentzVector p4vec(px, py, pz, e);
       
@@ -1496,10 +1416,10 @@ void hig2inv::saveMCTruthInfo( LCCollection* col_MC ) {
       
       int d_pid  = dvec[j]->getPDG();
       
-      double px = dvec[j]->getMomentum()[0];
-      double py = dvec[j]->getMomentum()[1];
-      double pz = dvec[j]->getMomentum()[2];
-      double e = dvec[j]->getEnergy();
+      float px = dvec[j]->getMomentum()[0];
+      float py = dvec[j]->getMomentum()[1];
+      float pz = dvec[j]->getMomentum()[2];
+      float e = dvec[j]->getEnergy();
       
       TLorentzVector p4vec(px, py, pz, e);
 
@@ -1523,10 +1443,10 @@ void hig2inv::saveMCTruthInfo( LCCollection* col_MC ) {
       
       int d_pid  = dvec[j]->getPDG();
       
-      double px = dvec[j]->getMomentum()[0];
-      double py = dvec[j]->getMomentum()[1];
-      double pz = dvec[j]->getMomentum()[2];
-      double e = dvec[j]->getEnergy();
+      float px = dvec[j]->getMomentum()[0];
+      float py = dvec[j]->getMomentum()[1];
+      float pz = dvec[j]->getMomentum()[2];
+      float e = dvec[j]->getEnergy();
       
       TLorentzVector p4vec(px, py, pz, e);
 
@@ -1588,14 +1508,14 @@ void hig2inv::fillMCInfo() {
     m_mc_init_leptonm_phi = P4_MCTruth_LeptonMinus[0].Phi()     *180.0/M_PI;
     m_mc_init_leptonm_theta = P4_MCTruth_LeptonMinus[0].Theta() *180.0/M_PI;
   
-    double mll     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).M();
-    double ell     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).E();
-    double pll     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).P();
-    double ptll    = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).Pt();
-    double pzll    = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).Pz();
-    double rec_mll = (P_T - P4_MCTruth_LeptonPlus[0] - P4_MCTruth_LeptonMinus[0] ).M();
-    double dphi    = fabs(P4_MCTruth_LeptonPlus[0].DeltaPhi(P4_MCTruth_LeptonMinus[0])) *180.0/M_PI;
-    double dang    = P4_MCTruth_LeptonPlus[0].Angle(P4_MCTruth_LeptonMinus[0].Vect())   *180.0/M_PI;
+    float mll     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).M();
+    float ell     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).E();
+    float pll     = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).P();
+    float ptll    = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).Pt();
+    float pzll    = ( P4_MCTruth_LeptonPlus[0] + P4_MCTruth_LeptonMinus[0] ).Pz();
+    float rec_mll = (P_T - P4_MCTruth_LeptonPlus[0] - P4_MCTruth_LeptonMinus[0] ).M();
+    float dphi    = fabs(P4_MCTruth_LeptonPlus[0].DeltaPhi(P4_MCTruth_LeptonMinus[0])) *180.0/M_PI;
+    float dang    = P4_MCTruth_LeptonPlus[0].Angle(P4_MCTruth_LeptonMinus[0].Vect())   *180.0/M_PI;
   
     m_mc_init_dilepton_m = mll;
     m_mc_init_dilepton_e = ell;
@@ -1818,21 +1738,21 @@ void hig2inv::fillMCInfo() {
 
   if( h2zz_flag == 1 || h2ww_flag == 1 ) {
 
-    double zw1_m  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).M();
-    double zw1_p  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).P();
-    double zw1_pt = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).Pt();
-    double zw1_e  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).E();
-    double zw1_rec_m  = ( P_T - p4_zw1_daughter_1 - p4_zw1_daughter_2 ).M();
+    float zw1_m  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).M();
+    float zw1_p  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).P();
+    float zw1_pt = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).Pt();
+    float zw1_e  = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 ).E();
+    float zw1_rec_m  = ( P_T - p4_zw1_daughter_1 - p4_zw1_daughter_2 ).M();
 
-    double zw2_m  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).M();
-    double zw2_p  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).P();
-    double zw2_pt = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).Pt();
-    double zw2_e  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).E();
-    double zw2_rec_m  = ( P_T - p4_zw2_daughter_1 - p4_zw2_daughter_2 ).M();
+    float zw2_m  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).M();
+    float zw2_p  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).P();
+    float zw2_pt = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).Pt();
+    float zw2_e  = ( p4_zw2_daughter_1 + p4_zw2_daughter_2 ).E();
+    float zw2_rec_m  = ( P_T - p4_zw2_daughter_1 - p4_zw2_daughter_2 ).M();
 
-    double zw1zw2_m = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 + p4_zw2_daughter_1 + p4_zw2_daughter_2 ).M();
-    double zw1zw2_e = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 + p4_zw2_daughter_1 + p4_zw2_daughter_2 ).E();
-    double zw1zw2_rec_m = ( P_T - p4_zw1_daughter_1 - p4_zw1_daughter_2 - p4_zw2_daughter_1 - p4_zw2_daughter_2 ).M();
+    float zw1zw2_m = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 + p4_zw2_daughter_1 + p4_zw2_daughter_2 ).M();
+    float zw1zw2_e = ( p4_zw1_daughter_1 + p4_zw1_daughter_2 + p4_zw2_daughter_1 + p4_zw2_daughter_2 ).E();
+    float zw1zw2_rec_m = ( P_T - p4_zw1_daughter_1 - p4_zw1_daughter_2 - p4_zw2_daughter_1 - p4_zw2_daughter_2 ).M();
 
     m_mc_zw1_m  = zw1_m;
     m_mc_zw1_p  = zw1_p;
@@ -1871,3 +1791,311 @@ void hig2inv::fillMCInfo() {
 
 }
 
+
+//the code from yudan
+void hig2inv::RecoAna( LCEvent * evtP ) 
+{		
+
+    if (evtP) 								
+    {		
+        
+        try 	
+        {    
+
+            _nTau=0;
+            _nTauP=0;
+            _nTauM=0;
+            
+            LCCollection* col_Reco = evtP->getCollection( "ArborPFOs" ) ;			
+
+            int _nReco = col_Reco->getNumberOfElements();
+            
+            std::vector<ReconstructedParticle* > leadRPar;
+            std::vector<ReconstructedParticle* > totChPar;
+
+            std::vector<TVector3 > leadRdir;
+            std::vector<float > leadREn;
+            std::vector<float > totChEn;
+            leadRdir.clear();
+            leadREn.clear();
+            leadRPar.clear();
+
+            float totRLEn=0;
+            _TotalEvtEn=0;
+            _TotalEvtP[0]=0;
+            _TotalEvtP[1]=0;
+            _TotalEvtP[2]=0;
+
+            _qqEn=0;
+            _qqP[0]=0;
+            _qqP[1]=0;
+            _qqP[2]=0;
+            TVector3 totRLdir;
+            _TauTauImpact=0;
+            _tauM_impact=0;
+            _tauP_impact=0;
+            ReconstructedParticle *totRLPar;
+            for(int i = 0; i < _nReco; i++)
+                        {
+                                ReconstructedParticle * a_RecoP = dynamic_cast<ReconstructedParticle*>(col_Reco->getElementAt(i));
+                TVector3 curP=a_RecoP->getMomentum();
+                _TotalEvtEn+=a_RecoP->getEnergy();
+                _TotalEvtP[0]+=a_RecoP->getMomentum()[0];
+                _TotalEvtP[1]+=a_RecoP->getMomentum()[1];
+                _TotalEvtP[2]+=a_RecoP->getMomentum()[2];
+                if(a_RecoP->getCharge()==0)continue;
+                
+                          if(a_RecoP->getEnergy()>totRLEn&&a_RecoP->getCharge()!=0){
+                        totRLEn=a_RecoP->getEnergy();
+                        totRLdir=a_RecoP->getMomentum();
+                        totRLPar=a_RecoP;
+                }
+            }
+            leadREn.push_back(totRLEn);
+            leadRdir.push_back(totRLdir);
+            leadRPar.push_back(totRLPar);
+
+            
+            if(totRLEn>_tracken){
+            
+
+
+            for(int i=0;i<_nReco;i++)
+            {
+                ReconstructedParticle * a_RecoP = dynamic_cast<ReconstructedParticle*>(col_Reco->getElementAt(i));
+                TVector3 curP=a_RecoP->getMomentum();
+                    
+                int nl = leadRdir.size();
+
+                if(a_RecoP->getEnergy()<_Ltracken)continue;
+                if(abs(a_RecoP->getCharge())==0)continue;
+                int joined=0;
+                
+                for(int j=0;j<nl;j++){
+                    if(curP.Angle(leadRdir[j])<_trackcone1){
+                        joined=1;
+                    
+                        if(a_RecoP->getEnergy()>leadREn[j]){
+                            leadRdir[j]=a_RecoP->getMomentum();
+                            leadREn[j]=a_RecoP->getEnergy();
+                            leadRPar[j]=a_RecoP;
+                        }
+                        continue;
+                    }
+                }
+                if(joined==0){
+            
+                        leadRdir.push_back(a_RecoP->getMomentum());
+                        leadREn.push_back(a_RecoP->getEnergy());
+                        leadRPar.push_back(a_RecoP);
+                    
+                }
+            }	
+
+
+            int n_Rloop= leadRdir.size();
+
+            _nRecoTau=0;
+            _fakeTau=0;
+            _tracedTau=0;
+            _candiTau=0;
+            _totalJet=0;
+            _visEp=0;
+            _visEm=0;
+            _visPp[0]=0;
+            _visPp[1]=0;
+            _visPp[2]=0;
+            _visPm[0]=0;
+            _visPm[1]=0;
+            _visPm[2]=0;
+                    
+            for(int j=0;j<n_Rloop;j++){
+
+                taujet = new ReconstructedParticleImpl();
+                _leadE=0;
+                int ncharged=0;
+                int nrecoCh_O=0;
+                nelec=0;
+                nmuon=0;
+                npion=0;
+                int nphoton=0;
+                TVector3 visP;
+                visP[0]=0;
+                visP[1]=0;
+                visP[2]=0;
+                _TauTauD0=0;
+                _TauTauZ0=0;
+
+                _EnergicAng=0;
+                _EnergicEn=0;
+                _PhEn=0;
+                _PhAng=0;
+                _Tau=0;
+                _TauT=0;
+                _VisE=0;
+                _MCVisE=0;
+                _MCVisEN=0;
+                _MCE=0;
+                _InvM=0;
+                _outConeE=0;
+                _D0=0;
+                _Z0=0;
+
+                _jetC=0;
+                _tracedTrk=0;
+                _tracedEn=0;
+                float visEn=0;
+                float _chargedEn=0;
+                _D0err=0;
+                _Z0err=0;
+                Track *Ltrk=leadRPar[j]->getTracks()[0];
+                _D0=Ltrk->getD0();
+                _D0err=sqrt(Ltrk->getCovMatrix()[0]);
+                _Z0=Ltrk->getZ0();
+                _Z0err=sqrt(Ltrk->getCovMatrix()[9]);
+                _leadE=leadREn[j];
+                _leadP[0]=leadRdir[j][0];
+                _leadP[1]=leadRdir[j][1];
+                _leadP[2]=leadRdir[j][2];
+                for(int i=0;i<_nReco;i++){
+                    ReconstructedParticle * a_RecoP = dynamic_cast<ReconstructedParticle*>(col_Reco->getElementAt(i));
+                        int pid = a_RecoP->getType();
+                        TVector3 curdir=a_RecoP->getMomentum();
+                        float energy=a_RecoP->getEnergy();
+                        int charge=a_RecoP->getCharge();
+                        if(energy>_tracken){
+
+                            if(curdir.Angle(leadRdir[j])<_trackcone){
+
+                                _outConeE+=energy;		
+                                nrecoCh_O++;
+                                if(charge!=0){								
+                                    if(energy<leadREn[j]&&energy>_EnergicEn){
+                                        _EnergicEn=energy;
+                                        _EnergicAng=curdir.Angle(leadRdir[j]);
+                                    }
+                                    if(curdir.Angle(leadRdir[j])<_trackcone1){
+                                        taujet->addParticle(a_RecoP);
+                                            _jetC+=charge;
+                                        visEn += energy;
+                                        visP[0]+=a_RecoP->getMomentum()[0];
+                                        visP[1]+=a_RecoP->getMomentum()[1];
+                                        visP[2]+=a_RecoP->getMomentum()[2];
+                                        ncharged++;
+                                        _chargedEn+=energy;
+                                        if(fabs(pid)==11)nelec++;
+                                        if(fabs(pid)==13)nmuon++;
+                                        if(fabs(pid)==211)npion++;
+
+                                    }
+
+                                }
+                                else if(pid==22){
+                                     if(curdir.Angle(leadRdir[j])<_trackcone1){
+                                        nphoton++;
+                                        taujet->addParticle(a_RecoP);
+
+                                        visEn += energy;
+                                        visP[0]+=a_RecoP->getMomentum()[0];
+                                        visP[1]+=a_RecoP->getMomentum()[1];
+                                        visP[2]+=a_RecoP->getMomentum()[2];
+                                        
+                                        if(energy>_PhEn){
+                                            _PhEn=energy;
+                                            _PhAng=curdir.Angle(leadRdir[j]);
+                                        }
+                                     }
+                                    
+                                }
+                                else{
+                                    if(curdir.Angle(leadRdir[j])<_trackcone1){
+                                        taujet->addParticle(a_RecoP);
+
+                                        visEn += energy;
+                                        visP[0]+=a_RecoP->getMomentum()[0];
+                                        visP[1]+=a_RecoP->getMomentum()[1];
+                                        visP[2]+=a_RecoP->getMomentum()[2];
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                    float InvMass2=sqrt(visEn*visEn-visP[0]*visP[0]-visP[1]*visP[1]-visP[2]*visP[2]);
+                    _InvM=InvMass2;
+                    _VisE=visEn;
+                    _VisP[0]=visP[0];
+                    _VisP[1]=visP[1];
+                    _VisP[2]=visP[2];
+                                            
+                    if((InvMass2<_taumass&&InvMass2>0.01&&ncharged<6&&nphoton<5&&ncharged+nphoton<8)&&((ncharged==1&&nphoton==0&&visEn>10)||(ncharged+nphoton>1))){
+                        _visEnergy[j]=visEn;
+                        if(visEn/_outConeE>_E_par){
+                            _TauT=1;
+                            if(_Tau==1)_tracedTau++;
+                            _nTau++;
+                                
+                            if(_jetC>0.5){
+                                _nTauP++;
+                                if(visEn>_visEp){
+                                    _visEp=visEn;
+                                    _visPp[0]=visP[0];
+                                    _visPp[1]=visP[1];
+                                    _visPp[2]=visP[2];
+                                    TLorentzVector cur_P(visP[0],visP[1],visP[2],visEn);
+                                    P4_tauP=cur_P;
+                                    _tauP_impact=_D0*_D0/_D0err*_D0err+_Z0*_Z0/_Z0err*_Z0err;
+                                    _TauTauD0+=_D0*_D0/_D0err*_D0err;
+                                    _TauTauZ0+=_Z0*_Z0/_Z0err*_Z0err;
+                                    
+                                }
+
+                                }
+                            if(_jetC<-0.5){
+                                _nTauM++;
+                                if(visEn>_visEm){
+                                    _visEm=visEn;
+                                    _visPm[0]=visP[0];
+                                    _visPm[1]=visP[1];
+                                    _visPm[2]=visP[2];
+                                    TLorentzVector cur_P(visP[0],visP[1],visP[2],visEn);
+                                    P4_tauM=cur_P;
+                                    _tauM_impact=_D0*_D0/_D0err*_D0err+_Z0*_Z0/_Z0err*_Z0err;
+
+                                    _TauTauD0+=_D0*_D0/_D0err*_D0err;
+                                    _TauTauZ0+=_Z0*_Z0/_Z0err*_Z0err;
+                                    
+                                }
+                            }
+                        }
+
+                        
+                    }
+                        
+                    }
+        
+            }		
+
+            _qqEn=_TotalEvtEn-_visEp-_visEm;
+            _qqP[0]=_TotalEvtP[0]-_visPm[0]-_visPp[0];
+            _qqP[1]=_TotalEvtP[1]-_visPm[1]-_visPp[1];
+            _qqP[2]=_TotalEvtP[2]-_visPm[2]-_visPp[2];
+    
+            TLorentzVector P_T(0.0,0.0,0.0,sqrts);
+            TLorentzVector currP(_TotalEvtP[0],_TotalEvtP[1],_TotalEvtP[2],_TotalEvtEn);
+            _RecoilM=(P_T-currP).M();
+            TLorentzVector currqqP(_qqP[0], _qqP[1],_qqP[2],_qqEn);
+            _qqRecoilM=(P_T-currqqP).M();  //Candidate tau recoil mass  ?
+            _qqM=currqqP.M();
+            _invMm=P4_tauM.M();
+            _invMp=P4_tauP.M();
+            _TauTauM=(P4_tauP+P4_tauM).M();
+            _TauTauImpact=_tauP_impact+_tauM_impact;									
+        }		
+        catch (lcio::DataNotAvailableException err) { }
+
+    }  	  
+
+
+}

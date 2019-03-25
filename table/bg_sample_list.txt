@@ -17,7 +17,7 @@ zz_sl0tau_down  ,      tau tau down down              ,       67.31 ,       3399
 #
 zz_l04tau       ,      tau tau tau tau                ,        4.61 ,        23281 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_l.e0.p0.whizard195/                        ,  CEPC_V4  ,  zz_l04tau.e0.p0
 zz_l04mu        ,      mu mu mu mu                    ,       15.56 ,        78578 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_l.e0.p0.whizard195/                        ,  CEPC_V4  ,  zz_l04mu.e0.p0
-zz_l0taumu      ,      tau tau mu mu                  ,       18.56 ,        93728 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_l.e0.p0.whizard195/                        ,  CEPC_V4  ,  zz_l0taumu.e0.p0
+zz_l0taumu      ,      tau tau mu mu                  ,       18.65 ,        93728 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_l.e0.p0.whizard195/                        ,  CEPC_V4  ,  zz_l0taumu.e0.p0
 zz_l0mumu       ,      nu_tau nu_tau mu mu            ,       19.38 ,        97869 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_l.e0.p0.whizard195/                        ,  CEPC_V4  ,  zz_l0mumu.e0.p0
 zz_l0tautau     ,      nu_mu nu_mu tau tau            ,        9.61 ,        48531 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzz_l.e0.p0.whizard195/                        ,  CEPC_V4  ,  zz_l0tautau.e0.p0
 #
@@ -41,8 +41,8 @@ zzorww_h0udud   ,      uq uq dq dq                    ,     1610.32 ,      81321
 zzorww_h0cscs   ,      cq cq sq sq                    ,     1607.55 ,      8118128 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_h.e0.p0.whizard195/                    ,  CEPC_V4  ,  zzorww_h0cscs.e0.p0
 zzorww_l0mumu   ,      mu mu nu_mu nu_mu              ,      221.10 ,      1116555 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_l.e0.p0.whizard195/                    ,  CEPC_V4  ,  zzorww_l0mumu.e0.p0
 zzorww_l0tautau ,      tau tau nu_tau nu_tau          ,      211.18 ,      1066459 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Pzzorww_l.e0.p0.whizard195/                    ,  CEPC_V4  ,  zzorww_l0tautau.e0.p0
-
-sze_l0e         ,      e e e e                        ,       78.49,               ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Psze_l.e0.p0.whizard195/                       ,  CEPC_V4  ,  sze_l0e.e0.p0
+#sze
+sze_l0e         ,      e e e e                        ,       78.49,         1111  ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Psze_l.e0.p0.whizard195/                       ,  CEPC_V4  ,  sze_l0e.e0.p0
 sze_l0tau       ,      e e tau tau                    ,      147.28 ,       743764 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Psze_l.e0.p0.whizard195/                       ,  CEPC_V4  ,  sze_l0tau.e0.p0
 sze_l0mu        ,      e e mu mu                      ,      845.81 ,      4271341 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Psze_l.e0.p0.whizard195/                       ,  CEPC_V4  ,  sze_l0mu.e0.p0
 sze_l0nunu      ,      e e nu_mu/tau nu_mu/tau        ,       28.94 ,       146147 ,          /cefs/data/DstData/CEPC240/CEPC_v4/4fermions/E240.Psze_l.e0.p0.whizard195/                       ,  CEPC_V4  ,  sze_l0nunu.e0.p0
@@ -72,9 +72,9 @@ e1e1            ,      e e gamma                      ,    24770.90 ,    1250930
 #e2e2            ,      mu mu                          ,     5332.71 ,     26930186 ,          /cefs/data/RecData/CEPC250/CEPC_v1/2fermions/E250.Pe2e2.e0.p0.whizard195/e2e2/                   ,       V1  ,  E250.Pe2e2.e0.p0
 #e3e3            ,      tau tau                        ,     4752.89 ,     24002095 ,          /cefs/data/RecData/CEPC250/CEPC_v1/2fermions/E250.Pe3e3.e0.p0.whizard195/                        ,       V1  ,  E250.Pe3e3.e0.p0
 #e1e1            ,      e e gamma                      ,    24770.90 ,    125093045 ,          /cefs/data/RecData/CEPC250/CEPC_v1/2fermions/bhabha/                                             ,       V1  ,  e1e1
-#n1n1            ,     nu_e nu_e                       ,    45390.79 ,    229223490 ,          /cefs/data/DstData/CEPC240/CEPC_v4/2fermions/E240.Pn1n1.e0.p0.whizard195/                        ,  CEPC_V4  ,  n1n1.e0.p0
-#n2n2            ,     nu_mu nu_mu                     ,     4416.30 ,     22302315 ,          /cefs/data/DstData/CEPC240/CEPC_v4/2fermions/E240.Pn2n2.e0.p0.whizard195/                        ,  CEPC_V4  ,  n2n2.e0.p0
-#n3n3            ,     nu_tau nu_tau                   ,     4410.26 ,     22271813 ,          /cefs/data/DstData/CEPC240/CEPC_v4/2fermions/E240.Pn3n3.e0.p0.whizard195/                        ,  CEPC_V4  ,  n3n3.e0.p0
+n1n1            ,     nu_e nu_e                       ,    45390.79 ,    229223490 ,          /cefs/data/DstData/CEPC240/CEPC_v4/2fermions/E240.Pn1n1.e0.p0.whizard195/                        ,  CEPC_V4  ,  n1n1.e0.p0
+n2n2            ,     nu_mu nu_mu                     ,     4416.30 ,     22302315 ,          /cefs/data/DstData/CEPC240/CEPC_v4/2fermions/E240.Pn2n2.e0.p0.whizard195/                        ,  CEPC_V4  ,  n2n2.e0.p0
+n3n3            ,     nu_tau nu_tau                   ,     4410.26 ,     22271813 ,          /cefs/data/DstData/CEPC240/CEPC_v4/2fermions/E240.Pn3n3.e0.p0.whizard195/                        ,  CEPC_V4  ,  n3n3.e0.p0
 #
 Z_muH           ,     Z(mumu)H_inclusive                    ,        6.77,               ,            /cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_X.e0.p0.whizard195/                        ,  CEPC_V4  ,  e2e2h_X
 Z_eH            ,     Z(ee)H_inclusive                      ,        7.04,               ,           /cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe1e1h_X.e0.p0.whizard195/                         ,  CEPC_V4  ,  e1e1h_X

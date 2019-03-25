@@ -1,7 +1,8 @@
 #!/usr/bin/env python  
 """
 Choose Events
-"""
+""" 
+
 __author__='Tanyh <tanyuhang@ihep.ac.cn>'
 __copyright__='Copyright (c) Tanyh'
 __created__='[2018-10-19]'
@@ -12,23 +13,25 @@ import copy
 import ROOT
 import random
 from array import array
-#cut flow histrogram
+#cut flow histrogram 
 h_evtflw = ROOT.TH1F('hevtflw','eventflow',10,0,10)
 h_evtflw.GetXaxis().SetBinLabel(1,'raw')
-h_evtflw.GetXaxis().SetBinLabel(2,'N_{#mu^{+}}>=1&&N_{#mu^{-}}>=1')
-h_evtflw.GetXaxis().SetBinLabel(3,'120GeV/c^{2}<M_{Recoil}<150GeV/c^{2}')
-h_evtflw.GetXaxis().SetBinLabel(4,'85GeV/c^{2}<M_{#mu^{+}#mu^{-}}<97GeV/c^{2}')
-h_evtflw.GetXaxis().SetBinLabel(5,'12GeV/c<P_{t}^{#mu^{+}#mu^{-}}')
-h_evtflw.GetXaxis().SetBinLabel(6,'#phi_{#mu^{+}#mu^{-}}<175')
-h_evtflw.GetXaxis().SetBinLabel(7,'P_{z}<50GeV')
-h_evtflw.GetXaxis().SetBinLabel(8,'102GeV<Visible Energy<107GeV ')
-h_evtflw.GetXaxis().SetBinLabel(9,'The ratio of Energy and P<2.4 ')
+h_evtflw.GetXaxis().SetBinLabel(2,'N_{jet}==2')
+h_evtflw.GetXaxis().SetBinLabel(3,'dijet_pt<60GeV')
+h_evtflw.GetXaxis().SetBinLabel(4,'20GeV<dijet_p<60GeV')
+h_evtflw.GetXaxis().SetBinLabel(5,'dijet_pz<60GeV')
+h_evtflw.GetXaxis().SetBinLabel(6,'60GeV<dijet_m<110GeV')
+h_evtflw.GetXaxis().SetBinLabel(7,'90GeV<dijet_e<120GeV')
+h_evtflw.GetXaxis().SetBinLabel(8,'100GeV<dijet_rec_m<180GeV')
+h_evtflw.GetXaxis().SetBinLabel(9,'dijet_dphi<175')
 
 #root information
-m_event=array('i',[0])
+m_n_lepton=array('i',[0])
 m_n_neutral=array('i',[0])
+m_Neutral_PID=array('i',[0])		
 m_sum_p_neutral=array('f',4*[-99]) 
 m_sum_p_photon=array('f',4*[-99])
+m_e_photon=array('f',[0])
 m_p_leptonp=array('f',4*[-99])
 m_p_leptonm=array('f',4*[-99])
 m_p_dilepton=array('f',4*[-99])
@@ -43,12 +46,15 @@ m_sum_pt_photon=array('f',[0])
 m_pt_dilepton=array('f',[0])
 m_pt_leptonm=array('f',[0])
 m_pt_leptonp=array('f',[0])
+m_e_leptonm=array('f',[0])
+m_e_leptonp=array('f',[0])
 m_pz_dilepton=array('f',[0])
 m_pz_leptonm=array('f',[0])
 m_pz_leptonp=array('f',[0])
 m_n_charged=array('i',[0])
 m_n_gamma=array('i',[0])
 m_n_leptonp=array('i',[0])
+m_n_lepton=array('i',[0])
 m_n_leptonm=array('i',[0])
 m_n_chargedp=array('i',[0])
 m_n_chargedm=array('i',[0])
@@ -71,6 +77,11 @@ m_energy_visible=array('f',[0])
 m_p_visible3=array('f',[0])
 m_miss_m=array('f',[0])
 m_miss_e=array('f',[0])
+
+m_miss_p=array('f',[0])
+m_p_dimu=array('f',[0])
+m_p_recoil=array('f',[0])
+
 m_e_other=array('f',[0])
 m_m_visible=array('f',[0])
 m_e_dimu=array('f',[0])
@@ -78,12 +89,79 @@ m_e_recoil=array('f',[0])
 m_mine_lepton=array('f',[0])
 m_maxe_lepton=array('f',[0])
 
-m_miss_p=array('f',[0])
-m_p_dimu=array('f',[0])
-m_p_recoil=array('f',[0])
-
 m_minp_lepton=array('f',4*[-99])
 m_maxp_lepton=array('f',4*[-99])
+
+
+m_event=array('i',[0])
+m_n_jet=array('i',[0])
+m_jet_m=ROOT.std.vector(float)()
+m_jet_p=ROOT.std.vector(float)()
+m_jet_pt=ROOT.std.vector(float)() 
+m_jet_pz=ROOT.std.vector(float)()
+m_jet_e=ROOT.std.vector(float)()
+
+m_jet_phi=ROOT.std.vector(float)()
+m_jet_theta=ROOT.std.vector(float)()
+ 
+m_dijet_e=ROOT.std.vector(float)()
+m_dijet_p=ROOT.std.vector(float)()
+m_dijet_pt=ROOT.std.vector(float)()
+m_dijet_pz=ROOT.std.vector(float)()
+#m_dijet_m=ROOT.std.vector(float)()
+#m_dijet_rec_m=ROOT.std.vector(float)()
+m_dijet_dphi=ROOT.std.vector(float)()
+m_dijet_dang=ROOT.std.vector(float)()
+m_dijet_m=array('f',[0])
+m_dijet_rec_m=array('f',[0])
+
+#New Branch
+
+m_miss_phi=array('f',[0])   
+m_miss_Et=array('f',[0])	   
+m_miss_phi2=array('f',[0])
+m_n_Muon=array('i',[0])
+m_n_Electron=array('i',[0])
+    
+m_maxpx_muon=array('f',[0]) 
+m_maxpy_muon=array('f',[0]) 
+m_maxpz_muon=array('f',[0]) 
+m_maxpe_muon=array('f',[0]) 
+m_minpx_muon=array('f',[0]) 
+m_minpy_muon=array('f',[0]) 
+m_minpz_muon=array('f',[0]) 
+m_minpe_muon=array('f',[0]) 
+
+m_maxpx_electron=array('f',[0]) 
+m_maxpy_electron=array('f',[0]) 
+m_maxpz_electron=array('f',[0]) 
+m_maxpe_electron=array('f',[0]) 
+
+m_minpx_electron=array('f',[0]) 
+m_minpy_electron=array('f',[0]) 
+m_minpz_electron=array('f',[0]) 
+m_minpe_electron=array('f',[0]) 
+
+m_minangle_mujet=array('f',[0])
+m_minphi_mujet=array('f',[0])
+m_maxangle_mujet=array('f',[0])
+m_maxphi_mujet=array('f',[0])
+m_minangle_ejet=array('f',[0])
+m_minphi_ejet=array('f',[0])
+m_maxangle_ejet=array('f',[0])
+m_maxphi_ejet=array('f',[0])
+
+
+m_px_muon=ROOT.std.vector(float)()
+m_py_muon=ROOT.std.vector(float)()
+m_pz_muon=ROOT.std.vector(float)()
+m_pe_muon=ROOT.std.vector(float)()
+
+m_px_electron=ROOT.std.vector(float)()
+m_py_electron=ROOT.std.vector(float)()
+m_pz_electron=ROOT.std.vector(float)()
+m_pe_electron=ROOT.std.vector(float)()
+
 #MC information
 m_mc_lepton_minus_id=array('i',[0])
 m_mc_lepton_plus_id=array('i',[0])		
@@ -142,11 +220,10 @@ m_mc_init_photon_theta=ROOT.std.vector(float)()
 m_mc_z1_daughter_pid=ROOT.std.vector(float)()
 m_mc_z2_daughter_pid=ROOT.std.vector(float)()
 m_mc_pdgid=ROOT.std.vector(float)()
-m_mc_init_pdgid=ROOT.std.vector(float)() 
+m_mc_init_pdgid=ROOT.std.vector(float)()
 m_mc_w1_daughter_pid=ROOT.std.vector(float)()
 m_mc_w2_daughter_pid=ROOT.std.vector(float)() 
 m_mc_higgs_daughter_pdgid=ROOT.std.vector(float)()
-
 #tau information 
 _nTau=array('i',[0])
 _nTauP=array('i',[0])
@@ -205,7 +282,7 @@ def get_weight(event,processname,table_list):
         br_Hinv=0.5		
         weight=IntLum*ffH_cross*br_Hinv/event_gen
     elif processname=="eeh_inv":
-        ffH_cross=7.04 
+        ffH_cross=7.04
         br_Hinv=0.5		
         weight=IntLum*ffH_cross*br_Hinv/event_gen
     elif processname=="qqh_inv":
@@ -224,88 +301,131 @@ def root_information(infile,outfile,weight,event):
     for i in range(0,9):
         for j in xrange (0,int(event[i]*weight)):
             h_evtflw.Fill(i)
-    h =[0]*63
+    h =[0]*100
     f = ROOT.TFile(infile)
+    h[1] = f.Get('before_cut_n_neutral')
+    h[2] = f.Get('before_cut_dijet_pt')
+    h[3] = f.Get('before_cut_TauTauM')
+    h[4] = f.Get('before_cut_dijet_dang')
+    h[5] = f.Get('before_cut_dijet_dphi')
+    h[6] = f.Get('before_cut_dijet_e')
+    h[7] = f.Get('before_cut_dijet_m')
+    h[8] = f.Get('before_cut_m_dijet_rec_m')
+    h[9] = f.Get('before_cut_dijet_p')
+    h[10] = f.Get('before_cut_cos_miss')
+    h[11] = f.Get('before_cut_vis')
+    #after first cut
+    h[12] = f.Get('after_first_cut_n_neutral')
+    h[13] = f.Get('after_first_cut_dijet_pt')
+    h[14] = f.Get('after_first_cut_TauTauM')
+    h[15] = f.Get('after_first_cut_dijet_dang')
+    h[16] = f.Get('after_first_cut_dijet_dphi')
+    h[17] = f.Get('after_first_cut_dijet_e')
+    h[18] = f.Get('after_first_cut_dijet_m')
+    h[19] = f.Get('after_first_cut_m_dijet_rec_m')
+    h[20] = f.Get('after_first_cut_dijet_p')
+    h[21] = f.Get('after_first_cut_cos_miss')
+    h[22] = f.Get('after_first_cut_vis')
+    #after second cut 
+    h[23] = f.Get('after_second_cut_n_neutral')
+    h[24] = f.Get('after_second_cut_dijet_pt')
+    h[25] = f.Get('after_second_cut_TauTauM')
+    h[26] = f.Get('after_second_cut_dijet_dang')
+    h[27] = f.Get('after_second_cut_dijet_dphi')
+    h[28] = f.Get('after_second_cut_dijet_e')
+    h[29] = f.Get('after_second_cut_dijet_m')
+    h[30] = f.Get('after_second_cut_m_dijet_rec_m')
+    h[31] = f.Get('after_second_cut_dijet_p')
+    h[32] = f.Get('after_second_cut_cos_miss')
+    h[33] = f.Get('after_second_cut_vis')
+    #after third cut 
+    h[34] = f.Get('after_third_cut_n_neutral')
+    h[35] = f.Get('after_third_cut_dijet_pt')
+    h[36] = f.Get('after_third_cut_TauTauM')
+    h[37] = f.Get('after_third_cut_dijet_dang')
+    h[38] = f.Get('after_third_cut_dijet_dphi')
+    h[39] = f.Get('after_third_cut_dijet_e')
+    h[40] = f.Get('after_third_cut_dijet_m')
+    h[41] = f.Get('after_third_cut_m_dijet_rec_m')
+    h[42] = f.Get('after_third_cut_dijet_p')
+    h[43] = f.Get('after_third_cut_cos_miss')
+    h[44] = f.Get('after_third_cut_vis')
 
-    h[0] = f.Get('before_cut_Pt')
-    h[1] = f.Get('before_cut_vdt')
-    h[2] = f.Get('before_cut_theta')
-    h[3] = f.Get('before_cut_vis')
-    h[4] = f.Get('before_cut_Mmumu')
-    h[5] = f.Get('before_cut_Mrecoil')
-    h[6] = f.Get('before_cut_ep')
+    #after fourth cut
+    h[45] = f.Get('after_fourth_cut_n_neutral')
+    h[46] = f.Get('after_fourth_cut_dijet_pt')
+    h[47] = f.Get('after_fourth_cut_TauTauM')
+    h[48] = f.Get('after_fourth_cut_dijet_dang')
+    h[49] = f.Get('after_fourth_cut_dijet_dphi')
+    h[50] = f.Get('after_fourth_cut_dijet_e')
+    h[51] = f.Get('after_fourth_cut_dijet_m')
+    h[52] = f.Get('after_fourth_cut_m_dijet_rec_m')
+    h[53] = f.Get('after_fourth_cut_dijet_p')
+    h[54] = f.Get('after_fourth_cut_cos_miss')
+    h[55] = f.Get('after_fourth_cut_vis')
 
-    h[7] = f.Get('after_cut_Pt')
-    h[8] = f.Get('after_cut_vdt')
-    h[9] = f.Get('after_cut_theta')
-    h[10] = f.Get('after_cut_vis')
-    h[11] = f.Get('after_cut_Mmumu')
-    h[12] = f.Get('after_cut_Mrecoil')
-    h[13] = f.Get('after_cut_ep')
+    #after fifth cut
+    h[56] = f.Get('after_fifth_cut_n_neutral')
+    h[57] = f.Get('after_fifth_cut_dijet_pt')
+    h[58] = f.Get('after_fifth_cut_TauTauM')
+    h[59] = f.Get('after_fifth_cut_dijet_dang')
+    h[60] = f.Get('after_fifth_cut_dijet_dphi')
+    h[61] = f.Get('after_fifth_cut_dijet_e')
+    h[62] = f.Get('after_fifth_cut_dijet_m')
+    h[63] = f.Get('after_fifth_cut_m_dijet_rec_m')
+    h[64] = f.Get('after_fifth_cut_dijet_p')
+    h[65] = f.Get('after_fifth_cut_cos_miss')
+    h[66] = f.Get('after_fifth_cut_vis')
 
-    h[14] = f.Get('after_first_cut_Pt')
-    h[15] = f.Get('after_first_cut_vdt')
-    h[16] = f.Get('after_first_cut_theta')
-    h[17] = f.Get('after_first_cut_vis')
-    h[18] = f.Get('after_first_cut_Mmumu')
-    h[19] = f.Get('after_first_cut_Mrecoil')
-    h[20] = f.Get('after_first_cut_ep')
+    #after sixth cut 
+    h[67] = f.Get('after_sixth_cut_n_neutral')
+    h[68] = f.Get('after_sixth_cut_dijet_pt')
+    h[69] = f.Get('after_sixth_cut_TauTauM')
+    h[70] = f.Get('after_sixth_cut_dijet_dang')
+    h[71] = f.Get('after_sixth_cut_dijet_dphi')
+    h[72] = f.Get('after_sixth_cut_dijet_e')
+    h[73] = f.Get('after_sixth_cut_dijet_m')
+    h[74] = f.Get('after_sixth_cut_m_dijet_rec_m')
+    h[75] = f.Get('after_sixth_cut_dijet_p')
+    h[76] = f.Get('after_sixth_cut_cos_miss')
+    h[77] = f.Get('after_sixth_cut_vis') 
+    #after seventh cut 
+    h[78] = f.Get('after_seventh_cut_n_neutral')
+    h[79] = f.Get('after_seventh_cut_dijet_pt')
+    h[80] = f.Get('after_seventh_cut_TauTauM')
+    h[81] = f.Get('after_seventh_cut_dijet_dang')
+    h[82] = f.Get('after_seventh_cut_dijet_dphi')
+    h[83] = f.Get('after_seventh_cut_dijet_e')
+    h[84] = f.Get('after_seventh_cut_dijet_m')
+    h[85] = f.Get('after_seventh_cut_m_dijet_rec_m')
+    h[86] = f.Get('after_seventh_cut_dijet_p')
+    h[87] = f.Get('after_seventh_cut_cos_miss')
+    h[88] = f.Get('after_seventh_cut_vis')
+      
+    #after all cut
+    h[89] = f.Get('after_cut_n_neutral')
+    h[90] = f.Get('after_cut_dijet_pt')
+    h[91] = f.Get('after_cut_TauTauM')
+    h[92] = f.Get('after_cut_dijet_dang')
+    h[93] = f.Get('after_cut_dijet_dphi')
+    h[94] = f.Get('after_cut_dijet_e')
+    h[95] = f.Get('after_cut_dijet_m') 
+    h[96] = f.Get('after_cut_m_dijet_rec_m')
+    h[97] = f.Get('after_cut_dijet_p')
+    h[98] = f.Get('after_cut_cos_miss')
+    h[99] = f.Get('after_cut_vis')
 
-    h[21] = f.Get('after_second_cut_Pt')
-    h[22] = f.Get('after_second_cut_vdt')
-    h[23] = f.Get('after_second_cut_theta')
-    h[24] = f.Get('after_second_cut_vis')
-    h[25] = f.Get('after_second_cut_Mmumu')
-    h[26] = f.Get('after_second_cut_Mrecoil')
-    h[27] = f.Get('after_second_cut_ep')
 
-    h[28] = f.Get('after_third_cut_Pt')
-    h[29] = f.Get('after_third_cut_vdt')
-    h[30] = f.Get('after_third_cut_theta')
-    h[31] = f.Get('after_third_cut_vis')
-    h[32] = f.Get('after_third_cut_Mmumu')
-    h[33] = f.Get('after_third_cut_Mrecoil')
-    h[34] = f.Get('after_third_cut_ep')
 
-    h[35] = f.Get('after_fourth_cut_Pt')
-    h[36] = f.Get('after_fourth_cut_vdt')
-    h[37] = f.Get('after_fourth_cut_theta')
-    h[38] = f.Get('after_fourth_cut_vis')
-    h[39] = f.Get('after_fourth_cut_Mmumu')
-    h[40] = f.Get('after_fourth_cut_Mrecoil')
-    h[41] = f.Get('after_fourth_cut_ep')
-
-    h[42] = f.Get('after_fifth_cut_Pt')
-    h[43] = f.Get('after_fifth_cut_vdt')
-    h[44] = f.Get('after_fifth_cut_theta')
-    h[45] = f.Get('after_fifth_cut_vis')
-    h[46] = f.Get('after_fifth_cut_Mmumu')
-    h[47] = f.Get('after_fifth_cut_Mrecoil')
-    h[48] = f.Get('after_fifth_cut_ep')
-
-    h[49] = f.Get('after_sixth_cut_Pt')
-    h[50] = f.Get('after_sixth_cut_vdt')
-    h[51] = f.Get('after_sixth_cut_theta')
-    h[52] = f.Get('after_sixth_cut_vis')
-    h[53] = f.Get('after_sixth_cut_Mmumu')
-    h[54] = f.Get('after_sixth_cut_Mrecoil')
-    h[55] = f.Get('after_sixth_cut_ep')
-
-    h[56] = f.Get('after_seventh_cut_Pt')
-    h[57] = f.Get('after_seventh_cut_vdt')
-    h[58] = f.Get('after_seventh_cut_theta')
-    h[59] = f.Get('after_seventh_cut_vis')
-    h[60] = f.Get('after_seventh_cut_Mmumu')
-    h[61] = f.Get('after_seventh_cut_Mrecoil')
-    h[62] = f.Get('after_seventh_cut_ep')
-        
-    for i in range(0,63):
+    for i in range(1,100):
         h[i].Scale(weight)
 
     fin=ROOT.TFile(infile)
     t_in=fin.Get('tree')
     entries=t_in.GetEntriesFast()
     t_in.SetBranchAddress('m_event',m_event)
+    t_in.SetBranchAddress('m_n_neutral',m_n_neutral)
+    t_in.SetBranchAddress('m_Neutral_PID',m_Neutral_PID)
     t_in.SetBranchAddress('m_sum_p_neutral',m_sum_p_neutral)
     t_in.SetBranchAddress('m_sum_p_photon',m_sum_p_photon)
     t_in.SetBranchAddress('m_p_leptonp',m_p_leptonp)
@@ -320,6 +440,7 @@ def root_information(infile,outfile,weight,event):
     t_in.SetBranchAddress('m_p_Zdaughterm',m_p_Zdaughterm)
     t_in.SetBranchAddress('m_sum_pt_photon',m_sum_pt_photon)
     t_in.SetBranchAddress('m_pt_dilepton',m_pt_dilepton)
+    t_in.SetBranchAddress('m_n_lepton',m_n_lepton)
     t_in.SetBranchAddress('m_pt_leptonm',m_pt_leptonm)
     t_in.SetBranchAddress('m_pt_leptonp',m_pt_leptonp)
     t_in.SetBranchAddress('m_pz_dilepton',m_pz_dilepton)
@@ -359,10 +480,70 @@ def root_information(infile,outfile,weight,event):
     t_in.SetBranchAddress('m_maxe_lepton',m_maxe_lepton)
     t_in.SetBranchAddress('m_minp_lepton',m_minp_lepton)
     t_in.SetBranchAddress('m_maxp_lepton',m_maxp_lepton)
-
+#New branch about qqH
     t_in.SetBranchAddress('m_miss_p',m_miss_p)
     t_in.SetBranchAddress('m_p_dimu',m_p_dimu)
     t_in.SetBranchAddress('m_p_recoil',m_p_recoil)
+
+    t_in.SetBranchAddress("m_miss_phi",  m_miss_phi)
+    t_in.SetBranchAddress("m_miss_Et",  m_miss_Et)
+    t_in.SetBranchAddress("m_miss_phi2",  m_miss_phi2)
+    t_in.SetBranchAddress("m_n_Muon",  m_n_Muon)
+    t_in.SetBranchAddress("m_n_Electron",  m_n_Electron) 
+    t_in.SetBranchAddress("m_px_muon", m_px_muon)
+    t_in.SetBranchAddress("m_py_muon", m_py_muon)
+    t_in.SetBranchAddress("m_pz_muon", m_pz_muon)
+    t_in.SetBranchAddress("m_pe_muon", m_pe_muon)
+    t_in.SetBranchAddress("m_px_electron", m_px_electron)
+    t_in.SetBranchAddress("m_py_electron", m_py_electron)
+    t_in.SetBranchAddress("m_pz_electron", m_pz_electron)
+    t_in.SetBranchAddress("m_pe_electron", m_pe_electron)
+    t_in.SetBranchAddress("m_maxpx_muon",  m_maxpx_muon)
+    t_in.SetBranchAddress("m_maxpy_muon",  m_maxpy_muon)
+    t_in.SetBranchAddress("m_maxpz_muon",  m_maxpz_muon)
+    t_in.SetBranchAddress("m_maxpe_muon",  m_maxpe_muon)
+    t_in.SetBranchAddress("m_minpx_muon",  m_minpx_muon)
+    t_in.SetBranchAddress("m_minpy_muon",  m_minpy_muon)
+    t_in.SetBranchAddress("m_minpz_muon",  m_minpz_muon)
+    t_in.SetBranchAddress("m_minpe_muon",  m_minpe_muon)	
+    t_in.SetBranchAddress("m_maxpx_electron",  m_maxpx_electron)	
+    t_in.SetBranchAddress("m_maxpy_electron",  m_maxpy_electron)
+    t_in.SetBranchAddress("m_maxpz_electron",  m_maxpz_electron)
+    t_in.SetBranchAddress("m_maxpe_electron",  m_maxpe_electron)
+    t_in.SetBranchAddress("m_minpx_electron",  m_minpx_electron)
+    t_in.SetBranchAddress("m_minpy_electron",  m_minpy_electron)
+    t_in.SetBranchAddress("m_minpz_electron",  m_minpz_electron)
+    t_in.SetBranchAddress("m_minpe_electron",  m_minpe_electron)
+
+#JET information
+    t_in.SetBranchAddress("m_n_jet",  m_n_jet)
+
+    t_in.SetBranchAddress("jet_m", m_jet_m)
+    t_in.SetBranchAddress("jet_p", m_jet_p)
+    t_in.SetBranchAddress("jet_pt", m_jet_pt)
+    t_in.SetBranchAddress("jet_pz", m_jet_pz)
+    t_in.SetBranchAddress("jet_e", m_jet_e)
+
+    t_in.SetBranchAddress("jet_phi", m_jet_phi)
+    t_in.SetBranchAddress("jet_theta", m_jet_theta)
+    
+    t_in.SetBranchAddress("dijet_e", m_dijet_e)
+    t_in.SetBranchAddress("dijet_p", m_dijet_p)
+    t_in.SetBranchAddress("dijet_pt", m_dijet_pt)
+    t_in.SetBranchAddress("dijet_pz", m_dijet_pz)
+    t_in.SetBranchAddress("dijet_m", m_dijet_m)
+    t_in.SetBranchAddress("dijet_rec_m", m_dijet_rec_m)
+    t_in.SetBranchAddress("dijet_dphi", m_dijet_dphi)
+    t_in.SetBranchAddress("dijet_dang", m_dijet_dang)
+
+    t_in.SetBranchAddress("m_maxangle_mujet",  m_maxangle_mujet);
+    t_in.SetBranchAddress("m_maxphi_mujet",  m_maxphi_mujet);
+    t_in.SetBranchAddress("m_maxangle_ejet",  m_maxangle_ejet);
+    t_in.SetBranchAddress("m_maxphi_ejet",  m_maxphi_ejet);
+    t_in.SetBranchAddress("m_minangle_mujet",  m_minangle_mujet);
+    t_in.SetBranchAddress("m_minphi_mujet",  m_minphi_mujet);
+    t_in.SetBranchAddress("m_minangle_ejet",  m_minangle_ejet);
+    t_in.SetBranchAddress("m_minphi_ejet",  m_minphi_ejet);
 
     #MC information 
     t_in.SetBranchAddress("mc_pdgid", m_mc_pdgid)
@@ -461,13 +642,17 @@ def root_information(infile,outfile,weight,event):
     t_in.SetBranchAddress("qqM",_qqM);
     t_in.SetBranchAddress("TotalEvtEn",_TotalEvtEn);
 
-
     fout=ROOT.TFile(outfile,"RECREATE")
     t_out=ROOT.TTree('tree','tree')
 
-    t_out.Branch('m_event',m_event,'m_event/I')
+
+    t_out.Branch('m_event',m_event,'m_event/I') 
+    t_out.Branch('m_n_neutral',m_n_neutral,'m_n_neutral/I')
+    t_out.Branch('m_Neutral_PID',m_Neutral_PID,'m_Neutral_PID/I')
     t_out.Branch('m_sum_p_neutral',m_sum_p_neutral,'m_sum_p_neutral[4]/F')
     t_out.Branch('m_sum_p_photon',m_sum_p_photon,'m_sum_p_photon[4]/F')
+    t_out.Branch('m_e_photon',m_e_photon,'m_e_photon/F')
+    t_out.Branch('m_e_other',m_e_other,'m_e_other/F')		
     t_out.Branch('m_p_leptonp',m_p_leptonp,'m_p_leptonp[4]/F')
     t_out.Branch('m_p_leptonm',m_p_leptonm,'m_p_leptonm[4]/F')
     t_out.Branch('m_p_dilepton',m_p_dilepton,'m_p_dilepton[4]/F')
@@ -480,15 +665,19 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch('m_p_Zdaughterm',m_p_Zdaughterm,'m_p_Zdaughterm[4]/F')
     t_out.Branch('m_sum_pt_photon',m_sum_pt_photon,'m_sum_pt_photon/F')
     t_out.Branch('m_pt_dilepton',m_pt_dilepton,'m_pt_dilepton/F')
+    t_out.Branch('m_n_lepton',m_n_lepton,'m_n_lepton/F')
     t_out.Branch('m_pt_leptonm',m_pt_leptonm,'m_pt_leptonm/F')
     t_out.Branch('m_pt_leptonp',m_pt_leptonp,'m_pt_leptonp/F')
     t_out.Branch('m_pz_dilepton',m_pz_dilepton,'m_pz_dilepton/F')
     t_out.Branch('m_pz_leptonm',m_pz_leptonm,'m_pz_leptonm/F')
     t_out.Branch('m_pz_leptonp',m_pz_leptonp,'m_pz_leptonp/F')
+    t_out.Branch('m_e_leptonm',m_e_leptonm,'m_e_leptonm/F')
+    t_out.Branch('m_e_leptonp',m_e_leptonp,'m_e_leptonp/F')
     t_out.Branch('m_n_charged',m_n_charged,'m_n_charged/I')
     t_out.Branch('m_n_gamma',m_n_gamma,'m_n_gamma/I')
     t_out.Branch('m_n_leptonp',m_n_leptonp,'m_n_leptonp/I')
     t_out.Branch('m_n_leptonm',m_n_leptonm,'m_n_leptonm/I')
+    t_out.Branch('m_n_lepton',m_n_lepton,'m_n_lepton/I')
     t_out.Branch('m_n_chargedp',m_n_chargedp,'m_n_chargedp/I')
     t_out.Branch('m_n_chargedm',m_n_chargedm,'m_n_chargedm/I')
     t_out.Branch('m_n_Higgsdaughter',m_n_Higgsdaughter,'m_n_Higgsdaughter/I')
@@ -510,21 +699,91 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch('m_energy_visible',m_energy_visible,'m_energy_visible/F')
     t_out.Branch('m_miss_m',m_miss_m,'m_miss_m/F')
     t_out.Branch('m_miss_e',m_miss_e,'m_miss_e/F')
-
-
-    t_out.Branch('m_e_other',m_e_other,'m_e_other/F')
-    t_out.Branch('m_m_visible',m_m_visible,'m_m_visible/F')
+    t_out.Branch('m_m_visible',m_m_visible,'m_m_visible/F')  
     t_out.Branch('m_e_dimu',m_e_dimu,'m_e_dimu/F')
-    t_out.Branch('m_e_recoil',m_e_recoil,'m_e_recoil/F')
-    t_out.Branch('m_mine_lepton',m_mine_lepton,'m_mine_lepton/F')
-    t_out.Branch('m_maxe_lepton',m_maxe_lepton,'m_maxe_lepton/F')
-    t_out.Branch('m_minp_lepton',m_minp_lepton,'m_minp_lepton[4]/F')
-    t_out.Branch('m_maxp_lepton',m_maxp_lepton,'m_maxp_lepton[4]/F')  
+    t_out.Branch('m_e_recoil',m_e_recoil,'m_e_recoil/F') 
+
+    t_out.Branch("m_mine_lepton",  m_mine_lepton,  "m_mine_lepton/F")
+    t_out.Branch("m_maxe_lepton",  m_maxe_lepton,  "m_maxe_lepton/F")
+
+
+    t_out.Branch("m_minp_lepton",  m_minp_lepton,  "m_minp_lepton[4]/F")
+    t_out.Branch("m_maxp_lepton",  m_maxp_lepton,  "m_maxp_lepton[4]/F")
+    
+
+    t_out.Branch("m_maxangle_mujet",  m_maxangle_mujet,  "m_maxangle_mujet/F");
+    t_out.Branch("m_maxphi_mujet",  m_maxphi_mujet,  "m_maxphi_mujet/F");
+    t_out.Branch("m_maxangle_ejet",  m_maxangle_ejet,  "m_maxangle_ejet/F");
+    t_out.Branch("m_maxphi_ejet",  m_maxphi_ejet,  "m_maxphi_ejet/F");
+
+    t_out.Branch("m_minangle_mujet",  m_minangle_mujet,  "m_minangle_mujet/F");
+    t_out.Branch("m_minphi_mujet",  m_minphi_mujet,  "m_minphi_mujet/F");
+    t_out.Branch("m_minangle_ejet",  m_minangle_ejet,  "m_minangle_ejet/F");
+    t_out.Branch("m_minphi_ejet",  m_minphi_ejet,  "m_minphi_ejet/F");
+
+    t_out.Branch("m_n_jet",  m_n_jet,  "m_n_jet/I")
+
+    t_out.Branch("jet_m", m_jet_m)
+    t_out.Branch("jet_p", m_jet_p)
+    t_out.Branch("jet_pt", m_jet_pt)
+    t_out.Branch("jet_pz", m_jet_pz)
+    t_out.Branch("jet_e", m_jet_e)
+
+    t_out.Branch("jet_phi", m_jet_phi)
+    t_out.Branch("jet_theta", m_jet_theta)
+    
+    t_out.Branch("dijet_e", m_dijet_e)
+    t_out.Branch("dijet_p", m_dijet_p)
+    t_out.Branch("dijet_pt", m_dijet_pt)
+    t_out.Branch("dijet_pz", m_dijet_pz)
+    t_out.Branch("dijet_m", m_dijet_m,'dijet_m/F')
+    t_out.Branch("dijet_rec_m", m_dijet_rec_m,'dijet_rec_m/F')
+    t_out.Branch("dijet_dphi", m_dijet_dphi)
+    t_out.Branch("dijet_dang", m_dijet_dang) 
+
+#New branch about qqH
+
+    t_out.Branch("m_miss_phi",  m_miss_phi,  "m_miss_phi/F")
+
+    t_out.Branch("m_miss_Et",  m_miss_Et,  "m_miss_Et/F")
+    t_out.Branch("m_miss_phi2",  m_miss_phi2,  "m_miss_phi2/F")
+
+    t_out.Branch("m_n_Muon",  m_n_Muon,  "m_n_Muon/I")
+    t_out.Branch("m_n_Electron",  m_n_Electron,  "m_n_Electron/I") 
+
+    t_out.Branch("m_px_muon", m_px_muon)
+    t_out.Branch("m_py_muon", m_py_muon)
+    t_out.Branch("m_pz_muon", m_pz_muon)
+    t_out.Branch("m_pe_muon", m_pe_muon)
+    t_out.Branch("m_px_electron", m_px_electron)
+    t_out.Branch("m_py_electron", m_py_electron)
+    t_out.Branch("m_pz_electron", m_pz_electron)
+    t_out.Branch("m_pe_electron", m_pe_electron)
+
+    t_out.Branch("m_maxpx_muon",  m_maxpx_muon,  "m_maxpx_muon/F")
+    t_out.Branch("m_maxpy_muon",  m_maxpy_muon,  "m_maxpy_muon/F")
+    t_out.Branch("m_maxpz_muon",  m_maxpz_muon,  "m_maxpz_muon/F")
+    t_out.Branch("m_maxpe_muon",  m_maxpe_muon,  "m_maxpe_muon/F")
+
+    t_out.Branch("m_minpx_muon",  m_minpx_muon,  "m_minpx_muon/F")
+    t_out.Branch("m_minpy_muon",  m_minpy_muon,  "m_minpy_muon/F")
+    t_out.Branch("m_minpz_muon",  m_minpz_muon,  "m_minpz_muon/F")
+    t_out.Branch("m_minpe_muon",  m_minpe_muon,  "m_minpe_muon/F")	
+
+    t_out.Branch("m_maxpx_electron",  m_maxpx_electron,  "m_maxpx_electron/F")	
+    t_out.Branch("m_maxpy_electron",  m_maxpy_electron,  "m_maxpy_electron/F")
+    t_out.Branch("m_maxpz_electron",  m_maxpz_electron,  "m_maxpz_electron/F")
+    t_out.Branch("m_maxpe_electron",  m_maxpe_electron,  "m_maxpe_electron/F")
+
+    t_out.Branch("m_minpx_electron",  m_minpx_electron,  "m_minpx_electron/F")
+    t_out.Branch("m_minpy_electron",  m_minpy_electron,  "m_minpy_electron/F")
+    t_out.Branch("m_minpz_electron",  m_minpz_electron,  "m_minpz_electron/F")
+    t_out.Branch("m_minpe_electron",  m_minpe_electron,  "m_minpe_electron/F") 
+
 
     t_out.Branch('m_miss_p',m_miss_p,'m_miss_p/F')
     t_out.Branch('m_p_dimu',m_p_dimu,'m_p_dimu/F')
     t_out.Branch('m_p_recoil',m_p_recoil,'m_p_recoil/F')  
-    
 #Mc information
     t_out.Branch("mc_pdgid", m_mc_pdgid)
     t_out.Branch("mc_init_pdgid", m_mc_init_pdgid)
@@ -624,7 +883,7 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch("TauTauM",  _TauTauM,"TauTauM/F");
     t_out.Branch("qqM",_qqM,"qqM/F");
     t_out.Branch("TotalEvtEn",_TotalEvtEn,"TotalEvtEn/F");
-
+    
     for i in xrange(entries):
         if (weight<1):
             rnd=random.random()
@@ -645,10 +904,28 @@ def root_information(infile,outfile,weight,event):
                 for j in xrange(int(weight)):
                     t_in.GetEntry(i)
                     t_out.Fill()
-    for i in xrange(0,63):
+    for i in xrange(1,100):
         h[i].Write()
     h_evtflw.Write()
     t_out.Write()
+    #		Jet  clear()
+    m_jet_m.clear()
+    m_jet_p.clear()
+    m_jet_pt.clear()
+    m_jet_pz.clear()
+    m_jet_e.clear()
+    m_jet_phi.clear()
+    m_jet_theta.clear()
+    m_dijet_e.clear()
+    m_dijet_p.clear()
+    m_dijet_pt.clear()
+    m_dijet_pz.clear()
+#		m_dijet_m.clear()
+#		m_dijet_rec_m.clear()
+    m_dijet_dphi.clear()
+    m_dijet_dang.clear()
+    # MC information
+    
     m_mc_init_photon_e.clear()
     m_mc_init_photon_p.clear()
     m_mc_init_photon_pt.clear()
@@ -663,5 +940,17 @@ def root_information(infile,outfile,weight,event):
     m_mc_w1_daughter_pid.clear()
     m_mc_w2_daughter_pid.clear()
     m_mc_higgs_daughter_pdgid.clear()
+    # New Branch about qqH channel 
+
+    m_px_muon.clear()
+    m_py_muon.clear()
+    m_pz_muon.clear()
+    m_pe_muon.clear()
+
+    m_px_electron.clear()
+    m_py_electron.clear()
+    m_pz_electron.clear()
+    m_pe_electron.clear()
+    
 if __name__ == '__main__':
     main()
