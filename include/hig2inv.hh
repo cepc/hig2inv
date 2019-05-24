@@ -4,7 +4,7 @@
 #include <EVENT/LCCollection.h>
 #include <IMPL/LCCollectionVec.h>
 #include <EVENT/LCFloatVec.h> 
-#include <EVENT/MCParticle.h>
+#include <EVENT/MCParticle.h> 
 #include <marlin/Processor.h>
 #include <EVENT/ReconstructedParticle.h>
 #include <IMPL/MCParticleImpl.h>
@@ -46,22 +46,22 @@ class hig2inv  : public marlin::Processor {
         std::string FileName;
         std::string TreeName;
         std::string Processname;
-    	
+        
         LCCollection* col_MC;
         LCCollection* col_Reco;
         LCCollection* col_FastJet;
         MCParticle *a1_MC;
         LCCollection* Col_WoLeps;
-        LCCollection* Col_FJPList1;
         LCCollection* Col_FJPList2;
         LCCollection* Col_Jets;
         LCCollection* Col_Leps; 
         TFile *m_file;
         TTree *m_tree;
+        TH1F *h_evtflw;
         TH1F* h_mc_init_plist;
         TH1F* h_mc_higgs_dlist;
 
-        int LeptonID, RecoPID, tmpPID, PhotonPID, ElectronPID, MuonPID, NeutrinoEPID, NeutrinoMuonPID, TauPID, NeutrinoTauPID, ZPID, HiggsPID;
+        int LeptonID, RecoPID, tmpPID, PhotonPID, ElectronPID, MuonPID, NeutrinoEPID, NeutrinoMuonPID, TauPID, NeutrinoTauPID, ZPID, HiggsPID,ClusterID;
         int Dquark, Uquark, Squark, Cquark, Bquark,WPID;
         int nMC,nReco,nLepton, NCandiP, NCandiM, NParent, NDaughter, nDaughter, DIndex;
         int OverWrite,DecayFlag;
@@ -116,13 +116,47 @@ class hig2inv  : public marlin::Processor {
         float m_minpz_electron;
         float m_minpe_electron;
         float m_minangle_mujet;
-		float m_minphi_mujet;
+        float m_minphi_mujet;
         float m_maxangle_mujet;
-		float m_maxphi_mujet;
+        float m_maxphi_mujet;
         float m_minangle_ejet;
-		float m_minphi_ejet;
+        float m_minphi_ejet;
         float m_maxangle_ejet;
-		float m_maxphi_ejet;
+        float m_maxphi_ejet;
+
+        int   n_muon_track;
+        float m_muz_theta;
+        //new information about isolation lepton
+        float m_visible_p;
+        float m_visible_pt;
+        std::vector<TLorentzVector> FourMom_IsoMuonP;
+        std::vector<TLorentzVector> FourMom_IsoMuonM;
+        std::vector<TLorentzVector> FourMom_IsoEletronP;
+        std::vector<TLorentzVector> FourMom_IsoEletronM;
+        std::vector<TLorentzVector> P4_IsElectron;  
+        std::vector<TLorentzVector> P4_IsMuon; 
+        int   m_n_IsoMuonP;
+        int   m_n_IsoMuonM;
+        int   m_n_IsoMuon;
+        int   m_n_IsoEletronP;
+        int   m_n_IsoEletronM;
+        int   m_n_IsoEletron;
+
+        float m_m_Isdimu;
+        float m_e_Isdimu;
+        float m_p_Isdimu;
+        float m_e_Isdimurec;
+        float m_p_Isdimurec;
+        float m_m_Isdimurec;
+
+        float m_m_Isdie;
+        float m_e_Isdie;
+        float m_p_Isdie;
+        float m_e_Isdierec;
+        float m_p_Isdierec;
+        float m_m_Isdierec;
+
+
         std::vector<float>  m_px_muon;
         std::vector<float>  m_py_muon;
         std::vector<float>  m_pz_muon;
@@ -201,11 +235,15 @@ class hig2inv  : public marlin::Processor {
         float m_mc_init_dilepton_p;
         float m_mc_init_dilepton_pt;
         float m_mc_init_dilepton_pz;
+        
+        float m_mc_p_dilepton[4];
+        float m_mc_p_redilepton[4];
+
 
         float m_mc_init_dilepton_rec_m;
         float m_mc_init_dilepton_dphi;
         float m_mc_init_dilepton_dang;
-
+        int mc_n_charge;
         int m_mc_init_n_photon;
         std::vector<float> m_mc_init_photon_e;
         std::vector<float> m_mc_init_photon_p;
@@ -253,50 +291,59 @@ class hig2inv  : public marlin::Processor {
 
         //tau information 
 
-		float sqrts ;	
-		ReconstructedParticleImpl * taujet;
-		TLorentzVector P4_tauP;
-		TLorentzVector P4_tauM;
-		int _nMCP;
-		int _tracedTau,_TauT,npion,nmuon,nelec;
-		float _trackcone, _tracken, _E_par,_E_p,_E_m,_trackcone1,_Ltracken;
-		float _taumass;
-		int _Tau;  //from here
-		float _EnergicEn, _EnergicAng, _PhEn, _PhAng, _VisE, _InvM, _outConeE, _E_imp, _MCVisE, _MCE,_MCVisEN, _tracedEn;
-		int _Num, _evtN,  _nTau,_nTauP,_nTauM, _fakeTau,_candiTau, _tracedTrk,_totalJet; 	
-		float _jetC;
-		float _tauM_impact,_tauP_impact,_TauTauImpact,_leadE,_D0err,_Z0err;
-		float _TauTauD0,_TauTauZ0;
-		float _TauP[3];
-		float _leadP[3];
-		float _VisP[3];
-		float _P[3];
-		float _visEnergy[999];
-		float  _Jet; 
-		float _TotalEvtP[3];
-		float _qqP[3];
-		float _TotalEvtEn;
-		float _qqEn;
-		float _RecoilM;
-		float _qqRecoilM;
-		float _TauTauM,_qqM,_MCqqM;
-		float _D0, _Z0;
-		int _nRecoTau, _nRecoP;
-		float _visEp,_visEm,_invMp,_invMm,_MCvisEp,_MCvisEm;
-		float _visPp[3];	
-		float _visPm[3];	
-
-
+        float sqrts ;	
+        ReconstructedParticleImpl * taujet;
+        TLorentzVector P4_tauP;
+        TLorentzVector P4_tauM;
+        int _nMCP;
+        int _tracedTau,_TauT,npion,nmuon,nelec;
+        float _trackcone, _tracken, _E_par,_E_p,_E_m,_trackcone1,_Ltracken;
+        float _taumass;
+        int _Tau;  //from here
+        float _EnergicEn, _EnergicAng, _PhEn, _PhAng, _VisE, _InvM, _outConeE, _E_imp, _MCVisE, _MCE,_MCVisEN, _tracedEn;
+        int _Num, _evtN,  _nTau,_nTauP,_nTauM, _fakeTau,_candiTau, _tracedTrk,_totalJet; 	
+        float _jetC;
+        float _tauM_impact,_tauP_impact,_TauTauImpact,_leadE,_D0err,_Z0err;
+        float _TauTauD0,_TauTauZ0;
+        float _TauP[3];
+        float _leadP[3];
+        float _VisP[3];
+        float _P[3];
+        float _visEnergy[999];
+        float  _Jet; 
+        float _TotalEvtP[3];
+        float _qqP[3];
+        float _TotalEvtEn;
+        float _qqEn;
+        float _RecoilM;
+        float _qqRecoilM;
+        float _TauTauM,_qqM,_MCqqM;
+        float _D0, _Z0;
+        int _nRecoTau, _nRecoP;
+        float _visEp,_visEm,_invMp,_invMm,_MCvisEp,_MCvisEm;
+        float _visPp[3];	
+        float _visPm[3];	
+        float mvaVal_mu;
+        float mvaVal_e;
+        float mvaVal_pi;
+        float n_muon_Ptrack;
+        float n_muon_Mtrack;
+        int  Npause;
         void book_histogram();
         void book_tree();
         bool buildZToff();
-        
+        bool preselection();
+
         void saveNeutral( int nReco, LCCollection* col_Reco );
         void savePhoton( int nReco, LCCollection* col_Reco );
         void selectCharged( int nReco, LCCollection* col_Reco );
-        void selectLepton( int nLepton, LCCollection* Col_Leps,std::vector<TLorentzVector> P4_jet);
+        void selectLepton( int nReco, LCCollection* col_Reco);
+        void selectIsoLepton(int nLepton,LCCollection* Col_Leps,std::vector<TLorentzVector> P4_jet);
+        void saveDiElectron(std::vector<TLorentzVector> FourMom_IsoEletronP,std::vector<TLorentzVector> FourMom_IsoEletronM);
+        void saveDiMuon(std::vector<TLorentzVector> FourMom_IsoMuonP,std::vector<TLorentzVector> FourMom_IsoMuonM);
         void saveVisible(TLorentzVector P4_Neutral_Sum,TLorentzVector P4_Charged_Sum);
-        void saveMinAndMaxLepton(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);		
+        void saveMinAndMaxLepton(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);	
+        int getPID(ReconstructedParticle* a_Reco);	
         void saveRecInfo(std::vector<TLorentzVector> FourMom_LeptonP, std::vector<TLorentzVector> FourMom_LeptonM);
         void saveMuonIf(std::vector<TLorentzVector> P4_Muon,std::vector<TLorentzVector> P4_jet);		
         void saveElectronIf(std::vector<TLorentzVector> P4_Electron,std::vector<TLorentzVector> P4_jet);		
@@ -304,13 +351,13 @@ class hig2inv  : public marlin::Processor {
         void saveFastJet(LCCollection* col_FastJet);
         void saveJetInfo( std::vector<TLorentzVector> P4_jet );
         //MC information
-        void checkGenMCInfo( LCCollection* col_MC ); 
+        void checkGenMCInfo(LCCollection* col_MC);
         void saveNeutrino( int NParent, int NDaughter, MCParticle *a1_MC, int tmpPID, float MCEn );
         void printDecayChain( int MCParticleID, MCParticle *mcp );
         void printMCinfo( int MCParticleID, int flag, MCParticle *mcp, std::vector<MCParticle*> pvec, std::vector<MCParticle*> dvec );
-        void saveMCTruthInfo( LCCollection* col_MC );
-		//tau information 
-		void RecoAna( LCEvent * evtP );
+        void saveMCTruthInfo(LCCollection* col_MC);
+        //tau information 
+        void RecoAna( LCEvent * evtP );
         void fillMCInfo();
         void variable_init();
 

@@ -73,7 +73,7 @@ export LD_LIBRARY_PATH="$LCIO/lib:$LD_LIBRARY_PATH"
 
 
 #--------------------------------------------------------------------------------
-#     ROOT
+#    ROOT
 #--------------------------------------------------------------------------------
 export ROOTSYS="/afs/ihep.ac.cn/soft/common/gcc/v01-17-05/root/5.34.07"
 export PATH="$ROOTSYS/bin:$PATH"
@@ -220,8 +220,8 @@ export LD_LIBRARY_PATH="$SLIC/build/lib:$LD_LIBRARY_PATH"
 #--------------------------------------------------------------------------------
 #     Druid
 #--------------------------------------------------------------------------------
-export DRUID="/afs/ihep.ac.cn/users/m/manqi/Software/Druid_SL6_2"
-export PATH="$DRUID/bin:$PATH"
+#export DRUID="/afs/ihep.ac.cn/users/m/manqi/Software/Druid_SL6_2"
+#export PATH="$DRUID/bin:$PATH"
 
 #--------------------------------------------------------------------------------
 #     DD4hep

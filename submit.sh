@@ -4,8 +4,8 @@
 # Main driver to submit jobs   
 # Author SHI Xin <shixin@ihep.ac.cn>  
 # Created [2016-08-16 Tue 08:29]  
-#mumuH_inv
-usage() {
+#mumuH_inv 
+usage() { 
     printf "NAME\n\tsubmit.sh - Main driver to submit jobs\n"
     printf "\nSYNOPSIS\n"
     printf "\n\t%-5s\n" "./submit.sh [OPTION]" 
@@ -144,8 +144,11 @@ usage_0_6(){
     printf "\n\t%-5s  %-40s\n"  "0.6.7"    "The result of BR upper limit"	 	   
 }
 
-signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
-
+#signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195/
+signal_slcio_dir=/scratchfs/higgs/yudan/test_ffh/
+#signal_slcio_dir=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe2e2h_X.e0.p0.whizard195/
+#signal_slcio_dir1=/cefs/data/DstData/CEPC240/CEPC_v4/higgs/E240.Pe1e1h_X.e0.p0.whizard195/
+#signal_slcio_dir=/cefs/higgs/tanyuhang/Gesig/CEPC240/ 
 sel_all=0
 sel_signal=1
 sel_bg=2
@@ -248,10 +251,10 @@ case $option in
 sub_0_2(){   
 case $option in 
 #example e2E2h_invisible 
-    0.2.1) echo "Split signal sample with each group 0.5G..."
+    0.2.1) echo "Split signal sample with each group 10G..."
         
             mkdir -p ./run/mumuH/e2E2h_invi/samples
-            ./python/get_samples.py ${signal_slcio_dir} ./run/mumuH/e2E2h_invi/samples/E240_Pffh_invi.txt 0.5G
+            ./python/get_samples.py ${signal_slcio_dir} ./run/mumuH/e2E2h_invi/samples/E240_Pffh_invi.txt 3G
         ;;       
            
     0.2.2) echo "Generate XML input files for Marlin job..."
@@ -268,7 +271,7 @@ case $option in
                    
             source setup.sh
 #           ./build.sh
-            Marlin run/mumuH/e2E2h_invi/steers/test/sample-1.xml
+            Marlin run/mumuH/e2E2h_invi/steers/test/sample-2.xml
             
         ;;
 
@@ -520,7 +523,7 @@ case $option in
            rm table/mumuH/out_list_b.txt
            rm table/mumuH/tfbin_b.txt
            python  python/gen_binb.py  table/mumuH/out_list.txt  mumuH
-#           python  python/get_binb.py table/mumuH/out_list_b.txt mumuH
+           python  python/get_binb.py table/mumuH/out_list_b.txt mumuH
     ;;
     0.3.16) echo " Optimize the cut conditions"
             rm preliminary/mumuH/*
@@ -539,10 +542,10 @@ sub_0_4(){
 case $option in
     #example eeH_invisible 
  
-    0.4.1) echo "Split signal sample with each group 0.5G..."
+    0.4.1) echo "Split signal sample with each group 20G..."
         
             mkdir -p ./run/eeH/eeh_invi/samples
-            ./python/get_samples.py ${signal_slcio_dir} ./run/eeH/eeh_invi/samples/E240_Pffh_invi.txt 0.5G
+            ./python/get_samples.py ${signal_slcio_dir} ./run/eeH/eeh_invi/samples/E240_Pffh_invi.txt 3G
         ;;       
            
     0.4.2) echo "Generate XML input files for Marlin job..."
@@ -584,7 +587,7 @@ case $option in
             ./python/sel_ee_events.py  ./run/eeH/eeh_invi/ana/ana_File-2.root  ana_File-2_test.root 
             
         ;; 
-
+ 
     0.4.7) echo "Generate Condor job scripts for event selection..."
 
             mkdir -p   ./run/eeH/eeh_invi/events/ana
@@ -805,7 +808,7 @@ case $option in
            rm table/eeH/out_list_b.txt
            rm table/eeH/tfbin_b.txt
            python  python/gen_binb.py  table/eeH/out_list.txt eeH
-#           python  python/get_binb.py table/eeH/out_list_b.txt eeH
+           python  python/get_binb.py table/eeH/out_list_b.txt eeH
     ;;
     0.4.25) echo " Optimize the cut conditions"
             rm preliminary/eeH/*
@@ -831,10 +834,10 @@ sub_0_5(){
 case $option in
     #example qqH_invisible 
  
-    0.5.1) echo "Split signal sample with each group 0.5G..."
+    0.5.1) echo "Split signal sample with each group 20G..."
         
             mkdir -p ./run/qqH/qqh_invi/samples
-            ./python/get_samples.py ${signal_slcio_dir} ./run/qqH/qqh_invi/samples/E240_Pffh_invi.txt 0.5G
+            ./python/get_samples.py ${signal_slcio_dir} ./run/qqH/qqh_invi/samples/E240_Pffh_invi.txt 5G
         ;;       
            
     0.5.2) echo "Generate XML input files for Marlin job..."
@@ -1095,7 +1098,7 @@ case $option in
            rm table/qqH/tfbin_b.txt
            python  python/gen_binb.py  table/qqH/out_list.txt  qqH
 
-#           python  python/get_binb.py table/qqH/out_list_b.txt qqH
+           python  python/get_binb.py table/qqH/out_list_b.txt qqH
     ;;
     0.5.25) echo " Optimize the cut conditions"
 #            rm preliminary/qqH/*
@@ -1109,8 +1112,8 @@ case $option in
                 python ./python/sel_qq_eventsm.py run/qqH/total/hist/$dir preliminary/qqH/$dir
                 cd ./run/qqH/total/hist
             done
-#            ./python/sel_eventsm.py  run/total/hist/ffH_inv.root  preliminary/ffH_inv.root
-#            ./python/sel_eventsm.py  run/total/hist/total_bkg.root  preliminary/total_bkg.root
+#            ./python/sel_eventsm.py  run/qqH/total/hist/ffH_inv.root  preliminary/qqH/ffH_inv.root
+#            ./python/sel_qq_eventsm.py  run/qqH/total/hist/total_bkg.root preliminary/qqH/total_bkg.root
 esac    
 }
 
@@ -1123,15 +1126,15 @@ case $option in
            cp run/qqH/total/hist/* calculate/qz4v/
            cp run/eeH/total/hist/* calculate/ez4v/
            cd  calculate/mz4v/
-           root -l mz4v.cxx
+           root -l mz4v.cxx -q
     ;;
     0.6.2) echo "Get the information from eeH"
            cd  calculate/ez4v/
-           root -l ez4v.cxx
+           root -l ez4v.cxx -q
     ;;
     0.6.3) echo "Get the information from qqH"
            cd  calculate/qz4v/
-           root -l qz4v.cxx
+           root -l qz4v.cxx  -q
     ;;
     0.6.4) echo "move data to one file"
            cp calculate/mz4v/mz4v* calculate/workspace/data/hinvi/

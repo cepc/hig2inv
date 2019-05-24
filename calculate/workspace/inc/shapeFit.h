@@ -18,7 +18,7 @@ const TString m_CN[Nch] = {
 							
 typedef struct channel
 {
-    TString name;
+    TString name; 
     int nsig=1;
     int nbkg=1;
     Float_t mlow=120;
@@ -38,14 +38,14 @@ const channel c[3]=
             {"s",   "data/hinvi/qz4v_sig.root"}
         }
     },
-    {   "ez4v", 1, 1, 120, 170,
+    {   "ez4v", 1, 1, 120, 150,
         "data/hinvi/ez4v_bkg.root",
         {"s"},
         {
             {"s",   "data/hinvi/ez4v_sig.root"}
         }
     },
-    {   "mz4v", 1, 1, 120, 150,
+    {   "mz4v", 1, 1, 120, 135,
         // "data/hinvi/invi_mm_bkg.root",
         "data/hinvi/mz4v_bkg.root",
         {"s"},
@@ -95,9 +95,9 @@ const map<TString, TString> varname=
 };
 const map<TString, Float_t> histomax=
 {
-    {"qz4v",25000},
-    {"ez4v",4000 },
-    {"mz4v",4000 }
+    {"qz4v",10000},
+    {"ez4v",800 },
+    {"mz4v",300 }
 
 };
 TString funcsetting(TString cname, TString proc)
@@ -180,7 +180,7 @@ TString xrecsetting(TString cname)
 }
 
 Float_t PlotMaximum=0;
-bool SetPlotMaximum(TString cname )
+bool SetPlotMaximum(TString cname ) 
 {
     bool defined=false;
     if ( histomax.count(cname)>0 ) 

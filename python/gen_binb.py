@@ -26,14 +26,25 @@ def main():
     for s_row in table :
         if not s_row.startswith('#'):
             l = [x.strip() for x in s_row.split(',')] 
-            if (l[0] == "e1e1" or l[0] == "e2e2" or l[0] == "e3e3" or l[0] == "qq" or l[0] == "n1n1" or l[0] == "n2n2" or l[0] == "n3n3" ):
-                print l[1]
+            if (l[0] == "e1e1" or l[0] == "e2e2" or l[0] == "e3e3" or l[0] == "qq" or l[0] == "nn"  ):
                 for i in range(0,cutnumber):
                     exec 'k%d += int(l[%d])'%(i,i+1)
     twofevent = []
     for i in range (0,cutnumber):
         exec 'twofevent.append(k%d)'%(i)
-
+#Signal
+    table = open(args , 'r' )
+    for i in range(0,11):
+        exec 'k%d = 0 ' %i
+    for s_row in table :
+            l = [x.strip() for x in s_row.split(',')]   
+            if(l[0].find("h_inv")>=0):             
+                for i in range(0,cutnumber):
+                    signal_name=l[0]
+                    exec 'k%d += int(l[%d])'%(i,i+1)
+    signal = []
+    for i in range (0,cutnumber):
+        exec 'signal.append(k%d)'%(i) 
 #calculate single_w
     table = open(args , 'r' )
     for i in range(0,11):
@@ -54,8 +65,7 @@ def main():
         exec 'k%d = 0 ' %i
     for s_row in table :
         if  s_row.startswith('sze_') or s_row.startswith('sznu') :
-            l = [x.strip() for x in s_row.split(',')]   
-            print l[0]            
+            l = [x.strip() for x in s_row.split(',')]             
             for i in range(0,cutnumber):
                 exec 'k%d += int(l[%d])'%(i,i+1)
     single_z = []
@@ -125,9 +135,10 @@ def main():
         exec 'k%d = 0 ' %i
     for s_row in table :
         if  not s_row.startswith('#'):
-            l = [x.strip() for x in s_row.split(',')]                 
-            for i in range(0,cutnumber):
-                exec 'k%d += int(l[%d])'%(i,i+1)
+            l = [x.strip() for x in s_row.split(',')] 
+            if(l[0].find("h_inv")<0):                 
+                for i in range(0,cutnumber):
+                    exec 'k%d += int(l[%d])'%(i,i+1)
     total_bkg = []
     for i in range (0,cutnumber):
         exec 'total_bkg.append(k%d)'%(i) 
@@ -145,7 +156,7 @@ def main():
     ZH_visible = []
     for i in range (0,cutnumber):
         exec 'ZH_visible.append(k%d)'%(i) 
-    record_bkg_information( twofevent, single_w, single_z, zz, ww,szorsw, zzorww,ZH_visible, total_bkg ,pname )  
+    record_bkg_information( signal,signal_name,twofevent, single_w, single_z, zz, ww,szorsw, zzorww,ZH_visible, total_bkg ,pname )  
 #            j=j+1                
 #           exec 'k%d.append(l[%d])'%(i,i)
 #            if pname  == "mumuH": 
@@ -158,7 +169,7 @@ def main():
 #            else:
 #                print "This is  wrong. Please check it" 
 #                sys.exit()           
-def record_bkg_information( twofevent, single_w, single_z, zz, ww, szorsw,zzorww,ZH_visible, total_bkg ,pname):
+def record_bkg_information( signal,signal_name,twofevent, single_w, single_z, zz, ww, szorsw,zzorww,ZH_visible, total_bkg ,pname):
     
     cwd = os.getcwd()
     if pname == "qqH":
@@ -169,6 +180,7 @@ def record_bkg_information( twofevent, single_w, single_z, zz, ww, szorsw,zzorww
         out_putname = cwd + '/' + 'table/mumuH/' + 'out_list_b.txt'		
     fout_script = open(out_putname,'a')
     fout_script.write('%-15s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s,%-12s\n'%('#processname','raw','N_mu','Mrecoil','mmdie','pt','#phi','visible','E/P','cut'))
+    fout_script.write('%-15s,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d\n'%(signal_name,signal[0],signal[1],signal[2],signal[3],signal[4],signal[5],signal[6],signal[7],signal[8]))
     fout_script.write('%-15s,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d\n'%('2f',twofevent[0],twofevent[1],twofevent[2],twofevent[3],twofevent[4],twofevent[5],twofevent[6],twofevent[7],twofevent[8]))
     fout_script.write('%-15s,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d\n'%('single_w',single_w[0],single_w[1],single_w[2],single_w[3],single_w[4],single_w[5],single_w[6],single_w[7],single_w[8]))
     fout_script.write('%-15s,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d,%-12d\n'%('single_z',single_z[0],single_z[1],single_z[2],single_z[3],single_z[4],single_z[5],single_z[6],single_z[7],single_z[8]))

@@ -3,7 +3,7 @@
 Choose Events
 """
 __author__='Tanyh <tanyuhang@ihep.ac.cn>'
-__copyright__='Copyright (c) Tanyh'
+__copyright__='Copyright (c) Tanyh' 
 __created__='[2018-10-19]'
  
 import sys
@@ -89,46 +89,46 @@ m_mc_lepton_minus_id=array('i',[0])
 m_mc_lepton_plus_id=array('i',[0])		
 m_mc_init_n_lepton_plus=array('i',[0])
 m_mc_init_n_lepton_minus=array('i',[0])		
-m_mc_init_leptonp_e=array('d',[0])
-m_mc_init_leptonp_p=array('d',[0])
-m_mc_init_leptonp_pt=array('d',[0])
-m_mc_init_leptonp_pz=array('d',[0])
-m_mc_init_leptonp_phi=array('d',[0])
-m_mc_init_leptonp_theta=array('d',[0])		
-m_mc_init_leptonm_e=array('d',[0])
-m_mc_init_leptonm_p=array('d',[0])
-m_mc_init_leptonm_pt=array('d',[0])
-m_mc_init_leptonm_pz=array('d',[0])
-m_mc_init_leptonm_phi=array('d',[0])
-m_mc_init_leptonm_theta=array('d',[0])		
-m_mc_init_dilepton_m=array('d',[0])
-m_mc_init_dilepton_e=array('d',[0])
-m_mc_init_dilepton_p=array('d',[0])
-m_mc_init_dilepton_pt=array('d',[0])
-m_mc_init_dilepton_pz=array('d',[0])
-m_mc_init_dilepton_rec_m=array('d',[0])
-m_mc_init_dilepton_dphi=array('d',[0])
-m_mc_init_dilepton_dang=array('d',[0])		
+m_mc_init_leptonp_e=array('f',[0])
+m_mc_init_leptonp_p=array('f',[0])
+m_mc_init_leptonp_pt=array('f',[0])
+m_mc_init_leptonp_pz=array('f',[0])
+m_mc_init_leptonp_phi=array('f',[0])
+m_mc_init_leptonp_theta=array('f',[0])		
+m_mc_init_leptonm_e=array('f',[0])
+m_mc_init_leptonm_p=array('f',[0])
+m_mc_init_leptonm_pt=array('f',[0])
+m_mc_init_leptonm_pz=array('f',[0])
+m_mc_init_leptonm_phi=array('f',[0])
+m_mc_init_leptonm_theta=array('f',[0])		
+m_mc_init_dilepton_m=array('f',[0])
+m_mc_init_dilepton_e=array('f',[0])
+m_mc_init_dilepton_p=array('f',[0])
+m_mc_init_dilepton_pt=array('f',[0])
+m_mc_init_dilepton_pz=array('f',[0])
+m_mc_init_dilepton_rec_m=array('f',[0])
+m_mc_init_dilepton_dphi=array('f',[0])
+m_mc_init_dilepton_dang=array('f',[0])		
 m_mc_init_n_photon=array('i',[0])
-m_mc_higgs_m=array('d',[0])
-m_mc_higgs_e=array('d',[0])
-m_mc_higgs_rec_m=array('d',[0])
+m_mc_higgs_m=array('f',[0])
+m_mc_higgs_e=array('f',[0])
+m_mc_higgs_rec_m=array('f',[0])
 m_mc_higgs_decay_type=array('i',[0])		
 m_mc_n_Zboson=array('i',[0])		
-m_mc_zw1_m=array('d',[0])
-m_mc_zw1_p=array('d',[0])
-m_mc_zw1_pt=array('d',[0])
-m_mc_zw1_e=array('d',[0])
-m_mc_zw1_rec_m=array('d',[0])
-m_mc_zw2_m=array('d',[0])
-m_mc_zw2_p=array('d',[0])
-m_mc_zw2_pt=array('d',[0])
-m_mc_zw2_e=array('d',[0])
-m_mc_zw2_rec_m=array('d',[0])
+m_mc_zw1_m=array('f',[0])
+m_mc_zw1_p=array('f',[0])
+m_mc_zw1_pt=array('f',[0])
+m_mc_zw1_e=array('f',[0])
+m_mc_zw1_rec_m=array('f',[0])
+m_mc_zw2_m=array('f',[0])
+m_mc_zw2_p=array('f',[0])
+m_mc_zw2_pt=array('f',[0])
+m_mc_zw2_e=array('f',[0])
+m_mc_zw2_rec_m=array('f',[0])
 m_mc_h2gaugeboson_flag=array('i',[0])  		
-m_mc_zw1zw2_m=array('d',[0])
-m_mc_zw1zw2_e=array('d',[0])
-m_mc_zw1zw2_rec_m=array('d',[0])
+m_mc_zw1zw2_m=array('f',[0])
+m_mc_zw1zw2_e=array('f',[0])
+m_mc_zw1zw2_rec_m=array('f',[0])
 m_mc_zz_flag=array('i',[0])
 m_mc_ww_flag=array('i',[0])
 
@@ -146,7 +146,90 @@ m_mc_init_pdgid=ROOT.std.vector(float)()
 m_mc_w1_daughter_pid=ROOT.std.vector(float)()
 m_mc_w2_daughter_pid=ROOT.std.vector(float)() 
 m_mc_higgs_daughter_pdgid=ROOT.std.vector(float)()
+#Isolate information 
+m_miss_phi=array('f',[0])   
+m_miss_Et=array('f',[0])	   
+m_miss_phi2=array('f',[0])
+m_n_Muon=array('i',[0])
+m_n_Electron=array('i',[0])
+         
+m_maxpx_muon=array('f',[0]) 
+m_maxpy_muon=array('f',[0]) 
+m_maxpz_muon=array('f',[0]) 
+m_maxpe_muon=array('f',[0]) 
+m_minpx_muon=array('f',[0]) 
+m_minpy_muon=array('f',[0]) 
+m_minpz_muon=array('f',[0]) 
+m_minpe_muon=array('f',[0]) 
 
+m_maxpx_electron=array('f',[0]) 
+m_maxpy_electron=array('f',[0]) 
+m_maxpz_electron=array('f',[0]) 
+m_maxpe_electron=array('f',[0]) 
+
+m_minpx_electron=array('f',[0]) 
+m_minpy_electron=array('f',[0]) 
+m_minpz_electron=array('f',[0]) 
+m_minpe_electron=array('f',[0]) 
+
+m_minangle_mujet=array('f',[0])
+m_minphi_mujet=array('f',[0])
+m_maxangle_mujet=array('f',[0])
+m_maxphi_mujet=array('f',[0])
+m_minangle_ejet=array('f',[0])
+m_minphi_ejet=array('f',[0])
+m_maxangle_ejet=array('f',[0])
+m_maxphi_ejet=array('f',[0])
+
+m_px_muon=ROOT.std.vector(float)()
+m_py_muon=ROOT.std.vector(float)()
+m_pz_muon=ROOT.std.vector(float)()
+m_pe_muon=ROOT.std.vector(float)()
+
+m_px_electron=ROOT.std.vector(float)()
+m_py_electron=ROOT.std.vector(float)()
+m_pz_electron=ROOT.std.vector(float)()
+m_pe_electron=ROOT.std.vector(float)()
+
+m_minangle_mujet=array('f',[0])
+m_minphi_mujet=array('f',[0])
+m_maxangle_mujet=array('f',[0])
+m_maxphi_mujet=array('f',[0])
+m_minangle_ejet=array('f',[0])
+m_minphi_ejet=array('f',[0])
+m_maxangle_ejet=array('f',[0])
+m_maxphi_ejet=array('f',[0])
+#Isolate information
+m_visible_p=array('f',[0])
+m_visible_pt=array('f',[0])
+
+m_n_IsoMuonP=array('i',[0])
+m_n_IsoMuonM=array('i',[0])
+m_n_IsoMuon=array('i',[0])
+m_n_IsoEletronP=array('i',[0])
+m_n_IsoEletronM=array('i',[0])
+m_n_IsoEletron=array('i',[0])
+
+m_m_Isdimu=array('f',[0])
+m_e_Isdimu=array('f',[0])
+m_p_Isdimu=array('f',[0])
+m_e_Isdimurec=array('f',[0])
+m_p_Isdimurec=array('f',[0])
+m_m_Isdimurec=array('f',[0])
+
+m_m_Isdie=array('f',[0])
+m_e_Isdie=array('f',[0])
+m_p_Isdie=array('f',[0])
+m_e_Isdierec=array('f',[0])
+m_p_Isdierec=array('f',[0])
+m_m_Isdierec=array('f',[0])
+
+m_mc_p_dilepton=array('f',4*[-99])
+m_mc_p_redilepton=array('f',4*[-99])
+
+m_muz_theta=array('f',[0])
+n_muon_Mtrack=array('f',[0])
+n_muon_Ptrack=array('f',[0])
 #tau information 
 _nTau=array('i',[0])
 _nTauP=array('i',[0])
@@ -440,26 +523,81 @@ def root_information(infile,outfile,weight,event):
     t_in.SetBranchAddress("mc_ww_flag", m_mc_ww_flag)
     t_in.SetBranchAddress("mc_h2gaugeboson_flag", m_mc_h2gaugeboson_flag)
     #tau information
-    t_in.SetBranchAddress("nTau", _nTau);
-    t_in.SetBranchAddress("nTauP", _nTauP);
-    t_in.SetBranchAddress("nTauM", _nTauM);
-    t_in.SetBranchAddress("fakeTau", _fakeTau);
-    t_in.SetBranchAddress("totalJet", _totalJet);
-    t_in.SetBranchAddress("visEp",_visEp);
-    t_in.SetBranchAddress("visEm",_visEm);
-    t_in.SetBranchAddress("invMp",_invMp);
-    t_in.SetBranchAddress("invMm",_invMm);
-    t_in.SetBranchAddress("evtN",_evtN);
-    t_in.SetBranchAddress("TauTauImpact",_TauTauImpact);
-    t_in.SetBranchAddress("TauTauD0",_TauTauD0);
-    t_in.SetBranchAddress("TauTauZ0", _TauTauZ0);
-    t_in.SetBranchAddress("tauP_impact", _tauP_impact);
-    t_in.SetBranchAddress("tauM_impact", _tauM_impact);
-    t_in.SetBranchAddress("RecoilM", _RecoilM);
-    t_in.SetBranchAddress("qqRecoilM", _qqRecoilM);
-    t_in.SetBranchAddress("TauTauM",  _TauTauM);
-    t_in.SetBranchAddress("qqM",_qqM);
-    t_in.SetBranchAddress("TotalEvtEn",_TotalEvtEn);
+    t_in.SetBranchAddress("nTau", _nTau)
+    t_in.SetBranchAddress("nTauP", _nTauP)
+    t_in.SetBranchAddress("nTauM", _nTauM)
+    t_in.SetBranchAddress("fakeTau", _fakeTau)
+    t_in.SetBranchAddress("totalJet", _totalJet)
+    t_in.SetBranchAddress("visEp",_visEp)
+    t_in.SetBranchAddress("visEm",_visEm)
+    t_in.SetBranchAddress("invMp",_invMp)
+    t_in.SetBranchAddress("invMm",_invMm)
+    t_in.SetBranchAddress("evtN",_evtN)
+    t_in.SetBranchAddress("TauTauImpact",_TauTauImpact)
+    t_in.SetBranchAddress("TauTauD0",_TauTauD0)
+    t_in.SetBranchAddress("TauTauZ0", _TauTauZ0)
+    t_in.SetBranchAddress("tauP_impact", _tauP_impact)
+    t_in.SetBranchAddress("tauM_impact", _tauM_impact)
+    t_in.SetBranchAddress("RecoilM", _RecoilM)
+    t_in.SetBranchAddress("qqRecoilM", _qqRecoilM)
+    t_in.SetBranchAddress("TauTauM",  _TauTauM)
+    t_in.SetBranchAddress("qqM",_qqM)
+    t_in.SetBranchAddress("TotalEvtEn",_TotalEvtEn)
+
+    t_in.SetBranchAddress("m_miss_Et",  m_miss_Et)
+    t_in.SetBranchAddress("m_miss_phi2",  m_miss_phi2)
+    t_in.SetBranchAddress("m_n_Muon",  m_n_Muon)
+    t_in.SetBranchAddress("m_n_Electron",  m_n_Electron)  
+    t_in.SetBranchAddress("m_px_muon", m_px_muon)
+    t_in.SetBranchAddress("m_py_muon", m_py_muon)
+    t_in.SetBranchAddress("m_pz_muon", m_pz_muon)
+    t_in.SetBranchAddress("m_pe_muon", m_pe_muon)
+    t_in.SetBranchAddress("m_px_electron", m_px_electron)
+    t_in.SetBranchAddress("m_py_electron", m_py_electron)
+    t_in.SetBranchAddress("m_pz_electron", m_pz_electron)
+    t_in.SetBranchAddress("m_pe_electron", m_pe_electron)
+    t_in.SetBranchAddress("m_maxpx_muon",  m_maxpx_muon)
+    t_in.SetBranchAddress("m_maxpy_muon",  m_maxpy_muon)
+    t_in.SetBranchAddress("m_maxpz_muon",  m_maxpz_muon)
+    t_in.SetBranchAddress("m_maxpe_muon",  m_maxpe_muon)
+    t_in.SetBranchAddress("m_minpx_muon",  m_minpx_muon)
+    t_in.SetBranchAddress("m_minpy_muon",  m_minpy_muon)
+    t_in.SetBranchAddress("m_minpz_muon",  m_minpz_muon)
+    t_in.SetBranchAddress("m_minpe_muon",  m_minpe_muon)	
+    t_in.SetBranchAddress("m_maxpx_electron",  m_maxpx_electron)	
+    t_in.SetBranchAddress("m_maxpy_electron",  m_maxpy_electron)
+    t_in.SetBranchAddress("m_maxpz_electron",  m_maxpz_electron)
+    t_in.SetBranchAddress("m_maxpe_electron",  m_maxpe_electron)
+    t_in.SetBranchAddress("m_minpx_electron",  m_minpx_electron)
+    t_in.SetBranchAddress("m_minpy_electron",  m_minpy_electron)
+    t_in.SetBranchAddress("m_minpz_electron",  m_minpz_electron)
+    t_in.SetBranchAddress("m_minpe_electron",  m_minpe_electron) 
+
+    t_in.SetBranchAddress("m_visible_p",  m_visible_p)
+    t_in.SetBranchAddress("m_visible_pt",  m_visible_pt)
+    t_in.SetBranchAddress("m_n_IsoMuonP",  m_n_IsoMuonP)
+    t_in.SetBranchAddress("m_n_IsoMuonM",  m_n_IsoMuonM)
+    t_in.SetBranchAddress("m_n_IsoMuon",  m_n_IsoMuon)
+    t_in.SetBranchAddress("m_n_IsoEletronP",  m_n_IsoEletronP)
+    t_in.SetBranchAddress("m_n_IsoEletronM",  m_n_IsoEletronM)
+    t_in.SetBranchAddress("m_n_IsoEletron",  m_n_IsoEletron)
+    t_in.SetBranchAddress("m_m_Isdimu",  m_m_Isdimu)
+    t_in.SetBranchAddress("m_e_Isdimu",  m_e_Isdimu)
+    t_in.SetBranchAddress("m_p_Isdimu",  m_p_Isdimu)
+    t_in.SetBranchAddress("m_e_Isdimurec",  m_e_Isdimurec)
+    t_in.SetBranchAddress("m_p_Isdimurec",  m_p_Isdimurec)
+    t_in.SetBranchAddress("m_m_Isdimurec",  m_m_Isdimurec)
+    t_in.SetBranchAddress("m_m_Isdie",  m_m_Isdie)
+    t_in.SetBranchAddress("m_e_Isdie",  m_e_Isdie)
+    t_in.SetBranchAddress("m_p_Isdie",  m_p_Isdie)
+    t_in.SetBranchAddress("m_e_Isdierec",  m_e_Isdierec)
+    t_in.SetBranchAddress("m_p_Isdierec",  m_p_Isdierec)
+    t_in.SetBranchAddress("m_m_Isdierec",  m_m_Isdierec)
+    t_in.SetBranchAddress("m_mc_p_dilepton", m_mc_p_dilepton)
+    t_in.SetBranchAddress("m_mc_p_redilepton", m_mc_p_redilepton)
+    t_in.SetBranchAddress("m_muz_theta",  m_muz_theta)
+    t_in.SetBranchAddress("n_muon_Ptrack", n_muon_Ptrack)
+    t_in.SetBranchAddress("n_muon_Mtrack", n_muon_Mtrack)
 
 
     fout=ROOT.TFile(outfile,"RECREATE")
@@ -535,30 +673,30 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch("mc_init_n_lepton_plus", m_mc_init_n_lepton_plus,  "mc_init_n_lepton_plus/I")
     t_out.Branch("mc_init_n_lepton_minus", m_mc_init_n_lepton_minus,  "mc_init_n_lepton_minus/I")
     
-    t_out.Branch("mc_init_leptonp_e",  m_mc_init_leptonp_e,   "mc_init_leptonp_e/D")
-    t_out.Branch("mc_init_leptonp_p",  m_mc_init_leptonp_p,   "mc_init_leptonp_p/D")
-    t_out.Branch("mc_init_leptonp_pt", m_mc_init_leptonp_pt,  "mc_init_leptonp_pt/D")
-    t_out.Branch("mc_init_leptonp_pz", m_mc_init_leptonp_pz,  "mc_init_leptonp_pz/D")
+    t_out.Branch("mc_init_leptonp_e",  m_mc_init_leptonp_e,   "mc_init_leptonp_e/F")
+    t_out.Branch("mc_init_leptonp_p",  m_mc_init_leptonp_p,   "mc_init_leptonp_p/F")
+    t_out.Branch("mc_init_leptonp_pt", m_mc_init_leptonp_pt,  "mc_init_leptonp_pt/F")
+    t_out.Branch("mc_init_leptonp_pz", m_mc_init_leptonp_pz,  "mc_init_leptonp_pz/F")
 
-    t_out.Branch("mc_init_leptonp_phi", m_mc_init_leptonp_phi,  "mc_init_leptonp_phi/D")
-    t_out.Branch("mc_init_leptonp_theta", m_mc_init_leptonp_theta,  "mc_init_leptonp_theta/D")
+    t_out.Branch("mc_init_leptonp_phi", m_mc_init_leptonp_phi,  "mc_init_leptonp_phi/F")
+    t_out.Branch("mc_init_leptonp_theta", m_mc_init_leptonp_theta,  "mc_init_leptonp_theta/F")
     
-    t_out.Branch("mc_init_leptonm_e",  m_mc_init_leptonm_e,   "mc_init_leptonm_e/D")
-    t_out.Branch("mc_init_leptonm_p",  m_mc_init_leptonm_p,   "mc_init_leptonm_p/D")
-    t_out.Branch("mc_init_leptonm_pt", m_mc_init_leptonm_pt,  "mc_init_leptonm_pt/D")
-    t_out.Branch("mc_init_leptonm_pz", m_mc_init_leptonm_pz,  "mc_init_leptonm_pz/D")
+    t_out.Branch("mc_init_leptonm_e",  m_mc_init_leptonm_e,   "mc_init_leptonm_e/F")
+    t_out.Branch("mc_init_leptonm_p",  m_mc_init_leptonm_p,   "mc_init_leptonm_p/F")
+    t_out.Branch("mc_init_leptonm_pt", m_mc_init_leptonm_pt,  "mc_init_leptonm_pt/F")
+    t_out.Branch("mc_init_leptonm_pz", m_mc_init_leptonm_pz,  "mc_init_leptonm_pz/F")
 
-    t_out.Branch("mc_init_leptonm_phi", m_mc_init_leptonm_phi,  "mc_init_leptonm_phi/D")
-    t_out.Branch("mc_init_leptonm_theta", m_mc_init_leptonm_theta,  "mc_init_leptonm_theta/D")
+    t_out.Branch("mc_init_leptonm_phi", m_mc_init_leptonm_phi,  "mc_init_leptonm_phi/F")
+    t_out.Branch("mc_init_leptonm_theta", m_mc_init_leptonm_theta,  "mc_init_leptonm_theta/F")
     
-    t_out.Branch("mc_init_dilepton_m",  m_mc_init_dilepton_m,   "mc_init_dilepton_m/D")
-    t_out.Branch("mc_init_dilepton_e",  m_mc_init_dilepton_e,   "mc_init_dilepton_e/D")
-    t_out.Branch("mc_init_dilepton_p",  m_mc_init_dilepton_p,   "mc_init_dilepton_p/D")
-    t_out.Branch("mc_init_dilepton_pt", m_mc_init_dilepton_pt,  "mc_init_dilepton_pt/D")
-    t_out.Branch("mc_init_dilepton_pz", m_mc_init_dilepton_pz,  "mc_init_dilepton_pz/D")
-    t_out.Branch("mc_init_dilepton_rec_m", m_mc_init_dilepton_rec_m,  "mc_init_dilepton_rec_m/D")
-    t_out.Branch("mc_init_dilepton_dphi", m_mc_init_dilepton_dphi,  "mc_init_dilepton_dphi/D")
-    t_out.Branch("mc_init_dilepton_dang", m_mc_init_dilepton_dang,  "mc_init_dilepton_dang/D")
+    t_out.Branch("mc_init_dilepton_m",  m_mc_init_dilepton_m,   "mc_init_dilepton_m/F")
+    t_out.Branch("mc_init_dilepton_e",  m_mc_init_dilepton_e,   "mc_init_dilepton_e/F")
+    t_out.Branch("mc_init_dilepton_p",  m_mc_init_dilepton_p,   "mc_init_dilepton_p/F")
+    t_out.Branch("mc_init_dilepton_pt", m_mc_init_dilepton_pt,  "mc_init_dilepton_pt/F")
+    t_out.Branch("mc_init_dilepton_pz", m_mc_init_dilepton_pz,  "mc_init_dilepton_pz/F")
+    t_out.Branch("mc_init_dilepton_rec_m", m_mc_init_dilepton_rec_m,  "mc_init_dilepton_rec_m/F")
+    t_out.Branch("mc_init_dilepton_dphi", m_mc_init_dilepton_dphi,  "mc_init_dilepton_dphi/F")
+    t_out.Branch("mc_init_dilepton_dang", m_mc_init_dilepton_dang,  "mc_init_dilepton_dang/F")
     
     t_out.Branch("mc_init_n_photon", m_mc_init_n_photon,  "mc_init_n_photon/I")
     t_out.Branch("mc_init_photon_e",  m_mc_init_photon_e)
@@ -568,9 +706,9 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch("mc_init_photon_phi",  m_mc_init_photon_phi)
     t_out.Branch("mc_init_photon_theta",  m_mc_init_photon_theta)
 
-    t_out.Branch("mc_higgs_m", m_mc_higgs_m, "mc_higgs_m/D")
-    t_out.Branch("mc_higgs_e", m_mc_higgs_e, "mc_higgs_e/D")
-    t_out.Branch("mc_higgs_rec_m", m_mc_higgs_rec_m, "mc_higgs_rec_m/D")
+    t_out.Branch("mc_higgs_m", m_mc_higgs_m, "mc_higgs_m/F")
+    t_out.Branch("mc_higgs_e", m_mc_higgs_e, "mc_higgs_e/F")
+    t_out.Branch("mc_higgs_rec_m", m_mc_higgs_rec_m, "mc_higgs_rec_m/F")
     t_out.Branch("mc_higgs_decay_type", m_mc_higgs_decay_type, "mc_higgs_decay_type/I")
     t_out.Branch("mc_higgs_daughter_pdgid", m_mc_higgs_daughter_pdgid)
     
@@ -582,49 +720,108 @@ def root_information(infile,outfile,weight,event):
     t_out.Branch("mc_w1_daughter_pid", m_mc_w1_daughter_pid)
     t_out.Branch("mc_w2_daughter_pid", m_mc_w2_daughter_pid)
     
-    t_out.Branch("mc_zw1_m", m_mc_zw1_m, "mc_zw1_m/D")
-    t_out.Branch("mc_zw1_p", m_mc_zw1_p, "mc_zw1_p/D")
-    t_out.Branch("mc_zw1_pt", m_mc_zw1_pt, "mc_zw1_pt/D")
-    t_out.Branch("mc_zw1_e", m_mc_zw1_e, "mc_zw1_e/D")
-    t_out.Branch("mc_zw1_rec_m", m_mc_zw1_rec_m, "mc_zw1_rec_m/D")
+    t_out.Branch("mc_zw1_m", m_mc_zw1_m, "mc_zw1_m/F")
+    t_out.Branch("mc_zw1_p", m_mc_zw1_p, "mc_zw1_p/F")
+    t_out.Branch("mc_zw1_pt", m_mc_zw1_pt, "mc_zw1_pt/F")
+    t_out.Branch("mc_zw1_e", m_mc_zw1_e, "mc_zw1_e/F")
+    t_out.Branch("mc_zw1_rec_m", m_mc_zw1_rec_m, "mc_zw1_rec_m/F")
     
-    t_out.Branch("mc_zw2_m", m_mc_zw2_m, "mc_zw2_m/D")
-    t_out.Branch("mc_zw2_p", m_mc_zw2_p, "mc_zw2_p/D")
-    t_out.Branch("mc_zw2_pt", m_mc_zw2_pt, "mc_zw2_pt/D")
-    t_out.Branch("mc_zw2_e", m_mc_zw2_e, "mc_zw2_e/D")
-    t_out.Branch("mc_zw2_rec_m", m_mc_zw2_rec_m, "mc_zw2_rec_m/D")
+    t_out.Branch("mc_zw2_m", m_mc_zw2_m, "mc_zw2_m/F")
+    t_out.Branch("mc_zw2_p", m_mc_zw2_p, "mc_zw2_p/F")
+    t_out.Branch("mc_zw2_pt", m_mc_zw2_pt, "mc_zw2_pt/F")
+    t_out.Branch("mc_zw2_e", m_mc_zw2_e, "mc_zw2_e/F")
+    t_out.Branch("mc_zw2_rec_m", m_mc_zw2_rec_m, "mc_zw2_rec_m/F")
     
-    t_out.Branch("mc_zw1zw2_m", m_mc_zw1zw2_m, "mc_zw1zw2_m/D")
-    t_out.Branch("mc_zw1zw2_e", m_mc_zw1zw2_e, "mc_zw1zw2_e/D")
-    t_out.Branch("mc_zw1zw2_rec_m", m_mc_zw1zw2_rec_m, "mc_zw1zw2_rec_m/D")
+    t_out.Branch("mc_zw1zw2_m", m_mc_zw1zw2_m, "mc_zw1zw2_m/F")
+    t_out.Branch("mc_zw1zw2_e", m_mc_zw1zw2_e, "mc_zw1zw2_e/F")
+    t_out.Branch("mc_zw1zw2_rec_m", m_mc_zw1zw2_rec_m, "mc_zw1zw2_rec_m/F")
     t_out.Branch("mc_zz_flag", m_mc_zz_flag, "mc_zz_flag/I")
     t_out.Branch("mc_ww_flag", m_mc_ww_flag, "mc_ww_flag/I")
     t_out.Branch("mc_h2gaugeboson_flag", m_mc_h2gaugeboson_flag, "mc_h2gaugeboson_flag/I")
     #tau information 
-    t_out.Branch("nTau", _nTau, "nTau/I");
-    t_out.Branch("nTauP", _nTauP, "nTauP/I");
-    t_out.Branch("nTauM", _nTauM,"nTauM/I");
-    t_out.Branch("fakeTau", _fakeTau, "fakeTau/I");
-    t_out.Branch("totalJet", _totalJet, "totalJet/I");
+    t_out.Branch("nTau", _nTau, "nTau/I")
+    t_out.Branch("nTauP", _nTauP, "nTauP/I")
+    t_out.Branch("nTauM", _nTauM,"nTauM/I")
+    t_out.Branch("fakeTau", _fakeTau, "fakeTau/I")
+    t_out.Branch("totalJet", _totalJet, "totalJet/I")
 
-    t_out.Branch("visEp",_visEp,"visEp/F");
-    t_out.Branch("visEm",_visEm, "visEm/F");
+    t_out.Branch("visEp",_visEp,"visEp/F")
+    t_out.Branch("visEm",_visEm, "visEm/F")
 
-    t_out.Branch("invMp",_invMp,"invMp/F");
-    t_out.Branch("invMm",_invMm,"invMm/F");
+    t_out.Branch("invMp",_invMp,"invMp/F")
+    t_out.Branch("invMm",_invMm,"invMm/F")
 
-    t_out.Branch("evtN",_evtN,"evtN/I");
-    t_out.Branch("TauTauImpact",_TauTauImpact, "TauTauImpact/F");
-    t_out.Branch("TauTauD0",_TauTauD0, "TauTauD0/F");
-    t_out.Branch("TauTauZ0", _TauTauZ0, "TauTauZ0/F");
-    t_out.Branch("tauP_impact", _tauP_impact, "tauP_impact/F");
-    t_out.Branch("tauM_impact", _tauM_impact, "tauM_impact/F");
-    t_out.Branch("RecoilM", _RecoilM, "RecoilM/F");
-    t_out.Branch("qqRecoilM", _qqRecoilM,"qqRecoilM/F");
-    t_out.Branch("TauTauM",  _TauTauM,"TauTauM/F");
-    t_out.Branch("qqM",_qqM,"qqM/F");
-    t_out.Branch("TotalEvtEn",_TotalEvtEn,"TotalEvtEn/F");
+    t_out.Branch("evtN",_evtN,"evtN/I")
+    t_out.Branch("TauTauImpact",_TauTauImpact, "TauTauImpact/F")
+    t_out.Branch("TauTauD0",_TauTauD0, "TauTauD0/F")
+    t_out.Branch("TauTauZ0", _TauTauZ0, "TauTauZ0/F")
+    t_out.Branch("tauP_impact", _tauP_impact, "tauP_impact/F")
+    t_out.Branch("tauM_impact", _tauM_impact, "tauM_impact/F")
+    t_out.Branch("RecoilM", _RecoilM, "RecoilM/F")
+    t_out.Branch("qqRecoilM", _qqRecoilM,"qqRecoilM/F")
+    t_out.Branch("TauTauM",  _TauTauM,"TauTauM/F")
+    t_out.Branch("qqM",_qqM,"qqM/F")
+    t_out.Branch("TotalEvtEn",_TotalEvtEn,"TotalEvtEn/F")
+    t_out.Branch("m_miss_Et",  m_miss_Et,  "m_miss_Et/F")
+    t_out.Branch("m_miss_phi2",  m_miss_phi2,  "m_miss_phi2/F")
 
+    t_out.Branch("m_n_Muon",  m_n_Muon,  "m_n_Muon/I")
+    t_out.Branch("m_n_Electron",  m_n_Electron,  "m_n_Electron/I")  
+
+    t_out.Branch("m_px_muon", m_px_muon)
+    t_out.Branch("m_py_muon", m_py_muon)
+    t_out.Branch("m_pz_muon", m_pz_muon)
+    t_out.Branch("m_pe_muon", m_pe_muon)
+    t_out.Branch("m_px_electron", m_px_electron)
+    t_out.Branch("m_py_electron", m_py_electron)
+    t_out.Branch("m_pz_electron", m_pz_electron)
+    t_out.Branch("m_pe_electron", m_pe_electron)
+
+    t_out.Branch("m_maxpx_muon",  m_maxpx_muon,  "m_maxpx_muon/F")
+    t_out.Branch("m_maxpy_muon",  m_maxpy_muon,  "m_maxpy_muon/F")
+    t_out.Branch("m_maxpz_muon",  m_maxpz_muon,  "m_maxpz_muon/F")
+    t_out.Branch("m_maxpe_muon",  m_maxpe_muon,  "m_maxpe_muon/F")
+
+    t_out.Branch("m_minpx_muon",  m_minpx_muon,  "m_minpx_muon/F")
+    t_out.Branch("m_minpy_muon",  m_minpy_muon,  "m_minpy_muon/F")
+    t_out.Branch("m_minpz_muon",  m_minpz_muon,  "m_minpz_muon/F")
+    t_out.Branch("m_minpe_muon",  m_minpe_muon,  "m_minpe_muon/F")	
+
+    t_out.Branch("m_maxpx_electron",  m_maxpx_electron,  "m_maxpx_electron/F")	
+    t_out.Branch("m_maxpy_electron",  m_maxpy_electron,  "m_maxpy_electron/F")
+    t_out.Branch("m_maxpz_electron",  m_maxpz_electron,  "m_maxpz_electron/F")
+    t_out.Branch("m_maxpe_electron",  m_maxpe_electron,  "m_maxpe_electron/F")
+
+    t_out.Branch("m_minpx_electron",  m_minpx_electron,  "m_minpx_electron/F")
+    t_out.Branch("m_minpy_electron",  m_minpy_electron,  "m_minpy_electron/F")
+    t_out.Branch("m_minpz_electron",  m_minpz_electron,  "m_minpz_electron/F")
+    t_out.Branch("m_minpe_electron",  m_minpe_electron,  "m_minpe_electron/F")
+
+    t_out.Branch("m_visible_p",  m_visible_p,  "m_visible_p/F")
+    t_out.Branch("m_visible_pt",  m_visible_pt,  "m_visible_pt/F")
+    t_out.Branch("m_n_IsoMuonP",  m_n_IsoMuonP,  "m_n_IsoMuonP/I")
+    t_out.Branch("m_n_IsoMuonM",  m_n_IsoMuonM,  "m_n_IsoMuonM/I")
+    t_out.Branch("m_n_IsoMuon",  m_n_IsoMuon,  "m_n_IsoMuon/I")
+    t_out.Branch("m_n_IsoEletronP",  m_n_IsoEletronP,  "m_n_IsoEletronP/I")
+    t_out.Branch("m_n_IsoEletronM",  m_n_IsoEletronM,  "m_n_IsoEletronM/I")
+    t_out.Branch("m_n_IsoEletron",  m_n_IsoEletron,  "m_n_IsoEletron/I")
+    t_out.Branch("m_m_Isdimu",  m_m_Isdimu,  "m_m_Isdimu/F")
+    t_out.Branch("m_e_Isdimu",  m_e_Isdimu,  "m_e_Isdimu/F")
+    t_out.Branch("m_p_Isdimu",  m_p_Isdimu,  "m_p_Isdimu/F")
+    t_out.Branch("m_e_Isdimurec",  m_e_Isdimurec,  "m_e_Isdimurec/F")
+    t_out.Branch("m_p_Isdimurec",  m_p_Isdimurec,  "m_p_Isdimurec/F")
+    t_out.Branch("m_m_Isdimurec",  m_m_Isdimurec,  "m_m_Isdimurec/F")
+    t_out.Branch("m_m_Isdie",  m_m_Isdie,  "m_m_Isdie/F")
+    t_out.Branch("m_e_Isdie",  m_e_Isdie,  "m_e_Isdie/F")
+    t_out.Branch("m_p_Isdie",  m_p_Isdie,  "m_p_Isdie/F")
+    t_out.Branch("m_e_Isdierec",  m_e_Isdierec,  "m_e_Isdierec/F")
+    t_out.Branch("m_p_Isdierec",  m_p_Isdierec,  "m_p_Isdierec/F")
+    t_out.Branch("m_m_Isdierec",  m_m_Isdierec,  "m_m_Isdierec/F")
+    t_out.Branch("m_mc_p_dilepton", m_mc_p_dilepton, "m_mc_p_dilepton[4]/F")
+    t_out.Branch("m_mc_p_redilepton", m_mc_p_redilepton, "m_mc_p_redilepton[4]/F")
+    t_out.Branch("m_muz_theta",  m_muz_theta,  "m_muz_theta/F")
+    t_out.Branch("n_muon_Ptrack", n_muon_Ptrack, "n_muon_Ptrack/F")
+    t_out.Branch("n_muon_Mtrack", n_muon_Mtrack, "n_muon_Mtrack/F")
     for i in xrange(entries):
         if (weight<1):
             rnd=random.random()

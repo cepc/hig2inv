@@ -24,4 +24,4 @@ export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 
 #Marlin Tau
 
-export MARLIN_DLL=$PWD/MarlinTau/lib/libTauReco.so:$MARLIN_DLL
+#export MARLIN_DLL=$PWD/MarlinTau/lib/libTauReco.so:$MARLIN_DLL

@@ -12,7 +12,7 @@ import os
 from string import Template
 
 GEAR_CEPC_V1 = '/workfs/bes/lig/config/ilcsoft/gear_cepc_v1.xml'
-GEAR_CEPC_V4 = '/besfs/groups/higgs/data/SimReco/wo_BS/CEPC_v4/higgs/smart_final_states/GearOutput.xml'
+GEAR_CEPC_V4 = '/cefs/data/FullSim/Performance/CEPC_v4/ZhaoHang/nnhgg/GearOutput.xml'
 
 ECMS_CEPC_V1 = 250.0
 ECMS_CEPC_V4 = 240.0

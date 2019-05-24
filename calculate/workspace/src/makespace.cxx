@@ -159,7 +159,7 @@ RooWorkspace *makespace(TString cname, int index)
 	Float_t npoints = 1000;
 	Float_t total_SBevents = 0;
 
-	if ( isinvi ) npoints*= 20;
+	if ( isinvi ) npoints*= 10;
 
 	for (int i = 0; i < n_sig; i++) total_SBevents += (*wchannel->function("n_s_" + cname)).getVal();
 	// if ( n_bkg != 0)   total_SBevents += (*wchannel->var("n_b_" + cname)).getVal();

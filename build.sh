@@ -8,14 +8,14 @@ cmake -C ../ILCSoft.cmake ..
 make install 
 cd ../../
 
-cd ./MarlinTau
-#Tau information
-rm -rf build 
-mkdir build
-cd build
-cmake -C ../ILCSoft.cmake ..
-make install 
-cd ../../
+#cd ./MarlinTau
+##Tau information
+#rm -rf build 
+#mkdir build
+#cd build
+#cmake -C ../ILCSoft.cmake ..
+#make install 
+#cd ../../
 
 #main work code 
 rm -fr build

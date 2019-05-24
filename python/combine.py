@@ -15,12 +15,12 @@ import ROOT
 def main():
     BR=1 #assuming
     BRR= 0.00106 #Real
-    meanmu=1.24    #mean value of muon channel
-    meane=0.97
-    meanq=1.00
-    d_mu_mu=247
-    d_mu_e=403    # sigma*BR
-    d_mu_q=100
+    meanmu=1.000    #mean value of muon channel
+    meane=0.862
+    meanq=1.000
+    d_mu_mu=105
+    d_mu_e=301   # sigma*BR
+    d_mu_q=46
 
     d_mu_mu_m=math.sqrt(meanmu)*d_mu_mu    #modified mu precision or sigma
     d_mu_e_m=math.sqrt(meane)*d_mu_e
