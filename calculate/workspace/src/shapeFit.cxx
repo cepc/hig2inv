@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 
     for( int i = 0 ; i < Nch; i ++ )
     {
-		//read some information from shapefit.h
+        //read some information from shapefit.h
         CN.push_back(m_CN[i]);
         catName.push_back((string)CN[i]);
         channel c=channelbyname(CN[i]);
@@ -48,8 +48,8 @@ int main(int argc, char **argv)
         PlotAsimov(w[i],n_bkg,CN[i]);// fit sig+bkg of Asimov data
         PlotSB(c,CN[i]);  //plot signal and background respectively
 
-		
-		//define some parameter
+        
+        //define some parameter
         channellist -> defineType(CN[i]) ;
         CombinedPdf.addPdf(*w[i]->pdf("modelSB_"+CN[i]),CN[i]) ;
         Observables->add(*w[i]->set("Observables"));
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     combination->import(*AsimovSB);
  //   cerr<<"channellist:"<<channellist<<endl;
     //  ks->Print("v");
-	cout<<".................combination................"<<endl;
+    cout<<".................combination................"<<endl;
 
     ModelConfig *mconfig = new ModelConfig("ModelConfig",combination);
     mconfig -> SetPdf(*combination->pdf("CombinedPdf"));
@@ -119,7 +119,7 @@ void PlotPdf (RooWorkspace *wspace, int n_bkg , TString cname)
     lymax=lymin+0.05*n_ent;
     lxmax=lxmin+0.2;
     TLegend *legend = new TLegend(lxmin, lymin, lxmax, lymax);
-
+    legend->SetBorderSize(0);
 //    FormatLegend(legend);
 //    FormatLegend(legend);
     legend->AddEntry("MCdata","CEPC Simulation","P");
@@ -132,11 +132,11 @@ void PlotPdf (RooWorkspace *wspace, int n_bkg , TString cname)
     legend->Draw("same");
 
     TLatex *tex = new TLatex();
-	tex->SetNDC(kTRUE);
-	tex->SetTextFont(43);
-	tex->SetTextSize(28);
+    tex->SetNDC(kTRUE);
+    tex->SetTextFont(43);
+    tex->SetTextSize(28);
 
-    tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC CDR}");
+    tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC 2019}");
 
     tex->DrawLatexNDC(tx, ty+0.09, "5.6 ab^{-1}, 240 GeV");
     TString e_cname=namesetting(cname);
@@ -151,64 +151,75 @@ void PlotPdf (RooWorkspace *wspace, int n_bkg , TString cname)
 
 void PlotAsimov (RooWorkspace *wspace, int n_bkg , TString cname)
 {
-	  //AsimovSB data 
-	TCanvas *xcanvas = new TCanvas("c2", "c2", 800, 800);
-	xcanvas->SetMargin(0.16, 0.04, 0.11, 0.02);
-	RooPlot *xframe;   
-	xframe = (*wspace->var("invMass_"+cname)).frame(25);
-	wspace->data("AsimovSB")->plotOn(xframe,DataError(RooAbsData::Poisson),XErrorSize(0),MarkerSize(2)); 
-	wspace->pdf("modelSB_"+cname)->plotOn(xframe, Name("Fit"), LineColor(4));
-	wspace->pdf("modelSB_" +cname)->plotOn(xframe, Name("s"),  Components((*wspace->pdf("pdf_s_" +cname))), LineColor(kRed),LineStyle(2));//s
-	wspace->pdf("modelSB_" +cname)->plotOn(xframe, Name("bkg"), Components((*wspace->pdf("pdf_b_" +cname))), LineColor(kGreen), LineStyle(2));
-    xframe->SetTitle(""); 	
-	if ( SetPlotMaximum(cname) )  xframe->SetMaximum(PlotMaximum); 
-	xframe->Draw();
-	
-	Float_t lxmin,lxmax,lymin,lymax,tx,ty;
-	tx=0.6;      ty=0.78;
-	lxmin=0.2;   lymin=0.76; 
-	int n_ent=4;
+      //AsimovSB data 
+    TCanvas *xcanvas = new TCanvas("c2", "c2", 800, 800);
+    xcanvas->SetMargin(0.16, 0.04, 0.11, 0.02);
+    RooPlot *xframe;   
+    xframe = (*wspace->var("invMass_"+cname)).frame(25);
+    wspace->data("AsimovSB")->plotOn(xframe,DataError(RooAbsData::Poisson),XErrorSize(0),MarkerSize(2)); 
+    wspace->pdf("modelSB_"+cname)->plotOn(xframe, Name("Fit"), LineColor(4));
+    wspace->pdf("modelSB_" +cname)->plotOn(xframe, Name("s"),  Components((*wspace->pdf("pdf_s_" +cname))), LineColor(kRed),LineStyle(2));//s
+    wspace->pdf("modelSB_" +cname)->plotOn(xframe, Name("bkg"), Components((*wspace->pdf("pdf_b_" +cname))), LineColor(kGreen), LineStyle(2));
+    xframe->SetTitle("");
+    TString ytitle=xframe->GetYaxis()->GetTitle();
+    ytitle.Remove(8,2);
+    ytitle.Remove(ytitle.Length()-1,1);
+    xframe->SetYTitle(ytitle+"GeV");
+	if (cname=="mz4v") xframe->GetXaxis()->SetTitle("M^{Recoil}_{#mu#mu}");
+	if (cname == "ez4v") xframe->GetXaxis()->SetTitle("M^{Recoil}_{ee}");
+	if (cname == "qz4v")  xframe->GetXaxis()->SetTitle("M^{Recoil}_{qq}");
+	//    xframe->GetYaxis()->SetTitle("Events/2 GeV"); 	
+    if ( SetPlotMaximum(cname) )  xframe->SetMaximum(PlotMaximum); 
+    xframe->Draw();
+    
+    Float_t lxmin,lxmax,lymin,lymax,tx,ty;
+    tx=0.6;      ty=0.78;
+    lxmin=0.2;   lymin=0.76; 
+    int n_ent=4;
 
-	lymax=lymin+0.05*n_ent;
-	lxmax=lxmin+0.2;
-	TLegend *legend = new TLegend(lxmin, lymin, lxmax, lymax);
+    lymax=lymin+0.05*n_ent;
+    lxmax=lxmin+0.2;
+    TLegend *legend = new TLegend(lxmin, lymin, lxmax, lymax);
+    legend->SetBorderSize(0);
+    legend->SetTextFont(43);
+    legend->SetTextSize(28);
+//    legend->SetTextAlign(31);
+    legend->AddEntry("MCdata","CEPC Simulation","P");
+    legend->AddEntry("Fit","S+B Fit","L");
 
-	legend->AddEntry("MCdata","CEPC Simulation","P");
-	legend->AddEntry("Fit","S+B Fit","L");
+    legend->AddEntry("s" , "Signal", "L"); 
 
-	legend->AddEntry("s" , "Signal", "L"); 
+    if ( n_bkg != 0)   legend->AddEntry("bkg", "Background",  "L"); //always be last
+    
+    legend->Draw("same");
 
-	if ( n_bkg != 0)   legend->AddEntry("bkg", "Background",  "L"); //always be last
-	
-	legend->Draw("same");
-
-	TLatex *tex = new TLatex();
-	tex->SetNDC(kTRUE);
-	tex->SetTextFont(43);
-	tex->SetTextSize(28);
+    TLatex *tex = new TLatex();
+    tex->SetNDC(kTRUE);
+    tex->SetTextFont(43);
+    tex->SetTextSize(28);
 //    FormatLatex(tex);
-	tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC CDR}");
-	tex->DrawLatexNDC(tx, ty+0.09, "5.6 ab^{-1}, 240 GeV");
-	TString e_cname=namesetting(cname);
-	tex->DrawLatexNDC(tx, ty+0.04, e_cname);
+    tex->DrawLatexNDC(tx, ty+0.14, "#bf{CEPC 2019}");
+    tex->DrawLatexNDC(tx, ty+0.09, "5.6 ab^{-1}, 240 GeV");
+    TString e_cname=namesetting(cname);
+    tex->DrawLatexNDC(tx, ty+0.04, e_cname);
 
-	xcanvas->SaveAs("../../fig/"+cname+"/"+cname+"Asimovfit.pdf");
+    xcanvas->SaveAs("../../fig/"+cname+"/"+cname+"Asimovfit.pdf");
 
-	delete xcanvas;
-	delete xframe;  
-	delete legend ;
+    delete xcanvas;
+    delete xframe;  
+    delete legend ;
 
 }
 
 void PlotSB (channel c, TString cname)
 {
 
-	TString wsname="out/workspace/part/ws_"+cname+"_5.root";
-	TFile fs;
-	RooWorkspace *ws;
+    TString wsname="out/workspace/part/ws_"+cname+"_5.root";
+    TFile fs;
+    RooWorkspace *ws;
     ws=      (RooWorkspace*)      fs.Open(wsname,"READ")->Get("wspace");
-	Plotsig(ws,c,"s");
-	Plotsig(ws,c,"b");
+    Plotsig(ws,c,"s");
+    Plotsig(ws,c,"b");
 
 }
 
@@ -216,7 +227,7 @@ void Plotsig(RooWorkspace *wspace, channel c, TString proc)
 
 {
     TString cname=c.name;   
-    TString e_cname=namesetting(cname);
+    TString e_cname=namesetting(cname); 
     TString e_m=xnamesetting(cname);	
     TString e_proc;
     if (proc=="s" ) e_proc="Signal";
@@ -230,15 +241,15 @@ void Plotsig(RooWorkspace *wspace, channel c, TString proc)
     if (proc=="b") (*wspace->pdf("pdf_b")    ).plotOn(yframe, Name(proc), LineColor(kGreen));
     else           (*wspace->pdf("pdf_"+proc)).plotOn(yframe, Name(proc), LineColor(kBlue));
     yframe->SetTitle("");  
-	yframe->Draw();	
+    yframe->Draw();	
 
 
 
     TLegend *legend = new TLegend(0.8, 0.86, 0.95, 0.95);
     legend->AddEntry("s_hist" , "Data", "P");
-	if (proc=="s")     legend->AddEntry("s" , "Signal", "L");
-	else  legend->AddEntry("b" , "Background", "L");
-	legend->Draw("same");
+    if (proc=="s")     legend->AddEntry("s" , "Signal", "L");
+    else  legend->AddEntry("b" , "Background", "L");
+    legend->Draw("same");
 
     Float_t Entries=d_mass->sumEntries();
     char ent_str[9];
@@ -246,16 +257,16 @@ void Plotsig(RooWorkspace *wspace, channel c, TString proc)
     TString ent=e_proc+": ";
     ent+=ent_str;
 
-	TLatex *tex = new TLatex();
+    TLatex *tex = new TLatex();
 
-	tex->SetNDC(kTRUE);
-	tex->SetTextFont(43);
-	tex->SetTextSize(15);
+    tex->SetNDC(kTRUE);
+    tex->SetTextFont(43);
+    tex->SetTextSize(15);
     tex->DrawLatexNDC(0.78, 0.82,ent);	
 
-	ycanvas->SaveAs("../../fig/"+cname+"/"+cname+"_"+proc+"_fit.pdf");
-	
-	delete ycanvas;
-	delete yframe;
-	delete legend;
+    ycanvas->SaveAs("../../fig/"+cname+"/"+cname+"_"+proc+"_fit.pdf");
+    
+    delete ycanvas;
+    delete yframe;
+    delete legend;
 }

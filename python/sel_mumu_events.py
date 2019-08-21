@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""    
+"""     
 Event Selection
  
-## Inspired from an event selection script for Higgs->invisible   
+## Inspired from an event selection script for Higgs->invisible    
 """
 
 __author__ = "Tan Yuhang <tanyuhang@ihep.ac.cn>"
@@ -181,52 +181,105 @@ class Cutflow():
 
         self.m_e_ep=array('f',[0])
         self.m_l_ep=array('f',[0])
+        #Isolate information 
+        self.m_miss_phi=array('f',[0])   
+        self.m_miss_Et=array('f',[0])	   
+        self.m_miss_phi2=array('f',[0])
+        self.m_n_Muon=array('i',[0])
+        self.m_n_Electron=array('i',[0])
+         
+        self.m_maxpx_muon=array('f',[0]) 
+        self.m_maxpy_muon=array('f',[0]) 
+        self.m_maxpz_muon=array('f',[0]) 
+        self.m_maxpe_muon=array('f',[0]) 
+        self.m_minpx_muon=array('f',[0]) 
+        self.m_minpy_muon=array('f',[0]) 
+        self.m_minpz_muon=array('f',[0]) 
+        self.m_minpe_muon=array('f',[0]) 
+
+        self.m_maxpx_electron=array('f',[0]) 
+        self.m_maxpy_electron=array('f',[0]) 
+        self.m_maxpz_electron=array('f',[0]) 
+        self.m_maxpe_electron=array('f',[0]) 
+
+        self.m_minpx_electron=array('f',[0]) 
+        self.m_minpy_electron=array('f',[0]) 
+        self.m_minpz_electron=array('f',[0]) 
+        self.m_minpe_electron=array('f',[0]) 
+
+        self.m_minangle_mujet=array('f',[0])
+        self.m_minphi_mujet=array('f',[0])
+        self.m_maxangle_mujet=array('f',[0])
+        self.m_maxphi_mujet=array('f',[0])
+        self.m_minangle_ejet=array('f',[0])
+        self.m_minphi_ejet=array('f',[0])
+        self.m_maxangle_ejet=array('f',[0])
+        self.m_maxphi_ejet=array('f',[0])
+
+        self.m_px_muon=ROOT.std.vector(float)()
+        self.m_py_muon=ROOT.std.vector(float)()
+        self.m_pz_muon=ROOT.std.vector(float)()
+        self.m_pe_muon=ROOT.std.vector(float)()
+
+        self.m_px_electron=ROOT.std.vector(float)()
+        self.m_py_electron=ROOT.std.vector(float)()
+        self.m_pz_electron=ROOT.std.vector(float)()
+        self.m_pe_electron=ROOT.std.vector(float)()
+
+        self.m_minangle_mujet=array('f',[0]);
+        self.m_minphi_mujet=array('f',[0]);
+        self.m_maxangle_mujet=array('f',[0]);
+        self.m_maxphi_mujet=array('f',[0]);
+        self.m_minangle_ejet=array('f',[0]);
+        self.m_minphi_ejet=array('f',[0]);
+        self.m_maxangle_ejet=array('f',[0]);
+        self.m_maxphi_ejet=array('f',[0]);
 
 # MC information
         self.m_mc_lepton_minus_id=array('i',[0])
         self.m_mc_lepton_plus_id=array('i',[0])		
         self.m_mc_init_n_lepton_plus=array('i',[0])
         self.m_mc_init_n_lepton_minus=array('i',[0])		
-        self.m_mc_init_leptonp_e=array('d',[0])
-        self.m_mc_init_leptonp_p=array('d',[0])
-        self.m_mc_init_leptonp_pt=array('d',[0])
-        self.m_mc_init_leptonp_pz=array('d',[0])
-        self.m_mc_init_leptonp_phi=array('d',[0])
-        self.m_mc_init_leptonp_theta=array('d',[0])		
-        self.m_mc_init_leptonm_e=array('d',[0])
-        self.m_mc_init_leptonm_p=array('d',[0])
-        self.m_mc_init_leptonm_pt=array('d',[0])
-        self.m_mc_init_leptonm_pz=array('d',[0])
-        self.m_mc_init_leptonm_phi=array('d',[0])
-        self.m_mc_init_leptonm_theta=array('d',[0])		
-        self.m_mc_init_dilepton_m=array('d',[0])
-        self.m_mc_init_dilepton_e=array('d',[0])
-        self.m_mc_init_dilepton_p=array('d',[0])
-        self.m_mc_init_dilepton_pt=array('d',[0])
-        self.m_mc_init_dilepton_pz=array('d',[0])
-        self.m_mc_init_dilepton_rec_m=array('d',[0])
-        self.m_mc_init_dilepton_dphi=array('d',[0])
-        self.m_mc_init_dilepton_dang=array('d',[0])		
+        self.m_mc_init_leptonp_e=array('f',[0])
+        self.m_mc_init_leptonp_p=array('f',[0])
+        self.m_mc_init_leptonp_pt=array('f',[0])
+        self.m_mc_init_leptonp_pz=array('f',[0])
+        self.m_mc_init_leptonp_phi=array('f',[0])
+        self.m_mc_init_leptonp_theta=array('f',[0])		
+        self.m_mc_init_leptonm_e=array('f',[0])
+        self.m_mc_init_leptonm_p=array('f',[0])
+        self.m_mc_init_leptonm_pt=array('f',[0])
+        self.m_mc_init_leptonm_pz=array('f',[0])
+        self.m_mc_init_leptonm_phi=array('f',[0])
+        self.m_mc_init_leptonm_theta=array('f',[0])		
+        self.m_mc_init_dilepton_m=array('f',[0])
+        self.m_mc_init_dilepton_e=array('f',[0])
+        self.m_mc_init_dilepton_p=array('f',[0])
+        self.m_mc_init_dilepton_pt=array('f',[0])
+        self.m_mc_init_dilepton_pz=array('f',[0])
+        self.m_mc_init_dilepton_rec_m=array('f',[0])
+        self.m_mc_init_dilepton_dphi=array('f',[0])
+        self.m_mc_init_dilepton_dang=array('f',[0])		
         self.m_mc_init_n_photon=array('i',[0])
-        self.m_mc_higgs_m=array('d',[0])
-        self.m_mc_higgs_e=array('d',[0])
-        self.m_mc_higgs_rec_m=array('d',[0])
+        self.m_mc_higgs_m=array('f',[0])
+        self.m_mc_higgs_e=array('f',[0])
+        self.m_mc_higgs_rec_m=array('f',[0])
         self.m_mc_higgs_decay_type=array('i',[0])		
         self.m_mc_n_Zboson=array('i',[0])		 
-        self.m_mc_zw1_m=array('d',[0])
-        self.m_mc_zw1_p=array('d',[0])
-        self.m_mc_zw1_pt=array('d',[0])
-        self.m_mc_zw1_e=array('d',[0])
-        self.m_mc_zw1_rec_m=array('d',[0])
-        self.m_mc_zw2_m=array('d',[0])
-        self.m_mc_zw2_p=array('d',[0])
-        self.m_mc_zw2_pt=array('d',[0])
-        self.m_mc_zw2_e=array('d',[0])
-        self.m_mc_zw2_rec_m=array('d',[0])
+        self.m_mc_zw1_m=array('f',[0])
+        self.m_mc_zw1_p=array('f',[0])
+        self.m_mc_zw1_pt=array('f',[0])
+        self.m_mc_zw1_e=array('f',[0])
+        self.m_mc_zw1_rec_m=array('f',[0])
+        self.m_mc_zw2_m=array('f',[0])
+        self.m_mc_zw2_p=array('f',[0])
+        self.m_mc_zw2_pt=array('f',[0])
+        self.m_mc_zw2_e=array('f',[0])
+        self.m_mc_zw2_rec_m=array('f',[0])
         self.m_mc_h2gaugeboson_flag=array('i',[0])  		
-        self.m_mc_zw1zw2_m=array('d',[0])
-        self.m_mc_zw1zw2_e=array('d',[0])
-        self.m_mc_zw1zw2_rec_m=array('d',[0])
+        self.m_mc_zw1zw2_m=array('f',[0])
+        self.m_mc_zw1zw2_e=array('f',[0])
+        self.m_mc_zw1zw2_rec_m=array('f',[0])
         self.m_mc_zz_flag=array('i',[0])
         self.m_mc_ww_flag=array('i',[0])
 
@@ -297,8 +350,38 @@ class Cutflow():
         self._TauTauM=array('f',[0])
         self._qqM=array('f',[0])
         self._TotalEvtEn=array('f',[0])
+        #Isolate information
+        self.m_visible_p=array('f',[0])
+        self.m_visible_pt=array('f',[0])
 
+        self.m_n_IsoMuonP=array('i',[0])
+        self.m_n_IsoMuonM=array('i',[0])
+        self.m_n_IsoMuon=array('i',[0])
+        self.m_n_IsoEletronP=array('i',[0])
+        self.m_n_IsoEletronM=array('i',[0])
+        self.m_n_IsoEletron=array('i',[0])
 
+        self.m_m_Isdimu=array('f',[0])
+        self.m_e_Isdimu=array('f',[0])
+        self.m_p_Isdimu=array('f',[0])
+        self.m_e_Isdimurec=array('f',[0])
+        self.m_p_Isdimurec=array('f',[0])
+        self.m_m_Isdimurec=array('f',[0])
+
+        self.m_m_Isdie=array('f',[0])
+        self.m_e_Isdie=array('f',[0])
+        self.m_p_Isdie=array('f',[0])
+        self.m_e_Isdierec=array('f',[0])
+        self.m_p_Isdierec=array('f',[0])
+        self.m_m_Isdierec=array('f',[0])
+
+        self.m_mc_p_dilepton=array('f',4*[-99])
+        self.m_mc_p_redilepton=array('f',4*[-99])
+
+        self.m_muz_theta=array('f',[0])
+        self.n_muon_Mtrack=array('f',[0])
+        self.n_muon_Ptrack=array('f',[0])
+        
     def plot_before_cut(self,t_in):
         m_pp_lepton=math.sqrt(t_in.m_p_dilepton[0]*t_in.m_p_dilepton[0]+t_in.m_p_dilepton[1]*t_in.m_p_dilepton[1]+t_in.m_p_dilepton[2]*t_in.m_p_dilepton[2])
         m_ee_lepton=t_in.m_p_dilepton[3]
@@ -307,8 +390,8 @@ class Cutflow():
         else:
             m_l_ep=10
         self.h_before_cut_Pt.Fill(t_in.m_pt_dilepton) 
-        self.h_before_cut_vdt.Fill(t_in.TauTauImpact)
-        self.h_before_cut_theta.Fill(t_in.m_phi_dilepton_2)
+        self.h_before_cut_vdt.Fill(t_in.qqRecoilM)
+        self.h_before_cut_theta.Fill(t_in.m_muz_theta)
         self.h_before_cut_vis.Fill(t_in.m_energy_visible)
         self.h_before_cut_Mmumu.Fill(t_in.m_m_dimu)
         self.h_before_cut_Mrecoil.Fill(t_in.m_m_recoil)
@@ -317,7 +400,7 @@ class Cutflow():
     def plot_after_first_cut(self,t_in,m_l_ep):
     
         self.h_after_first_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_first_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_first_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_first_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_first_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_first_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -327,7 +410,7 @@ class Cutflow():
     def plot_after_second_cut(self,t_in,m_l_ep):
     
         self.h_after_second_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_second_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_second_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_second_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_second_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_second_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -337,7 +420,7 @@ class Cutflow():
     def plot_after_third_cut(self,t_in,m_l_ep):
     
         self.h_after_third_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_third_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_third_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_third_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_third_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_third_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -347,7 +430,7 @@ class Cutflow():
     def plot_after_fourth_cut(self,t_in,m_l_ep):
     
         self.h_after_fourth_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_fourth_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_fourth_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_fourth_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_fourth_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_fourth_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -357,7 +440,7 @@ class Cutflow():
     def plot_after_fifth_cut(self,t_in,m_l_ep):
     
         self.h_after_fifth_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_fifth_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_fifth_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_fifth_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_fifth_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_fifth_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -367,7 +450,7 @@ class Cutflow():
     def plot_after_sixth_cut(self,t_in,m_l_ep):
     
         self.h_after_sixth_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_sixth_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_sixth_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_sixth_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_sixth_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_sixth_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -377,7 +460,7 @@ class Cutflow():
     def plot_after_seventh_cut(self,t_in,m_l_ep):
     
         self.h_after_seventh_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_seventh_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_seventh_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_seventh_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_seventh_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_seventh_cut_Mmumu.Fill(t_in.m_m_dimu)
@@ -387,32 +470,34 @@ class Cutflow():
     def plot_after_cut(self,t_in,m_l_ep):
 
         self.h_after_cut_Pt.Fill(t_in.m_pt_dilepton)
-        self.h_after_cut_vdt.Fill(t_in.TauTauImpact)
+        self.h_after_cut_vdt.Fill(t_in.qqRecoilM)
         self.h_after_cut_theta.Fill(t_in.m_phi_dilepton_2)
         self.h_after_cut_vis.Fill(t_in.m_energy_visible)
         self.h_after_cut_Mmumu.Fill(t_in.m_m_dimu)
         self.h_after_cut_Mrecoil.Fill(t_in.m_m_recoil)
         self.h_after_cut_ep.Fill(m_l_ep)
     def cut(self,t_in,t_out):
-        self.N[0]+=1
-        self.h_evtflw.Fill(0)
+#        self.N[0]+=1
+#        self.h_evtflw.Fill(0)
         m_pp_lepton=math.sqrt(t_in.m_p_dilepton[0]*t_in.m_p_dilepton[0]+t_in.m_p_dilepton[1]*t_in.m_p_dilepton[1]+t_in.m_p_dilepton[2]*t_in.m_p_dilepton[2])
         m_ee_lepton=t_in.m_p_dilepton[3]
         if m_pp_lepton != 0 and abs(t_in.m_p_dilepton[3])<5000:
             m_l_ep=m_ee_lepton/m_pp_lepton
         else:
             m_l_ep=10
+#        if  not (t_in.m_n_leptonp==1 and t_in.m_n_leptonm==1 ):
+#        if not ((t_in.n_muon_Ptrack+t_in.n_muon_Mtrack) >=2 ):
+#            return False
 
-        if not (t_in.m_n_leptonp==1 and t_in.m_n_leptonm==1):
-            return False
-        self.N[1]+=1
-        self.h_evtflw.Fill(1)
+#        self.N[1]+=1
+#        self.h_evtflw.Fill(1)
         self.plot_after_first_cut(t_in,m_l_ep)
 
-        if not (t_in.m_m_recoil>120 and t_in.m_m_recoil<150):
-            return False
-        self.N[2]+=1
-        self.h_evtflw.Fill(2)
+
+#        if not (t_in.m_m_recoil>120 and t_in.m_m_recoil<150):
+#            return False
+#        self.N[2]+=1
+#        self.h_evtflw.Fill(2)
         self.plot_after_second_cut(t_in,m_l_ep)
 
         if not (t_in.m_m_dimu>85 and t_in.m_m_dimu<97):
@@ -446,12 +531,12 @@ class Cutflow():
         self.h_evtflw.Fill(7)  
         self.plot_after_seventh_cut(t_in,m_l_ep)       
 
-        if not (t_in.TauTauImpact<0.0007):
+        if not (t_in.qqRecoilM>230): 
             return False
 
         self.N[8]+=1
         self.h_evtflw.Fill(8)  
-
+#
         #Plot cuts histrogram after cut
         self.plot_after_cut(t_in,m_l_ep)
 #        #Fill root branches after cutting
@@ -585,6 +670,52 @@ class Cutflow():
         self.m_maxe_lepton[0]=t_in.m_maxe_lepton
         self.m_e_ep[0]=m_e_ep
         self.m_l_ep[0]=m_l_ep
+#New Branch
+
+        self.m_miss_phi[0]=t_in.m_miss_phi
+        self.m_miss_Et[0]=t_in.m_miss_Et	   
+        self.m_miss_phi2[0]=t_in.m_miss_phi2
+        self.m_n_Muon[0]=t_in.m_n_Muon
+        self.m_n_Electron[0]=t_in.m_n_Electron
+         
+        self.m_maxpx_muon[0]=t_in.m_maxpx_muon
+        self.m_maxpy_muon[0]=t_in.m_maxpy_muon
+        self.m_maxpz_muon[0]=t_in.m_maxpz_muon
+        self.m_maxpe_muon[0]=t_in.m_maxpe_muon
+        self.m_minpx_muon[0]=t_in.m_minpx_muon
+        self.m_minpy_muon[0]=t_in.m_minpy_muon
+        self.m_minpz_muon[0]=t_in.m_minpz_muon
+        self.m_minpe_muon[0]=t_in.m_minpe_muon
+
+        self.m_maxpx_electron[0]=t_in.m_maxpx_electron
+        self.m_maxpy_electron[0]=t_in.m_maxpy_electron
+        self.m_maxpz_electron[0]=t_in.m_maxpz_electron
+        self.m_maxpe_electron[0]=t_in.m_maxpe_electron
+
+        self.m_minpx_electron[0]=t_in.m_minpx_electron 
+        self.m_minpy_electron[0]=t_in.m_minpy_electron
+        self.m_minpz_electron[0]=t_in.m_minpz_electron 
+        self.m_minpe_electron[0]=t_in.m_minpe_electron 
+
+        self.m_minangle_mujet[0]=t_in.m_minangle_mujet
+        self.m_minphi_mujet[0]=t_in.m_minphi_mujet
+        self.m_maxangle_mujet[0]=t_in.m_maxangle_mujet
+        self.m_maxphi_mujet[0]=t_in.m_maxphi_mujet
+        self.m_minangle_ejet[0]=t_in.m_minangle_ejet
+        self.m_minphi_ejet[0]=t_in.m_minphi_ejet
+        self.m_maxangle_ejet[0]=t_in.m_maxangle_ejet
+        self.m_maxphi_ejet[0]=t_in.m_maxphi_ejet
+        for i in xrange(len(t_in.m_px_muon)):        
+            self.m_px_muon.push_back(t_in.m_px_muon.at(i))
+            self.m_py_muon.push_back(t_in.m_py_muon.at(i))  
+            self.m_pz_muon.push_back(t_in.m_pz_muon.at(i))  
+            self.m_pe_muon.push_back(t_in.m_pe_muon.at(i)) 
+
+        for i in xrange(len(t_in.m_px_electron)):        
+            self.m_px_electron.push_back(t_in.m_px_electron.at(i))
+            self.m_py_electron.push_back(t_in.m_py_electron.at(i))  
+            self.m_pz_electron.push_back(t_in.m_pz_electron.at(i))  
+            self.m_pe_electron.push_back(t_in.m_pe_electron.at(i))  
         #MC information
 
         self.m_mc_lepton_minus_id[0]=t_in.mc_lepton_minus_id
@@ -661,8 +792,34 @@ class Cutflow():
         self._TauTauM[0]=t_in.TauTauM
         self._qqM[0]=t_in.qqM
         self._TotalEvtEn[0]=t_in.TotalEvtEn
+        # Isolate information
 
+        self.m_visible_p[0]=t_in.m_visible_p
+        self.m_visible_pt[0]=t_in.m_visible_pt
 
+        self.m_n_IsoMuonP[0]=t_in.m_n_IsoMuonP
+        self.m_n_IsoMuonM[0]=t_in.m_n_IsoMuonM
+        self.m_n_IsoMuon[0]=t_in.m_n_IsoMuon
+        self.m_n_IsoEletronP[0]=t_in.m_n_IsoEletronP
+        self.m_n_IsoEletronM[0]=t_in.m_n_IsoEletronM
+        self.m_n_IsoEletron[0]=t_in.m_n_IsoEletron
+
+        self.m_m_Isdimu[0]=t_in.m_m_Isdimu
+        self.m_e_Isdimu[0]=t_in.m_e_Isdimu
+        self.m_p_Isdimu[0]=t_in.m_p_Isdimu
+        self.m_e_Isdimurec[0]=t_in.m_e_Isdimurec
+        self.m_p_Isdimurec[0]=t_in.m_p_Isdimurec
+        self.m_m_Isdimurec[0]=t_in.m_m_Isdimurec
+
+        self.m_m_Isdie[0]=t_in.m_m_Isdie
+        self.m_e_Isdie[0]=t_in.m_e_Isdie
+        self.m_p_Isdie[0]=t_in.m_p_Isdie
+        self.m_e_Isdierec[0]=t_in.m_e_Isdierec
+        self.m_p_Isdierec[0]=t_in.m_p_Isdierec
+        self.m_m_Isdierec[0]=t_in.m_m_Isdierec
+        self.m_muz_theta[0]=t_in.m_muz_theta
+        self.n_muon_Mtrack[0]=t_in.n_muon_Mtrack
+        self.n_muon_Ptrack[0]=t_in.n_muon_Ptrack
         for i in xrange(4):
             self.m_p_visible[i]=t_in.m_p_visible[i]
             self.m_sum_p_photon[i]=t_in.m_sum_p_photon[i]
@@ -679,6 +836,8 @@ class Cutflow():
             self.m_p_Zdaughterm[i]=t_in.m_p_Zdaughterm[i]
             self.m_minp_lepton[i]=t_in.m_minp_lepton[i]
             self.m_maxp_lepton[i]=t_in.m_maxp_lepton[i]
+            self.m_mc_p_dilepton[i]=t_in.m_mc_p_dilepton[i]
+            self.m_mc_p_redilepton[i]=t_in.m_mc_p_redilepton[i]
         #MC information
         for i in xrange(len(t_in.mc_init_photon_e)):
     
@@ -800,7 +959,15 @@ class Cutflow():
         self.h_after_cut_Mmumu.Write()
         self.h_after_cut_Mrecoil.Write()
         self.h_after_cut_ep.Write()
-
+    def Fill_preselection(self,t_in):
+        b = t_in.Get('hevtflw')
+        event = []
+        for i in range(1,4):
+            event.append(b.GetBinContent(i))
+        for i in range(0,3):
+            for j in xrange (0,int(event[i])):
+                self.h_evtflw.Fill(i)
+        
     def run(self):
         args=sys.argv[1:]
         if len(args)<2:
@@ -812,6 +979,7 @@ class Cutflow():
 
         tmp_file = ROOT.TFile(infile)
         t_in = tmp_file.Get('tree')
+        self.Fill_preselection(tmp_file)
         tmp_entries = t_in.GetEntriesFast()
 
         fout=ROOT.TFile(outfile,"RECREATE")
@@ -875,14 +1043,14 @@ class Cutflow():
         t_out.Branch('m_p_dimu',self.m_p_dimu,'m_p_dimu/F')		
         t_out.Branch('m_p_recoil',self.m_p_recoil,'m_p_recoil/F')
 
-        t_out.Branch("m_mine_lepton",  self.m_mine_lepton,  "m_mine_lepton/F");
-        t_out.Branch("m_maxe_lepton",  self.m_maxe_lepton,  "m_maxe_lepton/F");
+        t_out.Branch("m_mine_lepton",  self.m_mine_lepton,  "m_mine_lepton/F")
+        t_out.Branch("m_maxe_lepton",  self.m_maxe_lepton,  "m_maxe_lepton/F")
 
 
-        t_out.Branch("m_minp_lepton",  self.m_minp_lepton,  "m_minp_lepton[4]/F");
-        t_out.Branch("m_maxp_lepton",  self.m_maxp_lepton,  "m_maxp_lepton[4]/F");
-        t_out.Branch("m_e_ep",  self.m_e_ep,  "m_e_ep/F");
-        t_out.Branch("m_l_ep",  self.m_l_ep,  "m_l_ep/F");
+        t_out.Branch("m_minp_lepton",  self.m_minp_lepton,  "m_minp_lepton[4]/F")
+        t_out.Branch("m_maxp_lepton",  self.m_maxp_lepton,  "m_maxp_lepton[4]/F")
+        t_out.Branch("m_e_ep",  self.m_e_ep,  "m_e_ep/F")
+        t_out.Branch("m_l_ep",  self.m_l_ep,  "m_l_ep/F")
 
         
         #MC information
@@ -895,30 +1063,30 @@ class Cutflow():
         t_out.Branch("mc_init_n_lepton_plus", self.m_mc_init_n_lepton_plus,  "mc_init_n_lepton_plus/I")
         t_out.Branch("mc_init_n_lepton_minus", self.m_mc_init_n_lepton_minus,  "mc_init_n_lepton_minus/I")
         
-        t_out.Branch("mc_init_leptonp_e",  self.m_mc_init_leptonp_e,   "mc_init_leptonp_e/D")
-        t_out.Branch("mc_init_leptonp_p",  self.m_mc_init_leptonp_p,   "mc_init_leptonp_p/D")
-        t_out.Branch("mc_init_leptonp_pt", self.m_mc_init_leptonp_pt,  "mc_init_leptonp_pt/D")
-        t_out.Branch("mc_init_leptonp_pz", self.m_mc_init_leptonp_pz,  "mc_init_leptonp_pz/D")
+        t_out.Branch("mc_init_leptonp_e",  self.m_mc_init_leptonp_e,   "mc_init_leptonp_e/F")
+        t_out.Branch("mc_init_leptonp_p",  self.m_mc_init_leptonp_p,   "mc_init_leptonp_p/F")
+        t_out.Branch("mc_init_leptonp_pt", self.m_mc_init_leptonp_pt,  "mc_init_leptonp_pt/F")
+        t_out.Branch("mc_init_leptonp_pz", self.m_mc_init_leptonp_pz,  "mc_init_leptonp_pz/F")
 
-        t_out.Branch("mc_init_leptonp_phi", self.m_mc_init_leptonp_phi,  "mc_init_leptonp_phi/D")
-        t_out.Branch("mc_init_leptonp_theta", self.m_mc_init_leptonp_theta,  "mc_init_leptonp_theta/D")
+        t_out.Branch("mc_init_leptonp_phi", self.m_mc_init_leptonp_phi,  "mc_init_leptonp_phi/F")
+        t_out.Branch("mc_init_leptonp_theta", self.m_mc_init_leptonp_theta,  "mc_init_leptonp_theta/F")
         
-        t_out.Branch("mc_init_leptonm_e",  self.m_mc_init_leptonm_e,   "mc_init_leptonm_e/D")
-        t_out.Branch("mc_init_leptonm_p",  self.m_mc_init_leptonm_p,   "mc_init_leptonm_p/D")
-        t_out.Branch("mc_init_leptonm_pt", self.m_mc_init_leptonm_pt,  "mc_init_leptonm_pt/D")
-        t_out.Branch("mc_init_leptonm_pz", self.m_mc_init_leptonm_pz,  "mc_init_leptonm_pz/D")
+        t_out.Branch("mc_init_leptonm_e",  self.m_mc_init_leptonm_e,   "mc_init_leptonm_e/F")
+        t_out.Branch("mc_init_leptonm_p",  self.m_mc_init_leptonm_p,   "mc_init_leptonm_p/F")
+        t_out.Branch("mc_init_leptonm_pt", self.m_mc_init_leptonm_pt,  "mc_init_leptonm_pt/F")
+        t_out.Branch("mc_init_leptonm_pz", self.m_mc_init_leptonm_pz,  "mc_init_leptonm_pz/F")
 
-        t_out.Branch("mc_init_leptonm_phi", self.m_mc_init_leptonm_phi,  "mc_init_leptonm_phi/D")
-        t_out.Branch("mc_init_leptonm_theta", self.m_mc_init_leptonm_theta,  "mc_init_leptonm_theta/D")
+        t_out.Branch("mc_init_leptonm_phi", self.m_mc_init_leptonm_phi,  "mc_init_leptonm_phi/F")
+        t_out.Branch("mc_init_leptonm_theta", self.m_mc_init_leptonm_theta,  "mc_init_leptonm_theta/F")
         
-        t_out.Branch("mc_init_dilepton_m",  self.m_mc_init_dilepton_m,   "mc_init_dilepton_m/D")
-        t_out.Branch("mc_init_dilepton_e",  self.m_mc_init_dilepton_e,   "mc_init_dilepton_e/D")
-        t_out.Branch("mc_init_dilepton_p",  self.m_mc_init_dilepton_p,   "mc_init_dilepton_p/D")
-        t_out.Branch("mc_init_dilepton_pt", self.m_mc_init_dilepton_pt,  "mc_init_dilepton_pt/D")
-        t_out.Branch("mc_init_dilepton_pz", self.m_mc_init_dilepton_pz,  "mc_init_dilepton_pz/D")
-        t_out.Branch("mc_init_dilepton_rec_m", self.m_mc_init_dilepton_rec_m,  "mc_init_dilepton_rec_m/D")
-        t_out.Branch("mc_init_dilepton_dphi", self.m_mc_init_dilepton_dphi,  "mc_init_dilepton_dphi/D")
-        t_out.Branch("mc_init_dilepton_dang", self.m_mc_init_dilepton_dang,  "mc_init_dilepton_dang/D")
+        t_out.Branch("mc_init_dilepton_m",  self.m_mc_init_dilepton_m,   "mc_init_dilepton_m/F")
+        t_out.Branch("mc_init_dilepton_e",  self.m_mc_init_dilepton_e,   "mc_init_dilepton_e/F")
+        t_out.Branch("mc_init_dilepton_p",  self.m_mc_init_dilepton_p,   "mc_init_dilepton_p/F")
+        t_out.Branch("mc_init_dilepton_pt", self.m_mc_init_dilepton_pt,  "mc_init_dilepton_pt/F")
+        t_out.Branch("mc_init_dilepton_pz", self.m_mc_init_dilepton_pz,  "mc_init_dilepton_pz/F")
+        t_out.Branch("mc_init_dilepton_rec_m", self.m_mc_init_dilepton_rec_m,  "mc_init_dilepton_rec_m/F")
+        t_out.Branch("mc_init_dilepton_dphi", self.m_mc_init_dilepton_dphi,  "mc_init_dilepton_dphi/F")
+        t_out.Branch("mc_init_dilepton_dang", self.m_mc_init_dilepton_dang,  "mc_init_dilepton_dang/F")
         
         t_out.Branch("mc_init_n_photon", self.m_mc_init_n_photon,  "mc_init_n_photon/I")
         t_out.Branch("mc_init_photon_e",  self.m_mc_init_photon_e)
@@ -928,9 +1096,9 @@ class Cutflow():
         t_out.Branch("mc_init_photon_phi",  self.m_mc_init_photon_phi)
         t_out.Branch("mc_init_photon_theta",  self.m_mc_init_photon_theta)
 
-        t_out.Branch("mc_higgs_m", self.m_mc_higgs_m, "mc_higgs_m/D")
-        t_out.Branch("mc_higgs_e", self.m_mc_higgs_e, "mc_higgs_e/D")
-        t_out.Branch("mc_higgs_rec_m", self.m_mc_higgs_rec_m, "mc_higgs_rec_m/D")
+        t_out.Branch("mc_higgs_m", self.m_mc_higgs_m, "mc_higgs_m/F")
+        t_out.Branch("mc_higgs_e", self.m_mc_higgs_e, "mc_higgs_e/F")
+        t_out.Branch("mc_higgs_rec_m", self.m_mc_higgs_rec_m, "mc_higgs_rec_m/F")
         t_out.Branch("mc_higgs_decay_type", self.m_mc_higgs_decay_type, "mc_higgs_decay_type/I")
         t_out.Branch("mc_higgs_daughter_pdgid", self.m_mc_higgs_daughter_pdgid)
         
@@ -942,52 +1110,112 @@ class Cutflow():
         t_out.Branch("mc_w1_daughter_pid", self.m_mc_w1_daughter_pid)
         t_out.Branch("mc_w2_daughter_pid", self.m_mc_w2_daughter_pid)
         
-        t_out.Branch("mc_zw1_m", self.m_mc_zw1_m, "mc_zw1_m/D")
-        t_out.Branch("mc_zw1_p", self.m_mc_zw1_p, "mc_zw1_p/D")
-        t_out.Branch("mc_zw1_pt", self.m_mc_zw1_pt, "mc_zw1_pt/D")
-        t_out.Branch("mc_zw1_e", self.m_mc_zw1_e, "mc_zw1_e/D")
-        t_out.Branch("mc_zw1_rec_m", self.m_mc_zw1_rec_m, "mc_zw1_rec_m/D")
+        t_out.Branch("mc_zw1_m", self.m_mc_zw1_m, "mc_zw1_m/F")
+        t_out.Branch("mc_zw1_p", self.m_mc_zw1_p, "mc_zw1_p/F")
+        t_out.Branch("mc_zw1_pt", self.m_mc_zw1_pt, "mc_zw1_pt/F")
+        t_out.Branch("mc_zw1_e", self.m_mc_zw1_e, "mc_zw1_e/F")
+        t_out.Branch("mc_zw1_rec_m", self.m_mc_zw1_rec_m, "mc_zw1_rec_m/F") 
         
-        t_out.Branch("mc_zw2_m", self.m_mc_zw2_m, "mc_zw2_m/D")
-        t_out.Branch("mc_zw2_p", self.m_mc_zw2_p, "mc_zw2_p/D")
-        t_out.Branch("mc_zw2_pt", self.m_mc_zw2_pt, "mc_zw2_pt/D")
-        t_out.Branch("mc_zw2_e", self.m_mc_zw2_e, "mc_zw2_e/D")
-        t_out.Branch("mc_zw2_rec_m", self.m_mc_zw2_rec_m, "mc_zw2_rec_m/D")
+        t_out.Branch("mc_zw2_m", self.m_mc_zw2_m, "mc_zw2_m/F")
+        t_out.Branch("mc_zw2_p", self.m_mc_zw2_p, "mc_zw2_p/F")
+        t_out.Branch("mc_zw2_pt", self.m_mc_zw2_pt, "mc_zw2_pt/F")
+        t_out.Branch("mc_zw2_e", self.m_mc_zw2_e, "mc_zw2_e/F")
+        t_out.Branch("mc_zw2_rec_m", self.m_mc_zw2_rec_m, "mc_zw2_rec_m/F")
         
-        t_out.Branch("mc_zw1zw2_m", self.m_mc_zw1zw2_m, "mc_zw1zw2_m/D")
-        t_out.Branch("mc_zw1zw2_e", self.m_mc_zw1zw2_e, "mc_zw1zw2_e/D")
-        t_out.Branch("mc_zw1zw2_rec_m", self.m_mc_zw1zw2_rec_m, "mc_zw1zw2_rec_m/D")
+        t_out.Branch("mc_zw1zw2_m", self.m_mc_zw1zw2_m, "mc_zw1zw2_m/F")
+        t_out.Branch("mc_zw1zw2_e", self.m_mc_zw1zw2_e, "mc_zw1zw2_e/F")
+        t_out.Branch("mc_zw1zw2_rec_m", self.m_mc_zw1zw2_rec_m, "mc_zw1zw2_rec_m/F")
         t_out.Branch("mc_zz_flag", self.m_mc_zz_flag, "mc_zz_flag/I")
         t_out.Branch("mc_ww_flag", self.m_mc_ww_flag, "mc_ww_flag/I")
         t_out.Branch("mc_h2gaugeboson_flag", self.m_mc_h2gaugeboson_flag, "mc_h2gaugeboson_flag/I")
 
         #tau information 
 
-        t_out.Branch("nTau", 		self._nTau, 	"nTau/I");
-        t_out.Branch("nTauP", 		self._nTauP, 	"nTauP/I");
-        t_out.Branch("nTauM", 		self._nTauM, 	"nTauM/I");
-        t_out.Branch("fakeTau", 		self._fakeTau, 	"fakeTau/I");
-        t_out.Branch("totalJet", 		self._totalJet, 	"totalJet/I");
+        t_out.Branch("nTau", 		self._nTau, 	"nTau/I")
+        t_out.Branch("nTauP", 		self._nTauP, 	"nTauP/I")
+        t_out.Branch("nTauM", 		self._nTauM, 	"nTauM/I")
+        t_out.Branch("fakeTau", 		self._fakeTau, 	"fakeTau/I")
+        t_out.Branch("totalJet", 		self._totalJet, 	"totalJet/I")
 
-        t_out.Branch("visEp",	self._visEp,		"visEp/F");
-        t_out.Branch("visEm",       self._visEm,          "visEm/F");
+        t_out.Branch("visEp",	self._visEp,		"visEp/F")
+        t_out.Branch("visEm",       self._visEm,          "visEm/F")
 
-        t_out.Branch("invMp",	self._invMp,		"invMp/F");
-        t_out.Branch("invMm",       self._invMm,          "invMm/F");
+        t_out.Branch("invMp",	self._invMp,		"invMp/F")
+        t_out.Branch("invMm",       self._invMm,          "invMm/F")
 
-        t_out.Branch("evtN",    self._evtN,       "evtN/I");
-        t_out.Branch("TauTauImpact", self._TauTauImpact, "TauTauImpact/F");
-        t_out.Branch("TauTauD0", self._TauTauD0, "TauTauD0/F");
-        t_out.Branch("TauTauZ0", self._TauTauZ0, "TauTauZ0/F");
-        t_out.Branch("tauP_impact", self._tauP_impact, "tauP_impact/F");
-        t_out.Branch("tauM_impact", self._tauM_impact, "tauM_impact/F");
-        t_out.Branch("RecoilM",    self._RecoilM,       "RecoilM/F");
-        t_out.Branch("qqRecoilM",    self._qqRecoilM,       "qqRecoilM/F");
-        t_out.Branch("TauTauM",    self._TauTauM,       "TauTauM/F");
-        t_out.Branch("qqM",    self._qqM,       "qqM/F");
-        t_out.Branch("TotalEvtEn",    self._TotalEvtEn,       "TotalEvtEn/F");
+        t_out.Branch("evtN",    self._evtN,       "evtN/I")
+        t_out.Branch("TauTauImpact", self._TauTauImpact, "TauTauImpact/F")
+        t_out.Branch("TauTauD0", self._TauTauD0, "TauTauD0/F")
+        t_out.Branch("TauTauZ0", self._TauTauZ0, "TauTauZ0/F")
+        t_out.Branch("tauP_impact", self._tauP_impact, "tauP_impact/F")
+        t_out.Branch("tauM_impact", self._tauM_impact, "tauM_impact/F")
+        t_out.Branch("RecoilM",    self._RecoilM,       "RecoilM/F")
+        t_out.Branch("qqRecoilM",    self._qqRecoilM,       "qqRecoilM/F")
+        t_out.Branch("TauTauM",    self._TauTauM,       "TauTauM/F")
+        t_out.Branch("qqM",    self._qqM,       "qqM/F")
+        t_out.Branch("TotalEvtEn",    self._TotalEvtEn,       "TotalEvtEn/F")
 
+        t_out.Branch("m_visible_p",  self.m_visible_p,  "m_visible_p/F")
+        t_out.Branch("m_visible_pt",  self.m_visible_pt,  "m_visible_pt/F")
+        t_out.Branch("m_n_IsoMuonP",  self.m_n_IsoMuonP,  "m_n_IsoMuonP/I")
+        t_out.Branch("m_n_IsoMuonM",  self.m_n_IsoMuonM,  "m_n_IsoMuonM/I")
+        t_out.Branch("m_n_IsoMuon",  self.m_n_IsoMuon,  "m_n_IsoMuon/I")
+        t_out.Branch("m_n_IsoEletronP",  self.m_n_IsoEletronP,  "m_n_IsoEletronP/I")
+        t_out.Branch("m_n_IsoEletronM",  self.m_n_IsoEletronM,  "m_n_IsoEletronM/I")
+        t_out.Branch("m_n_IsoEletron",  self.m_n_IsoEletron,  "m_n_IsoEletron/I")
+        t_out.Branch("m_m_Isdimu",  self.m_m_Isdimu,  "m_m_Isdimu/F")
+        t_out.Branch("m_e_Isdimu",  self.m_e_Isdimu,  "m_e_Isdimu/F")
+        t_out.Branch("m_p_Isdimu",  self.m_p_Isdimu,  "m_p_Isdimu/F")
+        t_out.Branch("m_e_Isdimurec",  self.m_e_Isdimurec,  "m_e_Isdimurec/F")
+        t_out.Branch("m_p_Isdimurec",  self.m_p_Isdimurec,  "m_p_Isdimurec/F")
+        t_out.Branch("m_m_Isdimurec",  self.m_m_Isdimurec,  "m_m_Isdimurec/F")
+        t_out.Branch("m_m_Isdie",  self.m_m_Isdie,  "m_m_Isdie/F")
+        t_out.Branch("m_e_Isdie",  self.m_e_Isdie,  "m_e_Isdie/F")
+        t_out.Branch("m_p_Isdie",  self.m_p_Isdie,  "m_p_Isdie/F")
+        t_out.Branch("m_e_Isdierec",  self.m_e_Isdierec,  "m_e_Isdierec/F")
+        t_out.Branch("m_p_Isdierec",  self.m_p_Isdierec,  "m_p_Isdierec/F")
+        t_out.Branch("m_m_Isdierec",  self.m_m_Isdierec,  "m_m_Isdierec/F")
+        t_out.Branch("m_mc_p_dilepton", self.m_mc_p_dilepton, "m_mc_p_dilepton[4]/F")
+        t_out.Branch("m_mc_p_redilepton", self.m_mc_p_redilepton, "m_mc_p_redilepton[4]/F")
+        t_out.Branch("m_muz_theta",  self.m_muz_theta,  "m_muz_theta/F")
+        t_out.Branch("n_muon_Ptrack", self.n_muon_Ptrack, "n_muon_Ptrack/F")
+        t_out.Branch("n_muon_Mtrack", self.n_muon_Mtrack, "n_muon_Mtrack/F")
+        t_out.Branch("m_miss_phi",  self.m_miss_phi,  "m_miss_phi/F");
 
+        t_out.Branch("m_miss_Et",  self.m_miss_Et,  "m_miss_Et/F");
+        t_out.Branch("m_miss_phi2",  self.m_miss_phi2,  "m_miss_phi2/F");
+
+        t_out.Branch("m_n_Muon",  self.m_n_Muon,  "m_n_Muon/I");
+        t_out.Branch("m_n_Electron",  self.m_n_Electron,  "m_n_Electron/I");  
+
+        t_out.Branch("m_px_muon", self.m_px_muon);
+        t_out.Branch("m_py_muon", self.m_py_muon);
+        t_out.Branch("m_pz_muon", self.m_pz_muon);
+        t_out.Branch("m_pe_muon", self.m_pe_muon);
+        t_out.Branch("m_px_electron", self.m_px_electron);
+        t_out.Branch("m_py_electron", self.m_py_electron);
+        t_out.Branch("m_pz_electron", self.m_pz_electron);
+        t_out.Branch("m_pe_electron", self.m_pe_electron);
+
+        t_out.Branch("m_maxpx_muon",  self.m_maxpx_muon,  "m_maxpx_muon/F");
+        t_out.Branch("m_maxpy_muon",  self.m_maxpy_muon,  "m_maxpy_muon/F");
+        t_out.Branch("m_maxpz_muon",  self.m_maxpz_muon,  "m_maxpz_muon/F");
+        t_out.Branch("m_maxpe_muon",  self.m_maxpe_muon,  "m_maxpe_muon/F");
+
+        t_out.Branch("m_minpx_muon",  self.m_minpx_muon,  "m_minpx_muon/F");
+        t_out.Branch("m_minpy_muon",  self.m_minpy_muon,  "m_minpy_muon/F");
+        t_out.Branch("m_minpz_muon",  self.m_minpz_muon,  "m_minpz_muon/F");
+        t_out.Branch("m_minpe_muon",  self.m_minpe_muon,  "m_minpe_muon/F");	
+
+        t_out.Branch("m_maxpx_electron",  self.m_maxpx_electron,  "m_maxpx_electron/F");	
+        t_out.Branch("m_maxpy_electron",  self.m_maxpy_electron,  "m_maxpy_electron/F");
+        t_out.Branch("m_maxpz_electron",  self.m_maxpz_electron,  "m_maxpz_electron/F");
+        t_out.Branch("m_maxpe_electron",  self.m_maxpe_electron,  "m_maxpe_electron/F");
+
+        t_out.Branch("m_minpx_electron",  self.m_minpx_electron,  "m_minpx_electron/F");
+        t_out.Branch("m_minpy_electron",  self.m_minpy_electron,  "m_minpy_electron/F");
+        t_out.Branch("m_minpz_electron",  self.m_minpz_electron,  "m_minpz_electron/F");
+        t_out.Branch("m_minpe_electron",  self.m_minpe_electron,  "m_minpe_electron/F"); 
 
         for i in xrange(tmp_entries):
             t_in.GetEntry(i)

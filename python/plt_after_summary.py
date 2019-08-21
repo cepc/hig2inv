@@ -211,7 +211,7 @@ def get_files_from_sample(sample,processname):
     if 'ZH_visible' in sample:
         fs.append(ROOT.TFile('run/'+processname+'/'+'total/hist/ZH_visible.root'))
 
-
+    print fs
 
     return fs
 
@@ -434,7 +434,7 @@ def draw_after_first_cut_vis(sample, c, fs, processname):
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after first cuts)')
             h.SetYTitle('Events/(0.5Gev)')
-#            h.GetXaxis().SetLimits(90,120)
+#            h.GetXaxis().SetRangeUser(90,120)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -495,7 +495,7 @@ def  draw_after_first_cut_Mrecoil(sample, c, fs, processname):
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after first cut)')
                 h.SetMaximum(100000)
-                h.GetXaxis().SetLimits(100,170)
+                h.GetXaxis().SetRangeUser(100,170)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -509,7 +509,7 @@ def  draw_after_first_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -540,7 +540,7 @@ def  draw_after_first_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -654,7 +654,7 @@ def draw_after_second_cut_vis(sample, c, fs, processname):
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after second cuts)')
             h.SetYTitle('Events/(0.5Gev)')
-#            h.GetXaxis().SetLimits(90,120)
+#            h.GetXaxis().SetRangeUser(90,120)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -712,11 +712,11 @@ def  draw_after_second_cut_Mrecoil(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)(after second cut)')
                 h.SetMaximum(11000)
-                h.GetXaxis().SetLimits(120,150)
+                h.GetXaxis().SetRangeUser(120,150)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after second cut)')
                 h.SetMaximum(15000)
-                h.GetXaxis().SetLimits(120,170)
+                h.GetXaxis().SetRangeUser(120,170)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -730,7 +730,7 @@ def  draw_after_second_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -764,7 +764,7 @@ def  draw_after_second_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -879,7 +879,7 @@ def draw_after_third_cut_vis(sample, c, fs, processname):
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after third cut)')
             h.SetYTitle('Events/(0.5Gev)')
-            h.GetXaxis().SetLimits(90,120)
+            h.GetXaxis().SetRangeUser(90,120)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -905,11 +905,11 @@ def draw_after_third_cut_Mmumu(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)(after third cut)')
                 h.SetMaximum(25000)
-                h.GetXaxis().SetLimits(80,100)
+                h.GetXaxis().SetRangeUser(80,100)
             if processname == "eeH":
                 h.SetXTitle('M_{e^{+}e^{-}}(GeV)(after third cut)')
                 h.SetMaximum(60000)
-                h.GetXaxis().SetLimits(70,100)
+                h.GetXaxis().SetRangeUser(70,100)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -940,11 +940,11 @@ def  draw_after_third_cut_Mrecoil(sample, c, fs, processname):
             if processname == "mumuH":
                   h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)(after third cut)')
                   h.SetMaximum(10000)
-                  h.GetXaxis().SetLimits(120,150)
+                  h.GetXaxis().SetRangeUser(120,150)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after third cut)')
                 h.SetMaximum(40000)
-                h.GetXaxis().SetLimits(120,150)
+                h.GetXaxis().SetRangeUser(120,150)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -957,7 +957,7 @@ def  draw_after_third_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -991,7 +991,7 @@ def  draw_after_third_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1106,7 +1106,7 @@ def draw_after_fourth_cut_vis(sample, c, fs, processname):
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after fourth cut)')
             h.SetYTitle('Events/(0.5Gev)')
-            h.GetXaxis().SetLimits(90,120)
+            h.GetXaxis().SetRangeUser(90,120)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -1132,11 +1132,11 @@ def draw_after_fourth_cut_Mmumu(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)(after fourth cut)')
                 h.SetMaximum(10000)
-                h.GetXaxis().SetLimits(80,100)
+                h.GetXaxis().SetRangeUser(80,100)
             if processname == "eeH":
                 h.SetXTitle('M_{e^{+}e^{-}}(GeV)(after fourth cut)')
                 h.SetMaximum(40000)
-                h.GetXaxis().SetLimits(70,100)
+                h.GetXaxis().SetRangeUser(70,100)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -1166,11 +1166,11 @@ def  draw_after_fourth_cut_Mrecoil(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)(after fourth cut)')
                 h.SetMaximum(8000)
-                h.GetXaxis().SetLimits(120,150)
+                h.GetXaxis().SetRangeUser(120,150)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after fourth cut)')
                 h.SetMaximum(25000)
-                h.GetXaxis().SetLimits(120,170)
+                h.GetXaxis().SetRangeUser(120,170)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -1184,7 +1184,7 @@ def  draw_after_fourth_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1218,7 +1218,7 @@ def  draw_after_fourth_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1333,7 +1333,7 @@ def draw_after_fifth_cut_vis(sample, c, fs, processname):
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after fifth cut)')
             h.SetYTitle('Events/(0.5Gev)')
-            h.GetXaxis().SetLimits(90,120)
+            h.GetXaxis().SetRangeUser(90,120)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -1359,11 +1359,11 @@ def draw_after_fifth_cut_Mmumu(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)(after fifth cut)')
                 h.SetMaximum(8000)
-                h.GetXaxis().SetLimits(84,98)
+                h.GetXaxis().SetRangeUser(84,98)
             if processname == "eeH":
                 h.SetXTitle('M_{e^{+}e^{-}}(GeV)(after fifth cut)')
                 h.SetMaximum(15000)
-                h.GetXaxis().SetLimits(70,100)
+                h.GetXaxis().SetRangeUser(70,100)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -1393,11 +1393,11 @@ def  draw_after_fifth_cut_Mrecoil(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)(after fifth cut)')
                 h.SetMaximum(8000)
-                h.GetXaxis().SetLimits(120,150)
+                h.GetXaxis().SetRangeUser(120,150)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after fifth cut)')
                 h.SetMaximum(8000)
-                h.GetXaxis().SetLimits(120,170)
+                h.GetXaxis().SetRangeUser(120,170)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -1411,7 +1411,7 @@ def  draw_after_fifth_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1445,7 +1445,7 @@ def  draw_after_fifth_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1554,10 +1554,10 @@ def draw_after_sixth_cut_vis(sample, c, fs, processname):
         if hs.index(h) == 1:
             if processname == "mumuH":
                 h.SetMaximum(3000)
-                h.GetXaxis().SetLimits(90,120)
+                h.GetXaxis().SetRangeUser(90,120)
             if processname == "eeH": 
                 h.SetMaximum(1000)
-                h.GetXaxis().SetLimits(102,120)   
+                h.GetXaxis().SetRangeUser(102,120)   
             if processname == "qqH": 
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after sixth cut)')
@@ -1588,11 +1588,11 @@ def draw_after_sixth_cut_Mmumu(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)(after sixth cut)')
                 h.SetMaximum(8000)
-                h.GetXaxis().SetLimits(80,100)
+                h.GetXaxis().SetRangeUser(80,100)
             if processname == "eeH":
                 h.SetXTitle('M_{e^{+}e^{-}}(GeV)(after sixth cut)')
                 h.SetMaximum(1000)
-                h.GetXaxis().SetLimits(70,100)
+                h.GetXaxis().SetRangeUser(70,100)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -1621,12 +1621,12 @@ def  draw_after_sixth_cut_Mrecoil(sample, c, fs, processname):
         if hs.index(h) == 1:
             if processname == "mumuH":
                   h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)(after sixth cut)')
-                  h.GetXaxis().SetLimits(120,150)
+                  h.GetXaxis().SetRangeUser(120,150)
                   h.SetMaximum(6000)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after sixth cut)')
                 h.SetMaximum(2000)
-                h.GetXaxis().SetLimits(120,170)
+                h.GetXaxis().SetRangeUser(120,170)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -1640,7 +1640,7 @@ def  draw_after_sixth_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1675,7 +1675,7 @@ def  draw_after_sixth_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1784,10 +1784,10 @@ def draw_after_seventh_cut_vis(sample, c, fs, processname):
         if hs.index(h) == 1:
             if processname == "mumuH":
                 h.SetMaximum(3000)
-                h.GetXaxis().SetLimits(102,107)
+                h.GetXaxis().SetRangeUser(102,107)
             if processname == "eeH": 
                 h.SetMaximum(1000)
-                h.GetXaxis().SetLimits(102,120)     
+                h.GetXaxis().SetRangeUser(102,120)     
             if processname == "qqH": 
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after seventh cut)')
@@ -1818,11 +1818,11 @@ def draw_after_seventh_cut_Mmumu(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)(after seventh cut)')
                 h.SetMaximum(2000)
-                h.GetXaxis().SetLimits(80,100)
+                h.GetXaxis().SetRangeUser(80,100)
             if processname == "eeH":
                 h.SetXTitle('M_{e^{+}e^{-}}(GeV)(after seventh cut)')
                 h.SetMaximum(1000)
-                h.GetXaxis().SetLimits(70,100)
+                h.GetXaxis().SetRangeUser(70,100)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -1852,11 +1852,11 @@ def  draw_after_seventh_cut_Mrecoil(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)(after seventh cut)')
                 h.SetMaximum(4000)
-                h.GetXaxis().SetLimits(120,150)
+                h.GetXaxis().SetRangeUser(120,150)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)(after seventh cut)')
                 h.SetMaximum(1200)
-                h.GetXaxis().SetLimits(120,170)
+                h.GetXaxis().SetRangeUser(120,170)
             h.SetYTitle('Events/(0.5Gev)')
 
             h.GetXaxis().SetLabelSize(0.02)
@@ -1870,7 +1870,7 @@ def  draw_after_seventh_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1889,7 +1889,7 @@ def  draw_after_seventh_cut_ep(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetMaximum(800)
             if processname == "eeH":
-                h.GetXaxis().SetLimits(1.7,2.5)
+                h.GetXaxis().SetRangeUser(1.7,2.5)
                 h.SetMaximum(500)
             h.SetXTitle('E/P(after seventh cut)')
             h.SetYTitle('Events')
@@ -1905,7 +1905,7 @@ def  draw_after_seventh_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -1949,13 +1949,15 @@ def draw_after_cut_vdt(sample, c, fs, processname):
     hs, leg = get_common_objects_to_draw(fs, hname, leg)
 
     for h in hs:
-        if hs.index(h) == 1:
+        if hs.index(h) == 0:
             if processname == "mumuH":
                 h.SetXTitle('the recoil mass of visible minus tau (GeV)(after all cuts)')
-                h.SetMaximum(100)
+                h.SetMaximum(2400)
+
             if processname == "eeH":
                 h.SetXTitle('the recoil mass of visible minus tau (GeV)(after all cuts)')
                 h.SetMaximum(300)
+            h.GetXaxis().SetRangeUser(230,240)
             h.SetYTitle('Events/(0.5Gev)')
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
@@ -1965,7 +1967,7 @@ def draw_after_cut_vdt(sample, c, fs, processname):
 
             h.Draw()
     for h in hs:
-        if not hs.index(h) == 1:
+        if not hs.index(h) == 0:
             h.Draw('same')
 
     leg.Draw()
@@ -2014,10 +2016,10 @@ def draw_after_cut_vis(sample, c, fs, processname):
         if hs.index(h) == 1:
             if processname == "mumuH":
                 h.SetMaximum(3000)
-                h.GetXaxis().SetLimits(102,107)
+                h.GetXaxis().SetRangeUser(102,107)
             if processname == "eeH": 
                 h.SetMaximum(600)  
-                h.GetXaxis().SetLimits(102,120) 
+                h.GetXaxis().SetRangeUser(102,120) 
             if processname == "qqH": 
                 h.SetMaximum(10000)           
             h.SetXTitle('Visible Energy (GeV)(after all cuts)')
@@ -2048,7 +2050,7 @@ def draw_after_cut_Mmumu(sample, c, fs, processname):
             if processname == "mumuH":
                 h.SetXTitle('M_{#mu^{+}#mu^{-}}(GeV)(after all cuts)')
                 h.SetMaximum(2000)
-                h.GetXaxis().SetLimits(80,100)
+                h.GetXaxis().SetRangeUser(80,100)
             if processname == "eeH":
                 h.SetXTitle('M_{e^{+}e^{-}}(GeV)(after all cuts)')
                 h.SetMaximum(1000)
@@ -2081,7 +2083,7 @@ def  draw_after_cut_Mrecoil(sample, c, fs, processname):
             if processname == "mumuH":
                   h.SetXTitle('M_{recoil}^{#mu^{+}#mu^{-}}(GeV)')
                   h.SetMaximum(5000)
-                  h.GetXaxis().SetLimits(120,135)
+                  h.GetXaxis().SetRangeUser(120,135)
             if processname == "eeH":
                 h.SetXTitle('M_{recoil}^{e^{+}e^{-}}(GeV)')
                 h.SetMaximum(1000)
@@ -2098,7 +2100,7 @@ def  draw_after_cut_Mrecoil(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2129,7 +2131,7 @@ def  draw_after_cut_ep(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 1:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2281,7 +2283,7 @@ def draw_after_cut_dijet_m(sample, c, fs, processname):
             h.SetMaximum(10000)
 #            h.SetMinimum(0.0001)
             h.SetYTitle('Events/(0.5GeV)')
-            h.GetXaxis().SetLimits(85,102)
+            h.GetXaxis().SetRangeUser(85,102)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -2310,7 +2312,7 @@ def draw_after_cut_dijet_rec_m(sample, c, fs, processname):
             h.SetMaximum(8000)
 #            h.SetMinimum(0.00000000000001)
             h.SetYTitle('Events/(0.5GeV)')
-            h.GetXaxis().SetLimits(100,150)
+            h.GetXaxis().SetRangeUser(100,150)
             h.GetXaxis().SetLabelSize(0.02)
             h.GetYaxis().SetLabelSize(0.02)
             h.GetXaxis().CenterTitle()
@@ -2323,7 +2325,7 @@ def draw_after_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2356,7 +2358,7 @@ def draw_after_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2389,7 +2391,7 @@ def draw_after_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2581,7 +2583,7 @@ def draw_after_first_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2614,7 +2616,7 @@ def draw_after_first_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2647,7 +2649,7 @@ def draw_after_first_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2839,7 +2841,7 @@ def draw_after_second_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2872,7 +2874,7 @@ def draw_after_second_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -2905,7 +2907,7 @@ def draw_after_second_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3098,7 +3100,7 @@ def draw_after_third_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3131,7 +3133,7 @@ def draw_after_third_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3164,7 +3166,7 @@ def draw_after_third_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3357,7 +3359,7 @@ def draw_after_fourth_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3390,7 +3392,7 @@ def draw_after_fourth_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3423,7 +3425,7 @@ def draw_after_fourth_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3615,7 +3617,7 @@ def draw_after_fifth_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3648,7 +3650,7 @@ def draw_after_fifth_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3681,7 +3683,7 @@ def draw_after_fifth_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3874,7 +3876,7 @@ def draw_after_sixth_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3907,7 +3909,7 @@ def draw_after_sixth_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -3940,7 +3942,7 @@ def draw_after_sixth_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -4132,7 +4134,7 @@ def draw_after_seventh_cut_dijet_rec_m(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -4165,7 +4167,7 @@ def draw_after_seventh_cut_dijet_p(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
@@ -4198,7 +4200,7 @@ def draw_after_seventh_cut_cos_miss(sample, c, fs, processname):
             h.Draw()
     for h in hs:
         if not hs.index(h) == 0:
-            #            h.GetYaxis().SetLimits(0,1000)
+            #            h.GetYaxis().SetRangeUser(0,1000)
             h.Draw('same')
 
     leg.Draw()
